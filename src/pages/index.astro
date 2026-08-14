@@ -521,11 +521,38 @@ const career: Entry[] = [
         be measured behaviourally, never by asking — had I trusted the self-report, I would have
         deleted seven working rules.
       </p>
-      <p class="text-[13px] text-fg-ghost m-0">
+      <p class="text-[13px] text-fg-ghost m-0 mb-4">
         Seven candidate designs were rejected on evidence: prompt-resident rules, rules in the
         existing graph (top-K collapse), score thresholding, automatic contradiction detection,
         a background guard (254 false alarms per true positive), per-rule hooks, and a solver layer.
       </p>
+
+      <div class="border-t border-line/60 pt-4">
+        <div class="text-[10.5px] tracking-[.14em] uppercase text-fg-ghost mb-3">
+          Deployed · read from the database, not recalled
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
+          {[
+            [rules.rules, 'rules'],
+            [rules.triggers, 'situational triggers'],
+            ['5', 'carry an <i>unless</i> clause'],
+            ['2', 'trigger hits so far'],
+          ].map(([v, l]) => (
+            <div>
+              <div class="text-[19px] font-semibold text-fg leading-none">{v}</div>
+              <div class="text-[11px] text-fg-ghost leading-snug mt-1" set:html={l} />
+            </div>
+          ))}
+        </div>
+        <p class="text-[12.5px] text-fg-ghost m-0">
+          Two hits is not adoption — but the counter moved off zero on its own, and both firings
+          were the class the design predicted: <i>"a health check reports green but the function does
+          not work"</i> and <i>"you are claiming a result without fresh evidence."</i>
+          <b class="text-fg-dim">The counter itself was broken for part of the study</b> and
+          reported a zero that was an unasked question rather than a measurement — the same failure
+          class the research is about, occurring inside it.
+        </p>
+      </div>
       <a href="/research/rules/" class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
         Read the full study →
       </a>
@@ -647,40 +674,21 @@ const career: Entry[] = [
 
   <!-- ── Beyond ───────────────────────────────────────────────────────── -->
   <Section id="beyond" title="Beyond the record">
-    <div class="grid md:grid-cols-[1.4fr_1fr] gap-4">
-      <div class="card p-5">
-        <div class="eyebrow mb-3">The question I would still like to work on</div>
-        <p class="text-fg-dim text-[14px] m-0 mb-3">
-          My bachelor's thesis designed a system connecting students, universities and companies: a
-          firm posts a real task with a reward, students take it on, and the professor teaching the
-          related subject sees it too — assists, annotates, reviews at the end. The student earns
-          money and course credit, the work is practical, and the university keeps a live channel to
-          industry. I started building it on Drupal, which is now archaeology.
-        </p>
-        <p class="text-fg-ghost text-[13px] m-0">
-          Two years after I defended it, the professor asked whether it could be de-classified for
-          use as a model thesis. The shape of that question — how to connect a formal institution to
-          messy practice without flattening either — is still the one I find most interesting, and
-          it is not far from what an alignment problem looks like from the outside.
-        </p>
-      </div>
-
-      <div class="card p-5 text-[13px] text-fg-dim">
-        <div class="eyebrow mb-3">Also</div>
-        <p class="m-0 mb-3">
-          Judo for ten years — 3× Slovak champion, two years in national representation. Mountains,
-          kayaks, a library of 400+ books, and old oil paintings.
-        </p>
-        <p class="m-0 mb-3">
-          I also make cyberpunk music with a generative model, badly and with great enjoyment.
-          <span class="text-fg-ghost">It is the only place I use these tools with no measurement
-          attached, which is probably why I keep doing it.</span>
-        </p>
-        <p class="m-0">
-          <b class="text-fg">Languages.</b> Slovak and Czech native · English advanced, a full
-          master's studied in it · German A1 · Russian and Hungarian basics.
-        </p>
-      </div>
+    <div class="card p-5 text-[13.5px] text-fg-dim">
+      <p class="m-0 mb-3">
+        Judo for ten years — 3× Slovak champion, two years in national representation. Mountains,
+        kayaks, a library of 400+ books, and old oil paintings.
+      </p>
+      <p class="m-0 mb-3">
+        I also make cyberpunk music with a generative model, badly and with great enjoyment.
+        <span class="text-fg-ghost">It is the only place I use these tools with no measurement
+        attached, which is probably why I keep doing it.</span>
+      </p>
+      <p class="m-0">
+        <b class="text-fg">Languages.</b> Slovak and Czech native · English advanced, a full
+        master's studied in it · German A1, Goethe-Institut Hamburg · Russian basics, third place
+        in an international competition · Hungarian basics.
+      </p>
     </div>
   </Section>
 

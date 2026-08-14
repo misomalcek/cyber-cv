@@ -300,7 +300,178 @@ process, never the state of the config.**
 
 ---
 
-## 6. How this work is documented
+## 6. The working layer — skills, tools, and what got thrown away
+
+This section is about the part of AI engineering that rarely gets written down:
+the accumulated apparatus you build around a model to make it useful, and how
+much of it turns out to be waste.
+
+### 6.1 The agent count went up, then down, and down was the improvement
+
+**Team Brain, first design.** I built what I then thought an agentic system was:
+one specialised agent per task. SEO auditing, keyword scanning, backlink
+analysis, content briefs, competitor gaps, article editing, glossary generation —
+each its own agent with its own prompt and its own tools. It grew to **61 agent
+definitions** across the project's history.
+
+**It was unusable, and the failure was mine, not the model's.** Nobody on the
+team could tell which agent to reach for. The names were accurate and useless:
+you cannot pick between `aeo-content-auditor` and `ahrefs-analyst` unless you
+already know the answer to the question you are asking. A router picked for them,
+which meant the taxonomy existed for my benefit, not theirs. The unit I had
+designed sat somewhere between a skill and an agent — a "2.5", specialised enough
+to need a name but not autonomous enough to be worth choosing.
+
+**The redesign: 6 specialists.** Auditor, Analyst, Writer, Brief, Idea, Batch.
+Each absorbs the context of the narrow agents it replaced, so nothing was lost —
+the specialised prompts became loadable sub-agent context rather than top-level
+choices. Routing became: explicit mention, then action path, then complexity
+signal, then keyword. **12 live definitions today against 61 written.**
+
+**What I actually learned.** A capability taxonomy is a UX decision, not an
+architecture decision. The right number of top-level agents is the number a
+person can hold in their head while typing a question — which is about six, and
+has nothing to do with how many distinct things the system can do.
+
+### 6.2 My own skill set: 18 → 7, and why the deletions were the point
+
+The environment I work in supports "skills" — packaged instructions loaded when
+a task matches. I accumulated 18. An audit in August cut them to 7, and the audit
+findings are more interesting than the count:
+
+- **Two skills were written for a different product entirely.** They referenced
+  another system's domain, its personas, its brand colour. They had never been
+  adapted and had been loading for months.
+- **One assumed a framework we do not use** — Next.js and a component library,
+  against a Vite/React codebase with its own design tokens. Every instruction in
+  it was confidently wrong.
+- **One described a database schema from the other project**, including an
+  embedding dimension we had migrated away from.
+- **One referenced four expert personas that were never built**, plus a file path
+  from a Linux machine that is not this one.
+- **Three had silently drifted apart from each other**, and one asserted that a
+  graph "was dropped" — live-verified false; it exists, and a fourth graph
+  neither file mentioned exists too.
+
+**The generalisable finding:** *instructions rot silently and confidently.* Code
+that references a deleted module fails to compile. A skill that references a
+deleted concept keeps loading, keeps sounding authoritative, and quietly degrades
+every decision it touches. Nothing in the loop tells you.
+
+The fix was not fewer skills for its own sake. It was binding every instruction
+to a concrete tool call with a worked example, so that a stale instruction
+*breaks* instead of merely misleading. Prose cannot fail; a tool call can.
+
+**Roughly 60% of the original apparatus was well-intentioned waste** — not wrong
+when written, just never re-verified. I would expect that fraction to be typical
+rather than embarrassing, but it is only visible if you audit.
+
+### 6.3 Tools: two very different surfaces
+
+The environment exposes **60 tools** through one registry. What differs is how
+much of it each model sees.
+
+| | large cloud model (me) | local model (Una, 12B) |
+|---|---|---|
+| tools visible per turn | the full harness surface | **22, curated** |
+| how the rest are reached | directly | `search_tools`, on demand |
+| why | context is cheap relative to capability | past ~15–20 always-visible schemas, a small model's tool selection degrades sharply |
+
+That asymmetry is the single most practical thing I know about small-model
+agentic work. It is not a limitation to route around — it is a design constraint
+that produces a better system when respected. A curated surface plus a search
+tool gives the same reach at a fraction of the prompt tax.
+
+**Voice gets a third, smaller surface**: read-only. Spoken interaction has no
+confirmation step, so nothing that writes is reachable by voice. That is not a
+capability decision, it is a blast-radius decision.
+
+### 6.4 MCP: adopted, measured, then mostly removed
+
+The Model Context Protocol is the standard way to attach tools to an agent, and
+we run almost none of it. The reasoning is measured rather than ideological:
+
+- **Two browser MCPs were running.** Measured usage over the period: **1,548
+  calls to one, approximately zero to the other.** The second was not adding
+  capability, it was adding a decision — *which browser tool?* — at every step.
+  Removed. If the profiling features it offered are ever genuinely needed, it can
+  be re-enabled for that job deliberately.
+- **Everything the hive itself does is native.** Memory, knowledge graph, code
+  graph, plan, docs — all of it is served from our own registry over plain HTTP
+  rather than wrapped in a protocol. One less layer between a call and its
+  failure mode, and the errors point at our code.
+- **What MCP is kept for:** fetching and rendering external content, and driving
+  a browser for UI verification. Genuinely external capabilities, where somebody
+  else's implementation is better than one we would write.
+
+**The general rule I would defend:** a protocol layer earns its place when it
+lets you use somebody else's implementation. When you own both sides of the
+interface, it is indirection with a specification attached.
+
+### 6.5 The session-continuity layer, and why it is fragile
+
+Long agentic work is bounded by a problem that has nothing to do with model
+quality: an agent that forgets between sessions restarts as a stranger every
+time. Our answer has three parts — a boot gate that verifies every data endpoint
+before work begins, a rolling state document the agent maintains for its future
+self, and the plan graph as the source of truth for what is in flight.
+
+**It works well, and I want to state precisely why it is also dangerous.**
+
+> *"In biological neural networks, intelligence does not reside in individual
+> neurons, but in the patterns formed through their circular interaction."*
+> — after Prof. Antonín Rosický, VŠE Prague
+
+The lesson from his systems theory that has cost me the most to relearn: **in a
+system with feedback, a small error does not stay small.** Each loop reprocesses
+the previous output, so a minor inaccuracy is amplified rather than averaged
+away — and because every loop runs under slightly different conditions, the
+amplified error does not even repeat recognisably. It arrives as a new problem
+each time.
+
+That is exactly what a memory-carrying agent is: a feedback loop over its own
+notes. We have seen it directly — a brief outage, a moment of inattention, a
+fragment of stale memory mixed with a fresh hallucination, and two hours later
+the work is built on something that was never true. The intensity of the workflow
+is what makes it dangerous; a short session self-corrects, a long one compounds.
+
+**Which is why the gate is a hard block rather than a warning**, why the state
+document records what was *verified* rather than what was *concluded*, and why
+"suspect the measurement before the thing measured" is the rule with an automated
+check behind it. The continuity layer is not a convenience feature. It is a
+feedback loop that has to be actively prevented from drifting.
+
+---
+
+## 7. AI-assisted design, and where it stopped helping
+
+Three design systems came out of this period: one for Team Brain, one for a CMS
+project, and the current one — which this document's companion CV is built from.
+
+**What worked.** Generating a coherent token set and a component vocabulary from
+a described intent is genuinely faster than assembling one by hand, and the
+output is more internally consistent than what I would produce under time
+pressure. The current system — a palette, spacing scale and component set shared
+between the application and everything written about it — came out of that
+process and has needed almost no revision.
+
+**Where it stopped paying.** Design generation is expensive per iteration and the
+value drops sharply once a system exists. Past that point the useful work is
+applying the system, which is ordinary engineering. We keep the tooling available
+and reach for it only when something genuinely new needs designing, which is
+rare. Treating a generative design tool as a per-task default was a cost with no
+matching return.
+
+**The one that is worth showing.** A CMS project included a chat surface running
+a **1B parameter model deployed to the page front-end** — an early experiment in
+putting local inference directly in front of a user rather than behind an API.
+It never shipped: my role ended first. The demo is still live and still answers,
+which makes it the honest artifact of that period — unfinished, working, and the
+first time I put a local model where a real visitor could talk to it.
+
+---
+
+## 8. How this work is documented
 
 106 architectural decisions and 283 lessons live as entities in the knowledge
 graph, each linked to the project and the incident that produced it. That is not

@@ -65,10 +65,28 @@ The rejections are more informative than the final design, so they come first.
 
 ### 2.1 Rules in the system prompt — rejected
 
-Standard practice, and it fails for a structural reason: under a long task the
-model pushes prompt content to the edge of the context window. Our own prior
-experience matched: a 16 KB anchor document containing 11 rules produced one
-averaged embedding in which no individual rule could win a query about itself.
+Standard practice, and it fails for a structural reason. The starting state was
+measured before anything was designed, and it was worse than assumed:
+
+| where the rules lived | count |
+|---|---|
+| `rule-*.md` files on disk | 13 |
+| `## Rule` sections inside one anchor document | 10 |
+| records tagged as rules in the vector store | 1 |
+
+None of the three was authoritative. The anchor claimed that 11 standalone files
+had been consolidated into it; the files still existed. Duplication with no source
+of truth.
+
+**Two rules had never made it into the anchor at all** — including, with some
+irony, *"suspect the measurement before the thing measured."* It was indexed, it
+won a search for its own name, and it was absent from the document that actually
+loads at session start. It existed and was not where decisions happen.
+
+The structural defect: a 16 KB anchor containing 11 rules produces **one averaged
+embedding**. That vector represents the mean of sixteen different ideas, so it
+wins for none of them. Measured: 5 of 16 rules could retrieve themselves by name,
+and all 5 were the ones stored as separate records.
 
 ### 2.2 Rules as rows in the existing knowledge graph — rejected
 
@@ -135,6 +153,40 @@ is always a *situation* ("the probe returned zero"), never a *statement*
 ("suspect the measurement"). We were indexing the answer and querying with the
 question.
 
+**It is not a ranking problem, and that mattered for the design.** Before the fix,
+the full top-5 for a real situation looked like this:
+
+| rank | score | record |
+|---|---|---|
+| 1 | 0.5060 | session notes, 2026-08-08 |
+| 2 | 0.4850 | session notes, 2026-08-09 |
+| 3 | 0.4820 | corpus-gap analysis |
+| 4 | 0.4830 | *rule — contradiction is the signal* |
+| 5 | 0.4870 | *rule — suspect the measurement* ← the correct answer |
+
+**The spread between first and fifth is 2.4%.** No amount of weight tuning wins
+inside a cluster that tight — the signal was not present at all. With a
+situational trigger the same rule scored 0.5808, roughly nine points clear of the
+whole field.
+
+**The one failure taught more than the four successes.** One rule scored *worse*
+with its trigger than without it. Its triggers described "a library, a framework,
+a dependency"; the query described "validating inputs". That word was not in the
+trigger, so the trigger did not match.
+
+A trigger is not magic. It is text, and it covers exactly the situations written
+into it. Three design consequences follow, and they are the core of the schema
+rather than footnotes:
+
+- a trigger **cannot be one sentence** — it has to be a set of situations
+- it must be **writable at runtime**, when a case appears that it did not cover
+- and this is the mechanism by which a rule earns its keep: a rule that caught a
+  real situation gets that situation appended; a rule that has caught nothing in
+  a year has nothing to argue with
+
+Hit counting is therefore a by-product of maintaining triggers, not a metric
+bolted onto a schema from outside.
+
 Two secondary results shaped the schema:
 
 - **Aggregation must be MAX, not MEAN.** Five short triggers scored 0.5547 under
@@ -191,11 +243,23 @@ mistakes, **35 (76%) belonged to a single rule** — and they share one mechanic
 shape, visible verbatim in the agent's own words: *a command piped through a
 filter, the filter swallows the error, and the empty output reads as success.*
 
+On that first result the cloud agent — which is to say, this paper's co-author —
+concluded that *"a rule which tells me something I would do anyway is bloat."*
+
+**That conclusion was wrong, and the correction is the most instructive event in
+the study.** The human objected on two grounds: it had been measured on a single
+subject and generalised to the system, and it had measured only *mistakes*,
+ignoring decisions that never become mistakes because the model chooses
+defensibly — just not the way the system intends.
+
+Both objections were correct, and neither was a coding error. They were flaws in
+the experimental design, produced by the person who was not running the
+experiment.
+
 ### 5.2 Does the rule change the choice? (local agent, A/B)
 
-The first test was too narrow: a rule can have value where no mistake occurs,
-because the model decides defensibly — just not the way the system intends.
-16 situations, each run twice, with and without the rule in context:
+The redesigned test measures decisions rather than errors. 16 situations, each run
+twice, with and without the rule in context:
 
 | | |
 |---|---|
@@ -332,6 +396,49 @@ warns and never blocks.
 | latency | 288 ms + ~1,900 ms |
 | automated check: false positives in test | **0/4**, ~4 firings per session |
 
+### 9.1 The deployed system, read from the database
+
+Everything above is measurement during the study. This is the state of the running
+system, queried while writing this section rather than recalled:
+
+| table | rows |
+|---|---|
+| `rules` | 16 |
+| `rule_triggers` | 55 |
+| `rules` carrying an `unless` clause | 5 |
+| `rule_overrides` | 1 |
+| trigger hits recorded | 2 |
+
+**The two hits are the honest part of this paper.** They are:
+
+| rule | the situation that fired it |
+|---|---|
+| `code-red-loud` | *"A health check reports green but the function does not work."* |
+| `always-ground-truth` | *"You are claiming a result without fresh evidence."* |
+
+Two calls is not adoption. But the counter moved off zero without anyone
+instrumenting it to, and both firings were in exactly the class the design
+predicted: non-obvious situations where the weights alone give a defensible answer
+that is not the one this system wants.
+
+### 9.2 The single override, in full
+
+The override log has one entry, and it is worth reading because it is what the
+defeasible design is for:
+
+> **Rule:** `always-ground-truth` — no claim of done without fresh evidence.
+> **Situation:** The backup was missing for a full day of work, and the human was
+> two minutes from shutting the machine down.
+> **What was done:** Ran the 10-minute backup instead of finishing quickly.
+> **Reasoning:** The rule says verify with evidence; a second standing instruction
+> says do not stall the human. Preference went to the backup.
+
+No solver detected that tension. It surfaced because a human wrote down why they
+went around a rule, in a table designed to accept that as data rather than treat it
+as a violation. If a second and third entry cluster on the same pair, that cluster
+*is* the missing sub-rule — which is the human-in-the-loop version of the
+automatic contradiction detection this study rejected at 4/8.
+
 ## 10. Limitations
 
 - **Single system, two models.** Findings about *which* rules matter are specific
@@ -342,9 +449,16 @@ warns and never blocks.
 - **The retrospective test is self-reported.** It counts mistakes the cloud agent
   admitted in its own transcripts. Unadmitted mistakes are invisible to it by
   construction — the true violation count is a lower bound.
-- **Usage is not yet measured.** The `hits` column stands at 1. Whether these
-  rules are consulted in live work is the open question, and it is deliberately
-  left to data rather than assertion.
+- **Usage is barely measured.** The `hits` column stands at 2 (§9.1). Two
+  firings is a signal that the mechanism works end-to-end, not evidence that it is
+  adopted. Whether these rules get consulted in live work is the open question,
+  and it is deliberately left to data rather than assertion.
+- **The counter itself was broken during part of the study.** An earlier round
+  reported "0 hits" as a finding. The column was never incremented by any code
+  path, so that zero was not a measurement — it was an unasked question wearing
+  the appearance of an answer. Fixed and verified before the numbers above were
+  taken. It is the same failure class as §7 and it happened *inside* the study
+  that documents it.
 
 ## 11. What we would do next
 
