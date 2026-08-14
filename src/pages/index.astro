@@ -1,0 +1,438 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Stat from '../components/Stat.astro';
+import BarList from '../components/BarList.astro';
+import Timeline, { type Entry } from '../components/Timeline.astro';
+import Disclosure from '../components/Disclosure.astro';
+import { qdrant, qdrantTotal, graphs, rules, teamBrain, capturedAt } from '../data/hive';
+
+const career: Entry[] = [
+  {
+    when: '2024 – 2026',
+    what: 'Senior SEO Specialist → AI Engineer',
+    where: 'msg life Slovakia (through my own company, full internal scope)',
+    body: `Two and a half years. The move into AI began September 2025 and formalised as
+      AI Engineer by February 2026, concluding with the delivery and handover of Team Brain.`,
+    points: [
+      'Built and handed over a production AI knowledge hub used by the whole content and web team',
+      'Four AI workshops for the entire Slovak branch — leadership to newest hires, voluntary attendance',
+      'The first workshop opened with ethics and the practical limits of formal logic, before Team Brain existed as anything but an idea',
+    ],
+    tags: ['TypeScript', 'PostgreSQL', 'Claude API', 'Next.js'],
+  },
+  {
+    when: 'Sep – Dec 2025',
+    what: 'Where the AI work actually started',
+    where: 'Not a title change',
+    pivot: true,
+    body: `On a glossary project an agency was selling as a large generic content build, I wrote a
+      markdown-driven generation framework instead — terms clustered by category, each cluster
+      carrying its own sources and content structure over a shared content DNA, so the set stayed
+      coherent while the clusters stayed genuinely different.`,
+    points: [
+      'It was team work and the framework was my part; it made the agency\'s proposal obsolete',
+      'The hard part was not technical — it was saying we were paying a supplier for bloatware, from a position where that was not my brief',
+      '<b>The principle everything since runs on:</b> the structure you impose on the input decides output quality far more than the model does',
+    ],
+  },
+  {
+    when: '2015 – 2023',
+    what: 'Senior SEO Manager',
+    where: 'Tippland Hamburg · Lottostarlet Malta · Lottoland Gibraltar',
+    body: `Eight years building organic growth in one of the most competitive commercial verticals
+      there is, across German-speaking and CEE markets.`,
+    points: [
+      'Grew German-market traffic <b>from zero to 30k monthly sessions</b> on the main property and <b>100k across satellites</b>, on budget',
+      'Held <b>0.9% vested equity</b> in Lottostarlet',
+      'Launched programmatic SEO reaching <b>top-3 rankings within weeks, with no paid backlinks</b>',
+      'At Lottoland: 50% management (4 internal, 5 external, 3 markets), 50% hands-on; built and led 3 internal SEO trainings',
+    ],
+  },
+  {
+    when: '2012 – now',
+    what: 'Founder',
+    where: 'My Marketing s.r.o.',
+    body: 'Consulting and delivery, alongside the roles above.',
+    points: [
+      'Co-founded a CEE sportswear e-commerce business reaching <b>€50k monthly turnover in its first year</b>',
+      'Google Partner status: 10+ AdWords accounts, ~€10k monthly ad spend over two years',
+      'Currently: custom sales CRM and a 3D sales configurator with one developer — my part is analysis, design and client presentation',
+    ],
+  },
+  {
+    when: '2015 – 2016',
+    what: 'Marketing & IT Manager',
+    where: 'Individual Auto Design (custom manufacturer)',
+    body: `Five markets (DE, SK, CZ, HU, EN): built the sites, set up the web server, grew visitors,
+      signups and orders month over month.`,
+    points: [
+      'Helped finish a <b>SAP-BO implementation that had been on hold for two years</b>, working with the IT supplier',
+    ],
+  },
+  {
+    when: '2010 – 2011',
+    what: 'Associate Product Marketing Manager · Online Media Associate Program',
+    where: 'Google — Prague, and European HQ Dublin',
+    body: `B2B acquisition and local product marketing for CZ/SK, then a three-month program at the
+      European headquarters supporting AdWords customers and improving the product's help surface.`,
+    points: [
+      'Ran the first targeted direct-mail campaign — <b>top 3 globally at Google by signup rate</b>',
+      'Negotiated and signed 3 co-marketing partnerships in Slovakia',
+      'Completed the Dublin program with strong feedback from two managers and <b>two peer bonuses</b>',
+      'Continued as a <b>Google Student Ambassador</b> at my university',
+    ],
+  },
+  {
+    when: '2006 – 2009',
+    what: 'ERP Tester → Sales Manager',
+    where: 'Asseco Solutions (Helios Orange ERP), Prague',
+    body: `Started at 19 testing the ERP and writing its documentation, then moved to selling it —
+      both sides of software delivery before I was 23.`,
+    points: [
+      'Sold <b>14 successful ERP implementations</b>',
+      'Negotiated in English with pilot customers in Germany and Poland',
+    ],
+  },
+];
+---
+<Base
+  title="Michal Malček — AI Engineer"
+  description="AI engineer. One production system delivered and handed over, one running daily — built and measured on a single local machine."
+>
+  <header class="pt-20 pb-10 border-b border-line">
+    <div class="inline-flex items-center gap-2 text-[11px] tracking-[.14em] uppercase text-synapse
+                border border-synapse rounded-full px-3 py-1 mb-5">
+      <span class="w-[6px] h-[6px] rounded-full bg-synapse" style="animation: pulse 2.4s ease-in-out infinite" />
+      Open to AI research engineering roles
+    </div>
+
+    <h1 class="text-[clamp(34px,6vw,58px)] leading-[1.04] font-semibold tracking-tight m-0 mb-3">
+      Michal Malček<br /><em class="not-italic text-neural">AI Engineer</em>
+    </h1>
+
+    <p class="text-[clamp(15px,2vw,18px)] text-fg-dim max-w-[640px] m-0 mb-7">
+      One production AI system delivered and handed over, one running daily — built and
+      measured on one machine. No AI degree: one three-day course, then everything else
+      learned from the systems themselves. I keep the record honest enough to count
+      against myself.
+    </p>
+
+    <div class="flex flex-wrap gap-2.5">
+      {[
+        { href: 'mailto:miso.malcek@gmail.com', label: 'miso.malcek@gmail.com' },
+        { href: '#hive',        label: 'The hive' },
+        { href: '#results',     label: 'Results' },
+        { href: '#research',    label: 'Research' },
+        { href: '#wrong',       label: 'What went wrong' },
+        { href: '/credentials/', label: 'Credentials' },
+      ].map((l) => (
+        <a href={l.href}
+           class="text-fg-dim no-underline border border-line rounded-md px-3.5 py-2 text-[13px]
+                  transition-colors hover:text-fg hover:border-neural hover:bg-neural/[.08]">
+          {l.label}
+        </a>
+      ))}
+    </div>
+  </header>
+
+  <!-- ── Systems ──────────────────────────────────────────────────────── -->
+  <Section id="work" title="Systems">
+    <div class="card p-6 mb-4">
+      <div class="flex items-baseline justify-between gap-3 flex-wrap">
+        <h3 class="text-[19px] font-semibold m-0">Team Brain</h3>
+        <span class="text-[12px] text-fg-ghost">built · deployed · handed over</span>
+      </div>
+      <div class="text-[12px] text-fg-ghost mt-1 mb-3">Production AI knowledge hub · 2026</div>
+      <p class="text-fg-dim m-0 mb-3">
+        Shared project memory for a software company's Slovak branch: a chat surface over the
+        team's accumulated knowledge with 33 tools behind it, a six-specialist agent model with
+        keyword and complexity routing, autonomous memory extraction from conversations, and
+        scheduled analytics snapshots. Deployed on a Debian VPS at a live domain.
+      </p>
+      <p class="text-fg-dim m-0 mb-4">
+        Handed over with a full decontamination pass and a separate zero-point copy, so it runs
+        without me. <span class="text-fg-ghost">A production system only its author can operate
+        is not delivered, it is lent.</span>
+      </p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-line border border-line rounded-lg overflow-hidden">
+        {[
+          ['15', 'users, all active'],
+          [teamBrain.messages.toLocaleString('en-US'), 'messages · 446 conversations'],
+          [`${teamBrain.toolSuccessPct}%`, `success over ${teamBrain.toolCalls.toLocaleString('en-US')} tool calls`],
+          ['~49M', 'tokens processed'],
+        ].map(([v, l]) => (
+          <div class="bg-bg-el px-4 py-3">
+            <div class="text-[19px] font-semibold text-forge leading-tight">{v}</div>
+            <div class="text-[11px] text-fg-ghost leading-snug mt-0.5">{l}</div>
+          </div>
+        ))}
+      </div>
+      <p class="text-[12px] text-fg-ghost mt-3 mb-0">
+        Aggregates from the production database at handover, {teamBrain.period}, on a {teamBrain.host}.
+        Individual users and business content excluded.
+      </p>
+
+      <div class="flex flex-wrap gap-1.5 mt-4">
+        {['Express 5', 'TypeScript', 'PostgreSQL', 'Next.js 16', 'React 19', 'Claude API', 'PM2 / Nginx'].map((t) => <span class="chip">{t}</span>)}
+      </div>
+    </div>
+
+    <div class="card p-6">
+      <div class="flex items-baseline justify-between gap-3 flex-wrap">
+        <h3 class="text-[19px] font-semibold m-0">Factorium</h3>
+        <span class="text-[12px] text-fg-ghost">running daily · open source from release</span>
+      </div>
+      <div class="text-[12px] text-fg-ghost mt-1 mb-3">Local-first AI environment · pre-release</div>
+      <p class="text-fg-dim m-0 mb-3">
+        A human and two models sharing one memory, one knowledge graph, one code graph and one
+        plan. The local model runs long agentic tasks, writes code, drives a browser and queries
+        the same stores I do — it is not a chat wrapper.
+      </p>
+      <p class="text-fg-dim m-0">
+        Everything runs on a single 24&nbsp;GB Apple M4 with no cloud inference. That ceiling
+        decided the architecture: a 12B model at 7.7&nbsp;GB resident instead of the stronger 26B
+        at 16–17&nbsp;GB, because capability that costs you the rest of the machine is not
+        capability.
+      </p>
+      <div class="flex flex-wrap gap-1.5 mt-4">
+        {['TypeScript', 'llama.cpp / Metal', 'Gemma-4 12B', 'Qdrant', 'Apache AGE', 'pgvector', 'bge-m3', 'TimescaleDB'].map((t) => <span class="chip">{t}</span>)}
+      </div>
+    </div>
+  </Section>
+
+  <!-- ── The hive ─────────────────────────────────────────────────────── -->
+  <Section
+    id="hive"
+    title="The hive, in numbers"
+    note={`read ${capturedAt}`}
+    lede="Factorium's stores as they stand right now — one person, one machine, no team and no budget. Read live from Postgres and Qdrant by a script rather than typed in, because a number you cannot re-derive is a claim, not a measurement."
+  >
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-3">
+      <Stat label="Embedded points" value={qdrantTotal.toLocaleString('en-US')} accent="forge" span={3} delay={0}
+            sub="Across seven Qdrant collections at 1024 dimensions.">
+        <div class="mt-4"><BarList rows={qdrant} /></div>
+      </Stat>
+
+      <Stat label="Knowledge graph" value={graphs.knowledge.entities.toLocaleString('en-US')} accent="neural" span={3} delay={80}
+            sub={`entities · <b>${graphs.knowledge.relationships.toLocaleString('en-US')}</b> relationships<br><span class="text-fg-ghost">106 decisions · 283 lessons · 608 concepts</span>`}>
+        <div class="relative h-[74px] mt-3 opacity-85">
+          {[[8,56,0],[26,22,.9],[41,68,1.9],[58,34,.5],[73,60,2.6],[89,28,1.4]].map(([l,t,d]) => (
+            <span class="absolute w-[5px] h-[5px] rounded-full bg-synapse"
+                  style={`left:${l}%; top:${t}%; box-shadow:0 0 9px var(--color-synapse);
+                          animation: drift 7s ease-in-out ${d}s infinite`} />
+          ))}
+        </div>
+      </Stat>
+
+      <Stat label="Code graph" value={graphs.code.entities.toLocaleString('en-US')} accent="synapse" span={2} delay={160}
+            sub={`entities · <b>${graphs.code.relationships.toLocaleString('en-US')}</b> relationships<br><span class="text-fg-ghost">import edges resolved through NodeNext, so blast radius is transitive — 36 files at depth 1, 52 at depth 2, in 34&nbsp;ms</span>`} />
+
+      <Stat label="Living plan" value={graphs.plan.nodes.toLocaleString('en-US')} span={2} delay={240}
+            sub={`plan nodes · ${graphs.plan.edges} edges across ${graphs.plan.projects} projects — the plan is a graph in the same database, not a document.`} />
+
+      <Stat label="Behavioural rules" value={rules.rules} span={2} delay={320}
+            sub={`rules · ${rules.triggers} situational triggers · defeasible, with overrides logged as data rather than treated as violations.`} />
+    </div>
+  </Section>
+
+  <!-- ── Results ──────────────────────────────────────────────────────── -->
+  <Section
+    id="results"
+    title="Results"
+    lede="Numbers I can point at, across twenty years. Where something is unverifiable or ended badly, it says so."
+  >
+    <div class="grid md:grid-cols-3 gap-3 mb-6">
+      {[
+        { k: 'Traffic built from zero', v: '30k / 100k', s: 'monthly sessions, main site and satellites — German market, no paid links', a: 'forge' },
+        { k: 'ERP implementations sold', v: '14', s: 'including EN negotiations with German and Polish pilot customers', a: 'neural' },
+        { k: 'First-year turnover', v: '€50k', s: 'monthly, CEE e-commerce business I co-founded', a: 'synapse' },
+        { k: 'Tool-call success rate', v: '93.9%', s: 'over 1,352 real calls by non-engineers, four months in production', a: 'forge' },
+        { k: 'Direct-mail campaign', v: 'Top 3', s: 'globally at Google by signup rate — the first targeted one for CZ/SK', a: 'neural' },
+        { k: 'Judo', v: '3×', s: 'Slovak champion · two years in national representation · ten years training', a: 'synapse' },
+      ].map((r, i) => (
+        <Stat label={r.k} value={r.v} sub={r.s} accent={r.a as any} delay={i * 60} />
+      ))}
+    </div>
+
+    <div class="card p-5">
+      <div class="eyebrow mb-4">Academic record</div>
+      <div class="grid sm:grid-cols-2 gap-x-8 gap-y-3">
+        {[
+          ['Electrical Engineering & ICT — final year', '1.0', 'High School of Jozef Murgaš, Banská Bystrica'],
+          ['Information Systems & Technologies (Master\'s, 41 ECTS)', '1.5', 'University of Economics Prague'],
+          ['Applied Informatics (Bachelor\'s)', '1.6', 'University of Economics Prague — top 10 of ~500'],
+          ['CEMS International Management (Master\'s, in English)', '1.7', 'Prague · Corvinus Budapest'],
+        ].map(([what, grade, where]) => (
+          <div class="flex items-baseline gap-3 border-b border-line/60 pb-2.5">
+            <span class="text-[22px] font-semibold text-forge tabular-nums leading-none shrink-0 w-[38px]">{grade}</span>
+            <span>
+              <b class="block text-[13px] font-medium leading-snug">{what}</b>
+              <span class="text-[11.5px] text-fg-ghost">{where}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+      <p class="text-[12.5px] text-fg-ghost mt-4 mb-0">
+        Czech grading, where 1.0 is the best possible mark. Erasmus at Corvinus Budapest: A in every
+        subject. The one I did not finish: the second business-language exam (Russian) in the CEMS
+        programme — all mandatory courses and skill seminars completed, that exam not passed.
+      </p>
+    </div>
+  </Section>
+
+  <!-- ── Research ─────────────────────────────────────────────────────── -->
+  <Section id="research" title="Research" note="2 papers">
+    <div class="card p-6 mb-4">
+      <h3 class="text-[19px] font-semibold m-0 mb-1">Measuring whether behavioural rules change model decisions</h3>
+      <div class="text-[12px] text-fg-ghost mb-3">12 rounds · two models · August 2026</div>
+      <p class="text-fg-dim m-0 mb-3">
+        Rules for LLM agents are usually written, stored and assumed to work. I measured whether
+        mine do, across three questions that normally get conflated: can a rule be
+        <em>retrieved</em>, does it <em>change</em> a decision, and does the model <em>know</em>
+        which of its rules help it.
+      </p>
+      <div class="grid sm:grid-cols-3 gap-3 my-4">
+        {[
+          ['1 in 5 → 10/10', 'retrieval, once rules were stored as the situations they govern rather than as their own wording'],
+          ['6 of 16', 'rules measurably changed a decision · 10 changed nothing · none made a decision worse'],
+          ['7 of 8', 'misclassified by the model when asked which of its own rules carried real information'],
+        ].map(([v, l]) => (
+          <div class="border-l-2 border-neural/40 pl-3">
+            <div class="text-[17px] font-semibold text-fg leading-tight">{v}</div>
+            <div class="text-[12px] text-fg-ghost leading-snug mt-1">{l}</div>
+          </div>
+        ))}
+      </div>
+      <p class="text-fg-dim m-0 mb-3">
+        <b>A model can follow a rule without being able to judge one.</b> Three of the rules it
+        dismissed as "just advice" had changed its own behaviour minutes earlier. Rule value has to
+        be measured behaviourally, never by asking — had I trusted the self-report, I would have
+        deleted seven working rules.
+      </p>
+      <p class="text-[13px] text-fg-ghost m-0">
+        Seven candidate designs were rejected on evidence: prompt-resident rules, rules in the
+        existing graph (top-K collapse), score thresholding, automatic contradiction detection,
+        a background guard (254 false alarms per true positive), per-rule hooks, and a solver layer.
+      </p>
+      <a href="/research/rules/" class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
+        Read the full study →
+      </a>
+    </div>
+
+    <div class="card p-6">
+      <h3 class="text-[19px] font-semibold m-0 mb-1">AI engineering — systems, decisions, and what they cost</h3>
+      <div class="text-[12px] text-fg-ghost mb-3">Technical account · two systems · stack decisions and their corrections</div>
+      <p class="text-fg-dim m-0 mb-3">
+        The architecture behind both systems and the reasoning that produced it: one database
+        instead of three, a migration of 17,109 vectors and what it bought, a 12B model chosen over
+        a stronger 26B, and no agent framework — because a framework that injects prompt content
+        you cannot see is fatal when you are measuring how a small model behaves.
+      </p>
+      <p class="text-[13px] text-fg-ghost m-0">
+        Includes a full section on the decisions that were wrong, and what each one cost.
+      </p>
+      <a href="/research/engineering/" class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
+        Read the full report →
+      </a>
+    </div>
+  </Section>
+
+  <!-- ── What went wrong ──────────────────────────────────────────────── -->
+  <Section
+    id="wrong"
+    title="What went wrong"
+    lede="These cost real time and are written down because the corrections are the part worth reading. Each one is a stored record, not a recollection."
+  >
+    <Disclosure summary="Using an embedding model outside its contract" tag="weeks">
+      <p>nomic-embed requires asymmetric prefixes on queries and documents. Served through
+      llama.cpp, nothing adds them, so everything was embedded symmetrically. Symptom: short
+      meaningless text outranked long relevant text.</p>
+      <p>The diagnosis method has since caught every similar defect — <em>embed a stored document
+      both ways and compare each against its own stored vector.</em> Whichever scores 1.0000 tells
+      you how it was really indexed.</p>
+      <p class="text-forge">Cost: 10,676 records re-embedded. And the first repair script read only
+      the body field while the writer had embedded title + body together — 95% of records would
+      have silently lost their titles from their vectors. Nothing would have errored.</p>
+    </Disclosure>
+
+    <Disclosure summary="A migration that left its satellites behind" tag="days of silent loss">
+      <p>Moving to a 1024-dimension embedding model updated the server and the main paths, but not
+      eight standalone ingest scripts. The code indexer failed on every write for days, so the code
+      graph ingested nothing. The failure was loud in a log nobody was reading.</p>
+      <p>Root cause found later: the model and port live in the service's launchd plist, not in any
+      shell, so every hand-run script fell back to the old model. Fixed twice at the symptom before
+      being fixed at the source.</p>
+    </Disclosure>
+
+    <Disclosure summary="Adding a speech-to-text model, then removing it">
+      <p>Voice transcription was poor, so I downloaded Whisper and benchmarked it. It won — on
+      synthetic clips. On real microphone recordings the multimodal model transcribed correctly and
+      the premise collapsed. Synthetic fixtures had misled me four separate times by then.</p>
+      <p>The actual defect was the prompt: told to "transcribe this", the model answered the
+      question it heard instead of writing it down. Recast as a transcription <em>service</em>, it
+      returned exact text including filler words. No new model, no extra gigabytes.</p>
+    </Disclosure>
+
+    <Disclosure summary="The pattern behind 35 of 46 recorded mistakes" tag="the real one">
+      <p>A check comes back empty and I read the emptiness as an answer. A filter eats an error. A
+      key I read does not exist, so the value is zero, so I conclude the tool is broken. A directory
+      listing fails on a permission error I do not read, so I report the folder as empty.</p>
+      <p>You cannot learn this from a book, because a book cannot show you your own reflex. You
+      learn it by keeping a record honest enough to count against yourself — and then counting.
+      It is now the one behaviour with an automated check behind it.</p>
+    </Disclosure>
+  </Section>
+
+  <!-- ── Career ───────────────────────────────────────────────────────── -->
+  <Section id="track" title="Career" note="20 years">
+    <Timeline entries={career} />
+  </Section>
+
+  <!-- ── Beyond ───────────────────────────────────────────────────────── -->
+  <Section id="beyond" title="Beyond the record">
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="card p-5">
+        <div class="eyebrow mb-3">What I would work on given the choice</div>
+        <p class="text-fg-dim text-[14px] m-0 mb-3">
+          My bachelor's thesis was a system for students, universities and companies to work
+          together: a firm posts a real task with a reward, students take it on, and the professor
+          teaching the related subject sees it too — assists, adds notes, reviews at the end. The
+          student earns money and course credit, the work is practical, and the university keeps a
+          live channel to industry.
+        </p>
+        <p class="text-fg-dim text-[14px] m-0">
+          I started building it on Drupal, which is now archaeology. Nearly 100 pages; two years
+          later the professor asked whether it could be de-classified for use as a model thesis.
+          <span class="text-fg-ghost">Easier described than built — but the shape of the question,
+          how you connect a formal institution to messy practice without flattening either, is
+          still the one I find most interesting.</span>
+        </p>
+      </div>
+
+      <div class="card p-5">
+        <div class="eyebrow mb-3">Standing interests</div>
+        <ul class="list-none p-0 m-0 flex flex-col gap-2 text-[13.5px] text-fg-dim">
+          {[
+            'Mountain hiking, biking, kayaking',
+            'A library of 400+ books, still growing',
+            'Numismatics and old oil paintings',
+            'Judo for ten years — 3× Slovak champion, two years in national representation',
+            'Speaker at a Slovak e-commerce conference (2013); SiGMA, Malta (2018)',
+          ].map((i) => (
+            <li class="pl-4 relative">
+              <span class="absolute left-0 top-[9px] w-[5px] h-[1px] bg-synapse" />{i}
+            </li>
+          ))}
+        </ul>
+        <div class="mt-4 pt-4 border-t border-line text-[13px] text-fg-dim">
+          <b class="text-fg">Languages.</b> Slovak and Czech native · English advanced (a full
+          master's studied in English, daily working use) · Russian basics, third place in an
+          international language competition · German A1, Goethe-Institut · Hungarian and Spanish
+          basics.
+        </div>
+      </div>
+    </div>
+  </Section>
+</Base>

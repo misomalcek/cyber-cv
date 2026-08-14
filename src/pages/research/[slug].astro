@@ -1,0 +1,129 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const papers = await getCollection('research');
+  return papers.map((paper) => ({ params: { slug: paper.id }, props: { paper } }));
+}
+
+const { paper } = Astro.props;
+const { Content, headings } = await render(paper);
+
+/* Titles and blurbs live here rather than in the markdown, because the markdown
+   is a verbatim copy of the stored record and should not grow web-only fields. */
+const meta: Record<string, { title: string; blurb: string }> = {
+  rules: {
+    title: 'Measuring whether behavioural rules change model decisions',
+    blurb: 'Twelve rounds, two models, and seven designs rejected on evidence.',
+  },
+  engineering: {
+    title: 'AI engineering — systems, decisions, and what they cost',
+    blurb: 'Two systems, the stack decisions behind them, and the ones that turned out wrong.',
+  },
+};
+const m = meta[paper.id] ?? { title: paper.data.name, blurb: '' };
+const readingMinutes = Math.max(1, Math.round(paper.body!.split(/\s+/).length / 220));
+---
+<Base title={`${m.title} — Michal Malček`} description={m.blurb} back={{ href: '/#research', label: 'Back to CV' }}>
+  <header class="pt-10 pb-7 border-b border-line">
+    <div class="eyebrow mb-3">Research</div>
+    <h1 class="text-[clamp(26px,3.6vw,38px)] font-semibold tracking-tight leading-tight m-0 mb-3">
+      {m.title}
+    </h1>
+    <p class="text-fg-dim m-0 mb-4 max-w-[620px]">{m.blurb}</p>
+    <div class="flex flex-wrap gap-3 text-[12px] text-fg-ghost">
+      <span>{paper.data.timestamp.toISOString().slice(0, 10)}</span>
+      <span>·</span>
+      <span>{readingMinutes} min read</span>
+      <span>·</span>
+      <span>Michal Malček</span>
+    </div>
+  </header>
+
+  <div class="grid lg:grid-cols-[1fr_200px] gap-10 pt-8">
+    <article class="prose-cv max-w-none min-w-0">
+      <Content />
+    </article>
+
+    <!-- Section index. Sticky on wide screens, hidden where there is no room. -->
+    <nav class="hidden lg:block text-[12px] sticky top-8 self-start max-h-[80vh] overflow-y-auto">
+      <div class="eyebrow mb-3 text-[10px]">Contents</div>
+      <ul class="list-none p-0 m-0 flex flex-col gap-1.5 border-l border-line">
+        {headings.filter((h) => h.depth === 2).map((h) => (
+          <li>
+            <a href={`#${h.slug}`}
+               class="block pl-3 -ml-px border-l border-transparent text-fg-ghost no-underline
+                      hover:text-synapse hover:border-synapse transition-colors leading-snug">
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</Base>
+
+<style is:global>
+  /* Long-form typography. The papers carry tables, blockquotes and code, so each
+     needs a deliberate treatment rather than inheriting whatever Tailwind resets. */
+  .prose-cv { color: var(--color-fg-dim); font-size: 14.5px; }
+  .prose-cv h1 { display: none; }         /* the page header already states it */
+  .prose-cv h2 {
+    color: var(--color-fg); font-size: 19px; font-weight: 600;
+    margin: 2.4em 0 .8em; padding-top: .8em; border-top: 1px solid var(--color-line);
+    scroll-margin-top: 24px;
+  }
+  .prose-cv h3 {
+    color: var(--color-fg); font-size: 15.5px; font-weight: 600;
+    margin: 1.9em 0 .6em; scroll-margin-top: 24px;
+  }
+  .prose-cv p { margin: 0 0 1.1em; }
+  .prose-cv strong { color: var(--color-fg); font-weight: 600; }
+  .prose-cv em { color: var(--color-fg); font-style: italic; }
+  .prose-cv ul, .prose-cv ol { margin: 0 0 1.2em; padding-left: 1.3em; }
+  .prose-cv li { margin-bottom: .45em; }
+  .prose-cv li::marker { color: var(--color-neural); }
+  /* The markdown uses --- as a section break and h2 already draws a rule, so a
+     hr immediately before a heading would double the line. Keep the standalone
+     ones, hide the redundant pair. */
+  .prose-cv hr { border: 0; border-top: 1px solid var(--color-line); margin: 2.4em 0; }
+  .prose-cv hr + h2 { border-top: 0; padding-top: 0; margin-top: 1.4em; }
+  .prose-cv a { color: var(--color-synapse); }
+
+  /* Tables wrap rather than scroll. `display:block; overflow-x:auto` on a table
+     is the usual trick, but it stops thead/tbody being constrained and the whole
+     page gains a horizontal scrollbar on a phone (measured: 392px inside a 375px
+     viewport). A fixed layout with wrapping cells keeps everything on screen. */
+  .prose-cv table {
+    width: 100%; max-width: 100%; border-collapse: collapse; margin: 0 0 1.4em;
+    font-size: 13px; table-layout: fixed;
+  }
+  .prose-cv td, .prose-cv th { overflow-wrap: anywhere; }
+  .prose-cv th {
+    text-align: left; color: var(--color-fg-ghost); font-weight: 600;
+    font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 8px 12px; border-bottom: 1px solid var(--color-line);
+  }
+  .prose-cv td {
+    padding: 9px 12px; border-bottom: 1px solid color-mix(in srgb, var(--color-line) 55%, transparent);
+    vertical-align: top;
+  }
+  .prose-cv tr:last-child td { border-bottom: none; }
+
+  .prose-cv blockquote {
+    margin: 0 0 1.2em; padding: .1em 0 .1em 1.1em;
+    border-left: 2px solid color-mix(in srgb, var(--color-neural) 45%, transparent);
+    color: var(--color-fg-ghost);
+  }
+  .prose-cv code {
+    font-size: .9em; background: var(--color-bg-el);
+    border: 1px solid var(--color-line); border-radius: 4px; padding: 1px 5px;
+    color: var(--color-fg);
+  }
+  .prose-cv pre {
+    background: var(--color-bg-el); border: 1px solid var(--color-line);
+    border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin: 0 0 1.3em;
+  }
+  .prose-cv pre code { background: none; border: 0; padding: 0; font-size: 12.5px; }
+</style>

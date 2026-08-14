@@ -1,0 +1,18 @@
+---
+interface Props {
+  id?: string;
+  title: string;
+  lede?: string;
+  /** Small right-aligned note — a count, a date, a status. */
+  note?: string;
+}
+const { id, title, lede, note } = Astro.props;
+---
+<section id={id} class="py-12 border-b border-line">
+  <div class="flex items-baseline justify-between gap-4 mb-6">
+    <h2 class="eyebrow m-0">{title}</h2>
+    {note && <span class="text-[11px] text-fg-ghost tracking-wider uppercase shrink-0">{note}</span>}
+  </div>
+  {lede && <p class="text-fg-dim max-w-[680px] mt-0 mb-6">{lede}</p>}
+  <slot />
+</section>

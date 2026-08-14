@@ -1,0 +1,40 @@
+---
+interface Props {
+  label: string;
+  value: string | number;
+  sub?: string;
+  accent?: 'neural' | 'synapse' | 'forge' | 'plain';
+  /** Columns to occupy at desktop width. Omit inside a uniform grid — the tile
+   *  then takes one cell and the parent decides the layout. */
+  span?: 1 | 2 | 3 | 6;
+  /** Stagger the entrance so a row of tiles resolves left to right. */
+  delay?: number;
+}
+const { label, value, sub, accent = 'plain', span, delay = 0 } = Astro.props;
+
+const colour = {
+  neural:  'text-neural',
+  synapse: 'text-synapse',
+  forge:   'text-forge',
+  plain:   'text-fg',
+}[accent];
+
+// No span given: occupy exactly one cell and let the parent grid decide.
+const cols = span
+  ? { 1: 'col-span-1 md:col-span-1', 2: 'col-span-2 md:col-span-2', 3: 'col-span-2 md:col-span-3', 6: 'col-span-2 md:col-span-6' }[span]
+  : '';
+---
+<div
+  class={`card group relative overflow-hidden p-5 ${cols}`}
+  style={`animation: countIn .5s ease-out ${delay}ms both`}
+>
+  <!-- A slow sheen on hover: something passing underneath the surface. -->
+  <div
+    class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+    style="background: linear-gradient(115deg, transparent 40%, #7C3AED22 50%, transparent 60%); animation: sheen 1.1s ease-out"
+  />
+  <div class="text-[10.5px] tracking-[.14em] uppercase text-fg-ghost mb-2">{label}</div>
+  <div class={`text-[31px] font-semibold leading-none tracking-tight ${colour}`}>{value}</div>
+  {sub && <div class="text-[12px] text-fg-dim mt-2" set:html={sub} />}
+  <slot />
+</div>

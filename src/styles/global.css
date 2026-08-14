@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* Factorium's own palette. This site is built from the same tokens as the system
+   it documents — the design is a claim about the work, so it should be the work. */
+@theme {
+  --color-bg:        #0D1220;
+  --color-bg-el:     #141C2E;
+  --color-bg-glass:  #1A2237;
+  --color-fg:        #E8EDF7;
+  --color-fg-dim:    #9AA7C0;
+  --color-fg-ghost:  #5C6A85;
+  --color-neural:    #7C3AED;
+  --color-synapse:   #06B6D4;
+  --color-forge:     #F59E0B;
+  --color-line:      #243049;
+
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: color-mix(in srgb, var(--color-neural) 40%, transparent); }
+  a { color: var(--color-synapse); }
+}
+
+@layer components {
+  /* The faint grid behind everything — depth that does not compete with text. */
+  .grid-field::before {
+    content: "";
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .35;
+    background-image:
+      linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at 50% 0%, #000 0%, transparent 75%);
+  }
+
+  .card {
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--color-bg-glass) 60%, transparent);
+    transition: border-color .18s, transform .18s;
+  }
+  .card:hover { border-color: color-mix(in srgb, var(--color-neural) 35%, transparent); }
+
+  .chip {
+    font-size: 11px; color: var(--color-fg-dim);
+    border: 1px solid var(--color-line); border-radius: 5px;
+    padding: 3px 9px; display: inline-block;
+  }
+
+  .eyebrow {
+    font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--color-synapse); font-weight: 600;
+  }
+}
+
+/* Motion is a signal that something is running, never decoration.
+   Everything here is slow enough to read past. */
+@keyframes pulse  { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
+@keyframes ripple { 0% { transform: scale(1); opacity: .7 } 100% { transform: scale(3.6); opacity: 0 } }
+@keyframes grow   { to { transform: scaleX(1) } }
+@keyframes drift  { 0%,100% { transform: translateY(0);    opacity: .35 }
+                    50%     { transform: translateY(-11px); opacity: 1 } }
+@keyframes sheen  { from { transform: translateX(-100%) } to { transform: translateX(100%) } }
+@keyframes countIn { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  [data-bar] { transform: scaleX(1) !important; }
+}

@@ -1,0 +1,72 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+
+const papers = await getCollection('research');
+
+const meta: Record<string, { title: string; blurb: string; findings: string[] }> = {
+  rules: {
+    title: 'Measuring whether behavioural rules change model decisions',
+    blurb: 'Rules for LLM agents are usually written, stored and assumed to work. This measures whether they do.',
+    findings: [
+      'Retrieval by rule wording: 1 in 5. Stored as the situations they govern: 10/10.',
+      '6 of 16 rules changed a decision · 10 changed nothing · none made a decision worse.',
+      'Asked which of its rules carried real information, the model misclassified 7 of 8.',
+    ],
+  },
+  engineering: {
+    title: 'AI engineering — systems, decisions, and what they cost',
+    blurb: 'A technical account of two systems, the stack decisions behind them, and the corrections.',
+    findings: [
+      'One database instead of three · 17,109 vectors migrated · a 12B model chosen over a stronger 26B.',
+      'No agent framework, because injected prompt content is fatal when you are measuring a small model.',
+      'A full section on the decisions that were wrong, with what each one cost.',
+    ],
+  },
+};
+const order = ['rules', 'engineering'];
+const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+---
+<Base
+  title="Research — Michal Malček"
+  description="Measurement-first research on LLM agent behaviour and local-first AI systems."
+  back={{ href: '/', label: 'Back to CV' }}
+>
+  <header class="pt-10 pb-8 border-b border-line">
+    <h1 class="text-[clamp(28px,4vw,40px)] font-semibold tracking-tight m-0 mb-3">Research</h1>
+    <p class="text-fg-dim max-w-[660px] m-0">
+      Written from stored records rather than recollection. Every figure comes from a query or a
+      logged measurement, including the ones that count against the conclusion I wanted.
+    </p>
+  </header>
+
+  <Section title="Papers" note={`${sorted.length}`}>
+    <div class="flex flex-col gap-4">
+      {sorted.map((p) => {
+        const m = meta[p.id];
+        return (
+          <a href={`/research/${p.id}/`} class="card p-6 no-underline block group">
+            <div class="flex items-baseline justify-between gap-4 flex-wrap">
+              <h2 class="text-[18px] font-semibold text-fg m-0 group-hover:text-synapse transition-colors">
+                {m.title}
+              </h2>
+              <span class="text-[12px] text-fg-ghost shrink-0">
+                {p.data.timestamp.toISOString().slice(0, 10)}
+              </span>
+            </div>
+            <p class="text-fg-dim text-[14px] mt-2 mb-4">{m.blurb}</p>
+            <ul class="list-none p-0 m-0 flex flex-col gap-1.5">
+              {m.findings.map((f) => (
+                <li class="text-[13px] text-fg-ghost pl-4 relative">
+                  <span class="absolute left-0 top-[9px] w-[5px] h-[1px] bg-neural" />{f}
+                </li>
+              ))}
+            </ul>
+            <span class="chip mt-4 inline-block group-hover:border-neural transition-colors">Read →</span>
+          </a>
+        );
+      })}
+    </div>
+  </Section>
+</Base>
