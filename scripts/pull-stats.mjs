@@ -68,11 +68,11 @@ async function collect() {
 function render({ counts, byType, qdrant }) {
   const today = new Date().toISOString().slice(0, 10);
   const pick = (t) => byType.find((r) => r.type === t)?.n ?? 0;
-  const existing = readFileSync(target, 'utf8');
-
-  // Team Brain figures are historical — that system is handed over and its
-  // database is not ours to query. Carry the block through verbatim.
-  const teamBrainBlock = existing.slice(existing.indexOf('/** Team Brain'));
+  // Nothing is carried through from the previous file: this module is written
+  // whole, every time. Team Brain's historical figures live in their own module
+  // (src/data/team-brain.ts) which this script never opens — an earlier version
+  // spliced them out of the generated file by matching a comment string, where a
+  // failed match would have silently written one character.
 
   return `/**
  * Live counts from the hive's own stores, captured ${today}.
@@ -112,8 +112,7 @@ export const machine = {
   resident: '7.7 GB',
   note: 'One Apple M4 Mac mini. No cloud inference.',
 } as const;
-
-${teamBrainBlock}`;
+`;
 }
 
 const out = render(await collect());

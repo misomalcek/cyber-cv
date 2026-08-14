@@ -13,10 +13,9 @@ const nav = [
   { href: '/#work',        label: 'Systems' },
   { href: '/#hive',        label: 'The hive' },
   { href: '/#results',     label: 'Results' },
-  { href: '/#research',    label: 'Research' },
+  { href: '/#apparatus',   label: 'The apparatus' },
   { href: '/#wrong',       label: 'What went wrong' },
-  { href: '/#principles',  label: 'Principles' },
-  { href: '/#codex',       label: 'Codex' },
+  { href: '/#research',    label: 'Research' },
   { href: '/#code',        label: 'Code' },
   { href: '/#track',       label: 'Career' },
   { href: '/credentials/', label: 'Credentials' },
@@ -33,6 +32,32 @@ const nav = [
   <meta property="og:description" content={description} />
   <meta property="og:type" content="profile" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
+  <meta name="twitter:card" content="summary" />
+
+  {/* The page is a structured professional profile, so it may as well be
+      structured. Kept minimal and factual — no claims here that are not on
+      the page itself. */}
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Michal Malček',
+      email: 'miso.malcek@gmail.com',
+      jobTitle: 'AI Engineer',
+      description: 'AI engineer. One production system delivered and handed over, one running daily — built and measured on a single local machine.',
+      knowsLanguage: ['sk', 'cs', 'en', 'de'],
+      alumniOf: [
+        { '@type': 'CollegeOrUniversity', name: 'University of Economics, Prague' },
+        { '@type': 'EducationalOrganization', name: 'CEMS — The Global Alliance in Management Education' },
+      ],
+      knowsAbout: [
+        'AI engineering', 'Retrieval-augmented generation', 'Knowledge graphs',
+        'Local model inference', 'TypeScript', 'PostgreSQL', 'Vector databases',
+      ],
+    },
+  })} />
 </head>
 <body class="grid-field">
   <div class="relative z-[1] mx-auto max-w-[940px] px-6 pb-24">

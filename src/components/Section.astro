@@ -8,7 +8,15 @@ interface Props {
 }
 const { id, title, lede, note } = Astro.props;
 ---
-<section id={id} class="py-12 border-b border-line">
+<section id={id} class="relative py-12">
+  <!-- Section divider as a lit filament: bright at the left, fading right. -->
+  <span class="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
+        style="background: linear-gradient(90deg,
+                 color-mix(in srgb, var(--color-neural) 55%, transparent) 0%,
+                 color-mix(in srgb, var(--color-synapse) 28%, transparent) 30%,
+                 var(--color-line) 70%,
+                 transparent 100%);
+               box-shadow: 0 0 12px -2px color-mix(in srgb, var(--color-neural) 45%, transparent)" />
   <div class="flex items-baseline justify-between gap-4 mb-6">
     <h2 class="eyebrow m-0">{title}</h2>
     {note && <span class="text-[11px] text-fg-ghost tracking-wider uppercase shrink-0">{note}</span>}

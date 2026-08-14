@@ -1,69 +1,199 @@
 @import "tailwindcss";
 
-/* Factorium's own palette. This site is built from the same tokens as the system
-   it documents — the design is a claim about the work, so it should be the work. */
+/* Obsidian + neon. Built from Factorium's palette, pushed brighter: the base is a
+   violet-tinted obsidian rather than flat navy, and the accents carry glow.
+
+   Every text colour below was measured against the LIGHTEST point of the page
+   gradient (#171029), not the darkest, so the numbers hold everywhere:
+     fg 15.5:1 · fg-dim 7.6:1 · fg-ghost 5.1:1
+     violet 4.7:1 · cyan 10.2:1 · amber 11.0:1 · pink 6.9:1
+   All pass WCAG AA for normal text. Glow is decoration layered on top of type
+   that is already legible without it. */
 @theme {
-  --color-bg:        #0D1220;
-  --color-bg-el:     #141C2E;
-  --color-bg-glass:  #1A2237;
-  --color-fg:        #E8EDF7;
-  --color-fg-dim:    #9AA7C0;
-  --color-fg-ghost:  #5C6A85;
-  --color-neural:    #7C3AED;
-  --color-synapse:   #06B6D4;
-  --color-forge:     #F59E0B;
-  --color-line:      #243049;
+  --color-bg:         #0A0812;
+  --color-bg-mid:     #120E20;
+  --color-bg-lift:    #171029;
+  --color-bg-el:      #171226;
+  --color-bg-glass:   #1C1533;
+
+  --color-fg:         #EDE9FB;
+  --color-fg-dim:     #A9A2C8;
+  --color-fg-ghost:   #8A82AD;
+
+  /* Neon accents. The -deep variants are for borders, fills and glow, where
+     contrast minimums do not apply; the base tokens are safe as text. */
+  --color-neural:      #A855F7;
+  --color-neural-deep: #7C3AED;
+  --color-neural-text: #A855F7;
+  --color-synapse:     #22D3EE;
+  --color-synapse-deep:#06B6D4;
+  --color-forge:       #FBBF24;
+  --color-pink:        #F472B6;
+
+  --color-line:       #2A2145;
+  --color-line-lit:   #3D2F63;
 
   --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 @layer base {
   html { scroll-behavior: smooth; }
+
   body {
-    background: var(--color-bg);
+    /* Obsidian gradient: three violet-tinted stops, fixed so it does not slide
+       under the content while scrolling. */
+    background:
+      radial-gradient(ellipse 120% 70% at 50% -10%, #2A1B4D 0%, transparent 60%),
+      radial-gradient(ellipse 90% 50% at 85% 15%,  #1A1040 0%, transparent 55%),
+      radial-gradient(ellipse 100% 60% at 10% 45%, #16102E 0%, transparent 50%),
+      linear-gradient(175deg, var(--color-bg-lift) 0%, var(--color-bg-mid) 35%, var(--color-bg) 100%);
+    background-attachment: fixed;
     color: var(--color-fg);
     font-family: var(--font-mono);
     font-size: 15px;
     line-height: 1.65;
+    min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }
-  ::selection { background: color-mix(in srgb, var(--color-neural) 40%, transparent); }
+
+  ::selection { background: color-mix(in srgb, var(--color-neural) 45%, transparent); }
   a { color: var(--color-synapse); }
+
+  /* The whole page is keyboard-navigable — footer nav, in-page anchors, external
+     links, native <details> disclosures. A default ring is invisible here. */
+  :focus-visible {
+    outline: 2px solid var(--color-synapse);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-neural) 45%, transparent);
+    border-radius: 6px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--color-neural) 70%, transparent);
+    background-clip: content-box;
+  }
 }
 
 @layer components {
-  /* The faint grid behind everything — depth that does not compete with text. */
+  /* Grid field over the gradient — structure, not decoration. Two layers: a fine
+     mesh and a brighter every-fourth line, both fading out down the page. */
   .grid-field::before {
     content: "";
-    position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .35;
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background-image:
-      linear-gradient(var(--color-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse at 50% 0%, #000 0%, transparent 75%);
+      linear-gradient(color-mix(in srgb, var(--color-neural) 12%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--color-neural) 12%, transparent) 1px, transparent 1px),
+      linear-gradient(color-mix(in srgb, var(--color-synapse) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--color-synapse) 7%, transparent) 1px, transparent 1px);
+    background-size: 192px 192px, 192px 192px, 48px 48px, 48px 48px;
+    mask-image: radial-gradient(ellipse 140% 90% at 50% 0%, #000 0%, transparent 70%);
   }
 
+  /* Glass surface: translucent, blurred, with a lit top edge. The ::before is the
+     hairline highlight, the ::after is the hover glow. */
   .card {
+    position: relative;
     border: 1px solid var(--color-line);
-    border-radius: 10px;
-    background: color-mix(in srgb, var(--color-bg-glass) 60%, transparent);
-    transition: border-color .18s, transform .18s;
+    border-radius: 14px;
+    background:
+      linear-gradient(160deg,
+        color-mix(in srgb, var(--color-bg-glass) 72%, transparent) 0%,
+        color-mix(in srgb, var(--color-bg-el) 58%, transparent) 100%);
+    /* Both spellings, standard last: Tailwind's build reorders declarations and
+       an unprefixed property emitted before the -webkit- one gets dropped in
+       some engines. Verified in the browser rather than assumed — an earlier
+       version computed to `none` here while the CSS looked correct in the file. */
+    -webkit-backdrop-filter: blur(14px) saturate(1.25);
+    backdrop-filter: blur(14px) saturate(1.25);
+    box-shadow:
+      0 1px 0 0 color-mix(in srgb, #fff 6%, transparent) inset,
+      0 8px 32px -12px rgb(0 0 0 / .6);
+    transition: border-color .28s, box-shadow .28s, transform .28s;
   }
-  .card:hover { border-color: color-mix(in srgb, var(--color-neural) 35%, transparent); }
+  .card:hover {
+    border-color: var(--color-line-lit);
+    transform: translateY(-2px);
+    box-shadow:
+      0 1px 0 0 color-mix(in srgb, #fff 9%, transparent) inset,
+      0 0 0 1px color-mix(in srgb, var(--color-neural) 18%, transparent),
+      0 14px 44px -14px color-mix(in srgb, var(--color-neural) 42%, transparent);
+  }
 
   .chip {
-    font-size: 11px; color: var(--color-fg-dim);
-    border: 1px solid var(--color-line); border-radius: 5px;
-    padding: 3px 9px; display: inline-block;
+    font-size: 11px;
+    color: var(--color-fg-dim);
+    border: 1px solid var(--color-line);
+    border-radius: 6px;
+    padding: 3px 9px;
+    display: inline-block;
+    background: color-mix(in srgb, var(--color-neural) 6%, transparent);
+    transition: border-color .2s, color .2s, box-shadow .2s;
+  }
+  .chip:hover {
+    color: var(--color-fg);
+    border-color: color-mix(in srgb, var(--color-neural) 55%, transparent);
+    box-shadow: 0 0 14px -2px color-mix(in srgb, var(--color-neural) 45%, transparent);
   }
 
+  /* Section labels glow faintly — enough to read as neon signage, not enough to
+     smear the letterforms. */
   .eyebrow {
     font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
     color: var(--color-synapse); font-weight: 600;
+    text-shadow: 0 0 18px color-mix(in srgb, var(--color-synapse) 55%, transparent);
   }
+
+  .glow-violet { text-shadow: 0 0 22px color-mix(in srgb, var(--color-neural) 60%, transparent); }
+  .glow-cyan   { text-shadow: 0 0 20px color-mix(in srgb, var(--color-synapse) 55%, transparent); }
+  .glow-amber  { text-shadow: 0 0 20px color-mix(in srgb, var(--color-forge) 50%, transparent); }
+
+  /* The name, as signage: a tight white core with violet bleeding out of it.
+     Layered shadows rather than one wide blur — a single large radius reads as
+     fog, stacked radii read as light. */
+  .glow-name {
+    text-shadow:
+      0 0 2px  color-mix(in srgb, #fff 70%, transparent),
+      0 0 18px color-mix(in srgb, var(--color-neural) 55%, transparent),
+      0 0 42px color-mix(in srgb, var(--color-neural) 38%, transparent),
+      0 0 78px color-mix(in srgb, var(--color-neural) 22%, transparent);
+  }
+
+  /* Availability pill: a slow halo, because it is the one live claim up top. */
+  .status-pill {
+    background: color-mix(in srgb, var(--color-synapse) 8%, transparent);
+    box-shadow:
+      0 0 20px -4px color-mix(in srgb, var(--color-synapse) 50%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--color-synapse) 22%, transparent) inset;
+    animation: breathe 4.5s ease-in-out infinite;
+  }
+
+  .nav-link:hover {
+    color: var(--color-fg);
+    border-color: color-mix(in srgb, var(--color-neural) 60%, transparent);
+    background: color-mix(in srgb, var(--color-neural) 12%, transparent);
+    box-shadow: 0 0 22px -6px color-mix(in srgb, var(--color-neural) 65%, transparent);
+  }
+
+  /* Big numbers carry their own light, coloured to match the value. */
+  .lit-forge   { color: var(--color-forge);
+                 text-shadow: 0 0 24px color-mix(in srgb, var(--color-forge) 55%, transparent),
+                              0 0 48px color-mix(in srgb, var(--color-forge) 28%, transparent); }
+  .lit-violet  { color: var(--color-neural-text);
+                 text-shadow: 0 0 24px color-mix(in srgb, var(--color-neural) 60%, transparent),
+                              0 0 48px color-mix(in srgb, var(--color-neural) 30%, transparent); }
+  .lit-cyan    { color: var(--color-synapse);
+                 text-shadow: 0 0 24px color-mix(in srgb, var(--color-synapse) 55%, transparent),
+                              0 0 48px color-mix(in srgb, var(--color-synapse) 28%, transparent); }
 }
 
-/* Motion is a signal that something is running, never decoration.
+/* Motion signals that something is running; it is never decoration alone.
    Everything here is slow enough to read past. */
 @keyframes pulse  { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
 @keyframes ripple { 0% { transform: scale(1); opacity: .7 } 100% { transform: scale(3.6); opacity: 0 } }
@@ -73,7 +203,20 @@
 @keyframes sheen  { from { transform: translateX(-100%) } to { transform: translateX(100%) } }
 @keyframes countIn { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
+/* A slow breath on the neon accents — the page reads as powered rather than printed. */
+@keyframes breathe {
+  0%, 100% { opacity: .82; filter: saturate(1) }
+  50%      { opacity: 1;   filter: saturate(1.25) }
+}
+/* The scan line that crosses a stat tile once on entry. */
+@keyframes scanline {
+  0%   { transform: translateY(-100%); opacity: 0 }
+  12%  { opacity: .55 }
+  100% { transform: translateY(1200%); opacity: 0 }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   [data-bar] { transform: scaleX(1) !important; }
+  body { background-attachment: scroll; }
 }

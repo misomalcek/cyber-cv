@@ -16,21 +16,29 @@ scripts/pull-stats.mjs  re-reads the numbers from Postgres + Qdrant
 
 ```bash
 npm run dev              # localhost:4321
-npm run build            # → dist/
+npm run build            # → dist/          (works anywhere, no databases needed)
+npx astro check          # types            (works anywhere)
 npm run stats            # refresh src/data/hive.ts from the live stores
-npm run check            # fails if the stats are stale
+npm run check            # stats freshness + types — needs the hive running
 ```
+
+**`build` and `astro check` run anywhere**, which is what CI enforces on every
+push. **`npm run check` does not** — it queries Postgres on `:5432` and Qdrant on
+`:6333`, so it only works on the machine the hive runs on. That is a pre-deploy
+step, not a build step; if the stores are unreachable, verify the figures by hand
+and say so, rather than shipping numbers nobody checked.
 
 ## The one rule
 
 **Numbers come from the stores, not from the keyboard.** `scripts/pull-stats.mjs`
-queries Postgres and Qdrant and rewrites `src/data/hive.ts`. Run it before a
-deploy. `npm run check` fails the build if the committed figures no longer match
-what the stores say, so a stale number cannot ship quietly.
+queries Postgres and Qdrant and rewrites `src/data/hive.ts` whole — it never
+splices or carries anything through from the previous file. `npm run check` fails
+if the committed figures no longer match the stores.
 
-Team Brain's figures are the exception and are carried through by hand: that
-system is handed over and its database is not ours to query. They are aggregates
-taken at handover, with individual users and business content excluded.
+Team Brain's figures live in `src/data/team-brain.ts`, are hand-maintained, and
+that script never opens the file. They are historical: the system is handed over
+and its database is not ours to query. Aggregates only, with individual users and
+business content excluded.
 
 ## Credentials
 

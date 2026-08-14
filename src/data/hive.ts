@@ -14,10 +14,10 @@ export const qdrant = [
   { name: 'planning',     points: 3443 },
   { name: 'code',         points: 3086 },
   { name: 'docs',         points: 1166 },
-  { name: 'memory',       points: 1102 },
+  { name: 'memory',       points: 1103 },
 ] as const;
 
-export const qdrantTotal = qdrant.reduce((n, c) => n + c.points, 0); // 29,993
+export const qdrantTotal = qdrant.reduce((n, c) => n + c.points, 0); // 29,994
 
 export const graphs = {
   knowledge: { entities: 1034, relationships: 5407 },
@@ -41,24 +41,4 @@ export const machine = {
   model: 'Gemma-4 12B Q5_K_M',
   resident: '7.7 GB',
   note: 'One Apple M4 Mac mini. No cloud inference.',
-} as const;
-
-/** Team Brain, measured in production at handover. Aggregates only —
- *  no individual users, client domains, or business content. */
-export const teamBrain = {
-  users: 15,
-  conversations: 446,
-  messages: 3558,
-  toolCalls: 1352,
-  toolSuccessPct: 93.9,
-  agentRuns: 549,
-  agentTypes: 17,
-  tokensIn: 49_400_000,
-  tokensOut: 2_200_000,
-  reports: 1480,
-  articles: 1121,
-  memories: 514,
-  embeddings: 1585,
-  period: 'Feb–Jun 2026',
-  host: 'single 8 GB VPS',
 } as const;

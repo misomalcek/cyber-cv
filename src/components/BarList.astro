@@ -1,8 +1,6 @@
 ---
 interface Props {
   rows: readonly { name: string; points: number }[];
-  /** Right-hand column heading, if the numbers need naming. */
-  unit?: string;
 }
 const { rows } = Astro.props;
 const max = Math.max(...rows.map((r) => r.points));
@@ -13,12 +11,15 @@ const max = Math.max(...rows.map((r) => r.points));
       <span class="text-fg-dim truncate">{r.name}</span>
       <!-- block, not inline: an inline parent gives a percentage-width child
            nothing to resolve against, and the bar renders at zero. -->
-      <span class="block h-[5px] rounded-full bg-line/40 overflow-hidden">
+      <span class="block h-[6px] rounded-full overflow-hidden"
+            style="background: color-mix(in srgb, var(--color-line) 55%, transparent)">
         <span
           data-bar
           class="block h-full rounded-full origin-left"
           style={`width:${Math.round((r.points / max) * 100)}%;
                   background: linear-gradient(90deg, var(--color-neural), var(--color-synapse));
+                  box-shadow: 0 0 10px color-mix(in srgb, var(--color-neural) 70%, transparent),
+                              0 0 20px color-mix(in srgb, var(--color-synapse) 45%, transparent);
                   transform: scaleX(0);
                   animation: grow 1.1s cubic-bezier(.16,1,.3,1) ${50 + i * 70}ms forwards`}
         />
