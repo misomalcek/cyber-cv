@@ -36,20 +36,23 @@ export const repos = [
 export const public_output = [
   {
     name: 'aisvet.sk',
-    what: 'Writing on AI in Slovak',
-    detail: 'Where the ideas get explained to people who are not engineers — which is a harder test of whether you understand something than explaining it to people who are.',
+    what: 'Writing on AI, in Slovak',
+    detail: 'Where the ideas get explained to people who are not engineers — a harder test of whether you understand something than explaining it to people who are.',
     href: 'https://aisvet.sk',
+    meta: null,
   },
   {
-    name: 'Podcast',
-    what: 'Audio episodes',
-    detail: 'Conversations and thinking-out-loud on the same subjects.',
-    href: null,
+    name: 'AI Svet',
+    what: 'Video — 13 published',
+    detail: 'Agentic workflows in Claude · AI and system design · agent harnesses · <b>AI alignment in the workplace</b>. Technical subjects in a language that has almost no technical AI material.',
+    href: 'https://www.youtube.com/@aisvet-sk',
+    meta: 'Most watched: a Claude guide in Slovak',
   },
   {
-    name: 'YouTube',
-    what: 'Video',
-    detail: 'Demonstrations and walkthroughs.',
-    href: null,
+    name: 'AI Svet Podcast',
+    what: 'Audio',
+    detail: 'Long-form episodes on the same subjects. One reached <b>#6 in hearthis.at\'s audiobook chart</b> for the week of 17–24 May 2026 — <i>"AI a Kariéra: Rozhodne o vašej IT kariére chladný AI algoritmus"</i>, 21:48.',
+    href: 'https://hearthis.at/aisvet/',
+    meta: 'Chart position verifiable at the source',
   },
 ];

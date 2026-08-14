@@ -672,12 +672,30 @@ const career: Entry[] = [
       </p>
     </div>
 
+    <div class="flex items-start gap-4 mb-4 p-5 card">
+      <img src="/aisvet-logo.jpg" alt="AI Svet channel logo" width="72" height="72"
+           class="rounded-xl shrink-0"
+           style="box-shadow: 0 0 26px -6px color-mix(in srgb, var(--color-neural) 65%, transparent)" />
+      <div>
+        <div class="eyebrow mb-1.5">Explaining it in a language that has none of it</div>
+        <p class="text-[13.5px] text-fg-dim m-0">
+          Slovak has almost no technical material on AI. Everything below is written and recorded in
+          it — agentic workflows, system design, agent harnesses, alignment at work — because the
+          alternative is that the people who most need to understand these systems read a marketing
+          summary of them instead.
+        </p>
+      </div>
+    </div>
+
     <div class="grid md:grid-cols-3 gap-3">
       {public_output.map((o) => (
-        <div class="card p-5">
+        <div class="card p-5 flex flex-col">
           <div class="text-[10.5px] tracking-[.14em] uppercase text-fg-ghost mb-2">{o.what}</div>
           <b class="text-[14px] block mb-1.5">{o.name}</b>
-          <p class="text-[12.5px] text-fg-dim m-0">{o.detail}</p>
+          <p class="text-[12.5px] text-fg-dim m-0 flex-1" set:html={o.detail} />
+          {o.meta && (
+            <div class="text-[11.5px] text-fg-ghost mt-2 pt-2 border-t border-line/50">{o.meta}</div>
+          )}
           {o.href && (
             <a href={o.href} target="_blank" rel="noopener"
                class="text-[12.5px] mt-2 inline-block no-underline hover:underline">Visit →</a>
