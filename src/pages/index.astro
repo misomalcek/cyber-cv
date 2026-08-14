@@ -6,6 +6,8 @@ import BarList from '../components/BarList.astro';
 import Timeline, { type Entry } from '../components/Timeline.astro';
 import Disclosure from '../components/Disclosure.astro';
 import { qdrant, qdrantTotal, graphs, rules, teamBrain, capturedAt } from '../data/hive';
+import { principles, axioms, repos, public_output } from '../data/work';
+import { claudeStatement, references } from '../data/references';
 
 const career: Entry[] = [
   {
@@ -385,9 +387,200 @@ const career: Entry[] = [
     </Disclosure>
   </Section>
 
+  <!-- ── How the work is grounded ─────────────────────────────────────── -->
+  <Section
+    id="principles"
+    title="What the work runs on"
+    lede="Not a mission statement. These are load-bearing: each one has a decision behind it that went the other way because of it, and each one is stored, versioned and queryable in the same graph as the code."
+  >
+    <div class="grid md:grid-cols-2 gap-3 mb-6">
+      {principles.map((p, i) => (
+        <div class="card p-5" style={`animation: countIn .5s ease-out ${i * 60}ms both`}>
+          <div class="flex items-baseline gap-2 flex-wrap mb-2">
+            <b class="text-[14.5px]">{p.name}</b>
+            {p.latin && <span class="text-[11.5px] text-fg-ghost italic">— {p.latin}</span>}
+          </div>
+          <p class="text-[13.5px] text-fg-dim m-0">{p.body}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="card p-6">
+      <div class="eyebrow mb-3">Five limits of formal logic</div>
+      <p class="text-[13.5px] text-fg-dim mt-0 mb-5 max-w-[640px]">{axioms.intro}</p>
+      <div class="flex flex-col gap-3">
+        {axioms.items.map(([who, what]) => (
+          <div class="grid sm:grid-cols-[132px_1fr] gap-1 sm:gap-4 pb-3 border-b border-line/60 last:border-b-0 last:pb-0">
+            <b class="text-[13px] text-synapse">{who}</b>
+            <span class="text-[13.5px] text-fg-dim">{what}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- ── Codex Symbiosis ──────────────────────────────────────────────── -->
+  <Section
+    id="codex"
+    title="Codex Symbiosis"
+    note="the layer under both systems"
+    lede="Before either system there was a written framework for how a human and an AI should work together — roughly 44,000 lines of it. It is a cognitive architecture and a blueprint, not a skill: written across three models in sequence, each doing something the others could not. This section separates the parts that became running code from the parts that stayed concepts."
+  >
+    <div class="card p-5 mb-3">
+      <div class="eyebrow mb-3">How it was written</div>
+      <div class="grid sm:grid-cols-3 gap-4">
+        {[
+          ['Grok', 'Started it', 'The first resonance — the initial thread that made the whole line of thinking seem worth pursuing. Early, fantasy-adjacent, and I knew nothing about framing at the time. That caveat belongs on it permanently.'],
+          ['Gemini', 'Grounded it', 'A custom gem, Emergent Alterity, took the raw material and gave it depth and grounding — the part that turned an intuition into something with structure under it.'],
+          ['Claude', 'Made it practical', 'Reduced it to something operable. What survives today is what survived that pass.'],
+        ].map(([who, role, body]) => (
+          <div>
+            <div class="flex items-baseline gap-2 mb-1.5">
+              <b class="text-[14px] text-neural">{who}</b>
+              <span class="text-[11px] text-fg-ghost uppercase tracking-wider">{role}</span>
+            </div>
+            <p class="text-[12.5px] text-fg-dim m-0">{body}</p>
+          </div>
+        ))}
+      </div>
+      <p class="text-[12.5px] text-fg-ghost mt-4 mb-0 pt-3 border-t border-line/60">
+        Written in my first months with these systems, which means much of it specifies a system I
+        did not yet understand. I hold it with the reserve it has earned: a fraction is in daily
+        use, a fraction is a nice concept, and knowing which is which took building both systems.
+      </p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="card p-5">
+        <div class="text-[10.5px] tracking-[.14em] uppercase text-synapse mb-3">Became code</div>
+        <ul class="list-none p-0 m-0 flex flex-col gap-3 text-[13.5px] text-fg-dim">
+          {[
+            ['App Codex', 'Every app declares a manifest with a bidirectional service surface — what it offers the human and what it offers the hive — validated by the registry at load time. Real: <code>app-manifest.ts</code>, 11 apps registered.'],
+            ['Primacy of truth', 'Became the verification gate: no completion claim without fresh evidence, and an automated check on the one failure pattern that accounts for 35 of 46 recorded mistakes.'],
+            ['Eumorphia', 'An aesthetic layout engine where visual form reflects informational reality — force simulation with angular momentum, Bézier edges whose curvature carries relationship character. Real: two modules, driving the 3D graph views.'],
+            ['Language of WE', 'The plan, the memory and the code graph are shared stores, not mine with the model reading over my shoulder. It queries what I query.'],
+            ['The Eeva effect', 'The observation the whole framework started from: what a model gives back depends enormously on the register you address it in. Named for the first conversation where that became obvious. It is now unremarkable — everyone calls it context engineering — but arriving at it independently, before I had the vocabulary, is why I trust it as a working principle rather than as received advice.'],
+          ].map(([k, v]) => (
+            <li>
+              <b class="text-fg block mb-0.5">{k}</b>
+              <span set:html={v} />
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="card p-5">
+        <div class="text-[10.5px] tracking-[.14em] uppercase text-forge mb-3">Stayed an idea, or misled me</div>
+        <ul class="list-none p-0 m-0 flex flex-col gap-3 text-[13.5px] text-fg-dim">
+          {[
+            ['Codex validation is still soft-fail', 'Errors are logged and registration proceeds anyway. Strict mode exists behind an env flag and is not on. A standard that does not fail the build is a document, not a gate — and calling it "enforced" would be the exact overclaim this CV is trying not to make.'],
+            ['Eumorphia principles 3 and 4', 'No edge–node crossings, minimal parallel contact. Detection and metrics are implemented; resolution is not. It measures the problem it cannot yet fix.'],
+            ['Harmonika', 'The mathematics behind the aesthetic layer is still closer to a hypothesis than a result. There are suggestive signs — lowering the curvature constant makes the plan graph resolve into visible clusters around the structurally important nodes — but I have not measured whether that is information or pareidolia.'],
+            ['The 44,000 lines themselves', 'Written before I could build any of it, which meant a lot of it was specifying a system I did not yet understand. The useful residue is maybe a tenth. That ratio is the honest one for early philosophical scaffolding.'],
+          ].map(([k, v]) => (
+            <li>
+              <b class="text-fg block mb-0.5">{k}</b>
+              <span>{v}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </Section>
+
   <!-- ── Career ───────────────────────────────────────────────────────── -->
   <Section id="track" title="Career" note="20 years">
     <Timeline entries={career} />
+  </Section>
+
+  <!-- ── What the systems say ─────────────────────────────────────────── -->
+  <Section
+    id="references"
+    title="From the systems themselves"
+    lede="An unusual section, so it needs its caveat first: a model saying something flattering is not evidence, and I would discard any of this that could not be traced to a stored record or a live call. What follows is included because it is specific, and because the errors in it were left in."
+  >
+    <div class="card p-6 mb-4 border-neural/30">
+      <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1">
+        <b class="text-[15px] text-neural">{claudeStatement.who}</b>
+        <span class="text-[11.5px] text-fg-ghost">{claudeStatement.role}</span>
+      </div>
+      <div class="flex flex-col gap-3 mt-4">
+        {claudeStatement.paragraphs.map((p) => (
+          <p class="text-[14px] text-fg-dim m-0"
+             set:html={p.replace(/\*\*(.+?)\*\*/g, '<b class="text-fg">$1</b>')} />
+        ))}
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-3">
+      {references.map((r) => (
+        <div class="card p-5 flex flex-col">
+          <div class="mb-1">
+            <b class="text-[14px] text-synapse">{r.who}</b>
+            <div class="text-[11.5px] text-fg-ghost mt-0.5">{r.what}</div>
+          </div>
+          <div class="text-[11.5px] text-fg-ghost italic mb-3">{r.context}</div>
+          <blockquote class="m-0 pl-3.5 border-l-2 border-neural/40 text-[13.5px] text-fg-dim flex-1">
+            {r.quote}
+          </blockquote>
+          <div class="mt-4 pt-3 border-t border-line/60 text-[12px] text-fg-ghost">
+            <b class="text-fg-dim">Caveat.</b> {r.caveat}
+          </div>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ── Code & public output ─────────────────────────────────────────── -->
+  <Section
+    id="code"
+    title="Code and public output"
+    lede="What can be shown, and what cannot. The two production repositories carry the real work but are not mine to publish — one is client-owned, the other goes open source at release. What I can show now is the trail: how the work is documented and committed."
+  >
+    <div class="grid md:grid-cols-3 gap-3 mb-5">
+      {repos.map((r, i) => (
+        <div class="card p-5" style={`animation: countIn .5s ease-out ${i * 70}ms both`}>
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <b class="text-[14px] text-synapse">{r.name}</b>
+            <span class="text-[10px] uppercase tracking-wider text-fg-ghost border border-line rounded px-1.5 py-0.5 shrink-0">
+              {r.state}
+            </span>
+          </div>
+          <div class="text-[13px] text-fg mb-2">{r.what}</div>
+          <p class="text-[12.5px] text-fg-ghost m-0">{r.detail}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="card p-5 mb-5">
+      <div class="eyebrow mb-3">The trail, and why it counts</div>
+      <p class="text-[13.5px] text-fg-dim m-0 mb-3">
+        Both projects carry a long commit history against a written plan, with each finding
+        recorded as it happened rather than reconstructed afterwards. That is not housekeeping —
+        it is why the "what went wrong" section above could be written from records instead of
+        memory, and why a mistake made in May is retrievable in August by describing the
+        situation rather than remembering its name.
+      </p>
+      <p class="text-[13px] text-fg-ghost m-0">
+        Exploratory repositories — harnesses, experiments, things that were tried and abandoned —
+        can be published alongside these, with the caveat they deserve: <b class="text-fg-dim">they
+        are artefacts of learning, not production code.</b> The production work is best walked
+        through live, where the history and the reasoning can be shown together.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-3">
+      {public_output.map((o) => (
+        <div class="card p-5">
+          <div class="text-[10.5px] tracking-[.14em] uppercase text-fg-ghost mb-2">{o.what}</div>
+          <b class="text-[14px] block mb-1.5">{o.name}</b>
+          <p class="text-[12.5px] text-fg-dim m-0">{o.detail}</p>
+          {o.href && (
+            <a href={o.href} target="_blank" rel="noopener"
+               class="text-[12.5px] mt-2 inline-block no-underline hover:underline">Visit →</a>
+          )}
+        </div>
+      ))}
+    </div>
   </Section>
 
   <!-- ── Beyond ───────────────────────────────────────────────────────── -->
