@@ -14,10 +14,10 @@ export const qdrant = [
   { name: 'planning',     points: 3443 },
   { name: 'code',         points: 3086 },
   { name: 'docs',         points: 1166 },
-  { name: 'memory',       points: 1103 },
+  { name: 'memory',       points: 1104 },
 ] as const;
 
-export const qdrantTotal = qdrant.reduce((n, c) => n + c.points, 0); // 29,994
+export const qdrantTotal = qdrant.reduce((n, c) => n + c.points, 0); // 29,995
 
 export const graphs = {
   knowledge: { entities: 1034, relationships: 5407 },
@@ -35,6 +35,22 @@ export const kgByType = [
 ] as const;
 
 export const rules = { rules: 16, triggers: 55 } as const;
+
+/** Most recent commits on the environment, read from git at generation time. */
+export const recentWork = [
+  { date: '2026-08-12', subject: "rules: rewrite one rule that the model logically talked its way around" },
+  { date: '2026-08-12', subject: "rules: count what actually fires, and catch the one failure that dominates" },
+  { date: '2026-08-12', subject: "voice: log each spoken exchange as text, not audio" },
+  { date: '2026-08-12', subject: "voice: dictation into the composer, input language, expandable answer, reasoning" },
+  { date: '2026-08-12', subject: "voice: a spoken-conversation prompt, and the project picker applies to it" },
+  { date: '2026-08-12', subject: "voice: transcribe rather than answer, and let one setting decide the language" },
+  { date: '2026-08-12', subject: "voice: answer in the requested language, chosen independently of the input" },
+  { date: '2026-08-12', subject: "voice: ground answers in the hive, default to English, drop the Slovak tuning" },
+  { date: '2026-08-12', subject: "voice: keep the last few real recordings for tuning" },
+  { date: '2026-08-12', subject: "voice: build the capture graph at the microphone's rate, not the system default" },
+  { date: '2026-08-12', subject: "scripts: adopt the backend's embedding env instead of requiring a prefix" },
+  { date: '2026-08-12', subject: "rules: wire the tables to callers — rules_lookup, rule_override, hive(source:rules)" },
+] as const;
 
 export const machine = {
   ram: '24 GB',

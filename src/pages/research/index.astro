@@ -15,6 +15,15 @@ const meta: Record<string, { title: string; blurb: string; findings: string[] }>
       'Asked which of its rules carried real information, the model misclassified 7 of 8.',
     ],
   },
+  spatial: {
+    title: 'Where a node sits should mean something',
+    blurb: 'A graph that imploded, and what fixing it revealed about making geometry machine-readable.',
+    findings: [
+      'Hub implosion traced to degree-blind repulsion; the standard fix restored a flyable orbital structure.',
+      'Position is only actionable to a language model as discrete tokens — stored tier and cluster, not raw coordinates.',
+      '1,512 of 3,039 entities silently lost their tier after one session: a derived global property is a cache.',
+    ],
+  },
   engineering: {
     title: 'AI engineering — systems, decisions, and what they cost',
     blurb: 'A technical account of two systems, the stack decisions behind them, and the corrections.',
@@ -25,7 +34,7 @@ const meta: Record<string, { title: string; blurb: string; findings: string[] }>
     ],
   },
 };
-const order = ['rules', 'engineering'];
+const order = ['rules', 'spatial', 'engineering'];
 const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
 ---
 <Base

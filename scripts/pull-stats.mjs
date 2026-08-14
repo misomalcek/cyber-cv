@@ -22,6 +22,11 @@ const here = dirname(fileURLToPath(import.meta.url));
 const target = join(here, '..', 'src', 'data', 'hive.ts');
 
 const COLLECTIONS = ['sessions', 'project_context', 'knowledge', 'planning', 'code', 'docs', 'memory'];
+
+/* The commit log is part of the evidence: it shows how the work is documented,
+   not just what the counts are. Read from the repository, never hand-written. */
+const LOG_REPO = '/Users/m/factorium';
+const LOG_COUNT = 12;
 const LABELS = { project_context: 'project ctx' };
 
 async function psql(sql) {
@@ -39,6 +44,21 @@ async function qdrantCount(collection) {
 }
 
 const rows = (pairs) => Object.fromEntries(pairs.map(([k, v]) => [k, Number(v)]));
+
+async function gitLog() {
+  try {
+    const { stdout } = await run('git',
+      ['-C', LOG_REPO, 'log', `-${LOG_COUNT}`, '--pretty=%ad\t%s', '--date=short']);
+    return stdout.trim().split('\n').filter(Boolean).map((l) => {
+      const [date, ...rest] = l.split('\t');
+      return { date, subject: rest.join('\t') };
+    });
+  } catch {
+    // A missing repository is not a reason to write half a stats file, but it is
+    // also not a reason to fail the build — the log is supporting evidence.
+    return [];
+  }
+}
 
 async function collect() {
   const counts = rows(await psql(`
@@ -62,10 +82,10 @@ async function collect() {
   for (const c of COLLECTIONS) qdrant.push({ name: LABELS[c] ?? c, points: await qdrantCount(c) });
   qdrant.sort((a, b) => b.points - a.points);
 
-  return { counts, byType, qdrant };
+  return { counts, byType, qdrant, log: await gitLog() };
 }
 
-function render({ counts, byType, qdrant }) {
+function render({ counts, byType, qdrant, log }) {
   const today = new Date().toISOString().slice(0, 10);
   const pick = (t) => byType.find((r) => r.type === t)?.n ?? 0;
   // Nothing is carried through from the previous file: this module is written
@@ -105,6 +125,11 @@ export const kgByType = [
 ] as const;
 
 export const rules = { rules: ${counts.rules}, triggers: ${counts.triggers} } as const;
+
+/** Most recent commits on the environment, read from git at generation time. */
+export const recentWork = [
+${log.map((c) => `  { date: '${c.date}', subject: ${JSON.stringify(c.subject)} },`).join('\n')}
+] as const;
 
 export const machine = {
   ram: '24 GB',

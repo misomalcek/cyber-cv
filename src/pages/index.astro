@@ -5,7 +5,7 @@ import Stat from '../components/Stat.astro';
 import BarList from '../components/BarList.astro';
 import Timeline, { type Entry } from '../components/Timeline.astro';
 import Disclosure from '../components/Disclosure.astro';
-import { qdrant, qdrantTotal, graphs, rules, capturedAt } from '../data/hive';
+import { qdrant, qdrantTotal, graphs, rules, capturedAt, recentWork } from '../data/hive';
 import { teamBrain } from '../data/team-brain';
 import { repos, public_output } from '../data/work';
 import { claudeStatement, references } from '../data/references';
@@ -403,6 +403,25 @@ const career: Entry[] = [
       </p>
     </div>
 
+    <div class="card p-5 mb-4">
+      <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1">
+        <div class="eyebrow">The last twelve commits</div>
+        <span class="text-[11px] text-fg-ghost">read from git, not written here</span>
+      </div>
+      <p class="text-[12.5px] text-fg-dim mt-2 mb-4">
+        Included because a commit history is the honest version of a CV: it is written while the
+        work happens, by someone who does not yet know how it turns out. These are unedited.
+      </p>
+      <ol class="list-none p-0 m-0 flex flex-col">
+        {recentWork.map((c) => (
+          <li class="grid grid-cols-[86px_1fr] gap-3 py-[7px] border-b border-line/40 last:border-b-0 items-baseline">
+            <span class="text-[11.5px] text-fg-ghost tabular-nums">{c.date}</span>
+            <span class="text-[12.5px] text-fg-dim">{c.subject}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+
     <div class="card p-5">
       <div class="eyebrow mb-3">On protocol layers — why most of ours were removed</div>
       <p class="text-[13.5px] text-fg-dim m-0 mb-3">
@@ -473,7 +492,7 @@ const career: Entry[] = [
       <div class="eyebrow mb-4">What those cost me, stated as rules</div>
       <div class="grid sm:grid-cols-2 gap-x-8 gap-y-3">
         {[
-          ['Suspect the measurement before the thing measured', 'The rule behind 35 of 46 errors. An empty result is a question, not an answer.'],
+          ['Suspect the measurement before the thing measured', 'The one above, stated as a rule. An empty result is a question, not an answer.'],
           ['A green exit code is not success — read the counts', 'An indexer reported "completed" while processing 194 files into 0 entities.'],
           ['Verify with a query whose answer you already know', 'Every real defect this year surfaced this way. None came from a passing test.'],
           ['Report the running process, never the config', 'A dashboard read configuration and called a live service down. A wrong red light is worse than none.'],
@@ -493,7 +512,7 @@ const career: Entry[] = [
   </Section>
 
   <!-- ── Research ─────────────────────────────────────────────────────── -->
-  <Section id="research" title="Research" note="2 papers">
+  <Section id="research" title="Research" note="2 studies · 1 report">
     <div class="card p-6 mb-4">
       <h3 class="text-[19px] font-semibold m-0 mb-1">Measuring whether behavioural rules change model decisions</h3>
       <div class="text-[12px] text-fg-ghost mb-3">12 rounds · two models · August 2026</div>
@@ -558,9 +577,48 @@ const career: Entry[] = [
       </a>
     </div>
 
+    <div class="card p-6 mb-4">
+      <h3 class="text-[19px] font-semibold m-0 mb-1">Where a node sits should mean something</h3>
+      <div class="text-[12px] text-fg-ghost mb-3">Spatial metadata · two graphs · July–August 2026</div>
+      <p class="text-fg-dim m-0 mb-3">
+        Our knowledge graph imploded: the more connected an entity was, the further toward the
+        centre it was pulled, so the interesting part collapsed into an unreadable core. Fixing that
+        turned into a question worth asking — <b>can a node's position carry information a model can
+        read, not just a picture a human can look at?</b>
+      </p>
+      <div class="grid sm:grid-cols-3 gap-3 my-4">
+        {[
+          ['degree-scaled repulsion', 'the standard fix for hub implosion — correct the term that is wrong rather than add a force fighting the springs'],
+          ['tokens, not floats', 'a transformer matches strings, it does not compute square roots. Position becomes a discrete tier and cluster label'],
+          ['1,512 of 3,039', 'entities silently lost their tier after one session — a derived global property is a cache, and every cache needs an invalidation story'],
+        ].map(([v, l]) => (
+          <div class="border-l-2 border-synapse/40 pl-3">
+            <div class="text-[14px] font-semibold text-fg leading-tight">{v}</div>
+            <div class="text-[12px] text-fg-ghost leading-snug mt-1">{l}</div>
+          </div>
+        ))}
+      </div>
+      <p class="text-fg-dim m-0 mb-3">
+        Deployed on both graphs: every entity carries a stored tier and cluster, exposed through
+        every read path. The human flies the structure; the model filters on it. Asked directly, the
+        local model called it <i>"a global heuristic to prioritise search space and identify
+        structural anomalies without exhaustive traversal"</i> — and named the two fields it wanted
+        before they were proposed to it.
+      </p>
+      <p class="text-[13px] text-fg-ghost m-0">
+        <b class="text-fg-dim">What is not proven, and the paper says so:</b> whether the model's
+        reasoning is measurably better with the fields than without them. It says they help and it
+        uses them — but the rules study above is exactly why a model's self-report is not evidence.
+        That A/B is the experiment this work still owes.
+      </p>
+      <a href="/research/spatial/" class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
+        Read the full study →
+      </a>
+    </div>
+
     <div class="card p-6">
       <h3 class="text-[19px] font-semibold m-0 mb-1">AI engineering — systems, decisions, and what they cost</h3>
-      <div class="text-[12px] text-fg-ghost mb-3">Technical account · two systems · stack decisions and their corrections</div>
+      <div class="text-[12px] text-fg-ghost mb-3">Technical report, not research · two systems · stack decisions and their corrections</div>
       <p class="text-fg-dim m-0 mb-3">
         The architecture behind both systems and the reasoning that produced it: one database
         instead of three, a migration of 17,109 vectors and what it bought, a 12B model chosen over
