@@ -7,10 +7,8 @@ import Section from '../components/Section.astro';
 import Stat from '../components/Stat.astro';
 import BarList from '../components/BarList.astro';
 import Timeline, { type Entry } from '../components/Timeline.astro';
-import Disclosure from '../components/Disclosure.astro';
-import { qdrant, qdrantTotal, graphs, rules, capturedAt, recentWork } from '../data/hive';
+import { qdrant, qdrantTotal, graphs, rules, capturedAt } from '../data/hive';
 import { teamBrain } from '../data/team-brain';
-import { repos, public_output } from '../data/work';
 import { claudeStatement, references } from '../data/references';
 
 const career: Entry[] = [
@@ -160,11 +158,9 @@ const career: Entry[] = [
     <div class="flex flex-wrap gap-2.5">
       {[
         { href: 'mailto:miso.malcek@gmail.com', label: 'miso.malcek@gmail.com' },
-        { href: '#hive',        label: 'The hive' },
-        { href: `${base}crystal/`,    label: 'The crystal' },
-        { href: '#results',     label: 'Results' },
-        { href: '#apparatus',   label: 'The apparatus' },
-        { href: '#research',    label: 'Research' },
+        { href: `${base}systems/`,     label: 'Systems' },
+        { href: `${base}research/`,    label: 'Research' },
+        { href: `${base}crystal/`,     label: 'The crystal' },
         { href: `${base}credentials/`, label: 'Credentials' },
       ].map((l) => (
         <a href={l.href}
@@ -176,98 +172,52 @@ const career: Entry[] = [
     </div>
   </header>
 
-  <!-- ── Systems ──────────────────────────────────────────────────────── -->
-  <Section id="work" title="Systems">
-    <div class="card p-6 mb-4">
-      <div class="flex items-baseline justify-between gap-3 flex-wrap">
-        <h3 class="text-[19px] font-semibold m-0">Team Brain</h3>
-        <span class="text-[12px] text-fg-ghost">built · deployed · handed over</span>
-      </div>
-      <div class="text-[12px] text-fg-ghost mt-1 mb-3">Production AI knowledge hub · 2026</div>
-      <p class="text-fg-dim m-0 mb-3">
-        Shared project memory for a software company's Slovak branch: a chat surface over the
-        team's accumulated knowledge with 33 tools behind it, a six-specialist agent model with
-        keyword and complexity routing, autonomous memory extraction from conversations, and
-        scheduled analytics snapshots. Deployed on a Debian VPS at a live domain.
-      </p>
-      <p class="text-fg-dim m-0 mb-4">
-        Handed over with a full decontamination pass and a separate zero-point copy, so it runs
-        without me. <span class="text-fg-ghost">A production system only its author can operate
-        is not delivered, it is lent.</span>
-      </p>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-line border border-line rounded-lg overflow-hidden">
-        {[
-          ['15', 'users, all active'],
-          [teamBrain.messages.toLocaleString('en-US'), 'messages · 446 conversations'],
-          [`${teamBrain.toolSuccessPct}%`, `success over ${teamBrain.toolCalls.toLocaleString('en-US')} tool calls`],
-          ['~49M', 'tokens processed'],
-        ].map(([v, l]) => (
-          <div class="bg-bg-el px-4 py-3">
-            <div class="text-[19px] font-semibold text-forge leading-tight">{v}</div>
-            <div class="text-[11px] text-fg-ghost leading-snug mt-0.5">{l}</div>
+
+  <!-- ── What is here ─────────────────────────────────────────────────── -->
+  <Section id="map" title="What is here" note="four ways in">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+      {[
+        {
+          href: `${base}systems/`, label: 'Systems', accent: 'forge',
+          lead: 'Two AI systems',
+          body: 'Team Brain delivered and handed over · Factorium running daily · the apparatus around them · what went wrong · six public repositories.',
+          stat: `${teamBrain.toolSuccessPct}%`, statLabel: 'tool-call success, 1,352 real calls',
+        },
+        {
+          href: `${base}research/`, label: 'Research', accent: 'neural',
+          lead: 'Two studies, one report',
+          body: 'Whether behavioural rules change what a model decides · whether a node\'s position can be read by one · and the stack decisions behind both systems.',
+          stat: '7 of 8', statLabel: 'rules the model misjudged about itself',
+        },
+        {
+          href: `${base}crystal/`, label: 'The crystal', accent: 'synapse',
+          lead: 'The graph, in 3D',
+          body: 'The entities this CV stands on, positioned by their real degree and tier. Click one and it tells you what it connects to.',
+          stat: qdrantTotal.toLocaleString('en-US'), statLabel: 'embedded points behind it',
+        },
+        {
+          href: `${base}credentials/`, label: 'Credentials', accent: 'plain',
+          lead: 'Checked, not claimed',
+          body: 'Every source link probed rather than assumed — five were login walls, three had gone offline. Plus a reference from Google, 2011.',
+          stat: '13,270', statLabel: 'public views on 15-year-old papers',
+        },
+      ].map((c, i) => (
+        <a href={c.href} class="card p-5 no-underline flex flex-col group"
+           style={`animation: countIn .5s ease-out ${i * 70}ms both`}>
+          <div class="flex items-baseline justify-between gap-2 mb-3">
+            <span class="eyebrow">{c.label}</span>
+            <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
           </div>
-        ))}
-      </div>
-      <p class="text-[12px] text-fg-ghost mt-3 mb-0">
-        Aggregates from the production database at handover, {teamBrain.period}, on a {teamBrain.host}.
-        Individual users and business content excluded.
-      </p>
-
-      <div class="flex flex-wrap gap-1.5 mt-4">
-        {['Express 5', 'TypeScript', 'PostgreSQL', 'Next.js 16', 'React 19', 'Claude API', 'PM2 / Nginx'].map((t) => <span class="chip">{t}</span>)}
-      </div>
+          <div class={`text-[26px] font-semibold leading-none mb-1 ${
+            c.accent === 'forge' ? 'lit-forge' : c.accent === 'neural' ? 'lit-violet'
+            : c.accent === 'synapse' ? 'lit-cyan' : 'text-fg'}`}>{c.stat}</div>
+          <div class="text-[11px] text-fg-ghost mb-3">{c.statLabel}</div>
+          <div class="text-[13px] text-fg mb-1.5">{c.lead}</div>
+          <p class="text-[12.5px] text-fg-dim m-0 flex-1">{c.body}</p>
+        </a>
+      ))}
     </div>
-
-    <div class="card p-6">
-      <div class="flex items-baseline justify-between gap-3 flex-wrap">
-        <h3 class="text-[19px] font-semibold m-0">Factorium</h3>
-        <span class="text-[12px] text-fg-ghost">running daily · open source from release</span>
-      </div>
-      <div class="text-[12px] text-fg-ghost mt-1 mb-3">Local-first AI environment · pre-release</div>
-      <p class="text-fg-dim m-0 mb-3">
-        A human and two models sharing one memory, one knowledge graph, one code graph and one
-        plan. The local model runs long agentic tasks, writes code, drives a browser and queries
-        the same stores I do — it is not a chat wrapper.
-      </p>
-      <p class="text-fg-dim m-0">
-        Everything runs on a single 24&nbsp;GB Apple M4 with no cloud inference. That ceiling
-        decided the architecture: a 12B model at 7.7&nbsp;GB resident instead of the stronger 26B
-        at 16–17&nbsp;GB, because capability that costs you the rest of the machine is not
-        capability.
-      </p>
-      <div class="flex flex-wrap gap-1.5 mt-4">
-        {['TypeScript', 'llama.cpp / Metal', 'Gemma-4 12B', 'Qdrant', 'Apache AGE', 'pgvector', 'bge-m3', 'TimescaleDB'].map((t) => <span class="chip">{t}</span>)}
-      </div>
-    </div>
-
-    <!-- The framework under both systems. One card, because the useful fraction
-         is small and saying so is the point. -->
-    <details class="card mt-4 group">
-      <summary class="cursor-pointer px-6 py-4 text-[14px] flex items-center gap-3 list-none [&::-webkit-details-marker]:hidden">
-        <span class="text-neural text-[19px] leading-none transition-transform duration-200 group-open:rotate-90">›</span>
-        <span class="flex-1">Before both of them: a written framework, and how little of it survived</span>
-        <span class="text-[11px] text-fg-ghost shrink-0">~10% in use</span>
-      </summary>
-      <div class="px-6 pb-6 pl-14 text-[13.5px] text-fg-dim">
-        <p class="mt-0 mb-3">
-          Roughly 44,000 lines specifying how a human and an AI should work together, written in my
-          first months — before I could build any of it, which means much of it specifies a system I
-          did not yet understand. Three things from it are load-bearing today:
-          <b class="text-fg">an app standard</b> (every app declares a manifest and a two-sided
-          service surface, validated at registry load), <b class="text-fg">shared stores</b> (the
-          model queries the same memory, plan and code graph I do), and
-          <b class="text-fg">an aesthetic layout engine</b> where visual form is derived from graph
-          structure rather than decoration.
-        </p>
-        <p class="m-0 text-fg-ghost">
-          The rest is concepts. I keep it because knowing which tenth was real took building both
-          systems, and because two of its claims are still overstated in my own notes: the app
-          standard logs violations rather than failing the build, so calling it "enforced" would be
-          wrong; and the layout engine's later principles measure a problem they cannot yet solve.
-        </p>
-      </div>
-    </details>
   </Section>
 
   <!-- ── The hive ─────────────────────────────────────────────────────── -->
@@ -362,184 +312,7 @@ const career: Entry[] = [
     </div>
   </Section>
 
-  <!-- ── The working layer ────────────────────────────────────────────── -->
-  <Section
-    id="apparatus"
-    title="The apparatus, and what it cost to get right"
-    lede="The part of this work that rarely gets written down: the tooling you build around a model, and how much of it turns out to be waste. Both counts below come from git history, not from memory."
-  >
-    <div class="grid md:grid-cols-2 gap-3 mb-4">
-      <div class="card p-5">
-        <div class="flex items-baseline justify-between gap-2 mb-3">
-          <div class="eyebrow">Agents · Team Brain</div>
-          <span class="text-[13px] text-forge font-semibold tabular-nums">{teamBrain.agentsWritten} → {teamBrain.agentsLive}</span>
-        </div>
-        <p class="text-[13.5px] text-fg-dim m-0 mb-3">
-          I first built what I thought agentic meant: one specialised agent per task. It reached{' '}
-          <b class="text-fg">{teamBrain.agentsWritten} definitions</b> and became unusable — nobody
-          could tell which to reach for. The names were accurate and useless: you cannot choose
-          between two analytics agents unless you already know the answer.
-        </p>
-        <p class="text-[13px] text-fg-ghost m-0">
-          The redesign collapsed them into <b class="text-fg-dim">six specialists</b>, each
-          absorbing the narrow agents it replaced as loadable context rather than a top-level
-          choice. <b class="text-fg-dim">A capability taxonomy is a UX decision, not an
-          architecture decision</b> — the right number is what a person can hold in their head
-          while typing a question.
-        </p>
-      </div>
 
-      <div class="card p-5">
-        <div class="flex items-baseline justify-between gap-2 mb-3">
-          <div class="eyebrow">My own instruction set</div>
-          <span class="text-[13px] text-forge font-semibold tabular-nums">18 → 7</span>
-        </div>
-        <p class="text-[13.5px] text-fg-dim m-0 mb-3">
-          An audit found that two of my working instructions had been written for an entirely
-          different product and never adapted; one assumed a framework this codebase does not use;
-          one described a database schema we had migrated away from; one referenced four expert
-          personas that were never built. All had been loading for months.
-        </p>
-        <p class="text-[13px] text-fg-ghost m-0">
-          <b class="text-fg-dim">Instructions rot silently and confidently.</b> Code that references
-          a deleted module fails to compile; prose that references a deleted concept keeps sounding
-          authoritative. The fix was binding each instruction to a concrete tool call, so a stale
-          one breaks instead of merely misleading.
-        </p>
-      </div>
-    </div>
-
-    <div class="card p-5 mb-4">
-      <div class="eyebrow mb-4">Tool surface: two models, two very different budgets</div>
-      <div class="grid sm:grid-cols-2 gap-6">
-        <div>
-          <div class="text-[12px] text-fg-ghost mb-2">Large cloud model</div>
-          <div class="text-[24px] font-semibold text-neural-text leading-none mb-2">full surface</div>
-          <p class="text-[12.5px] text-fg-dim m-0">Context is cheap relative to capability, so
-            curation would cost more than it saves.</p>
-        </div>
-        <div>
-          <div class="text-[12px] text-fg-ghost mb-2">Local 12B model</div>
-          <div class="text-[24px] font-semibold text-synapse leading-none mb-2">22 of 60</div>
-          <p class="text-[12.5px] text-fg-dim m-0">Curated per turn, the rest reachable through a
-            search tool. Past roughly 15–20 always-visible schemas, a small model's tool selection
-            degrades sharply.</p>
-        </div>
-      </div>
-      <p class="text-[12.5px] text-fg-ghost mt-4 mb-0 pt-3 border-t border-line/60">
-        Voice gets a third and smaller surface: read-only. Spoken interaction has no confirmation
-        step, so nothing that writes is reachable that way — a blast-radius decision, not a
-        capability one.
-      </p>
-    </div>
-
-    <div class="card p-5 mb-4">
-      <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1">
-        <div class="eyebrow">The last twelve commits</div>
-        <span class="text-[11px] text-fg-ghost">read from git, not written here</span>
-      </div>
-      <p class="text-[12.5px] text-fg-dim mt-2 mb-4">
-        Included because a commit history is the honest version of a CV: it is written while the
-        work happens, by someone who does not yet know how it turns out. These are unedited.
-      </p>
-      <ol class="list-none p-0 m-0 flex flex-col">
-        {recentWork.map((c) => (
-          <li class="grid grid-cols-[86px_1fr] gap-3 py-[7px] border-b border-line/40 last:border-b-0 items-baseline">
-            <span class="text-[11.5px] text-fg-ghost tabular-nums">{c.date}</span>
-            <span class="text-[12.5px] text-fg-dim">{c.subject}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
-
-    <div class="card p-5">
-      <div class="eyebrow mb-3">On protocol layers — why most of ours were removed</div>
-      <p class="text-[13.5px] text-fg-dim m-0 mb-3">
-        We ran two browser integrations through the standard tool protocol. Measured usage over the
-        period: <b class="text-fg">1,548 calls to one, approximately zero to the other</b>. The
-        second was not adding capability, it was adding a decision — <em>which one?</em> — at every
-        step. Removed. Everything the hive itself does is served natively over plain HTTP instead,
-        which puts one less layer between a call and its failure mode.
-      </p>
-      <p class="text-[13px] text-fg-ghost m-0">
-        <b class="text-fg-dim">The rule I would defend:</b> a protocol layer earns its place when it
-        lets you use somebody else's implementation. When you own both sides of the interface, it is
-        indirection with a specification attached. We keep it for fetching external content and
-        driving a browser — genuinely external things, where someone else's implementation beats
-        one we would write.
-      </p>
-    </div>
-  </Section>
-
-  <!-- ── What went wrong ──────────────────────────────────────────────── -->
-  <Section
-    id="wrong"
-    title="What went wrong"
-    lede="These cost real time and are written down because the corrections are the part worth reading. Each one is a stored record, not a recollection."
-  >
-    <Disclosure summary="Using an embedding model outside its contract" tag="weeks">
-      <p>nomic-embed requires asymmetric prefixes on queries and documents. Served through
-      llama.cpp, nothing adds them, so everything was embedded symmetrically. Symptom: short
-      meaningless text outranked long relevant text.</p>
-      <p>The diagnosis method has since caught every similar defect — <em>embed a stored document
-      both ways and compare each against its own stored vector.</em> Whichever scores 1.0000 tells
-      you how it was really indexed.</p>
-      <p class="text-forge">Cost: 10,676 records re-embedded. And the first repair script read only
-      the body field while the writer had embedded title + body together — 95% of records would
-      have silently lost their titles from their vectors. Nothing would have errored.</p>
-    </Disclosure>
-
-    <Disclosure summary="A migration that left its satellites behind" tag="days of silent loss">
-      <p>Moving to a 1024-dimension embedding model updated the server and the main paths, but not
-      eight standalone ingest scripts. The code indexer failed on every write for days, so the code
-      graph ingested nothing. The failure was loud in a log nobody was reading.</p>
-      <p>Root cause found later: the model and port live in the service's launchd plist, not in any
-      shell, so every hand-run script fell back to the old model. Fixed twice at the symptom before
-      being fixed at the source.</p>
-    </Disclosure>
-
-    <Disclosure summary="Adding a speech-to-text model, then removing it">
-      <p>Voice transcription was poor, so I downloaded Whisper and benchmarked it. It won — on
-      synthetic clips. On real microphone recordings the multimodal model transcribed correctly and
-      the premise collapsed. Synthetic fixtures had misled me four separate times by then.</p>
-      <p>The actual defect was the prompt: told to "transcribe this", the model answered the
-      question it heard instead of writing it down. Recast as a transcription <em>service</em>, it
-      returned exact text including filler words. No new model, no extra gigabytes.</p>
-    </Disclosure>
-
-    <Disclosure summary="The pattern behind 35 of 46 recorded mistakes" tag="the real one">
-      <p>A check comes back empty and I read the emptiness as an answer. A filter eats an error. A
-      key I read does not exist, so the value is zero, so I conclude the tool is broken. A directory
-      listing fails on a permission error I do not read, so I report the folder as empty.</p>
-      <p>You cannot learn this from a book, because a book cannot show you your own reflex. You
-      learn it by keeping a record honest enough to count against yourself — and then counting.
-      There is an automated check for it now, and I still break it.</p>
-    </Disclosure>
-
-    <!-- The operating principles, stated as consequences of the failures above
-         rather than as a separate creed. Each one names the decision it changed. -->
-    <div class="card p-5 mt-5">
-      <div class="eyebrow mb-4">What those cost me, stated as rules</div>
-      <div class="grid sm:grid-cols-2 gap-x-8 gap-y-3">
-        {[
-          ['Suspect the measurement before the thing measured', 'The one above, stated as a rule. An empty result is a question, not an answer.'],
-          ['A green exit code is not success — read the counts', 'An indexer reported "completed" while processing 194 files into 0 entities.'],
-          ['Verify with a query whose answer you already know', 'Every real defect this year surfaced this way. None came from a passing test.'],
-          ['Report the running process, never the config', 'A dashboard read configuration and called a live service down. A wrong red light is worse than none.'],
-        ].map(([rule, why]) => (
-          <div class="border-l-2 border-neural/40 pl-3">
-            <b class="text-[13px] block leading-snug">{rule}</b>
-            <span class="text-[12.5px] text-fg-ghost">{why}</span>
-          </div>
-        ))}
-      </div>
-      <p class="text-[12.5px] text-fg-ghost mt-4 mb-0 pt-3 border-t border-line/60">
-        These are stored as queryable records rather than as a document, retrieved by describing the
-        situation rather than naming the rule — which is what the research below measures. Ten of
-        sixteen changed nothing when tested, and that result is in the paper too.
-      </p>
-    </div>
-  </Section>
 
   <!-- ── Research ─────────────────────────────────────────────────────── -->
   <Section id="research" title="Research" note="2 studies · 1 report">
@@ -664,125 +437,6 @@ const career: Entry[] = [
     </div>
   </Section>
 
-  <!-- ── Code & public output ─────────────────────────────────────────── -->
-  <Section
-    id="code"
-    title="Code and public output"
-    lede="What can be shown, and what cannot. The two production repositories carry the real work but are not mine to publish — one is client-owned, the other goes open source at release. What I can show now is the trail: how the work is documented and committed."
-  >
-    <div class="grid md:grid-cols-3 gap-3 mb-5">
-      {repos.map((r, i) => (
-        <div class="card p-5" style={`animation: countIn .5s ease-out ${i * 70}ms both`}>
-          <div class="flex items-baseline justify-between gap-2 mb-1">
-            <b class="text-[14px] text-synapse">{r.name}</b>
-            <span class="text-[10px] uppercase tracking-wider text-fg-ghost border border-line rounded px-1.5 py-0.5 shrink-0">
-              {r.state}
-            </span>
-          </div>
-          <div class="text-[13px] text-fg mb-2">{r.what}</div>
-          <p class="text-[12.5px] text-fg-ghost m-0 flex-1">{r.detail}</p>
-          {r.href && (
-            <a href={r.href} target="_blank" rel="noopener"
-               class="text-[12px] mt-3 inline-block no-underline hover:underline">View on GitHub →</a>
-          )}
-        </div>
-      ))}
-    </div>
-
-    <!-- Two more that are public but live elsewhere, plus the one that is a
-         running demo rather than a repository. -->
-    <div class="grid md:grid-cols-3 gap-3 mt-3">
-      <div class="card p-5 flex flex-col">
-        <div class="flex items-baseline justify-between gap-2 mb-1">
-          <b class="text-[14px] text-synapse">aisvet2 · aiworld</b>
-          <span class="text-[10px] uppercase tracking-wider text-fg-ghost border border-line rounded px-1.5 py-0.5 shrink-0">
-            gitlab · WIP
-          </span>
-        </div>
-        <div class="text-[13px] text-fg mb-2">The publishing side.</div>
-        <p class="text-[12.5px] text-fg-ghost m-0 flex-1">
-          The Slovak AI magazine and its English sibling, both public and both still moving.
-          Hosted from GitLab Pages rather than here, which is why they are named and not linked
-          as repositories.
-        </p>
-        <a href="http://aiworld.aisvet.sk/" target="_blank" rel="noopener"
-           class="text-[12px] mt-3 inline-block no-underline hover:underline">aiworld.aisvet.sk →</a>
-      </div>
-
-      <div class="card p-5 flex flex-col md:col-span-2">
-        <div class="flex items-baseline justify-between gap-2 mb-1">
-          <b class="text-[14px] text-synapse">msg-ai — a 1B model on the front end</b>
-          <span class="text-[10px] uppercase tracking-wider text-fg-ghost border border-line rounded px-1.5 py-0.5 shrink-0">
-            live demo · unfinished
-          </span>
-        </div>
-        <div class="text-[13px] text-fg mb-2">
-          A corporate site with a local model answering on it — not an API call to a provider.
-        </div>
-        <p class="text-[12.5px] text-fg-ghost m-0 flex-1">
-          An experiment, never contracted: <b class="text-fg-dim">Gemma-3 1B deployed on the page's
-          own front end</b>, running on the same 8&nbsp;GB VPS that carried Team Brain in
-          production at the time. It never shipped — my role ended first — and it still answers,
-          which makes it the honest artefact of that period: unfinished, working, and the first
-          time I put a local model where an actual visitor could talk to it. The design system
-          came out of Claude Design and Pencil.dev.
-        </p>
-        <a href="https://brain.msgweb.io/msg-ai/" target="_blank" rel="noopener"
-           class="text-[12px] mt-3 inline-block no-underline hover:underline">
-          Open the demo — the assistant is behind the red dot, bottom right →
-        </a>
-      </div>
-    </div>
-
-    <div class="card p-5 mb-5">
-      <div class="eyebrow mb-3">The trail, and why it counts</div>
-      <p class="text-[13.5px] text-fg-dim m-0 mb-3">
-        Both projects carry a long commit history against a written plan, with each finding
-        recorded as it happened rather than reconstructed afterwards. That is not housekeeping —
-        it is why the "what went wrong" section above could be written from records instead of
-        memory, and why a mistake made in May is retrievable in August by describing the
-        situation rather than remembering its name.
-      </p>
-      <p class="text-[13px] text-fg-ghost m-0">
-        Exploratory repositories — harnesses, experiments, things that were tried and abandoned —
-        can be published alongside these, with the caveat they deserve: <b class="text-fg-dim">they
-        are artefacts of learning, not production code.</b> The production work is best walked
-        through live, where the history and the reasoning can be shown together.
-      </p>
-    </div>
-
-    <div class="flex items-start gap-4 mb-4 p-5 card">
-      <img src={`${base}aisvet-logo.jpg`} alt="AI Svet channel logo" width="72" height="72"
-           class="rounded-xl shrink-0"
-           style="box-shadow: 0 0 26px -6px color-mix(in srgb, var(--color-neural) 65%, transparent)" />
-      <div>
-        <div class="eyebrow mb-1.5">Explaining it in a language that has none of it</div>
-        <p class="text-[13.5px] text-fg-dim m-0">
-          Slovak has almost no technical material on AI. Everything below is written and recorded in
-          it — agentic workflows, system design, agent harnesses, alignment at work — because the
-          alternative is that the people who most need to understand these systems read a marketing
-          summary of them instead.
-        </p>
-      </div>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-3">
-      {public_output.map((o) => (
-        <div class="card p-5 flex flex-col">
-          <div class="text-[10.5px] tracking-[.14em] uppercase text-fg-ghost mb-2">{o.what}</div>
-          <b class="text-[14px] block mb-1.5">{o.name}</b>
-          <p class="text-[12.5px] text-fg-dim m-0 flex-1" set:html={o.detail} />
-          {o.meta && (
-            <div class="text-[11.5px] text-fg-ghost mt-2 pt-2 border-t border-line/50">{o.meta}</div>
-          )}
-          {o.href && (
-            <a href={o.href} target="_blank" rel="noopener"
-               class="text-[12.5px] mt-2 inline-block no-underline hover:underline">Visit →</a>
-          )}
-        </div>
-      ))}
-    </div>
-  </Section>
 
   <!-- ── Career ───────────────────────────────────────────────────────── -->
   <Section id="track" title="Career" note="20 years">

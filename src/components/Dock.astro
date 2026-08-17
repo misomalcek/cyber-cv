@@ -1,0 +1,180 @@
+---
+/**
+ * Dock — the floating navigation, borrowed from the Factorium OS dock this CV
+ * describes. Two states, as there: a compact pill of icons, and an expanded
+ * search field. The search is real and runs entirely in the page.
+ *
+ * On a phone the pill stays a pill and the labels drop away; the search opens
+ * full-width above it rather than trying to fit inside.
+ */
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const items = [
+  { href: base,                 label: 'Overview',    id: 'overview', icon: 'grid' },
+  { href: `${base}systems/`,    label: 'Systems',     id: 'systems',  icon: 'box' },
+  { href: `${base}research/`,   label: 'Research',    id: 'research', icon: 'flask' },
+  { href: `${base}crystal/`,    label: 'Crystal',     id: 'crystal',  icon: 'orbit' },
+  { href: `${base}credentials/`,label: 'Credentials', id: 'creds',    icon: 'badge' },
+];
+
+const ICONS: Record<string, string> = {
+  grid:  'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',
+  box:   'M21 8l-9-5-9 5v8l9 5 9-5V8zM3 8l9 5 9-5M12 13v9',
+  flask: 'M9 3h6M10 3v6L4.5 18a2 2 0 001.7 3h11.6a2 2 0 001.7-3L14 9V3',
+  orbit: 'M12 12m-3 0a3 3 0 106 0a3 3 0 10-6 0M12 3a9 9 0 019 9M3 12a9 9 0 019-9',
+  badge: 'M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 7.7l5.4-.8z',
+  search:'M11 11m-7 0a7 7 0 1014 0a7 7 0 10-14 0M20 20l-4.35-4.35',
+};
+---
+<nav id="dock" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(94vw,780px)]
+                      pointer-events-none" aria-label="Main">
+  <!-- Search panel: rises above the pill when open. -->
+  <div id="dock-search" class="hidden pointer-events-auto mb-3 card p-3 max-h-[52vh] overflow-hidden flex flex-col">
+    <div class="flex items-center gap-2.5 px-1">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" class="text-synapse shrink-0" aria-hidden="true">
+        <path d={ICONS.search} />
+      </svg>
+      <input id="dock-q" type="search" autocomplete="off" placeholder="Search pages, findings, graph entities…"
+             class="flex-1 bg-transparent border-0 outline-none text-[14px] text-fg placeholder:text-fg-ghost" />
+      <kbd class="text-[10px] text-fg-ghost border border-line rounded px-1.5 py-0.5 hidden sm:inline">esc</kbd>
+    </div>
+    <div id="dock-results" class="mt-2 overflow-y-auto flex flex-col gap-0.5"></div>
+    <div id="dock-hint" class="text-[11px] text-fg-ghost px-1 pt-2">
+      Searches this site and the knowledge-graph entities behind it.
+    </div>
+  </div>
+
+  <!-- The pill. -->
+  <div class="dock-pill pointer-events-auto flex items-center gap-1 rounded-full px-2 py-1.5">
+    {items.map((it) => (
+      <a href={it.href} data-dock={it.id}
+         class="dock-item group relative flex items-center gap-2 rounded-full px-3 py-2 no-underline
+                text-fg-dim transition-all">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.8" class="shrink-0" aria-hidden="true"><path d={ICONS[it.icon]} /></svg>
+        <span class="text-[12.5px] hidden md:inline">{it.label}</span>
+        <span class="md:hidden absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px]
+                     px-2 py-1 rounded bg-bg-el border border-line opacity-0 group-hover:opacity-100
+                     transition-opacity pointer-events-none">{it.label}</span>
+      </a>
+    ))}
+
+    <span class="w-px h-6 bg-line mx-1 shrink-0"></span>
+
+    <button id="dock-search-toggle" type="button" aria-label="Search"
+            class="dock-item flex items-center gap-2 rounded-full px-3 py-2 text-fg-dim transition-all">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.8" class="shrink-0" aria-hidden="true"><path d={ICONS.search} /></svg>
+      <span class="text-[12.5px] hidden lg:inline">Search</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+  import { searchIndex } from '../data/search';
+
+  const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+  const panel = document.getElementById('dock-search')!;
+  const input = document.getElementById('dock-q') as HTMLInputElement;
+  const results = document.getElementById('dock-results')!;
+  const hint = document.getElementById('dock-hint')!;
+  const toggle = document.getElementById('dock-search-toggle')!;
+
+  // Mark the current page so the dock shows where you are.
+  const here = location.pathname.replace(/\/+$/, '/');
+  document.querySelectorAll<HTMLAnchorElement>('[data-dock]').forEach((a) => {
+    const target = new URL(a.href).pathname.replace(/\/+$/, '/');
+    if (target === here) a.classList.add('dock-active');
+  });
+
+  const KIND_LABEL: Record<string, string> = {
+    section: 'section', text: 'on page', paper: 'paper', finding: 'finding', entity: 'entity',
+  };
+
+  /* Scoring: a title hit beats a body hit, a prefix beats a mid-word match, and
+     shorter titles win ties so "Qdrant" ranks above a paragraph mentioning it.
+     No library — a few hundred entries do not need one, and this stays legible. */
+  function search(q: string) {
+    const needle = q.toLowerCase().trim();
+    if (needle.length < 2) return [];
+    return searchIndex
+      .map((e) => {
+        const t = e.t.toLowerCase(), s = e.s.toLowerCase();
+        let score = 0;
+        if (t === needle) score = 100;
+        else if (t.startsWith(needle)) score = 70;
+        else if (t.includes(needle)) score = 45;
+        else if (s.includes(needle)) score = 20;
+        if (!score) return null;
+        if (e.k === 'entity' || e.k === 'paper') score += 8;
+        if (e.k === 'finding') score += 4;
+        score -= Math.min(10, e.t.length / 20);
+        return { e, score };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b!.score - a!.score)
+      .slice(0, 8)
+      .map((r) => r!.e);
+  }
+
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+
+  /** Wrap the matched substring so the reader sees why a result matched. */
+  function mark(text: string, q: string) {
+    const i = text.toLowerCase().indexOf(q.toLowerCase());
+    if (i < 0) return esc(text);
+    return `${esc(text.slice(0, i))}<mark class="bg-transparent text-synapse">${esc(text.slice(i, i + q.length))}</mark>${esc(text.slice(i + q.length))}`;
+  }
+
+  function render(q: string) {
+    const hits = search(q);
+    hint.textContent = q.length < 2
+      ? 'Searches this site and the knowledge-graph entities behind it.'
+      : hits.length ? `${hits.length} result${hits.length > 1 ? 's' : ''}` : 'Nothing found.';
+    results.innerHTML = hits.map((e) => `
+      <a href="${base}${e.u}" class="dock-hit flex flex-col gap-0.5 px-2.5 py-2 rounded-lg no-underline">
+        <div class="flex items-baseline gap-2">
+          <span class="text-[13px] text-fg flex-1 min-w-0 truncate">${mark(e.t, q)}</span>
+          <span class="text-[9.5px] uppercase tracking-wider text-fg-ghost shrink-0">${KIND_LABEL[e.k]}</span>
+        </div>
+        <div class="text-[11px] text-fg-ghost truncate">${esc(e.p)}</div>
+        ${e.s ? `<div class="text-[11.5px] text-fg-dim line-clamp-2">${mark(e.s, q)}</div>` : ''}
+      </a>`).join('');
+  }
+
+  let open = false;
+  function setOpen(v: boolean) {
+    open = v;
+    panel.classList.toggle('hidden', !v);
+    toggle.classList.toggle('dock-active', v);
+    if (v) { input.focus(); input.select(); }
+    else { input.value = ''; results.innerHTML = ''; }
+  }
+
+  toggle.addEventListener('click', () => setOpen(!open));
+  input.addEventListener('input', () => render(input.value));
+
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && open) { setOpen(false); return; }
+    // "/" opens search, unless the visitor is already typing somewhere.
+    const typing = /^(INPUT|TEXTAREA)$/.test((e.target as HTMLElement)?.tagName ?? '');
+    if (e.key === '/' && !typing) { e.preventDefault(); setOpen(true); }
+    if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setOpen(!open); }
+  });
+
+  // Click outside closes, but not a click on a result.
+  addEventListener('click', (e) => {
+    if (!open) return;
+    const n = e.target as Node;
+    if (!panel.contains(n) && !toggle.contains(n)) setOpen(false);
+  });
+
+  // Enter goes to the first hit — the fastest path for a keyboard visitor.
+  input.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    const first = results.querySelector('a');
+    if (first) location.href = (first as HTMLAnchorElement).href;
+  });
+</script>

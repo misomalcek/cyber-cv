@@ -201,6 +201,45 @@
     box-shadow: 0 0 22px -6px color-mix(in srgb, var(--color-neural) 65%, transparent);
   }
 
+  /* The dock, after Factorium's OS dock: a glass pill that floats over the
+     content. Same treatment as .card so the two read as one system. */
+  .dock-pill {
+    background: color-mix(in srgb, var(--color-bg-glass) 82%, transparent);
+    border: 1px solid var(--color-line-lit);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    backdrop-filter: blur(18px) saturate(1.3);
+    box-shadow:
+      0 1px 0 0 color-mix(in srgb, #fff 8%, transparent) inset,
+      0 12px 40px -12px rgb(0 0 0 / .7),
+      0 0 44px -18px color-mix(in srgb, var(--color-neural) 60%, transparent);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .dock-pill::-webkit-scrollbar { display: none; }
+
+  .dock-item:hover {
+    color: var(--color-fg);
+    background: color-mix(in srgb, var(--color-neural) 16%, transparent);
+    box-shadow: 0 0 18px -6px color-mix(in srgb, var(--color-neural) 70%, transparent);
+  }
+  .dock-active {
+    color: var(--color-fg);
+    background: color-mix(in srgb, var(--color-neural) 22%, transparent);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-neural) 45%, transparent) inset,
+      0 0 20px -6px color-mix(in srgb, var(--color-neural) 75%, transparent);
+  }
+
+  .dock-hit { transition: background .15s; }
+  .dock-hit:hover { background: color-mix(in srgb, var(--color-neural) 14%, transparent); }
+  .line-clamp-2 {
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* The dock floats over the page bottom; give content room to clear it. */
+  .has-dock { padding-bottom: 96px; }
+
   /* Big numbers carry their own light, coloured to match the value. */
   .lit-forge   { color: var(--color-forge);
                  text-shadow: 0 0 24px color-mix(in srgb, var(--color-forge) 55%, transparent),
