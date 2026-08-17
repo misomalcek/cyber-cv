@@ -9,7 +9,7 @@
 export const TIER_NAMES = ["CORE","MAJOR","MINOR","PERIPHERAL","ISOLATED"] as const;
 
 export interface CrystalNode {
-  id: number; name: string; type: string;
+  id: number; name: string; type: string; description: string;
   tier: number; cluster: number; deg: number;
 }
 
@@ -18,6 +18,7 @@ export const nodes: CrystalNode[] = [
     "id": 472,
     "name": "Hive",
     "type": "concept",
+    "description": "Unified memory/knowledge/code/docs vector store",
     "tier": 0,
     "cluster": 0,
     "deg": 499
@@ -26,6 +27,7 @@ export const nodes: CrystalNode[] = [
     "id": 1,
     "name": "Factorium Symbiosis",
     "type": "project",
+    "description": "Next-gen cognitive biotope, TS+Node",
     "tier": 0,
     "cluster": 0,
     "deg": 497
@@ -34,6 +36,7 @@ export const nodes: CrystalNode[] = [
     "id": 29,
     "name": "The Integrator",
     "type": "person",
+    "description": "Michal — project owner, orchestrator",
     "tier": 0,
     "cluster": 0,
     "deg": 471
@@ -42,6 +45,7 @@ export const nodes: CrystalNode[] = [
     "id": 471,
     "name": "LIP",
     "type": "concept",
+    "description": "Factorium tracked work — active/latent/verified nodes",
     "tier": 0,
     "cluster": 0,
     "deg": 407
@@ -50,6 +54,7 @@ export const nodes: CrystalNode[] = [
     "id": 469,
     "name": "Una",
     "type": "concept",
+    "description": "Factorium internal orchestrator — local Gemma agent",
     "tier": 0,
     "cluster": 0,
     "deg": 370
@@ -58,6 +63,7 @@ export const nodes: CrystalNode[] = [
     "id": 17,
     "name": "Claude",
     "type": "technology",
+    "description": "Anthropic LLM — prime reasoning engine",
     "tier": 0,
     "cluster": 0,
     "deg": 351
@@ -66,6 +72,7 @@ export const nodes: CrystalNode[] = [
     "id": 18,
     "name": "Gemma",
     "type": "technology",
+    "description": "Google DeepMind local model (Una / llama.cpp)",
     "tier": 0,
     "cluster": 0,
     "deg": 325
@@ -74,6 +81,7 @@ export const nodes: CrystalNode[] = [
     "id": 4,
     "name": "Team Brain",
     "type": "project",
+    "description": "Production AI knowledge hub, brain.msgweb.io",
     "tier": 0,
     "cluster": 0,
     "deg": 297
@@ -82,6 +90,7 @@ export const nodes: CrystalNode[] = [
     "id": 442,
     "name": "Qdrant",
     "type": "technology",
+    "description": "Vector DB — hive_memory / hive_docs / hive_code",
     "tier": 0,
     "cluster": 0,
     "deg": 167
@@ -90,6 +99,7 @@ export const nodes: CrystalNode[] = [
     "id": 14,
     "name": "llama.cpp",
     "type": "technology",
+    "description": "Local LLM inference, OpenAI-compatible :8080/:8081",
     "tier": 0,
     "cluster": 0,
     "deg": 115
@@ -98,6 +108,7 @@ export const nodes: CrystalNode[] = [
     "id": 21,
     "name": "React",
     "type": "technology",
+    "description": "UI library",
     "tier": 0,
     "cluster": 0,
     "deg": 109
@@ -106,6 +117,7 @@ export const nodes: CrystalNode[] = [
     "id": 470,
     "name": "NOUS",
     "type": "concept",
+    "description": "Governance layer — 4 gates mechanical invariants",
     "tier": 1,
     "cluster": 0,
     "deg": 109
@@ -114,6 +126,7 @@ export const nodes: CrystalNode[] = [
     "id": 16,
     "name": "Anthropic API",
     "type": "technology",
+    "description": "Claude API provider",
     "tier": 0,
     "cluster": 0,
     "deg": 101
@@ -122,6 +135,7 @@ export const nodes: CrystalNode[] = [
     "id": 13,
     "name": "pgvector",
     "type": "technology",
+    "description": "Vector similarity extension for PostgreSQL",
     "tier": 0,
     "cluster": 0,
     "deg": 85
@@ -130,6 +144,7 @@ export const nodes: CrystalNode[] = [
     "id": 20,
     "name": "Astro",
     "type": "technology",
+    "description": "Web framework for content sites",
     "tier": 0,
     "cluster": 0,
     "deg": 82
@@ -138,6 +153,7 @@ export const nodes: CrystalNode[] = [
     "id": 23,
     "name": "TypeScript",
     "type": "technology",
+    "description": "Typed JavaScript",
     "tier": 1,
     "cluster": 0,
     "deg": 80
@@ -146,6 +162,7 @@ export const nodes: CrystalNode[] = [
     "id": 12,
     "name": "PostgreSQL",
     "type": "technology",
+    "description": "Relational database",
     "tier": 1,
     "cluster": 0,
     "deg": 64
@@ -154,6 +171,7 @@ export const nodes: CrystalNode[] = [
     "id": 37,
     "name": "Knowledge Graph",
     "type": "concept",
+    "description": "Entity-relationship structure for context enrichment",
     "tier": 2,
     "cluster": 0,
     "deg": 58
@@ -162,6 +180,7 @@ export const nodes: CrystalNode[] = [
     "id": 457,
     "name": "Apache AGE",
     "type": "technology",
+    "description": "Graph extension for PostgreSQL",
     "tier": 1,
     "cluster": 0,
     "deg": 58
@@ -170,6 +189,7 @@ export const nodes: CrystalNode[] = [
     "id": 27,
     "name": "TimescaleDB",
     "type": "technology",
+    "description": "Time-series extension for PostgreSQL",
     "tier": 1,
     "cluster": 0,
     "deg": 35
@@ -178,6 +198,7 @@ export const nodes: CrystalNode[] = [
     "id": 3,
     "name": "Harness",
     "type": "project",
+    "description": "Local LLM provider experiments",
     "tier": 0,
     "cluster": 0,
     "deg": 31
@@ -186,6 +207,7 @@ export const nodes: CrystalNode[] = [
     "id": 11,
     "name": "ChromaDB",
     "type": "technology",
+    "description": "Vector database for semantic memory",
     "tier": 0,
     "cluster": 0,
     "deg": 29
@@ -194,6 +216,7 @@ export const nodes: CrystalNode[] = [
     "id": 41,
     "name": "MEMORY",
     "type": "concept",
+    "description": "## Dev Workflow Rules - After every 5 file edits: compile check (`npx tsc`) - In sessions >30 messages: maintain task list with key decisions (survives compaction) - After each release: run `/insights",
     "tier": 1,
     "cluster": 0,
     "deg": 18

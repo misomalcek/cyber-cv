@@ -64,7 +64,9 @@ const ALIASES = {
 };
 
 const rows = await psql(`
-  SELECT e.id, regexp_replace(e.name, '[\r\n]+', ' ', 'g') AS name, e.entity_type, e.importance_tier, e.cluster_id,
+  SELECT e.id, regexp_replace(e.name, '[\r\n]+', ' ', 'g') AS name, e.entity_type,
+         regexp_replace(COALESCE(e.description, ''), '[\r\n]+', ' ', 'g') AS description,
+         e.importance_tier, e.cluster_id,
          COALESCE((SELECT count(*) FROM kg_relationships r
                    WHERE r.source_id = e.id OR r.target_id = e.id), 0) AS deg
   FROM kg_entities e
@@ -74,8 +76,10 @@ const rows = await psql(`
 
 const haystack = cvText();
 const mentioned = rows
-  .map(([id, name, type, tier, cluster, deg]) => ({
+  .map(([id, name, type, description, tier, cluster, deg]) => ({
     id: Number(id), name, type,
+    // Long descriptions belong in the graph, not in a page bundle.
+    description: (description || '').slice(0, 400),
     tier: Number(tier), cluster: Number(cluster), deg: Number(deg),
   }))
   // Some entities are referred to on the page by a different phrase than their
@@ -115,7 +119,7 @@ const out = `/**
 export const TIER_NAMES = ${JSON.stringify(TIER_NAMES)} as const;
 
 export interface CrystalNode {
-  id: number; name: string; type: string;
+  id: number; name: string; type: string; description: string;
   tier: number; cluster: number; deg: number;
 }
 

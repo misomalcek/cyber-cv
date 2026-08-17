@@ -37,9 +37,14 @@ const byType = [...new Set(nodes.map((n) => n.type))]
     <canvas id="crystal" class="block w-full" style="height: min(62vh, 560px)"></canvas>
 
     <div class="absolute top-4 left-4 text-[11px] text-fg-ghost pointer-events-none select-none">
-      <div class="uppercase tracking-[.14em] mb-1.5">drag to orbit · scroll to zoom</div>
+      <div class="uppercase tracking-[.14em] mb-1.5">drag to orbit · scroll to zoom · click a node</div>
       <div id="crystal-hover" class="text-fg-dim h-4"></div>
     </div>
+
+    <!-- Entity detail, mirroring the popup the real graph app uses. -->
+    <div id="crystal-popup"
+         class="hidden absolute top-4 right-4 z-20 w-[300px] max-h-[calc(100%-2rem)] overflow-y-auto
+                card p-4"></div>
 
     <div class="absolute bottom-0 left-0 right-0 flex flex-wrap gap-3 text-[11px] px-4 py-3
                 pointer-events-none"
@@ -118,18 +123,19 @@ const byType = [...new Set(nodes.map((n) => n.type))]
 
   const canvas = document.getElementById('crystal') as HTMLCanvasElement;
   const hoverLabel = document.getElementById('crystal-hover')!;
+  const popup = document.getElementById('crystal-popup')!;
 
   const TYPE_COLOUR: Record<string, number> = {
     concept: 0xa855f7, technology: 0x22d3ee, project: 0xfbbf24,
     person: 0xf472b6, lesson: 0x9061f9, decision: 0x34d399,
   };
   const colourFor = (t: string) => TYPE_COLOUR[t] ?? 0x8a82ad;
+  const hex = (c: number) => `#${c.toString(16).padStart(6, '0')}`;
 
-  // Colour the legend swatches from the same map, so the two cannot drift.
   document.querySelectorAll<HTMLElement>('[data-legend]').forEach((el) => {
-    const c = colourFor(el.dataset.legend!);
-    el.style.background = `#${c.toString(16).padStart(6, '0')}`;
-    el.style.boxShadow = `0 0 8px #${c.toString(16).padStart(6, '0')}`;
+    const c = hex(colourFor(el.dataset.legend!));
+    el.style.background = c;
+    el.style.boxShadow = `0 0 8px ${c}`;
   });
 
   const scene = new THREE.Scene();
@@ -137,29 +143,42 @@ const byType = [...new Set(nodes.map((n) => n.type))]
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 
-  /* Layout: radius is inverse degree, so the most connected entity sits at the
-     centre. Points are spread on a Fibonacci sphere at that radius rather than
-     placed randomly — an even distribution with no clumping and no seed. */
+  // Physical materials need light. Three sources: a warm key, a violet fill and
+  // a cyan rim, so the facets of the solids actually read as facets.
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  const key = new THREE.PointLight(0xffffff, 180, 200); key.position.set(18, 22, 24);
+  const fill = new THREE.PointLight(0xa855f7, 120, 200); fill.position.set(-22, -8, 14);
+  const rim = new THREE.PointLight(0x22d3ee, 90, 200);  rim.position.set(4, -18, -22);
+  scene.add(key, fill, rim);
+
+  /* Orbital layout. Radius falls with degree, so the most connected entities sit
+     in the core — the inversion the spatial paper is about. sqrt compresses the
+     long tail so the outer band does not collapse into one distant shell, and a
+     per-tier vertical spread keeps shells from stacking into a flat disc. */
   const maxDeg = Math.max(...nodes.map((n) => n.deg));
   const golden = Math.PI * (3 - Math.sqrt(5));
 
   const placed = nodes.map((n, i) => {
-    // sqrt compresses the outer band: without it the long tail of low-degree
-    // entities lands in one distant shell and the core looks empty.
-    const t = Math.sqrt(1 - n.deg / maxDeg);   // 0 = most connected
-    const radius = 2.4 + t * 13;
+    const t = Math.sqrt(1 - n.deg / maxDeg);
+    const radius = 2.2 + t * 13.5;
     const y = 1 - (i / Math.max(1, nodes.length - 1)) * 2;
     const ring = Math.sqrt(Math.max(0, 1 - y * y));
     const theta = golden * i;
-    return {
-      ...n,
-      pos: new THREE.Vector3(Math.cos(theta) * ring, y, Math.sin(theta) * ring)
-        .normalize().multiplyScalar(radius),
-    };
+    const pos = new THREE.Vector3(Math.cos(theta) * ring, y * 0.75, Math.sin(theta) * ring)
+      .normalize().multiplyScalar(radius);
+    return { ...n, pos };
   });
   const byId = new Map(placed.map((p) => [p.id, p]));
 
-  // Edges first, so nodes draw over them.
+  // Neighbour lists, so the popup can say what an entity connects to here.
+  const neighbours = new Map<number, { name: string; rel: string }[]>();
+  for (const e of edges) {
+    const a = byId.get(e.s), b = byId.get(e.t);
+    if (!a || !b) continue;
+    (neighbours.get(a.id) ?? neighbours.set(a.id, []).get(a.id)!).push({ name: b.name, rel: e.rel });
+    (neighbours.get(b.id) ?? neighbours.set(b.id, []).get(b.id)!).push({ name: a.name, rel: e.rel });
+  }
+
   const edgePts: number[] = [];
   for (const e of edges) {
     const a = byId.get(e.s), b = byId.get(e.t);
@@ -168,66 +187,128 @@ const byType = [...new Set(nodes.map((n) => n.type))]
   const edgeGeom = new THREE.BufferGeometry();
   edgeGeom.setAttribute('position', new THREE.Float32BufferAttribute(edgePts, 3));
   scene.add(new THREE.LineSegments(edgeGeom,
-    new THREE.LineBasicMaterial({ color: 0x7c3aed, transparent: true, opacity: 0.28 })));
+    new THREE.LineBasicMaterial({ color: 0x7c3aed, transparent: true, opacity: 0.26 })));
 
-  // Nodes: a solid core inside a larger translucent halo, so they glow without
-  // a post-processing pass.
+  /* Solids, not spheres. Following the Verse: an octahedron for the CORE tier
+     and an icosahedron for everything else, with a wireframe shell over the
+     core nodes so the facets are visible against the glow. */
   const group = new THREE.Group();
   scene.add(group);
-  const meshes: THREE.Mesh[] = [];
+  const pickable: THREE.Mesh[] = [];
 
   for (const p of placed) {
-    const size = 0.34 + (1 - p.tier / 4) * 0.5;
+    const size = 0.42 + (1 - p.tier / 4) * 0.72;
     const colour = colourFor(p.type);
-    const core = new THREE.Mesh(
-      new THREE.SphereGeometry(size, 20, 20),
-      new THREE.MeshBasicMaterial({ color: colour }));
-    core.position.copy(p.pos);
-    core.userData = { name: p.name, deg: p.deg, type: p.type };
-    group.add(core);
-    meshes.push(core);
+    const geom = p.tier === 0
+      ? new THREE.OctahedronGeometry(size, 0)
+      : new THREE.IcosahedronGeometry(size, 1);
 
-    const halo = new THREE.Mesh(
-      new THREE.SphereGeometry(size * 2.6, 16, 16),
-      new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.12 }));
+    const mesh = new THREE.Mesh(geom, new THREE.MeshPhysicalMaterial({
+      color: colour, emissive: colour, emissiveIntensity: 0.55 + (1 - p.tier / 4) * 0.5,
+      roughness: 0.25, metalness: 0.15, transparent: true, opacity: 0.9,
+    }));
+    mesh.position.copy(p.pos);
+    mesh.userData = p;
+    group.add(mesh);
+    pickable.push(mesh);
+
+    if (p.tier === 0) {
+      const wire = new THREE.Mesh(new THREE.OctahedronGeometry(size * 1.12, 0),
+        new THREE.MeshBasicMaterial({ color: 0xfbbf24, wireframe: true, transparent: true, opacity: 0.45 }));
+      wire.position.copy(p.pos);
+      group.add(wire);
+    }
+
+    const halo = new THREE.Mesh(new THREE.SphereGeometry(size * 2.4, 16, 16),
+      new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.1, depthWrite: false }));
     halo.position.copy(p.pos);
     group.add(halo);
   }
 
-  camera.position.set(0, 6, 30);
-  camera.lookAt(0, 0, 0);
+  // Selection ring, reused rather than rebuilt on every click.
+  const ring = new THREE.Mesh(new THREE.RingGeometry(0.9, 1.02, 40),
+    new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75, side: THREE.DoubleSide }));
+  ring.visible = false;
+  scene.add(ring);
 
-  // Hand-rolled orbit control: OrbitControls lives in an addons path that
-  // complicates the static build for one drag interaction.
-  let dragging = false, px = 0, py = 0, yaw = 0, pitch = 0.2, dist = 30, auto = true;
+  let dragging = false, moved = 0, px = 0, py = 0;
+  let yaw = 0, pitch = 0.22, dist = 30, auto = true;
   const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
-  canvas.addEventListener('pointerdown', (e) => { dragging = true; auto = false; px = e.clientX; py = e.clientY; });
+  canvas.addEventListener('pointerdown', (e) => {
+    dragging = true; moved = 0; auto = false; px = e.clientX; py = e.clientY;
+  });
   addEventListener('pointerup', () => { dragging = false; });
   addEventListener('pointermove', (e) => {
     if (!dragging) return;
+    moved += Math.abs(e.clientX - px) + Math.abs(e.clientY - py);
     yaw += (e.clientX - px) * 0.006;
     pitch = clamp(pitch + (e.clientY - py) * 0.006, -1.2, 1.2);
     px = e.clientX; py = e.clientY;
   });
   canvas.addEventListener('wheel', (e) => {
     e.preventDefault();
-    dist = clamp(dist + e.deltaY * 0.03, 10, 70);
+    dist = clamp(dist + e.deltaY * 0.03, 8, 70);
   }, { passive: false });
 
-  // Hover read-out: the point of the whole page is that position means
-  // something, so the viewer should be able to check what a dot is.
   const ray = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
-  canvas.addEventListener('pointermove', (e) => {
+  const pick = (e: PointerEvent | MouseEvent) => {
     const r = canvas.getBoundingClientRect();
     pointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
     pointer.y = -((e.clientY - r.top) / r.height) * 2 + 1;
     ray.setFromCamera(pointer, camera);
-    const hit = ray.intersectObjects(meshes, false)[0];
-    hoverLabel.textContent = hit
-      ? `${hit.object.userData.name} — ${hit.object.userData.type}, ${hit.object.userData.deg} relationships`
-      : '';
+    return ray.intersectObjects(pickable, false)[0]?.object as THREE.Mesh | undefined;
+  };
+
+  canvas.addEventListener('pointermove', (e) => {
+    const hit = pick(e);
+    canvas.style.cursor = hit ? 'pointer' : 'grab';
+    const d = hit?.userData as typeof placed[number] | undefined;
+    hoverLabel.textContent = d ? `${d.name} — ${d.type}, ${d.deg} relationships` : '';
+  });
+
+  const TIERS = ['CORE', 'MAJOR', 'MINOR', 'PERIPHERAL', 'ISOLATED'];
+
+  function showPopup(d: typeof placed[number]) {
+    const nb = (neighbours.get(d.id) ?? []).slice(0, 8);
+    popup.innerHTML = `
+      <div class="flex items-start gap-2 mb-2">
+        <div class="flex-1 min-w-0">
+          <span class="text-[9px] uppercase tracking-[.14em]" style="color:${hex(colourFor(d.type))}">${d.type}</span>
+          <div class="text-[14px] text-fg leading-snug break-words">${d.name}</div>
+        </div>
+        <button data-close class="text-fg-ghost hover:text-fg text-[15px] leading-none shrink-0" title="close">✕</button>
+      </div>
+      ${d.description ? `<p class="text-[12px] text-fg-dim m-0 mb-3">${d.description}</p>` : ''}
+      <div class="grid grid-cols-3 gap-2 mb-3 text-center">
+        <div><div class="text-[15px] text-fg">${d.deg}</div><div class="text-[9.5px] text-fg-ghost uppercase tracking-wider">relations</div></div>
+        <div><div class="text-[15px] text-fg">${TIERS[d.tier]}</div><div class="text-[9.5px] text-fg-ghost uppercase tracking-wider">tier</div></div>
+        <div><div class="text-[15px] text-fg">${d.cluster}</div><div class="text-[9.5px] text-fg-ghost uppercase tracking-wider">cluster</div></div>
+      </div>
+      ${nb.length ? `
+        <div class="text-[9.5px] uppercase tracking-[.14em] text-fg-ghost mb-1.5">Connected here (${nb.length} of ${d.deg})</div>
+        <div class="flex flex-col gap-1">
+          ${nb.map((n) => `<div class="text-[11.5px] text-fg-dim flex gap-2">
+            <span class="text-fg-ghost shrink-0">${n.rel}</span><span class="truncate">${n.name}</span></div>`).join('')}
+        </div>` : ''}
+      <div class="text-[10px] text-fg-ghost mt-3 pt-2 border-t border-line/60">
+        ${d.deg - nb.length} further relationships point outside this slice.
+      </div>`;
+    popup.classList.remove('hidden');
+    popup.querySelector('[data-close]')!.addEventListener('click', hidePopup);
+  }
+  const hidePopup = () => { popup.classList.add('hidden'); ring.visible = false; };
+
+  canvas.addEventListener('click', (e) => {
+    if (moved > 6) return;              // a drag is not a click
+    const hit = pick(e);
+    if (!hit) { hidePopup(); return; }
+    const d = hit.userData as typeof placed[number];
+    ring.position.copy(hit.position);
+    ring.scale.setScalar((0.42 + (1 - d.tier / 4) * 0.72) * 2.1);
+    ring.visible = true;
+    showPopup(d);
   });
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -243,12 +324,14 @@ const byType = [...new Set(nodes.map((n) => n.type))]
 
   function frame() {
     resize();
-    if (auto && !reduced) yaw += 0.0016;
+    if (auto && !reduced) yaw += 0.0015;
     camera.position.set(
       Math.sin(yaw) * Math.cos(pitch) * dist,
       Math.sin(pitch) * dist,
       Math.cos(yaw) * Math.cos(pitch) * dist);
     camera.lookAt(0, 0, 0);
+    if (ring.visible) ring.lookAt(camera.position);   // always face the viewer
+    if (!reduced) group.children.forEach((c, i) => { c.rotation.y += 0.0009 + (i % 5) * 0.0002; });
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
   }
