@@ -150,6 +150,42 @@ import { recentWork } from '../data/hive';
       ))}
     </div>
 
+    <!-- The model choice: the clearest worked example of how a decision is made
+         here, including the one where the evidence contradicted itself. -->
+    <div class="card p-5 mb-3">
+      <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1">
+        <div class="eyebrow">{factoriumSystem.models.lead}</div>
+        <span class="text-[11px] text-fg-ghost">measured on this machine, not from vendor claims</span>
+      </div>
+      <p class="text-[12.5px] text-fg-dim mt-2 mb-4">{factoriumSystem.models.constraint}</p>
+
+      <div class="flex flex-col gap-1.5 mb-5">
+        {factoriumSystem.models.tiers.map((t) => (
+          <div class="grid grid-cols-[54px_128px_88px_1fr] gap-3 items-baseline text-[12.5px]
+                      py-1.5 border-b border-line/40 last:border-b-0">
+            <b class="text-synapse">{t.id}</b>
+            <span class="text-fg-dim">{t.build}</span>
+            <span class="text-fg tabular-nums">{t.resident}</span>
+            <span class="text-fg-ghost">{t.role}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="flex flex-col gap-4">
+        {factoriumSystem.models.policy.map((d) => (
+          <div class="border-l-2 border-neural/40 pl-3.5">
+            <b class="text-[13px] text-fg block mb-1 leading-snug">{d.head}</b>
+            <p class="text-[12.5px] text-fg-dim m-0" set:html={d.body} />
+          </div>
+        ))}
+      </div>
+
+      <p class="text-[12px] text-fg-ghost mt-4 mb-0 pt-3 border-t border-line/60">
+        <b class="text-fg-dim">The bug this exposed is the better story.</b>{' '}
+        {factoriumSystem.models.bug}
+      </p>
+    </div>
+
     <div class="flex flex-wrap gap-1.5">
       {factoriumSystem.stack.map((t) => <span class="chip">{t}</span>)}
     </div>

@@ -127,5 +127,51 @@ export const factoriumSystem = {
     },
   ],
 
+  /** The model choice, which is the clearest example of how decisions get made here. */
+  models: {
+    lead: 'Three tiers, one hard constraint',
+    constraint: 'No two chat models run concurrently on 24 GB. The switcher is strictly stop-then-start — reproduced live, not assumed.',
+    tiers: [
+      { id: 'E2B',  build: 'UD-Q4_K_XL',  resident: '~3.9 GB',   role: 'compact, and the vision tier — it ships its own projector' },
+      { id: '12B',  build: 'Q5_K_M',      resident: '~7.7 GB',   role: 'the default, and what everything else is measured against' },
+      { id: '26B',  build: 'QAT UD-Q4_K_XL', resident: '~16–17 GB', role: 'heavy reasoning only; it costs the rest of the machine' },
+    ],
+    /** Why the quantisation policy is deliberately not uniform. */
+    policy: [
+      {
+        head: '26B is mixture-of-experts, so QAT only',
+        body: `Expert routing is a discrete choice. Quantisation noise in the router
+          logits sends a token to the wrong expert — a semantic error that compounds
+          through the layers rather than a smooth loss of precision. Training-aware
+          quantisation co-adapts those routing margins; post-training methods
+          minimise per-layer reconstruction error and cannot touch them at all.`,
+      },
+      {
+        head: '12B is dense, and stayed at 5-bit — because the evidence contradicted itself',
+        body: `The routing argument does not transfer, so the bitrate tradeoff was
+          genuinely open. Two independent grounding channels disagreed: one said the
+          4-bit QAT build wins on long context and tool calling; the other, asked
+          sceptically, pointed out that claim rests on static few-shot benchmarks,
+          while on long-context and function-calling suites the 5-bit degrades less
+          and the 4-bit spikes on schema errors. Tool calling is zero-tolerance here,
+          so the disputed axis was the deciding one. <b>Not switching on contradictory
+          evidence</b> — revisit only with a local A/B on our own traces.`,
+      },
+      {
+        head: 'One build was deleted without ever being loaded',
+        body: `A 26B download sat on disk behind a valid GGUF magic header with
+          <b>28.9% of the file missing</b>. llama.cpp would have started loading and
+          then hit a truncated tensor region, on a machine that had already kernel-
+          panicked twice that day. A valid header proves nothing about the tail —
+          check the size against the remote before loading anything resumed.`,
+      },
+    ],
+    /** The bug this work exposed, which is more instructive than the decision. */
+    bug: `Adding the compact tier surfaced a single module-level constant: the vision
+      projector path was hardcoded to the 26B's. A third model would have been served
+      the wrong projector against its own weights — a silent mismatch, not a crash.
+      Now resolved per catalogue entry.`,
+  },
+
   stack: ['TypeScript', 'Hono', 'llama.cpp / Metal', 'Gemma-4 12B', 'Qdrant', 'Apache AGE', 'pgvector', 'bge-m3', 'TimescaleDB', 'React 19', 'three.js'],
 };
