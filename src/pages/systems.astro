@@ -8,7 +8,6 @@ import Disclosure from '../components/Disclosure.astro';
 import { teamBrainSystem, factoriumSystem } from '../data/systems';
 import { teamBrain } from '../data/team-brain';
 import { repos, public_output } from '../data/work';
-import { recentWork } from '../data/hive';
 ---
 <Base
   title="Systems — Michal Malček"
@@ -262,26 +261,7 @@ import { recentWork } from '../data/hive';
       </p>
     </div>
 
-    <div class="card p-5 mb-4">
-      <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1">
-        <div class="eyebrow">The last twelve commits</div>
-        <span class="text-[11px] text-fg-ghost">read from git, not written here</span>
-      </div>
-      <p class="text-[12.5px] text-fg-dim mt-2 mb-4">
-        Included because a commit history is the honest version of a CV: it is written while the
-        work happens, by someone who does not yet know how it turns out. These are unedited.
-      </p>
-      <ol class="list-none p-0 m-0 flex flex-col">
-        {recentWork.map((c) => (
-          <li class="grid grid-cols-[86px_1fr] gap-3 py-[7px] border-b border-line/40 last:border-b-0 items-baseline">
-            <span class="text-[11.5px] text-fg-ghost tabular-nums">{c.date}</span>
-            <span class="text-[12.5px] text-fg-dim">{c.subject}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
-
-    <div class="card p-5">
+        <div class="card p-5">
       <div class="eyebrow mb-3">On protocol layers — why most of ours were removed</div>
       <p class="text-[13.5px] text-fg-dim m-0 mb-3">
         We ran two browser integrations through the standard tool protocol. Measured usage over the

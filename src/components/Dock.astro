@@ -15,6 +15,7 @@ const items = [
   { href: `${base}research/`,   label: 'Research',    id: 'research', icon: 'flask' },
   { href: `${base}crystal/`,    label: 'Crystal',     id: 'crystal',  icon: 'orbit' },
   { href: `${base}credentials/`,label: 'Credentials', id: 'creds',    icon: 'badge' },
+  { href: `${base}log/`,        label: 'Build log',   id: 'log',      icon: 'log' },
 ];
 
 const ICONS: Record<string, string> = {
@@ -24,6 +25,7 @@ const ICONS: Record<string, string> = {
   orbit: 'M12 12m-3 0a3 3 0 106 0a3 3 0 10-6 0M12 3a9 9 0 019 9M3 12a9 9 0 019-9',
   badge: 'M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 7.7l5.4-.8z',
   search:'M11 11m-7 0a7 7 0 1014 0a7 7 0 10-14 0M20 20l-4.35-4.35',
+  log:   'M4 5h16M4 10h16M4 15h10M4 20h7',
 };
 ---
 <nav id="dock" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(94vw,780px)]

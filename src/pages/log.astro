@@ -1,0 +1,174 @@
+---
+// Astro returns BASE_URL without a trailing slash at the root but with one
+// under a subpath; normalise so `${base}x` is never `/cyber-cvx`.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import { recentWork } from '../data/hive';
+
+/**
+ * How this site was made, told honestly.
+ *
+ * The commit log says what changed. This says what happened — including the
+ * defects found on the way, which are the part worth reading and the part a
+ * commit message has no room for.
+ */
+const days = [
+  {
+    date: '14 August',
+    head: 'From one HTML file to a system',
+    body: `It started as a single 16 KB page with no dependencies. That was the wrong
+      shape: four subpages and a credential gallery meant duplicated markup in every
+      file. Rebuilt on Astro and Tailwind in an afternoon — the same stack as the
+      projects it describes, which is the point.`,
+    findings: [
+      {
+        head: 'The numbers had to stop being typed in',
+        body: `A CV that claims 29,995 embedded points and cannot re-derive the figure
+          is making a claim, not a measurement. So a script reads Postgres and Qdrant
+          and rewrites the data file; a second mode fails the build when the committed
+          numbers no longer match. Tested by deliberately breaking a figure — exit 1,
+          as intended.`,
+      },
+      {
+        head: 'Two independent reviewers, no hive context',
+        body: `Asked for the flaws rather than the merits. The sharpest finding was
+          measurable: philosophy and self-reference occupied 41.2% of the page text
+          while systems and results held 14.9%. Inverted — evidence sections now hold
+          63.9%. One reviewer also called an enthusiastic AI quote what it was, and it
+          was cut.`,
+      },
+      {
+        head: 'A defect in my own generator, of exactly the class this site is about',
+        body: `The stats script carried historical figures forward by slicing the old
+          file at a comment string. On a failed match, indexOf returns −1 and slice(−1)
+          takes the last character — the file would have been overwritten with one byte
+          and no error raised. Found by review, not by running it. That data now lives
+          in its own module the script never opens.`,
+      },
+    ],
+  },
+  {
+    date: '17 August',
+    head: 'A theme song, a crystal, and a rebuild of the whole front page',
+    body: `The design went obsidian and neon, three.js arrived, and the site went
+      public on GitHub Pages. Then the person whose CV it is pointed out that it had
+      become a site about systems rather than about him — which was true, and the
+      most useful correction of the project.`,
+    findings: [
+      {
+        head: 'Serving it under a subpath found a bug nothing else would',
+        body: `GitHub Pages serves from /cyber-cv/, so every absolute link needs the
+          base prefix. Adding it produced /cyber-cvfavicon.svg — BASE_URL carries no
+          trailing slash, so every concatenation was one character short. Only visible
+          by serving the build under the real path locally before pushing.`,
+      },
+      {
+        head: 'My own probe said the canvas was blank; the screenshot said otherwise',
+        body: `A readPixels check on the 3D crystal reported zero lit pixels. A
+          screenshot showed it rendering correctly — the probe read the buffer after
+          the frame had been handed off. The instrument was wrong, not the page, which
+          is the failure mode this whole site keeps returning to.`,
+      },
+      {
+        head: 'One entity name contained a newline',
+        body: `The crystal generator parses psql output line by line. A single graph
+          entity with a line break in its name shifted every field after it and produced
+          NaN inside a SQL IN clause. Fixed in the query rather than patched downstream,
+          and guarded so a malformed row cannot reach the generated file.`,
+      },
+      {
+        head: 'An HTML comment inside an Astro expression',
+        body: `Broke the build with "CompilerError: Unexpected token" — no file, no
+          line. Found by removing files one at a time until the error stayed. In a JSX
+          expression the comment has to be JS syntax; the error message will not tell
+          you that.`,
+      },
+    ],
+  },
+];
+
+const stats = [
+  { v: '18', l: 'commits' },
+  { v: '9', l: 'pages' },
+  { v: '~3', l: 'working days' },
+  { v: '275', l: 'entries in the search index' },
+];
+---
+<Base
+  title="Build log — Michal Malček"
+  description="How this site was made, including the defects found on the way."
+  back={{ href: `${base}`, label: 'Back to overview' }}
+>
+  <header class="pt-10 pb-8 border-b border-line">
+    <div class="eyebrow mb-3">How this was made</div>
+    <h1 class="text-[clamp(28px,4vw,40px)] font-semibold tracking-tight m-0 mb-3">
+      <span class="glow-name">Build log</span>
+    </h1>
+    <p class="text-fg-dim max-w-[680px] m-0">
+      A site that argues for keeping an honest record should keep one about itself. The commit
+      history says what changed; this says what happened — including the four defects found while
+      building it, which is the part a commit message has no room for.
+    </p>
+  </header>
+
+  <Section title="In numbers">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      {stats.map((s, i) => (
+        <div class="card p-5" style={`animation: countIn .5s ease-out ${i * 60}ms both`}>
+          <div class="text-[26px] font-semibold lit-forge leading-none">{s.v}</div>
+          <div class="text-[11px] text-fg-ghost mt-2">{s.l}</div>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  {days.map((d) => (
+    <Section title={d.date} note={d.head}>
+      <p class="text-fg-dim max-w-[720px] mt-0 mb-4">{d.body}</p>
+      <div class="flex flex-col gap-3">
+        {d.findings.map((f) => (
+          <div class="card p-5">
+            <b class="text-[13.5px] text-fg block mb-1.5 leading-snug">{f.head}</b>
+            <p class="text-[12.5px] text-fg-dim m-0">{f.body}</p>
+          </div>
+        ))}
+      </div>
+    </Section>
+  ))}
+
+  <Section title="The rule that produced all four" note="one habit">
+    <div class="card p-5">
+      <p class="text-[13.5px] text-fg-dim m-0 mb-3">
+        Every defect above was found the same way: <b class="text-fg">by checking a thing whose
+        answer was already known.</b> Serve the build under the real path. Screenshot the canvas
+        rather than trusting the probe. Break a figure on purpose and confirm the gate fails.
+        Not one of them came from a passing test.
+      </p>
+      <p class="text-[12.5px] text-fg-ghost m-0">
+        The same habit is what the research on this site measures, and the same habit is what my
+        own error record says I break most often — 35 of 46 mistakes are a check that came back
+        empty and got read as an answer. Knowing a rule and holding to it under load are two
+        different things, which is the finding, not the excuse.
+      </p>
+    </div>
+  </Section>
+
+  <Section title="Recent commits, from the environment" note="read from git">
+    <div class="card p-5">
+      <p class="text-[12.5px] text-fg-dim mt-0 mb-4">
+        Not this repository — these are the last twelve commits on Factorium, pulled from its git
+        history at build time. Included because a commit log is the honest version of a CV: written
+        while the work happens, by someone who does not yet know how it turns out.
+      </p>
+      <ol class="list-none p-0 m-0 flex flex-col">
+        {recentWork.map((c) => (
+          <li class="grid grid-cols-[86px_1fr] gap-3 py-[7px] border-b border-line/40 last:border-b-0 items-baseline">
+            <span class="text-[11.5px] text-fg-ghost tabular-nums">{c.date}</span>
+            <span class="text-[12.5px] text-fg-dim">{c.subject}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </Section>
+</Base>
