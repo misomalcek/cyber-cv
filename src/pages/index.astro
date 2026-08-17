@@ -680,9 +680,58 @@ const career: Entry[] = [
             </span>
           </div>
           <div class="text-[13px] text-fg mb-2">{r.what}</div>
-          <p class="text-[12.5px] text-fg-ghost m-0">{r.detail}</p>
+          <p class="text-[12.5px] text-fg-ghost m-0 flex-1">{r.detail}</p>
+          {r.href && (
+            <a href={r.href} target="_blank" rel="noopener"
+               class="text-[12px] mt-3 inline-block no-underline hover:underline">View on GitHub →</a>
+          )}
         </div>
       ))}
+    </div>
+
+    <!-- Two more that are public but live elsewhere, plus the one that is a
+         running demo rather than a repository. -->
+    <div class="grid md:grid-cols-3 gap-3 mt-3">
+      <div class="card p-5 flex flex-col">
+        <div class="flex items-baseline justify-between gap-2 mb-1">
+          <b class="text-[14px] text-synapse">aisvet2 · aiworld</b>
+          <span class="text-[10px] uppercase tracking-wider text-fg-ghost border border-line rounded px-1.5 py-0.5 shrink-0">
+            gitlab · WIP
+          </span>
+        </div>
+        <div class="text-[13px] text-fg mb-2">The publishing side.</div>
+        <p class="text-[12.5px] text-fg-ghost m-0 flex-1">
+          The Slovak AI magazine and its English sibling, both public and both still moving.
+          Hosted from GitLab Pages rather than here, which is why they are named and not linked
+          as repositories.
+        </p>
+        <a href="http://aiworld.aisvet.sk/" target="_blank" rel="noopener"
+           class="text-[12px] mt-3 inline-block no-underline hover:underline">aiworld.aisvet.sk →</a>
+      </div>
+
+      <div class="card p-5 flex flex-col md:col-span-2">
+        <div class="flex items-baseline justify-between gap-2 mb-1">
+          <b class="text-[14px] text-synapse">msg-ai — a 1B model on the front end</b>
+          <span class="text-[10px] uppercase tracking-wider text-fg-ghost border border-line rounded px-1.5 py-0.5 shrink-0">
+            live demo · unfinished
+          </span>
+        </div>
+        <div class="text-[13px] text-fg mb-2">
+          A corporate site with a local model answering on it — not an API call to a provider.
+        </div>
+        <p class="text-[12.5px] text-fg-ghost m-0 flex-1">
+          An experiment, never contracted: <b class="text-fg-dim">Gemma-3 1B deployed on the page's
+          own front end</b>, running on the same 8&nbsp;GB VPS that carried Team Brain in
+          production at the time. It never shipped — my role ended first — and it still answers,
+          which makes it the honest artefact of that period: unfinished, working, and the first
+          time I put a local model where an actual visitor could talk to it. The design system
+          came out of Claude Design and Pencil.dev.
+        </p>
+        <a href="https://brain.msgweb.io/msg-ai/" target="_blank" rel="noopener"
+           class="text-[12px] mt-3 inline-block no-underline hover:underline">
+          Open the demo — the assistant is behind the red dot, bottom right →
+        </a>
+      </div>
     </div>
 
     <div class="card p-5 mb-5">
