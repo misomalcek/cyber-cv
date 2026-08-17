@@ -1,4 +1,7 @@
 ---
+// Astro returns BASE_URL without a trailing slash at the root but with one
+// under a subpath; normalise so `${base}x` is never `/cyber-cvx`.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import '../styles/global.css';
 
 interface Props {
@@ -10,16 +13,16 @@ interface Props {
 const { title, description, back } = Astro.props;
 
 const nav = [
-  { href: '/#work',        label: 'Systems' },
-  { href: '/#hive',        label: 'The hive' },
-  { href: '/crystal/',     label: 'The crystal' },
-  { href: '/#results',     label: 'Results' },
-  { href: '/#apparatus',   label: 'The apparatus' },
-  { href: '/#wrong',       label: 'What went wrong' },
-  { href: '/#research',    label: 'Research' },
-  { href: '/#code',        label: 'Code' },
-  { href: '/#track',       label: 'Career' },
-  { href: '/credentials/', label: 'Credentials' },
+  { href: `${base}#work`,        label: 'Systems' },
+  { href: `${base}#hive`,        label: 'The hive' },
+  { href: `${base}crystal/`,     label: 'The crystal' },
+  { href: `${base}#results`,     label: 'Results' },
+  { href: `${base}#apparatus`,   label: 'The apparatus' },
+  { href: `${base}#wrong`,       label: 'What went wrong' },
+  { href: `${base}#research`,    label: 'Research' },
+  { href: `${base}#code`,        label: 'Code' },
+  { href: `${base}#track`,       label: 'Career' },
+  { href: `${base}credentials/`, label: 'Credentials' },
 ];
 ---
 <!doctype html>
@@ -32,7 +35,7 @@ const nav = [
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="profile" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
   <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
   <meta name="twitter:card" content="summary" />
 
@@ -63,7 +66,7 @@ const nav = [
 <body class="grid-field">
   <div class="relative z-[1] mx-auto max-w-[940px] px-6 pb-24">
     {back && (
-      <a href={back.href}
+      <a href={back.href.startsWith("/") ? `${base}${back.href.slice(1)}` : back.href}
          class="inline-block mt-8 text-[13px] text-fg-ghost no-underline hover:text-synapse transition-colors">
         ← {back.label}
       </a>

@@ -1,4 +1,7 @@
 ---
+// Astro returns BASE_URL without a trailing slash at the root but with one
+// under a subpath; normalise so `${base}x` is never `/cyber-cvx`.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
@@ -40,7 +43,7 @@ const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.
 <Base
   title="Research — Michal Malček"
   description="Measurement-first research on LLM agent behaviour and local-first AI systems."
-  back={{ href: '/', label: 'Back to CV' }}
+  back={{ href: `${base}`, label: 'Back to CV' }}
 >
   <header class="pt-10 pb-8 border-b border-line">
     <h1 class="text-[clamp(28px,4vw,40px)] font-semibold tracking-tight m-0 mb-3">Research</h1>
@@ -55,7 +58,7 @@ const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.
       {sorted.map((p) => {
         const m = meta[p.id];
         return (
-          <a href={`/research/${p.id}/`} class="card p-6 no-underline block group">
+          <a href={`${base}research/${p.id}/`} class="card p-6 no-underline block group">
             <div class="flex items-baseline justify-between gap-4 flex-wrap">
               <h2 class="text-[18px] font-semibold text-fg m-0 group-hover:text-synapse transition-colors">
                 {m.title}

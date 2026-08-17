@@ -1,4 +1,7 @@
 ---
+// Astro returns BASE_URL without a trailing slash at the root but with one
+// under a subpath; normalise so `${base}x` is never `/cyber-cvx`.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Stat from '../components/Stat.astro';
@@ -158,11 +161,11 @@ const career: Entry[] = [
       {[
         { href: 'mailto:miso.malcek@gmail.com', label: 'miso.malcek@gmail.com' },
         { href: '#hive',        label: 'The hive' },
-        { href: '/crystal/',    label: 'The crystal' },
+        { href: `${base}crystal/`,    label: 'The crystal' },
         { href: '#results',     label: 'Results' },
         { href: '#apparatus',   label: 'The apparatus' },
         { href: '#research',    label: 'Research' },
-        { href: '/credentials/', label: 'Credentials' },
+        { href: `${base}credentials/`, label: 'Credentials' },
       ].map((l) => (
         <a href={l.href}
            class="nav-link text-fg-dim no-underline border border-line rounded-lg px-3.5 py-2
@@ -599,7 +602,7 @@ const career: Entry[] = [
           class the research is about, occurring inside it.
         </p>
       </div>
-      <a href="/research/rules/" class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
+      <a href={`${base}research/rules/`} class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
         Read the full study →
       </a>
     </div>
@@ -638,7 +641,7 @@ const career: Entry[] = [
         uses them — but the rules study above is exactly why a model's self-report is not evidence.
         That A/B is the experiment this work still owes.
       </p>
-      <a href="/research/spatial/" class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
+      <a href={`${base}research/spatial/`} class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
         Read the full study →
       </a>
     </div>
@@ -655,7 +658,7 @@ const career: Entry[] = [
       <p class="text-[13px] text-fg-ghost m-0">
         Includes a full section on the decisions that were wrong, and what each one cost.
       </p>
-      <a href="/research/engineering/" class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
+      <a href={`${base}research/engineering/`} class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
         Read the full report →
       </a>
     </div>
@@ -700,7 +703,7 @@ const career: Entry[] = [
     </div>
 
     <div class="flex items-start gap-4 mb-4 p-5 card">
-      <img src="/aisvet-logo.jpg" alt="AI Svet channel logo" width="72" height="72"
+      <img src={`${base}aisvet-logo.jpg`} alt="AI Svet channel logo" width="72" height="72"
            class="rounded-xl shrink-0"
            style="box-shadow: 0 0 26px -6px color-mix(in srgb, var(--color-neural) 65%, transparent)" />
       <div>

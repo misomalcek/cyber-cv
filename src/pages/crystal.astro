@@ -1,4 +1,7 @@
 ---
+// Astro returns BASE_URL without a trailing slash at the root but with one
+// under a subpath; normalise so `${base}x` is never `/cyber-cvx`.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import { nodes, crystalStats, TIER_NAMES } from '../data/crystal';
@@ -14,7 +17,7 @@ const byType = [...new Set(nodes.map((n) => n.type))]
 <Base
   title="The crystal — Michal Malček"
   description="A slice of the knowledge graph this CV stands on, rendered from its real degree, tier and cluster."
-  back={{ href: '/#hive', label: 'Back to CV' }}
+  back={{ href: `${base}#hive`, label: 'Back to CV' }}
 >
   <header class="pt-10 pb-7">
     <div class="eyebrow mb-3">The hive, seen from inside</div>
@@ -64,7 +67,7 @@ const byType = [...new Set(nodes.map((n) => n.type))]
         <p class="text-[13px] text-fg-dim m-0">
           Radius is inverse degree — the most connected entities sit closest to the centre. That is
           the opposite of the layout's first version, which pulled hubs inward until the graph
-          imploded into an unreadable core. <a href="/research/spatial/">The paper on that</a> is
+          imploded into an unreadable core. <a href={`${base}research/spatial/`}>The paper on that</a> is
           the reason this renders at all.
         </p>
       </div>
