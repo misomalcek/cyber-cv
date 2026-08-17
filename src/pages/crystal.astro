@@ -1,0 +1,253 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import { nodes, crystalStats, TIER_NAMES } from '../data/crystal';
+
+const byTier = TIER_NAMES.map((name, i) => ({
+  name, n: nodes.filter((x) => x.tier === i).length,
+})).filter((t) => t.n);
+
+const byType = [...new Set(nodes.map((n) => n.type))]
+  .map((type) => ({ type, n: nodes.filter((x) => x.type === type).length }))
+  .sort((a, b) => b.n - a.n);
+---
+<Base
+  title="The crystal — Michal Malček"
+  description="A slice of the knowledge graph this CV stands on, rendered from its real degree, tier and cluster."
+  back={{ href: '/#hive', label: 'Back to CV' }}
+>
+  <header class="pt-10 pb-7">
+    <div class="eyebrow mb-3">The hive, seen from inside</div>
+    <h1 class="text-[clamp(26px,3.6vw,38px)] font-semibold tracking-tight leading-tight m-0 mb-3">
+      <span class="glow-name">The crystal</span>
+    </h1>
+    <p class="text-fg-dim m-0 max-w-[640px]">
+      Every entity this CV talks about, positioned by what the graph actually knows about it.
+      Distance from the centre is <b class="text-fg">degree</b> — how many relationships an entity
+      has. Colour is <b class="text-fg">type</b>. Size is centrality tier. Nothing here is decided
+      by hand: the layout is a function of the data.
+    </p>
+  </header>
+
+  <div class="relative rounded-2xl overflow-hidden border border-line mb-4"
+       style="background: radial-gradient(ellipse at 50% 45%, #1A1040 0%, #0A0812 70%)">
+    <canvas id="crystal" class="block w-full" style="height: min(62vh, 560px)"></canvas>
+
+    <div class="absolute top-4 left-4 text-[11px] text-fg-ghost pointer-events-none select-none">
+      <div class="uppercase tracking-[.14em] mb-1.5">drag to orbit · scroll to zoom</div>
+      <div id="crystal-hover" class="text-fg-dim h-4"></div>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 flex flex-wrap gap-3 text-[11px] px-4 py-3
+                pointer-events-none"
+         style="background: linear-gradient(to top, #0A0812dd, transparent)">
+      {byType.map((t) => (
+        <span class="inline-flex items-center gap-1.5 text-fg-ghost">
+          <span class="w-2 h-2 rounded-full" data-legend={t.type}></span>{t.type} · {t.n}
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <Section title="What you are looking at" note={`${crystalStats.nodes} of ${crystalStats.graphEntities} entities`}>
+    <div class="grid md:grid-cols-3 gap-3 mb-4">
+      <div class="card p-5">
+        <div class="eyebrow mb-2">Selection</div>
+        <p class="text-[13px] text-fg-dim m-0">
+          An entity appears here if it is CORE or MAJOR in the full graph <b class="text-fg">and</b>
+          this CV mentions it. That is a deliberately narrow slice: it shows the part of the graph
+          this document actually stands on, not a flattering cross-section of the whole thing.
+        </p>
+      </div>
+      <div class="card p-5">
+        <div class="eyebrow mb-2">Position</div>
+        <p class="text-[13px] text-fg-dim m-0">
+          Radius is inverse degree — the most connected entities sit closest to the centre. That is
+          the opposite of the layout's first version, which pulled hubs inward until the graph
+          imploded into an unreadable core. <a href="/research/spatial/">The paper on that</a> is
+          the reason this renders at all.
+        </p>
+      </div>
+      <div class="card p-5">
+        <div class="eyebrow mb-2">Honesty</div>
+        <p class="text-[13px] text-fg-dim m-0">
+          <b class="text-fg">This is static.</b> The degrees, tiers and clusters were queried from
+          Postgres on {crystalStats.capturedAt} and frozen into the page — a CDN has no database
+          behind it. The structure is real; the liveness is not, and saying otherwise would be the
+          kind of claim the rest of this site argues against.
+        </p>
+      </div>
+    </div>
+
+    <div class="card p-5">
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div>
+          <div class="eyebrow mb-3">By tier</div>
+          {byTier.map((t) => (
+            <div class="flex items-baseline justify-between text-[13px] py-1 border-b border-line/40 last:border-b-0">
+              <span class="text-fg-dim">{t.name}</span>
+              <span class="text-fg tabular-nums">{t.n}</span>
+            </div>
+          ))}
+        </div>
+        <div>
+          <div class="eyebrow mb-3">Most connected</div>
+          {nodes.slice(0, 6).map((n) => (
+            <div class="flex items-baseline justify-between text-[13px] py-1 border-b border-line/40 last:border-b-0">
+              <span class="text-fg-dim truncate pr-3">{n.name}</span>
+              <span class="text-fg-ghost tabular-nums shrink-0">{n.deg}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <p class="text-[12px] text-fg-ghost mt-4 mb-0 pt-3 border-t border-line/60">
+        {crystalStats.edges} relationships connect these {crystalStats.nodes} entities. In the full
+        graph they carry {nodes.reduce((s, n) => s + n.deg, 0).toLocaleString('en-US')} between them
+        — most of which point at entities outside this slice.
+      </p>
+    </div>
+  </Section>
+</Base>
+
+<script>
+  import * as THREE from 'three';
+  import { nodes, edges } from '../data/crystal';
+
+  const canvas = document.getElementById('crystal') as HTMLCanvasElement;
+  const hoverLabel = document.getElementById('crystal-hover')!;
+
+  const TYPE_COLOUR: Record<string, number> = {
+    concept: 0xa855f7, technology: 0x22d3ee, project: 0xfbbf24,
+    person: 0xf472b6, lesson: 0x9061f9, decision: 0x34d399,
+  };
+  const colourFor = (t: string) => TYPE_COLOUR[t] ?? 0x8a82ad;
+
+  // Colour the legend swatches from the same map, so the two cannot drift.
+  document.querySelectorAll<HTMLElement>('[data-legend]').forEach((el) => {
+    const c = colourFor(el.dataset.legend!);
+    el.style.background = `#${c.toString(16).padStart(6, '0')}`;
+    el.style.boxShadow = `0 0 8px #${c.toString(16).padStart(6, '0')}`;
+  });
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+  /* Layout: radius is inverse degree, so the most connected entity sits at the
+     centre. Points are spread on a Fibonacci sphere at that radius rather than
+     placed randomly — an even distribution with no clumping and no seed. */
+  const maxDeg = Math.max(...nodes.map((n) => n.deg));
+  const golden = Math.PI * (3 - Math.sqrt(5));
+
+  const placed = nodes.map((n, i) => {
+    // sqrt compresses the outer band: without it the long tail of low-degree
+    // entities lands in one distant shell and the core looks empty.
+    const t = Math.sqrt(1 - n.deg / maxDeg);   // 0 = most connected
+    const radius = 2.4 + t * 13;
+    const y = 1 - (i / Math.max(1, nodes.length - 1)) * 2;
+    const ring = Math.sqrt(Math.max(0, 1 - y * y));
+    const theta = golden * i;
+    return {
+      ...n,
+      pos: new THREE.Vector3(Math.cos(theta) * ring, y, Math.sin(theta) * ring)
+        .normalize().multiplyScalar(radius),
+    };
+  });
+  const byId = new Map(placed.map((p) => [p.id, p]));
+
+  // Edges first, so nodes draw over them.
+  const edgePts: number[] = [];
+  for (const e of edges) {
+    const a = byId.get(e.s), b = byId.get(e.t);
+    if (a && b) edgePts.push(a.pos.x, a.pos.y, a.pos.z, b.pos.x, b.pos.y, b.pos.z);
+  }
+  const edgeGeom = new THREE.BufferGeometry();
+  edgeGeom.setAttribute('position', new THREE.Float32BufferAttribute(edgePts, 3));
+  scene.add(new THREE.LineSegments(edgeGeom,
+    new THREE.LineBasicMaterial({ color: 0x7c3aed, transparent: true, opacity: 0.28 })));
+
+  // Nodes: a solid core inside a larger translucent halo, so they glow without
+  // a post-processing pass.
+  const group = new THREE.Group();
+  scene.add(group);
+  const meshes: THREE.Mesh[] = [];
+
+  for (const p of placed) {
+    const size = 0.34 + (1 - p.tier / 4) * 0.5;
+    const colour = colourFor(p.type);
+    const core = new THREE.Mesh(
+      new THREE.SphereGeometry(size, 20, 20),
+      new THREE.MeshBasicMaterial({ color: colour }));
+    core.position.copy(p.pos);
+    core.userData = { name: p.name, deg: p.deg, type: p.type };
+    group.add(core);
+    meshes.push(core);
+
+    const halo = new THREE.Mesh(
+      new THREE.SphereGeometry(size * 2.6, 16, 16),
+      new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.12 }));
+    halo.position.copy(p.pos);
+    group.add(halo);
+  }
+
+  camera.position.set(0, 6, 30);
+  camera.lookAt(0, 0, 0);
+
+  // Hand-rolled orbit control: OrbitControls lives in an addons path that
+  // complicates the static build for one drag interaction.
+  let dragging = false, px = 0, py = 0, yaw = 0, pitch = 0.2, dist = 30, auto = true;
+  const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+
+  canvas.addEventListener('pointerdown', (e) => { dragging = true; auto = false; px = e.clientX; py = e.clientY; });
+  addEventListener('pointerup', () => { dragging = false; });
+  addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    yaw += (e.clientX - px) * 0.006;
+    pitch = clamp(pitch + (e.clientY - py) * 0.006, -1.2, 1.2);
+    px = e.clientX; py = e.clientY;
+  });
+  canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    dist = clamp(dist + e.deltaY * 0.03, 10, 70);
+  }, { passive: false });
+
+  // Hover read-out: the point of the whole page is that position means
+  // something, so the viewer should be able to check what a dot is.
+  const ray = new THREE.Raycaster();
+  const pointer = new THREE.Vector2();
+  canvas.addEventListener('pointermove', (e) => {
+    const r = canvas.getBoundingClientRect();
+    pointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    pointer.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+    ray.setFromCamera(pointer, camera);
+    const hit = ray.intersectObjects(meshes, false)[0];
+    hoverLabel.textContent = hit
+      ? `${hit.object.userData.name} — ${hit.object.userData.type}, ${hit.object.userData.deg} relationships`
+      : '';
+  });
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function resize() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (canvas.width !== w || canvas.height !== h) {
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+  }
+
+  function frame() {
+    resize();
+    if (auto && !reduced) yaw += 0.0016;
+    camera.position.set(
+      Math.sin(yaw) * Math.cos(pitch) * dist,
+      Math.sin(pitch) * dist,
+      Math.cos(yaw) * Math.cos(pitch) * dist);
+    camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+  frame();
+</script>
