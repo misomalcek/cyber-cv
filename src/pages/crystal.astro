@@ -36,9 +36,23 @@ const byType = [...new Set(nodes.map((n) => n.type))]
        style="background: radial-gradient(ellipse at 50% 45%, #1A1040 0%, #0A0812 70%)">
     <canvas id="crystal" class="block w-full" style="height: min(62vh, 560px)"></canvas>
 
-    <div class="absolute top-4 left-4 text-[11px] text-fg-ghost pointer-events-none select-none">
+    <div class="absolute top-4 left-4 text-[11px] text-fg-ghost pointer-events-none select-none z-10">
       <div class="uppercase tracking-[.14em] mb-1.5">drag to orbit · scroll to zoom · click a node</div>
       <div id="crystal-hover" class="text-fg-dim h-4"></div>
+    </div>
+
+    <!-- Controls, after the graph app's panel: what to show, and how hard. -->
+    <div class="absolute top-4 right-4 z-10 flex flex-col gap-1.5 items-end">
+      {[
+        { id: 'labels', label: 'Labels', on: true },
+        { id: 'faces',  label: 'Faces',  on: true },
+        { id: 'edges',  label: 'Edges',  on: true },
+        { id: 'spin',   label: 'Spin',   on: true },
+      ].map((c) => (
+        <button type="button" data-toggle={c.id} data-on={c.on ? '1' : '0'}
+                class="crystal-toggle text-[10.5px] uppercase tracking-wider px-2.5 py-1 rounded-full
+                       border transition-all">{c.label}</button>
+      ))}
     </div>
 
     <!-- Entity detail, mirroring the popup the real graph app uses. -->
@@ -186,8 +200,44 @@ const byType = [...new Set(nodes.map((n) => n.type))]
   }
   const edgeGeom = new THREE.BufferGeometry();
   edgeGeom.setAttribute('position', new THREE.Float32BufferAttribute(edgePts, 3));
-  scene.add(new THREE.LineSegments(edgeGeom,
-    new THREE.LineBasicMaterial({ color: 0x7c3aed, transparent: true, opacity: 0.26 })));
+  const edgeLines = new THREE.LineSegments(edgeGeom,
+    new THREE.LineBasicMaterial({ color: 0x7c3aed, transparent: true, opacity: 0.3 }));
+  scene.add(edgeLines);
+
+  /* Faces. Wherever three entities are mutually connected, fill the triangle
+     between them — that is what turns a wireframe into something that reads as
+     a crystal. Only real triangles are drawn: the facets are a property of the
+     graph, not decoration sprinkled between nearby points. */
+  const adj = new Map<number, Set<number>>();
+  for (const e of edges) {
+    if (!adj.has(e.s)) adj.set(e.s, new Set());
+    if (!adj.has(e.t)) adj.set(e.t, new Set());
+    adj.get(e.s)!.add(e.t);
+    adj.get(e.t)!.add(e.s);
+  }
+  const facePts: number[] = [];
+  const ids = placed.map((p) => p.id);
+  for (let a = 0; a < ids.length; a++) {
+    for (let b = a + 1; b < ids.length; b++) {
+      if (!adj.get(ids[a])?.has(ids[b])) continue;
+      for (let c = b + 1; c < ids.length; c++) {
+        if (!adj.get(ids[b])?.has(ids[c]) || !adj.get(ids[a])?.has(ids[c])) continue;
+        for (const id of [ids[a], ids[b], ids[c]]) {
+          const q = byId.get(id)!;
+          facePts.push(q.pos.x, q.pos.y, q.pos.z);
+        }
+      }
+    }
+  }
+  const faceGeom = new THREE.BufferGeometry();
+  faceGeom.setAttribute('position', new THREE.Float32BufferAttribute(facePts, 3));
+  faceGeom.computeVertexNormals();
+  const faces = new THREE.Mesh(faceGeom, new THREE.MeshBasicMaterial({
+    color: 0x7c3aed, transparent: true, opacity: 0.075,
+    side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending,
+  }));
+  scene.add(faces);
+  const faceCount = facePts.length / 9;
 
   /* Solids, not spheres. Following the Verse: an octahedron for the CORE tier
      and an icosahedron for everything else, with a wireframe shell over the
@@ -223,6 +273,38 @@ const byType = [...new Set(nodes.map((n) => n.type))]
       new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.1, depthWrite: false }));
     halo.position.copy(p.pos);
     group.add(halo);
+  }
+
+  /* Labels. A canvas texture per entity rather than a font loader: 23 sprites
+     cost nothing and it keeps the page free of another dependency. */
+  const labelGroup = new THREE.Group();
+  scene.add(labelGroup);
+  for (const p of placed) {
+    const c = document.createElement('canvas');
+    const ctx = c.getContext('2d')!;
+    const font = '600 28px ui-monospace, Menlo, monospace';
+    ctx.font = font;
+    const w = Math.ceil(ctx.measureText(p.name).width) + 20;
+    c.width = w; c.height = 44;
+    const g = c.getContext('2d')!;
+    g.font = font;
+    g.fillStyle = hex(colourFor(p.type));
+    g.shadowColor = '#0A0812'; g.shadowBlur = 8;
+    g.textBaseline = 'middle';
+    g.fillText(p.name, 10, 24);
+
+    const tex = new THREE.CanvasTexture(c);
+    tex.minFilter = THREE.LinearFilter;
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: tex, transparent: true, depthWrite: false, opacity: 0.92,
+    }));
+    // Scale by tier: a CORE label reads at a glance, a MINOR one only when you
+    // fly close. Without this the peripheral names shout over the hubs.
+    const scale = 0.016 + (1 - p.tier / 4) * 0.008;
+    sprite.scale.set(c.width * scale, c.height * scale, 1);
+    sprite.position.copy(p.pos).add(new THREE.Vector3(0, 0.95 + (1 - p.tier / 4) * 0.45, 0));
+    sprite.material.opacity = 0.55 + (1 - p.tier / 4) * 0.4;
+    labelGroup.add(sprite);
   }
 
   // Selection ring, reused rather than rebuilt on every click.
@@ -313,6 +395,26 @@ const byType = [...new Set(nodes.map((n) => n.type))]
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Controls. Each toggle owns exactly one thing in the scene.
+  let spinning = !reduced;
+  const TOGGLES: Record<string, (on: boolean) => void> = {
+    labels: (on) => { labelGroup.visible = on; },
+    faces:  (on) => { faces.visible = on; },
+    edges:  (on) => { edgeLines.visible = on; },
+    spin:   (on) => { spinning = on; auto = on; },
+  };
+  document.querySelectorAll<HTMLButtonElement>('[data-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const on = btn.dataset.on !== '1';
+      btn.dataset.on = on ? '1' : '0';
+      TOGGLES[btn.dataset.toggle!](on);
+    });
+  });
+  if (reduced) {
+    const spinBtn = document.querySelector<HTMLButtonElement>('[data-toggle="spin"]');
+    if (spinBtn) spinBtn.dataset.on = '0';
+  }
+
   function resize() {
     const w = canvas.clientWidth, h = canvas.clientHeight;
     if (canvas.width !== w || canvas.height !== h) {
@@ -324,14 +426,14 @@ const byType = [...new Set(nodes.map((n) => n.type))]
 
   function frame() {
     resize();
-    if (auto && !reduced) yaw += 0.0015;
+    if (auto && spinning) yaw += 0.0015;
     camera.position.set(
       Math.sin(yaw) * Math.cos(pitch) * dist,
       Math.sin(pitch) * dist,
       Math.cos(yaw) * Math.cos(pitch) * dist);
     camera.lookAt(0, 0, 0);
     if (ring.visible) ring.lookAt(camera.position);   // always face the viewer
-    if (!reduced) group.children.forEach((c, i) => { c.rotation.y += 0.0009 + (i % 5) * 0.0002; });
+    if (spinning) group.children.forEach((c, i) => { c.rotation.y += 0.0009 + (i % 5) * 0.0002; });
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
   }

@@ -1,0 +1,173 @@
+---
+// Astro returns BASE_URL without a trailing slash at the root but with one
+// under a subpath; normalise so `${base}x` is never `/cyber-cvx`.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Timeline, { type Entry } from '../components/Timeline.astro';
+
+const career: Entry[] = [
+  {
+    when: '2024 – 2026',
+    what: 'Senior SEO Specialist → AI Engineer',
+    where: 'msg life Slovakia (through my own company, full internal scope)',
+    body: `Two and a half years. The move into AI began September 2025 and formalised as
+      AI Engineer by February 2026, concluding with the delivery and handover of Team Brain.`,
+    points: [
+      'Built and handed over a production AI knowledge hub used by the whole content and web team',
+      'Four AI workshops for the entire Slovak branch — leadership to newest hires, voluntary attendance',
+      'The first workshop opened with ethics and the practical limits of formal logic, before Team Brain existed as anything but an idea',
+    ],
+    tags: ['TypeScript', 'PostgreSQL', 'Claude API', 'Next.js'],
+  },
+  {
+    when: 'Sep – Dec 2025',
+    what: 'Where the AI work actually started',
+    where: 'Not a title change',
+    pivot: true,
+    body: `On a glossary project an agency was selling as a large generic content build, I wrote a
+      markdown-driven generation framework instead — terms clustered by category, each cluster
+      carrying its own sources and content structure over a shared content DNA, so the set stayed
+      coherent while the clusters stayed genuinely different.`,
+    points: [
+      'It was team work and the framework was my part; it made the agency\'s proposal obsolete',
+      'The hard part was not technical — it was saying we were paying a supplier for bloatware, from a position where that was not my brief',
+      '<b>The principle everything since runs on:</b> the structure you impose on the input decides output quality far more than the model does',
+    ],
+  },
+  {
+    when: '2015 – 2023',
+    what: 'Senior SEO Manager',
+    where: 'Tippland Hamburg · Lottostarlet Malta · Lottoland Gibraltar',
+    body: `Eight years building organic growth in one of the most competitive commercial verticals
+      there is, across German-speaking and CEE markets.`,
+    points: [
+      'Grew German-market traffic <b>from zero to 30k monthly sessions</b> on the main property and <b>100k across satellites</b>, on budget',
+      'Held <b>0.9% vested equity</b> in Lottostarlet',
+      'Launched programmatic SEO reaching <b>top-3 rankings within weeks, with no paid backlinks</b>',
+      'At Lottoland: 50% management (4 internal, 5 external, 3 markets), 50% hands-on; built and led 3 internal SEO trainings',
+    ],
+  },
+  {
+    when: '2012 – now',
+    what: 'Founder',
+    where: 'My Marketing s.r.o.',
+    body: 'Consulting and delivery, alongside the roles above.',
+    points: [
+      'Co-founded a CEE sportswear e-commerce business reaching <b>€50k monthly turnover in its first year</b>',
+      'Google Partner status: 10+ AdWords accounts, ~€10k monthly ad spend over two years',
+      'Currently: custom sales CRM and a 3D sales configurator with one developer — my part is analysis, design and client presentation',
+    ],
+  },
+  {
+    when: '2015 – 2016',
+    what: 'Marketing & IT Manager',
+    where: 'Individual Auto Design (custom manufacturer)',
+    body: `Five markets (DE, SK, CZ, HU, EN): built the sites, set up the web server, grew visitors,
+      signups and orders month over month.`,
+    points: [
+      'Helped finish a <b>SAP-BO implementation that had been on hold for two years</b>, working with the IT supplier',
+    ],
+  },
+  {
+    when: '2010 – 2011',
+    what: 'Associate Product Marketing Manager · Online Media Associate Program',
+    where: 'Google — Prague, and European HQ Dublin',
+    body: `B2B acquisition and local product marketing for CZ/SK, then a three-month program at the
+      European headquarters supporting AdWords customers and improving the product's help surface.`,
+    points: [
+      'Ran the first targeted direct-mail campaign — <b>top 3 globally at Google by signup rate</b>',
+      'Negotiated and signed 3 co-marketing partnerships in Slovakia',
+      'Completed the Dublin program with strong feedback from two managers and <b>two peer bonuses</b>',
+      'Continued as a <b>Google Student Ambassador</b> at my university',
+    ],
+  },
+  {
+    when: '2006 – 2009',
+    what: 'ERP Tester → Sales Manager',
+    where: 'Asseco Solutions (Helios Orange ERP), Prague',
+    body: `Started at 19 testing the ERP and writing its documentation, then moved to selling it —
+      both sides of software delivery before I was 23.`,
+    points: [
+      'Sold <b>14 successful ERP implementations</b>',
+      'Negotiated in English with pilot customers in Germany and Poland',
+    ],
+  },
+];
+
+/** The through-line, stated once rather than implied seven times. */
+const arc = [
+  { year: '2006', head: 'Started at 19 testing an ERP', body: 'Then selling it. Both sides of software delivery before 23 — the one who finds the defect and the one who explains it to the client.' },
+  { year: '2010', head: 'Google, Prague and Dublin', body: 'The summer assignment was to categorise AdWords clients by hand. I wrote a script instead, finished in two weeks, and spent the rest of it on research that put engineers on a quality problem.' },
+  { year: '2015', head: 'Eight years of organic growth', body: 'German-speaking markets in one of the most competitive commercial verticals there is. Zero to 30k monthly sessions, and a habit of trusting measurement over opinion that everything since runs on.' },
+  { year: '2025', head: 'The move into AI, by doing it', body: 'Not a title change. A framework that made an agency\'s content proposal obsolete — and the uncomfortable part of saying so from a position where it was not my brief.' },
+  { year: '2026', head: 'Two systems', body: 'One delivered into production and handed over clean. One running daily on a machine under my desk, open source at release.' },
+];
+---
+<Base
+  title="Career — Michal Malček"
+  description="Twenty years across both sides of software delivery, and how it turned into AI engineering."
+  back={{ href: `${base}`, label: 'Back to overview' }}
+>
+  <header class="pt-10 pb-8 border-b border-line">
+    <div class="eyebrow mb-3">Twenty years, one through-line</div>
+    <h1 class="text-[clamp(28px,4vw,40px)] font-semibold tracking-tight m-0 mb-3">
+      <span class="glow-name">Career</span>
+    </h1>
+    <p class="text-fg-dim max-w-[680px] m-0">
+      The short version: I have spent twenty years on both sides of software delivery, eight of
+      them proving things with measurement in a market that punishes wishful thinking, and the
+      last one building AI systems. The rest of this page is the long version.
+    </p>
+  </header>
+
+  <Section title="The arc" note="five turns">
+    <div class="grid md:grid-cols-5 gap-3">
+      {arc.map((a, i) => (
+        <div class="card p-4 flex flex-col" style={`animation: countIn .5s ease-out ${i * 60}ms both`}>
+          <div class="lit-forge text-[19px] font-semibold leading-none mb-2">{a.year}</div>
+          <div class="text-[13px] text-fg leading-snug mb-1.5">{a.head}</div>
+          <p class="text-[12px] text-fg-ghost m-0">{a.body}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section title="In full" note="7 roles">
+    <Timeline entries={career} />
+  </Section>
+
+  <Section title="Also">
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="card p-5 text-[13.5px] text-fg-dim">
+        <div class="eyebrow mb-3">Outside the record</div>
+        <p class="m-0 mb-3">
+          Judo for ten years — 3× Slovak champion, two years in national representation. Mountains,
+          kayaks, a library of 400+ books, and old oil paintings.
+        </p>
+        <p class="m-0">
+          I also make cyberpunk music with a generative model, badly and with great enjoyment.
+          <span class="text-fg-ghost">It is the only place I use these tools with no measurement
+          attached, which is probably why I keep doing it.</span>
+        </p>
+      </div>
+      <div class="card p-5 text-[13.5px] text-fg-dim">
+        <div class="eyebrow mb-3">Languages</div>
+        <ul class="list-none p-0 m-0 flex flex-col gap-1.5">
+          {[
+            ['Slovak · Czech', 'native'],
+            ['English', 'advanced — a full master\'s studied in it, daily working use'],
+            ['Russian', 'A2 — third worldwide in a St Petersburg University olympiad'],
+            ['German', 'A1, Goethe-Institut Hamburg'],
+            ['Spanish · Hungarian', 'basics — a year living in Spain while working out of Gibraltar'],
+          ].map(([lang, note]) => (
+            <li class="flex gap-3 items-baseline border-b border-line/40 pb-1.5 last:border-b-0">
+              <b class="text-fg text-[13px] shrink-0 w-[136px]">{lang}</b>
+              <span class="text-[12.5px]">{note}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </Section>
+</Base>

@@ -6,99 +6,12 @@ import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Stat from '../components/Stat.astro';
 import BarList from '../components/BarList.astro';
-import Timeline, { type Entry } from '../components/Timeline.astro';
 import { qdrant, qdrantTotal, graphs, rules, capturedAt } from '../data/hive';
 import { teamBrain } from '../data/team-brain';
 import { claudeStatement, references } from '../data/references';
+import { teamBrainSystem, factoriumSystem } from '../data/systems';
+import Contact from '../components/Contact.astro';
 
-const career: Entry[] = [
-  {
-    when: '2024 – 2026',
-    what: 'Senior SEO Specialist → AI Engineer',
-    where: 'msg life Slovakia (through my own company, full internal scope)',
-    body: `Two and a half years. The move into AI began September 2025 and formalised as
-      AI Engineer by February 2026, concluding with the delivery and handover of Team Brain.`,
-    points: [
-      'Built and handed over a production AI knowledge hub used by the whole content and web team',
-      'Four AI workshops for the entire Slovak branch — leadership to newest hires, voluntary attendance',
-      'The first workshop opened with ethics and the practical limits of formal logic, before Team Brain existed as anything but an idea',
-    ],
-    tags: ['TypeScript', 'PostgreSQL', 'Claude API', 'Next.js'],
-  },
-  {
-    when: 'Sep – Dec 2025',
-    what: 'Where the AI work actually started',
-    where: 'Not a title change',
-    pivot: true,
-    body: `On a glossary project an agency was selling as a large generic content build, I wrote a
-      markdown-driven generation framework instead — terms clustered by category, each cluster
-      carrying its own sources and content structure over a shared content DNA, so the set stayed
-      coherent while the clusters stayed genuinely different.`,
-    points: [
-      'It was team work and the framework was my part; it made the agency\'s proposal obsolete',
-      'The hard part was not technical — it was saying we were paying a supplier for bloatware, from a position where that was not my brief',
-      '<b>The principle everything since runs on:</b> the structure you impose on the input decides output quality far more than the model does',
-    ],
-  },
-  {
-    when: '2015 – 2023',
-    what: 'Senior SEO Manager',
-    where: 'Tippland Hamburg · Lottostarlet Malta · Lottoland Gibraltar',
-    body: `Eight years building organic growth in one of the most competitive commercial verticals
-      there is, across German-speaking and CEE markets.`,
-    points: [
-      'Grew German-market traffic <b>from zero to 30k monthly sessions</b> on the main property and <b>100k across satellites</b>, on budget',
-      'Held <b>0.9% vested equity</b> in Lottostarlet',
-      'Launched programmatic SEO reaching <b>top-3 rankings within weeks, with no paid backlinks</b>',
-      'At Lottoland: 50% management (4 internal, 5 external, 3 markets), 50% hands-on; built and led 3 internal SEO trainings',
-    ],
-  },
-  {
-    when: '2012 – now',
-    what: 'Founder',
-    where: 'My Marketing s.r.o.',
-    body: 'Consulting and delivery, alongside the roles above.',
-    points: [
-      'Co-founded a CEE sportswear e-commerce business reaching <b>€50k monthly turnover in its first year</b>',
-      'Google Partner status: 10+ AdWords accounts, ~€10k monthly ad spend over two years',
-      'Currently: custom sales CRM and a 3D sales configurator with one developer — my part is analysis, design and client presentation',
-    ],
-  },
-  {
-    when: '2015 – 2016',
-    what: 'Marketing & IT Manager',
-    where: 'Individual Auto Design (custom manufacturer)',
-    body: `Five markets (DE, SK, CZ, HU, EN): built the sites, set up the web server, grew visitors,
-      signups and orders month over month.`,
-    points: [
-      'Helped finish a <b>SAP-BO implementation that had been on hold for two years</b>, working with the IT supplier',
-    ],
-  },
-  {
-    when: '2010 – 2011',
-    what: 'Associate Product Marketing Manager · Online Media Associate Program',
-    where: 'Google — Prague, and European HQ Dublin',
-    body: `B2B acquisition and local product marketing for CZ/SK, then a three-month program at the
-      European headquarters supporting AdWords customers and improving the product's help surface.`,
-    points: [
-      'Ran the first targeted direct-mail campaign — <b>top 3 globally at Google by signup rate</b>',
-      'Negotiated and signed 3 co-marketing partnerships in Slovakia',
-      'Completed the Dublin program with strong feedback from two managers and <b>two peer bonuses</b>',
-      'Continued as a <b>Google Student Ambassador</b> at my university',
-    ],
-  },
-  {
-    when: '2006 – 2009',
-    what: 'ERP Tester → Sales Manager',
-    where: 'Asseco Solutions (Helios Orange ERP), Prague',
-    body: `Started at 19 testing the ERP and writing its documentation, then moved to selling it —
-      both sides of software delivery before I was 23.`,
-    points: [
-      'Sold <b>14 successful ERP implementations</b>',
-      'Negotiated in English with pilot customers in Germany and Poland',
-    ],
-  },
-];
 ---
 <Base
   title="Michal Malček — AI Engineer, Integrator, Explorer"
@@ -149,74 +62,133 @@ const career: Entry[] = [
     </p>
 
     <p class="text-[clamp(15px,2vw,18px)] text-fg-dim max-w-[640px] m-0 mb-7">
-      One production AI system delivered and handed over, one running daily — built and
-      measured on one machine. No AI degree: one three-day course, then everything else
-      learned from the systems themselves. I keep the record honest enough to count
-      against myself.
+      Twenty years across both sides of software delivery — ERP testing at nineteen, Google
+      in Prague and Dublin at twenty-four, eight years proving things with measurement in a
+      market that punishes wishful thinking. In the last year that turned into AI engineering:
+      <b class="text-fg">one production system delivered and handed over, one running daily on
+      the machine under my desk.</b> No AI degree — one three-day course, then everything else
+      learned from the systems themselves.
     </p>
 
-    <div class="flex flex-wrap gap-2.5">
-      {[
-        { href: 'mailto:miso.malcek@gmail.com', label: 'miso.malcek@gmail.com' },
-        { href: `${base}systems/`,     label: 'Systems' },
-        { href: `${base}research/`,    label: 'Research' },
-        { href: `${base}crystal/`,     label: 'The crystal' },
-        { href: `${base}credentials/`, label: 'Credentials' },
-      ].map((l) => (
-        <a href={l.href}
-           class="nav-link text-fg-dim no-underline border border-line rounded-lg px-3.5 py-2
-                  text-[13px] transition-all">
-          {l.label}
-        </a>
-      ))}
-    </div>
+    <Contact />
   </header>
 
 
 
   <!-- ── What is here ─────────────────────────────────────────────────── -->
-  <Section id="map" title="What is here" note="four ways in">
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
-      {[
-        {
-          href: `${base}systems/`, label: 'Systems', accent: 'forge',
-          lead: 'Two AI systems',
-          body: 'Team Brain delivered and handed over · Factorium running daily · the apparatus around them · what went wrong · six public repositories.',
-          stat: `${teamBrain.toolSuccessPct}%`, statLabel: 'tool-call success, 1,352 real calls',
-        },
-        {
-          href: `${base}research/`, label: 'Research', accent: 'neural',
-          lead: 'Two studies, one report',
-          body: 'Whether behavioural rules change what a model decides · whether a node\'s position can be read by one · and the stack decisions behind both systems.',
-          stat: '7 of 8', statLabel: 'rules the model misjudged about itself',
-        },
-        {
-          href: `${base}crystal/`, label: 'The crystal', accent: 'synapse',
-          lead: 'The graph, in 3D',
-          body: 'The entities this CV stands on, positioned by their real degree and tier. Click one and it tells you what it connects to.',
-          stat: qdrantTotal.toLocaleString('en-US'), statLabel: 'embedded points behind it',
-        },
-        {
-          href: `${base}credentials/`, label: 'Credentials', accent: 'plain',
-          lead: 'Checked, not claimed',
-          body: 'Every source link probed rather than assumed — five were login walls, three had gone offline. Plus a reference from Google, 2011.',
-          stat: '13,270', statLabel: 'public views on 15-year-old papers',
-        },
-      ].map((c, i) => (
-        <a href={c.href} class="card p-5 no-underline flex flex-col group"
-           style={`animation: countIn .5s ease-out ${i * 70}ms both`}>
-          <div class="flex items-baseline justify-between gap-2 mb-3">
-            <span class="eyebrow">{c.label}</span>
-            <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
+  <Section id="map" title="What is here" note="five ways in">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+      <a href={`${base}career/`} class="card p-5 no-underline flex flex-col group">
+        <div class="flex items-baseline justify-between gap-2 mb-3">
+          <span class="eyebrow">Career</span>
+          <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
+        </div>
+        <div class="text-[14px] text-fg mb-3">Twenty years, both sides of delivery</div>
+        <div class="grid grid-cols-3 gap-3 mb-3">
+          {[['14', 'ERP implementations sold'], ['30k', 'monthly sessions built from zero'],
+            ['4', 'AI workshops for a whole branch']].map(([v, l]) => (
+            <div>
+              <div class="text-[17px] font-semibold lit-forge leading-none">{v}</div>
+              <div class="text-[10.5px] text-fg-ghost leading-snug mt-1">{l}</div>
+            </div>
+          ))}
+        </div>
+        <p class="text-[12.5px] text-fg-dim m-0 flex-1">
+          Asseco at 19 · Google Prague and Dublin at 24 · eight years of organic growth in a
+          market that punishes guessing · then AI, by building rather than by title.
+        </p>
+      </a>
+
+      <a href={`${base}systems/`} class="card p-5 no-underline flex flex-col group">
+        <div class="flex items-baseline justify-between gap-2 mb-3">
+          <span class="eyebrow">Systems</span>
+          <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
+        </div>
+        <div class="text-[14px] text-fg mb-3">Two, and they are not the same thing</div>
+        <div class="flex flex-col gap-2 mb-3">
+          <div class="flex items-baseline gap-2.5 text-[12.5px]">
+            <b class="text-forge shrink-0 w-[86px]">Team Brain</b>
+            <span class="text-fg-dim">5 data sources · 33 tools · 15 users · <b class="text-fg">93.9%</b> tool success over 1,352 calls</span>
           </div>
-          <div class={`text-[26px] font-semibold leading-none mb-1 ${
-            c.accent === 'forge' ? 'lit-forge' : c.accent === 'neural' ? 'lit-violet'
-            : c.accent === 'synapse' ? 'lit-cyan' : 'text-fg'}`}>{c.stat}</div>
-          <div class="text-[11px] text-fg-ghost mb-3">{c.statLabel}</div>
-          <div class="text-[13px] text-fg mb-1.5">{c.lead}</div>
-          <p class="text-[12.5px] text-fg-dim m-0 flex-1">{c.body}</p>
-        </a>
-      ))}
+          <div class="flex items-baseline gap-2.5 text-[12.5px]">
+            <b class="text-synapse shrink-0 w-[86px]">Factorium</b>
+            <span class="text-fg-dim">one 24&nbsp;GB machine · two models · <b class="text-fg">no cloud inference</b> · 60 tools, 22 visible per turn</span>
+          </div>
+        </div>
+        <p class="text-[12.5px] text-fg-dim m-0 flex-1">
+          A multi-source analytics platform a team used daily, and a local-first environment
+          where a person and two models share one memory. Plus what went wrong in both.
+        </p>
+      </a>
+
+      <a href={`${base}research/`} class="card p-5 no-underline flex flex-col group md:col-span-2">
+        <div class="flex items-baseline justify-between gap-2 mb-3">
+          <span class="eyebrow">Research</span>
+          <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
+        </div>
+        <div class="text-[14px] text-fg mb-3">Three findings I would defend in a room</div>
+        <div class="grid md:grid-cols-3 gap-4 mb-3">
+          {[
+            ['1 in 5 → 10/10', 'Rules stored as their own wording could not be found from the situation they govern. Stored as descriptions of those situations, retrieval went to ten out of ten — and the top-5 spread of 2.4% proved it was never a ranking problem.'],
+            ['7 of 8 misjudged', 'Asked which of its own rules carried real information, the model got seven of eight wrong — including three that had changed its behaviour minutes earlier. A model can follow a rule without being able to judge one.'],
+            ['1,512 of 3,039', 'Entities silently lost their centrality tier after one ordinary session. A derived global property is a cache, and a null tier reads as "unimportant" when it means "not measured".'],
+          ].map(([v, l]) => (
+            <div class="border-l-2 border-neural/40 pl-3">
+              <div class="text-[15px] font-semibold text-fg leading-tight mb-1.5">{v}</div>
+              <p class="text-[12px] text-fg-ghost leading-snug m-0">{l}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-[12.5px] text-fg-dim m-0">
+          Two studies and a technical report, written from stored records rather than
+          recollection — including the seven designs that were rejected on evidence, and the
+          conclusion of mine that turned out to be wrong.
+        </p>
+      </a>
+
+      <a href={`${base}crystal/`} class="card p-5 no-underline flex flex-col group">
+        <div class="flex items-baseline justify-between gap-2 mb-3">
+          <span class="eyebrow">The crystal</span>
+          <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
+        </div>
+        <div class="text-[14px] text-fg mb-3">The graph, in three dimensions</div>
+        <div class="grid grid-cols-3 gap-3 mb-3">
+          {[[graphs.knowledge.entities.toLocaleString('en-US'), 'entities'],
+            [graphs.knowledge.relationships.toLocaleString('en-US'), 'relationships'],
+            [qdrantTotal.toLocaleString('en-US'), 'embedded points']].map(([v, l]) => (
+            <div>
+              <div class="text-[17px] font-semibold lit-cyan leading-none">{v}</div>
+              <div class="text-[10.5px] text-fg-ghost leading-snug mt-1">{l}</div>
+            </div>
+          ))}
+        </div>
+        <p class="text-[12.5px] text-fg-dim m-0 flex-1">
+          Entities positioned by their real degree and centrality tier, not by hand. Click one
+          and it tells you what it connects to and how much of that lies outside the view.
+        </p>
+      </a>
+
+      <a href={`${base}credentials/`} class="card p-5 no-underline flex flex-col group">
+        <div class="flex items-baseline justify-between gap-2 mb-3">
+          <span class="eyebrow">Credentials</span>
+          <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
+        </div>
+        <div class="text-[14px] text-fg mb-3">Checked, not claimed</div>
+        <div class="grid grid-cols-3 gap-3 mb-3">
+          {[['1.0 – 1.7', 'grade averages'], ['13,270', 'views, papers from 2011'],
+            ['2011', 'a reference from Google']].map(([v, l]) => (
+            <div>
+              <div class="text-[17px] font-semibold text-fg leading-none">{v}</div>
+              <div class="text-[10.5px] text-fg-ghost leading-snug mt-1">{l}</div>
+            </div>
+          ))}
+        </div>
+        <p class="text-[12.5px] text-fg-dim m-0 flex-1">
+          Every source link probed rather than assumed — five turned out to be login walls and
+          three had gone offline in the years since. Those say so instead of pretending.
+        </p>
+      </a>
     </div>
   </Section>
 
@@ -438,10 +410,6 @@ const career: Entry[] = [
   </Section>
 
 
-  <!-- ── Career ───────────────────────────────────────────────────────── -->
-  <Section id="track" title="Career" note="20 years">
-    <Timeline entries={career} />
-  </Section>
 
   <!-- ── What the systems say ─────────────────────────────────────────── -->
   <Section

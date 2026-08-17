@@ -201,6 +201,20 @@
     box-shadow: 0 0 22px -6px color-mix(in srgb, var(--color-neural) 65%, transparent);
   }
 
+  /* Crystal controls: off reads as outline, on reads as lit. */
+  .crystal-toggle {
+    color: var(--color-fg-ghost);
+    border-color: var(--color-line);
+    background: color-mix(in srgb, var(--color-bg) 55%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .crystal-toggle[data-on="1"] {
+    color: var(--color-synapse);
+    border-color: color-mix(in srgb, var(--color-synapse) 55%, transparent);
+    box-shadow: 0 0 14px -4px color-mix(in srgb, var(--color-synapse) 70%, transparent);
+  }
+
   /* The dock, after Factorium's OS dock: a glass pill that floats over the
      content. Same treatment as .card so the two read as one system. */
   .dock-pill {
