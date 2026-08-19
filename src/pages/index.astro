@@ -11,187 +11,78 @@ import { teamBrain } from '../data/team-brain';
 import { claudeStatement, references } from '../data/references';
 import { teamBrainSystem, factoriumSystem } from '../data/systems';
 import Contact from '../components/Contact.astro';
+import { sectionCards, ICONS } from '../data/sections';
+
+/** Card list for the home grid — hrefs resolved once, against the real base. */
+const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon: ICONS[c.icon] }));
 
 ---
 <Base
   title="Michal Malček — AI Engineer, Integrator, Explorer"
   description="AI engineer. One production system delivered and handed over, one running daily — built and measured on a single local machine."
 >
-  <header class="relative pt-20 pb-10">
+  <header class="relative pt-16 pb-9">
     <span class="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
           style="background: linear-gradient(90deg,
                    color-mix(in srgb, var(--color-neural) 65%, transparent) 0%,
                    color-mix(in srgb, var(--color-synapse) 35%, transparent) 35%,
                    var(--color-line) 75%, transparent 100%);
                  box-shadow: 0 0 16px -2px color-mix(in srgb, var(--color-neural) 55%, transparent)" />
-    <div class="status-pill inline-flex items-center gap-2 text-[11px] tracking-[.14em] uppercase
+    <div class="status-pill inline-flex items-center gap-2 text-[12px] tracking-[.14em] uppercase
                 text-synapse border border-synapse rounded-full px-3 py-1 mb-5">
       <span class="w-[6px] h-[6px] rounded-full bg-synapse" style="animation: pulse 2.4s ease-in-out infinite" />
-      Open to AI research engineering roles
+      Open to AI roles
     </div>
 
-    <h1 class="text-[clamp(34px,6vw,58px)] leading-[1.04] font-semibold tracking-tight m-0 mb-3">
+    <h1 class="text-[clamp(38px,6.4vw,64px)] leading-[1.03] font-semibold tracking-tight m-0 mb-3">
       <span class="glow-name">Michal Malček</span><br /><em
-        class="not-italic text-neural-text glow-violet">AI Engineer, Integrator, Explorer</em>
+        class="not-italic text-neural-text glow-violet text-[clamp(21px,3vw,32px)]">AI Engineer / Explorer / SEO</em>
     </h1>
 
-    <!-- The theme song. A CV with a soundtrack is a claim about attitude, so the
-         line explains the connection rather than leaving it as a gag. -->
-    <div class="flex flex-wrap items-center gap-3 mb-6">
+    <!-- One line, not a paragraph: the song is a wink, and a wink that needs
+         explaining stops being one. -->
+    <p class="text-[14px] text-fg-ghost m-0 mb-7">
       <a href="https://suno.com/s/CgpdUedfU3jqZBCI" target="_blank" rel="noopener"
-         class="play-btn group inline-flex items-center gap-2.5 no-underline rounded-full
-                pl-2 pr-4 py-1.5 border border-neural/45 text-[13px]">
-        <span class="play-disc inline-flex items-center justify-center w-[26px] h-[26px] rounded-full shrink-0">
-          <svg width="9" height="11" viewBox="0 0 9 11" fill="none" aria-hidden="true">
-            <path d="M0 0.5L9 5.5L0 10.5V0.5Z" fill="currentColor" />
-          </svg>
-        </span>
-        <span class="text-fg font-semibold tracking-tight">Cyber Junglist</span>
-        <span class="text-fg-ghost text-[11.5px]">theme song</span>
-      </a>
-      <span class="text-[11.5px] text-fg-ghost">drum &amp; bass · jungle · rave</span>
-    </div>
-
-    <p class="text-[12px] text-fg-ghost max-w-[620px] m-0 mb-6 leading-relaxed">
-      This cyber CV tastes best with its theme song, made for exactly this purpose.{' '}
-      <span class="text-fg-dim">Jungle and cybernetics have shared a vocabulary since the
-      early nineties — feedback, breaks, systems that reorganise themselves under load — so a
-      CV about building one may as well arrive with a breakbeat.</span> More of the
-      cyberpunk neuro-DnB experiments: <a href="https://suno.com/@miso_m" target="_blank"
-      rel="noopener" class="no-underline hover:underline">suno.com/@miso_m</a>.
+         class="text-synapse no-underline hover:underline font-semibold">neonfire on SUNO</a>
+      <span class="text-fg-ghost"> · this cyber CV tastes best with my neuro-dnb experiments ;)</span>
     </p>
 
-    <p class="text-[clamp(15px,2vw,18px)] text-fg-dim max-w-[640px] m-0 mb-7">
+    <p class="text-[clamp(16px,1.9vw,19px)] text-fg-dim max-w-[64ch] m-0 mb-7 leading-[1.55]">
       Twenty years across both sides of software delivery — ERP testing at nineteen, Google
       in Prague and Dublin at twenty-four, eight years proving things with measurement in a
-      market that punishes wishful thinking. In the last year that turned into AI engineering:
+      market that punishes wishful thinking. In the last year that turned into AI engineering:{' '}
       <b class="text-fg">one production system delivered and handed over, one running daily on
-      the machine under my desk.</b> No AI degree — one three-day course, then everything else
-      learned from the systems themselves.
+      the machine under my desk.</b>{' '}Bachelor's in Applied Informatics, hooked to cybernetics
+      since high school, took one three-day AI generalist course — then everything else learned
+      from the systems themselves.
     </p>
 
     <Contact />
   </header>
 
-
-
-  <!-- ── What is here ─────────────────────────────────────────────────── -->
-  <Section id="map" title="What is here" note="five ways in">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-
-      <a href={`${base}career/`} class="card p-5 no-underline flex flex-col group">
-        <div class="flex items-baseline justify-between gap-2 mb-3">
-          <span class="eyebrow">Career</span>
-          <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
-        </div>
-        <div class="text-[14px] text-fg mb-3">Twenty years, both sides of delivery</div>
-        <div class="grid grid-cols-3 gap-3 mb-3">
-          {[['14', 'ERP implementations sold'], ['30k', 'monthly sessions built from zero'],
-            ['4', 'AI workshops for a whole branch']].map(([v, l]) => (
-            <div>
-              <div class="text-[17px] font-semibold lit-forge leading-none">{v}</div>
-              <div class="text-[10.5px] text-fg-ghost leading-snug mt-1">{l}</div>
-            </div>
-          ))}
-        </div>
-        <p class="text-[12.5px] text-fg-dim m-0 flex-1">
-          Asseco at 19 · Google Prague and Dublin at 24 · eight years of organic growth in a
-          market that punishes guessing · then AI, by building rather than by title.
-        </p>
-      </a>
-
-      <a href={`${base}systems/`} class="card p-5 no-underline flex flex-col group">
-        <div class="flex items-baseline justify-between gap-2 mb-3">
-          <span class="eyebrow">Systems</span>
-          <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
-        </div>
-        <div class="text-[14px] text-fg mb-3">Two, and they are not the same thing</div>
-        <div class="flex flex-col gap-2 mb-3">
-          <div class="flex items-baseline gap-2.5 text-[12.5px]">
-            <b class="text-forge shrink-0 w-[86px]">Team Brain</b>
-            <span class="text-fg-dim">5 data sources · 33 tools · 15 users · <b class="text-fg">93.9%</b> tool success over 1,352 calls</span>
+  <!-- ── Sections ─────────────────────────────────────────────────────────
+       The article grid IS the navigation. Enlarged dock icons carry the visual
+       link, so the dock itself needs no text labels — which is what made room
+       for a seventh entry. Each card gives the overview; depth lives one click
+       away, which is the whole point of having subpages. -->
+  <Section id="map" title="What is here" note="six sections">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      {sections.map((s) => (
+        <a href={s.href} class="card sec-card p-6 no-underline flex flex-col group">
+          <span class="sec-icon mb-4" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={s.icon} /></svg>
+          </span>
+          <div class="flex items-baseline justify-between gap-2 mb-1.5">
+            <h3 class="text-[19px] font-semibold text-fg m-0 leading-tight">{s.title}</h3>
+            <span class="text-fg-ghost text-[16px] leading-none transition-transform group-hover:translate-x-1">→</span>
           </div>
-          <div class="flex items-baseline gap-2.5 text-[12.5px]">
-            <b class="text-synapse shrink-0 w-[86px]">Factorium</b>
-            <span class="text-fg-dim">one 24&nbsp;GB machine · two models · <b class="text-fg">no cloud inference</b> · 60 tools, 22 visible per turn</span>
-          </div>
-        </div>
-        <p class="text-[12.5px] text-fg-dim m-0 flex-1">
-          A multi-source analytics platform a team used daily, and a local-first environment
-          where a person and two models share one memory. Plus what went wrong in both.
-        </p>
-      </a>
-
-      <a href={`${base}research/`} class="card p-5 no-underline flex flex-col group md:col-span-2">
-        <div class="flex items-baseline justify-between gap-2 mb-3">
-          <span class="eyebrow">Research</span>
-          <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
-        </div>
-        <div class="text-[14px] text-fg mb-3">Three findings I would defend in a room</div>
-        <div class="grid md:grid-cols-3 gap-4 mb-3">
-          {[
-            ['1 in 5 → 10/10', 'Rules stored as their own wording could not be found from the situation they govern. Stored as descriptions of those situations, retrieval went to ten out of ten — and the top-5 spread of 2.4% proved it was never a ranking problem.'],
-            ['7 of 8 misjudged', 'Asked which of its own rules carried real information, the model got seven of eight wrong — including three that had changed its behaviour minutes earlier. A model can follow a rule without being able to judge one.'],
-            ['1,512 of 3,039', 'Entities silently lost their centrality tier after one ordinary session. A derived global property is a cache, and a null tier reads as "unimportant" when it means "not measured".'],
-          ].map(([v, l]) => (
-            <div class="border-l-2 border-neural/40 pl-3">
-              <div class="text-[15px] font-semibold text-fg leading-tight mb-1.5">{v}</div>
-              <p class="text-[12px] text-fg-ghost leading-snug m-0">{l}</p>
-            </div>
-          ))}
-        </div>
-        <p class="text-[12.5px] text-fg-dim m-0">
-          Two studies and a technical report, written from stored records rather than
-          recollection — including the seven designs that were rejected on evidence, and the
-          conclusion of mine that turned out to be wrong.
-        </p>
-      </a>
-
-      <a href={`${base}crystal/`} class="card p-5 no-underline flex flex-col group">
-        <div class="flex items-baseline justify-between gap-2 mb-3">
-          <span class="eyebrow">The crystal</span>
-          <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
-        </div>
-        <div class="text-[14px] text-fg mb-3">The graph, in three dimensions</div>
-        <div class="grid grid-cols-3 gap-3 mb-3">
-          {[[graphs.knowledge.entities.toLocaleString('en-US'), 'entities'],
-            [graphs.knowledge.relationships.toLocaleString('en-US'), 'relationships'],
-            [qdrantTotal.toLocaleString('en-US'), 'embedded points']].map(([v, l]) => (
-            <div>
-              <div class="text-[17px] font-semibold lit-cyan leading-none">{v}</div>
-              <div class="text-[10.5px] text-fg-ghost leading-snug mt-1">{l}</div>
-            </div>
-          ))}
-        </div>
-        <p class="text-[12.5px] text-fg-dim m-0 flex-1">
-          Entities positioned by their real degree and centrality tier, not by hand. Click one
-          and it tells you what it connects to and how much of that lies outside the view.
-        </p>
-      </a>
-
-      <a href={`${base}credentials/`} class="card p-5 no-underline flex flex-col group">
-        <div class="flex items-baseline justify-between gap-2 mb-3">
-          <span class="eyebrow">Credentials</span>
-          <span class="text-fg-ghost text-[15px] leading-none transition-transform group-hover:translate-x-0.5">→</span>
-        </div>
-        <div class="text-[14px] text-fg mb-3">Checked, not claimed</div>
-        <div class="grid grid-cols-3 gap-3 mb-3">
-          {[['1.0 – 1.7', 'grade averages'], ['13,270', 'views, papers from 2011'],
-            ['2011', 'a reference from Google']].map(([v, l]) => (
-            <div>
-              <div class="text-[17px] font-semibold text-fg leading-none">{v}</div>
-              <div class="text-[10.5px] text-fg-ghost leading-snug mt-1">{l}</div>
-            </div>
-          ))}
-        </div>
-        <p class="text-[12.5px] text-fg-dim m-0 flex-1">
-          Every source link probed rather than assumed — five turned out to be login walls and
-          three had gone offline in the years since. Those say so instead of pretending.
-        </p>
-      </a>
+          <div class="text-[13px] text-synapse mb-2.5">{s.metric}</div>
+          <p class="text-[14px] text-fg-dim m-0 leading-snug flex-1">{s.blurb}</p>
+        </a>
+      ))}
     </div>
   </Section>
-
   <!-- ── The hive ─────────────────────────────────────────────────────── -->
   <Section
     id="hive"

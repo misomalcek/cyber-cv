@@ -9,24 +9,15 @@
  */
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 
-const items = [
-  { href: base,                 label: 'Overview',    id: 'overview', icon: 'grid' },
-  { href: `${base}systems/`,    label: 'Systems',     id: 'systems',  icon: 'box' },
-  { href: `${base}research/`,   label: 'Research',    id: 'research', icon: 'flask' },
-  { href: `${base}crystal/`,    label: 'Crystal',     id: 'crystal',  icon: 'orbit' },
-  { href: `${base}credentials/`,label: 'Credentials', id: 'creds',    icon: 'badge' },
-  { href: `${base}log/`,        label: 'Build log',   id: 'log',      icon: 'log' },
-];
+import { sectionCards, ICONS } from '../data/sections';
 
-const ICONS: Record<string, string> = {
-  grid:  'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',
-  box:   'M21 8l-9-5-9 5v8l9 5 9-5V8zM3 8l9 5 9-5M12 13v9',
-  flask: 'M9 3h6M10 3v6L4.5 18a2 2 0 001.7 3h11.6a2 2 0 001.7-3L14 9V3',
-  orbit: 'M12 12m-3 0a3 3 0 106 0a3 3 0 10-6 0M12 3a9 9 0 019 9M3 12a9 9 0 019-9',
-  badge: 'M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 7.7l5.4-.8z',
-  search:'M11 11m-7 0a7 7 0 1014 0a7 7 0 10-14 0M20 20l-4.35-4.35',
-  log:   'M4 5h16M4 10h16M4 15h10M4 20h7',
-};
+/* The dock mirrors the home grid exactly — same order, same icons, one source.
+   Labels are screen-reader + hover only: seven entries with text do not fit, and
+   the home grid already names every section. */
+const items = [
+  { href: base, label: 'Overview', id: 'overview', icon: 'grid' },
+  ...sectionCards.map((c) => ({ href: `${base}${c.slug}`, label: c.title, id: c.id, icon: c.icon })),
+];
 ---
 <nav id="dock" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[min(94vw,780px)]
                       pointer-events-none" aria-label="Main">
@@ -48,27 +39,29 @@ const ICONS: Record<string, string> = {
   </div>
 
   <!-- The pill. -->
-  <div class="dock-pill pointer-events-auto flex items-center gap-1 rounded-full px-2 py-1.5">
+  <div class="dock-pill pointer-events-auto flex items-center justify-center gap-0.5 sm:gap-1
+              rounded-full px-1.5 sm:px-2 py-1.5">
     {items.map((it) => (
       <a href={it.href} data-dock={it.id}
-         class="dock-item group relative flex items-center gap-2 rounded-full px-3 py-2 no-underline
-                text-fg-dim transition-all">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="1.8" class="shrink-0" aria-hidden="true"><path d={ICONS[it.icon]} /></svg>
-        <span class="text-[12.5px] hidden md:inline">{it.label}</span>
-        <span class="md:hidden absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px]
+         class="dock-item group relative flex items-center justify-center rounded-full
+                px-2 sm:px-2.5 py-2 no-underline text-fg-dim transition-all">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.7" class="shrink-0" aria-hidden="true"><path d={ICONS[it.icon]} /></svg>
+        <span class="sr-only">{it.label}</span>
+        <span class="absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap text-[11px]
                      px-2 py-1 rounded bg-bg-el border border-line opacity-0 group-hover:opacity-100
                      transition-opacity pointer-events-none">{it.label}</span>
       </a>
     ))}
 
-    <span class="w-px h-6 bg-line mx-1 shrink-0"></span>
+    <span class="w-px h-6 bg-line mx-0.5 sm:mx-1 shrink-0"></span>
 
     <button id="dock-search-toggle" type="button" aria-label="Search"
-            class="dock-item flex items-center gap-2 rounded-full px-3 py-2 text-fg-dim transition-all">
+            class="dock-item flex items-center justify-center rounded-full px-2 sm:px-2.5 py-2
+                   text-fg-dim transition-all">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
            stroke-width="1.8" class="shrink-0" aria-hidden="true"><path d={ICONS.search} /></svg>
-      <span class="text-[12.5px] hidden lg:inline">Search</span>
+
     </button>
   </div>
 </nav>
