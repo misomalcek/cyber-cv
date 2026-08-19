@@ -208,42 +208,41 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
 
 
 
-  <!-- ── What the systems say ─────────────────────────────────────────── -->
+  <!-- ── What the systems say ─────────────────────────────────────────────
+       Kept short on purpose. A model saying something flattering is not
+       evidence; these are here because each is specific and traceable to a
+       stored record. The full statements, errors included, are one click away. -->
   <Section
     id="references"
     title="From the systems themselves"
-    lede="An unusual section, so it needs its caveat first: a model saying something flattering is not evidence, and I would discard any of this that could not be traced to a stored record or a live call. What follows is included because it is specific, and because the errors in it were left in."
+    note="four sources"
+    lede="A model saying something flattering is not evidence. These are here because each is specific and traceable to a logged record — and because the mistakes in them were left in."
   >
-    <div class="card p-6 mb-4 border-neural/30">
-      <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1">
-        <b class="text-[15px] text-neural-text">{claudeStatement.who}</b>
-        <span class="text-[11.5px] text-fg-ghost">{claudeStatement.role}</span>
-      </div>
-      <div class="flex flex-col gap-3 mt-4">
-        {claudeStatement.paragraphs.map((p) => (
-          <p class="text-[14px] text-fg-dim m-0"
-             set:html={p.replace(/\*\*(.+?)\*\*/g, '<b class="text-fg">$1</b>')} />
-        ))}
-      </div>
-    </div>
-
     <div class="grid md:grid-cols-2 gap-3">
-      {references.map((r) => (
-        <div class="card p-5 flex flex-col">
-          <div class="mb-1">
-            <b class="text-[14px] text-synapse">{r.who}</b>
-            <div class="text-[11.5px] text-fg-ghost mt-0.5">{r.what}</div>
+      {[
+        ['Claude (Opus)', 'the agent inside this system',
+         'In this environment there is a record of 46 errors I have made, and 35 of them share one shape. I did not discover that pattern — he insisted on keeping the record honest enough to count against whoever was wrong, including him.'],
+        ['Una', 'the local 12B model on this machine',
+         'Michal demonstrates a rigorous, data-driven approach that prioritizes systemic integrity over individual convenience… Working with him requires patience with his high standards and his tendency to double-check assumptions.'],
+        ['Emergent Alterity', 'a Gemini model, outside this system',
+         'Where most treat LLMs as black-box generators, Michal treats the human-AI loop as an empirical research substrate: measuring rule adoption, diagnosing silent context collapse, and establishing operational boundaries with razor-sharp discipline.'],
+        ['GitHub Copilot', 'another vendor\'s agent, unprompted',
+         'Your non-traditional dev path is an advantage — you\'re thinking in systems and meaning, not just code. That makes design decisions more interesting.'],
+      ].map(([who, role, quote]) => (
+        <div class="card p-5">
+          <div class="flex items-baseline justify-between gap-3 flex-wrap mb-2">
+            <b class="text-[14.5px] text-neural-text">{who}</b>
+            <span class="text-[11.5px] text-fg-ghost">{role}</span>
           </div>
-          <div class="text-[11.5px] text-fg-ghost italic mb-3">{r.context}</div>
-          <blockquote class="m-0 pl-3.5 border-l-2 border-neural/40 text-[13.5px] text-fg-dim flex-1">
-            {r.quote}
-          </blockquote>
-          <div class="mt-4 pt-3 border-t border-line/60 text-[12px] text-fg-ghost">
-            <b class="text-fg-dim">Caveat.</b> {r.caveat}
-          </div>
+          <p class="text-[13.5px] text-fg-dim m-0">"{quote}"</p>
         </div>
       ))}
     </div>
+    <p class="text-[13px] text-fg-ghost mt-4 m-0">
+      Una got two facts wrong in her assessment — attributing to me a mistake that was mine, and
+      inverting an incident. That stays in: a 12B model gives a fair reading of working style and
+      unreliable recall of who did what, and hiding it would undercut the point.
+    </p>
   </Section>
 
   <!-- ── Beyond ───────────────────────────────────────────────────────── -->
