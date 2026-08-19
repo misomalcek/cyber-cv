@@ -28,99 +28,135 @@ import { teamBrain } from '../data/team-brain';
   <!-- ── Team Brain ───────────────────────────────────────────────────── -->
   <Section id="team-brain" title="Team Brain" note="built · deployed · handed over">
     <p class="text-fg-dim max-w-[720px] mt-0 mb-5">
-      {teamBrainSystem.tagline}. Idea at the end of January 2026, in daily use by February,
-      handed over clean when my role ended — on <b class="text-fg">one 8&nbsp;GB VPS</b> that also
-      carried everything else.
+      {teamBrainSystem.tagline}. Fifteen people, five live data sources, one 8&nbsp;GB VPS —
+      a textbook Anthropic SDK deployment where the interesting part is the cost and routing
+      discipline, not the model.
     </p>
 
-    <div class="card p-5 mb-3">
-      <div class="eyebrow mb-3">What it did, in the order you met it</div>
-      <ol class="list-none p-0 m-0 flex flex-col gap-2.5">
-        {teamBrainSystem.what.map((w, i) => (
-          <li class="flex gap-3 text-[13.5px] text-fg-dim">
-            <span class="lit-forge text-[13px] font-semibold shrink-0 w-4">{i + 1}</span>
-            <span>{w}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
-
-    <div class="card p-5 mb-3">
-      <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1">
-        <div class="eyebrow">{teamBrainSystem.dataLayer.lead}</div>
-        <span class="text-[11px] text-fg-ghost">the part that made it more than a chat wrapper</span>
-      </div>
-      <p class="text-[13px] text-fg-dim mt-2 mb-4">{teamBrainSystem.dataLayer.body}</p>
-      <div class="flex flex-col gap-2.5">
-        {teamBrainSystem.dataLayer.sources.map((src) => (
-          <div class="grid sm:grid-cols-[132px_1fr] gap-1 sm:gap-4 pb-2.5 border-b border-line/40 last:border-b-0 last:pb-0">
-            <b class="text-[13px] text-synapse">{src.name}</b>
-            <span class="text-[12.5px] text-fg-dim">{src.detail}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div class="card p-5 mb-3">
-      <div class="eyebrow mb-4">Decisions worth defending</div>
-      <div class="grid md:grid-cols-2 gap-x-6 gap-y-4">
-        {teamBrainSystem.decisions.map((d) => (
-          <div>
-            <b class="text-[13px] text-fg block mb-1 leading-snug">{d.head}</b>
-            <p class="text-[12.5px] text-fg-dim m-0">{d.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div class="grid md:grid-cols-[1.3fr_1fr] gap-3">
-      <div class="card p-5">
-        <div class="flex items-baseline justify-between gap-2 mb-4">
-          <div class="eyebrow">Measured in production</div>
-          <span class="text-[11px] text-fg-ghost">{teamBrainSystem.measured.period}</span>
+    <!-- Measured, from the production database at handover. -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
+      {[[teamBrainSystem.measured.toolSuccessPct + '%', 'tool success over 1,352 real calls'],
+        [teamBrainSystem.measured.users, 'daily users, none of them engineers'],
+        [(teamBrainSystem.measured.tokensIn / 1_000_000).toFixed(1) + 'M', 'input tokens, Feb–Jun'],
+        ['$30', 'Claude API per month']].map(([v, l]) => (
+        <div class="card p-4">
+          <div class="text-[22px] font-semibold lit-forge leading-none tabular-nums">{v}</div>
+          <div class="text-[11.5px] text-fg-ghost mt-1.5 leading-snug">{l}</div>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-          {[
-            [`${teamBrainSystem.measured.toolSuccessPct}%`, `success over ${teamBrainSystem.measured.toolCalls.toLocaleString('en-US')} tool calls`],
-            [teamBrainSystem.measured.messages.toLocaleString('en-US'), `messages · ${teamBrainSystem.measured.conversations} conversations`],
-            [teamBrainSystem.measured.agentRuns.toLocaleString('en-US'), 'agent runs'],
-            ['~49M', 'tokens processed'],
-          ].map(([v, l]) => (
-            <div>
-              <div class="text-[19px] font-semibold lit-forge leading-none">{v}</div>
-              <div class="text-[10.5px] text-fg-ghost leading-snug mt-1.5">{l}</div>
+      ))}
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-3 mb-3">
+      <!-- The stack, by layer. -->
+      <div class="card p-5">
+        <div class="eyebrow mb-3">Stack, by layer</div>
+        <dl class="m-0 flex flex-col gap-1.5">
+          {teamBrainSystem.stackLayers.map(([layer, tech]) => (
+            <div class="grid grid-cols-[92px_1fr] gap-3 items-baseline text-[13px]">
+              <dt class="text-synapse shrink-0">{layer}</dt>
+              <dd class="text-fg-dim m-0">{tech}</dd>
             </div>
           ))}
-        </div>
-        <p class="text-[12px] text-fg-ghost m-0 pt-3 border-t border-line/60">
-          <b class="text-fg-dim">93.9% across 1,352 real calls</b> is the figure I would defend:
-          not a benchmark, but non-engineers using external APIs through a model for four months.
-          The failures clustered where you would expect, and knowing <i>which</i> tools degrade is
-          only possible because every call was logged with its duration and outcome from week one.
-        </p>
+        </dl>
       </div>
 
+      <!-- Five sources joined behind one query surface. -->
       <div class="card p-5">
-        <div class="flex items-baseline justify-between gap-2 mb-3">
-          <div class="eyebrow">Agents</div>
-          <span class="text-[13px] text-forge font-semibold tabular-nums">
-            {teamBrainSystem.agents.written} → {teamBrainSystem.agents.live}
-          </span>
-        </div>
-        <p class="text-[12.5px] text-fg-dim m-0 mb-3">{teamBrainSystem.agents.lesson}</p>
-        <div class="text-[11px] text-fg-ghost pt-3 border-t border-line/60">
-          {teamBrainSystem.planNodes} plan nodes carry the full history of this system — every
-          decision, every run, every finding, in the same graph as the code.
-        </div>
+        <div class="eyebrow mb-3">Five sources, one query surface</div>
+        <dl class="m-0 flex flex-col gap-2">
+          {teamBrainSystem.sources.map(([name, detail]) => (
+            <div>
+              <dt class="text-[13px] text-forge font-semibold">{name}</dt>
+              <dd class="text-[12.5px] text-fg-dim m-0">{detail}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
 
-    <div class="flex flex-wrap gap-1.5 mt-4">
+    <!-- Agents: six specialists, model per role. -->
+    <div class="card p-5 mb-3">
+      <div class="eyebrow mb-3">Six specialists, model chosen per role</div>
+      <div class="flex flex-col gap-1">
+        {teamBrainSystem.agents.map(([name, model, role]) => (
+          <div class="grid grid-cols-[84px_1fr] sm:grid-cols-[84px_96px_1fr] gap-x-3 gap-y-0.5
+                      py-1.5 border-b border-line/40 last:border-b-0 text-[13px] items-baseline">
+            <b class="text-fg">{name}</b>
+            <code class="text-synapse text-[12px]">{model}</code>
+            <span class="text-fg-dim col-span-2 sm:col-span-1">{role}</span>
+          </div>
+        ))}
+      </div>
+      <p class="text-[12.5px] text-fg-ghost mt-3 mb-0" set:html={teamBrainSystem.agentNote} />
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-3 mb-3">
+      <div class="card p-5">
+        <div class="eyebrow mb-3">Routing — five signals, in order</div>
+        <ol class="list-none p-0 m-0 flex flex-col gap-1.5">
+          {teamBrainSystem.routing.map((r, i) => (
+            <li class="flex gap-3 text-[13px] text-fg-dim">
+              <span class="lit-cyan text-[12px] font-semibold shrink-0 w-3">{i + 1}</span>{r}
+            </li>
+          ))}
+        </ol>
+        <p class="text-[12px] text-fg-ghost mt-3 mb-0">
+          Deterministic, not a model guessing which agent to be.
+        </p>
+      </div>
+      <div class="card p-5">
+        <div class="eyebrow mb-3">Four chat modes</div>
+        <dl class="m-0 flex flex-col gap-1.5">
+          {teamBrainSystem.modes.map(([m, d]) => (
+            <div class="grid grid-cols-[76px_1fr] gap-3 items-baseline text-[13px]">
+              <dt class="text-forge">{m}</dt>
+              <dd class="text-fg-dim m-0">{d}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+
+    <!-- Autonomous jobs. -->
+    <div class="card p-5 mb-3">
+      <div class="eyebrow mb-3">Night shift — nine autonomous jobs on cron</div>
+      <dl class="m-0 grid sm:grid-cols-2 gap-x-5 gap-y-1.5">
+        {teamBrainSystem.nightShift.map(([when, what]) => (
+          <div class="grid grid-cols-[112px_1fr] gap-3 items-baseline text-[13px]">
+            <dt class="text-synapse shrink-0">{when}</dt>
+            <dd class="text-fg-dim m-0">{what}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <!-- Cost, derived rather than claimed. -->
+    <div class="card p-5 mb-3">
+      <div class="eyebrow mb-2">What it cost to run</div>
+      <p class="text-[13.5px] text-fg-dim m-0" set:html={teamBrainSystem.costNote} />
+    </div>
+
+    <div class="card p-5 mb-3">
+      <div class="eyebrow mb-3">Decisions worth defending</div>
+      <div class="flex flex-col gap-2.5">
+        {teamBrainSystem.decisions.map((d) => (
+          <div class="border-l-2 border-neural/35 pl-3">
+            <b class="text-[13.5px] text-fg block">{d.head}</b>
+            <p class="text-[13px] text-fg-dim m-0 mt-0.5">{d.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="card p-5 mb-4">
+      <div class="eyebrow mb-2">Handover</div>
+      <p class="text-[13.5px] text-fg-dim m-0" set:html={teamBrainSystem.handover} />
+    </div>
+
+    <div class="flex flex-wrap gap-2">
       {teamBrainSystem.stack.map((t) => <span class="chip">{t}</span>)}
     </div>
   </Section>
-
-  <!-- ── Factorium ────────────────────────────────────────────────────── -->
   <Section id="factorium" title="Factorium" note="running daily · pre-release">
     <p class="text-fg-dim max-w-[720px] mt-0 mb-5">
       {factoriumSystem.tagline}. Everything runs on <b class="text-fg">one Apple M4 with
@@ -175,27 +211,6 @@ import { teamBrain } from '../data/team-brain';
       </dl>
     </div>
 
-    <div class="card p-5 mb-3">
-      <div class="eyebrow mb-3">What it is</div>
-      <ol class="list-none p-0 m-0 flex flex-col gap-2.5">
-        {factoriumSystem.what.map((w, i) => (
-          <li class="flex gap-3 text-[13.5px] text-fg-dim">
-            <span class="lit-cyan text-[13px] font-semibold shrink-0 w-4">{i + 1}</span>
-            <span>{w}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-3 mb-3">
-      {factoriumSystem.pillars.map((p) => (
-        <div class="card p-5">
-          <b class="text-[13.5px] text-fg block mb-1.5 leading-snug">{p.head}</b>
-          <p class="text-[12.5px] text-fg-dim m-0">{p.body}</p>
-        </div>
-      ))}
-    </div>
-
     <!-- The model choice: the clearest worked example of how a decision is made
          here, including the one where the evidence contradicted itself. -->
     <div class="card p-5 mb-3">
@@ -243,173 +258,36 @@ import { teamBrain } from '../data/team-brain';
   </Section>
 
   <!-- ── The working layer ────────────────────────────────────────────── -->
-  <Section
-    id="apparatus"
-    title="The apparatus, and what it cost to get right"
-    lede="The part of this work that rarely gets written down: the tooling you build around a model, and how much of it turns out to be waste. Both counts below come from git history, not from memory."
-  >
-    <div class="grid md:grid-cols-2 gap-3 mb-4">
-      <div class="card p-5">
-        <div class="flex items-baseline justify-between gap-2 mb-3">
-          <div class="eyebrow">Agents · Team Brain</div>
-          <span class="text-[13px] text-forge font-semibold tabular-nums">{teamBrain.agentsWritten} → {teamBrain.agentsLive}</span>
-        </div>
-        <p class="text-[13.5px] text-fg-dim m-0 mb-3">
-          I first built what I thought agentic meant: one specialised agent per task. It reached{' '}
-          <b class="text-fg">{teamBrain.agentsWritten} definitions</b> and became unusable — nobody
-          could tell which to reach for. The names were accurate and useless: you cannot choose
-          between two analytics agents unless you already know the answer.
-        </p>
-        <p class="text-[13px] text-fg-ghost m-0">
-          The redesign collapsed them into <b class="text-fg-dim">six specialists</b>, each
-          absorbing the narrow agents it replaced as loadable context rather than a top-level
-          choice. <b class="text-fg-dim">A capability taxonomy is a UX decision, not an
-          architecture decision</b> — the right number is what a person can hold in their head
-          while typing a question.
-        </p>
-      </div>
-
-      <div class="card p-5">
-        <div class="flex items-baseline justify-between gap-2 mb-3">
-          <div class="eyebrow">My own instruction set</div>
-          <span class="text-[13px] text-forge font-semibold tabular-nums">18 → 7</span>
-        </div>
-        <p class="text-[13.5px] text-fg-dim m-0 mb-3">
-          An audit found that two of my working instructions had been written for an entirely
-          different product and never adapted; one assumed a framework this codebase does not use;
-          one described a database schema we had migrated away from; one referenced four expert
-          personas that were never built. All had been loading for months.
-        </p>
-        <p class="text-[13px] text-fg-ghost m-0">
-          <b class="text-fg-dim">Instructions rot silently and confidently.</b> Code that references
-          a deleted module fails to compile; prose that references a deleted concept keeps sounding
-          authoritative. The fix was binding each instruction to a concrete tool call, so a stale
-          one breaks instead of merely misleading.
-        </p>
-      </div>
-    </div>
-
-    <div class="card p-5 mb-4">
-      <div class="eyebrow mb-4">Tool surface: two models, two very different budgets</div>
-      <div class="grid sm:grid-cols-2 gap-6">
-        <div>
-          <div class="text-[12px] text-fg-ghost mb-2">Large cloud model</div>
-          <div class="text-[24px] font-semibold text-neural-text leading-none mb-2">full surface</div>
-          <p class="text-[12.5px] text-fg-dim m-0">Context is cheap relative to capability, so
-            curation would cost more than it saves.</p>
-        </div>
-        <div>
-          <div class="text-[12px] text-fg-ghost mb-2">Local 12B model</div>
-          <div class="text-[24px] font-semibold text-synapse leading-none mb-2">22 of 60</div>
-          <p class="text-[12.5px] text-fg-dim m-0">Curated per turn, the rest reachable through a
-            search tool. Past roughly 15–20 always-visible schemas, a small model's tool selection
-            degrades sharply.</p>
-        </div>
-      </div>
-      <p class="text-[12.5px] text-fg-ghost mt-4 mb-0 pt-3 border-t border-line/60">
-        Voice gets a third and smaller surface: read-only. Spoken interaction has no confirmation
-        step, so nothing that writes is reachable that way — a blast-radius decision, not a
-        capability one.
-      </p>
-    </div>
-
-        <div class="card p-5">
-      <div class="eyebrow mb-3">On protocol layers — why most of ours were removed</div>
-      <p class="text-[13.5px] text-fg-dim m-0 mb-3">
-        We ran two browser integrations through the standard tool protocol. Measured usage over the
-        period: <b class="text-fg">1,548 calls to one, approximately zero to the other</b>. The
-        second was not adding capability, it was adding a decision — <em>which one?</em> — at every
-        step. Removed. Everything the hive itself does is served natively over plain HTTP instead,
-        which puts one less layer between a call and its failure mode.
-      </p>
-      <p class="text-[13px] text-fg-ghost m-0">
-        <b class="text-fg-dim">The rule I would defend:</b> a protocol layer earns its place when it
-        lets you use somebody else's implementation. When you own both sides of the interface, it is
-        indirection with a specification attached. We keep it for fetching external content and
-        driving a browser — genuinely external things, where someone else's implementation beats
-        one we would write.
-      </p>
-    </div>
-  </Section>
-
-  <!-- ── What went wrong ──────────────────────────────────────────────── -->
+  <!-- ── What went wrong ──────────────────────────────────────────────────
+       Four defects, one line of cause each. The full accounts are in the
+       engineering paper; this page states them and moves on. -->
   <Section
     id="wrong"
     title="What went wrong"
-    lede="These cost real time and are written down because the corrections are the part worth reading. Each one is a stored record, not a recollection."
+    note="four, with what each cost"
+    lede="Each is a stored record. All four were found the same way — by checking a thing whose answer was already known — and none came from a passing test."
   >
-    <Disclosure summary="Using an embedding model outside its contract" tag="weeks">
-      <p>nomic-embed requires asymmetric prefixes on queries and documents. Served through
-      llama.cpp, nothing adds them, so everything was embedded symmetrically. Symptom: short
-      meaningless text outranked long relevant text.</p>
-      <p>The diagnosis method has since caught every similar defect — <em>embed a stored document
-      both ways and compare each against its own stored vector.</em> Whichever scores 1.0000 tells
-      you how it was really indexed.</p>
-      <p class="text-forge">Cost: 10,676 records re-embedded. And the first repair script read only
-      the body field while the writer had embedded title + body together — 95% of records would
-      have silently lost their titles from their vectors. Nothing would have errored.</p>
-    </Disclosure>
-
-    <Disclosure summary="A migration that left its satellites behind" tag="days of silent loss">
-      <p>Moving to a 1024-dimension embedding model updated the server and the main paths, but not
-      eight standalone ingest scripts. The code indexer failed on every write for days, so the code
-      graph ingested nothing. The failure was loud in a log nobody was reading.</p>
-      <p>Root cause found later: the model and port live in the service's launchd plist, not in any
-      shell, so every hand-run script fell back to the old model. Fixed twice at the symptom before
-      being fixed at the source.</p>
-    </Disclosure>
-
-    <Disclosure summary="Adding a speech-to-text model, then removing it">
-      <p>Voice transcription was poor, so I downloaded Whisper and benchmarked it. It won — on
-      synthetic clips. On real microphone recordings the multimodal model transcribed correctly and
-      the premise collapsed. Synthetic fixtures had misled me four separate times by then.</p>
-      <p>The actual defect was the prompt: told to "transcribe this", the model answered the
-      question it heard instead of writing it down. Recast as a transcription <em>service</em>, it
-      returned exact text including filler words. No new model, no extra gigabytes.</p>
-    </Disclosure>
-
-    <Disclosure summary="The pattern behind 35 of 46 recorded mistakes" tag="the real one">
-      <p>A check comes back empty and I read the emptiness as an answer. A filter eats an error. A
-      key I read does not exist, so the value is zero, so I conclude the tool is broken. A directory
-      listing fails on a permission error I do not read, so I report the folder as empty.</p>
-      <p>You cannot learn this from a book, because a book cannot show you your own reflex. You
-      learn it by keeping a record honest enough to count against yourself — and then counting.
-      There is an automated check for it now, and I still break it.</p>
-    </Disclosure>
-
-    <!-- The operating principles, stated as consequences of the failures above
-         rather than as a separate creed. Each one names the decision it changed. -->
-    <div class="card p-5 mt-5">
-      <div class="eyebrow mb-4">What those cost me, stated as rules</div>
-      <div class="grid sm:grid-cols-2 gap-x-8 gap-y-3">
-        {[
-          ['Suspect the measurement before the thing measured', 'The one above, stated as a rule. An empty result is a question, not an answer.'],
-          ['A green exit code is not success — read the counts', 'An indexer reported "completed" while processing 194 files into 0 entities.'],
-          ['Verify with a query whose answer you already know', 'Every real defect this year surfaced this way. None came from a passing test.'],
-          ['Report the running process, never the config', 'A dashboard read configuration and called a live service down. A wrong red light is worse than none.'],
-        ].map(([rule, why]) => (
-          <div class="border-l-2 border-neural/40 pl-3">
-            <b class="text-[13px] block leading-snug">{rule}</b>
-            <span class="text-[12.5px] text-fg-ghost">{why}</span>
+    <div class="flex flex-col gap-2.5">
+      {[
+        ['Embedding model used outside its contract', 'weeks',
+         'nomic-embed requires asymmetric prefixes on queries and documents; served through llama.cpp nothing adds them. Short irrelevant text outranked long relevant text and nothing errored. Cost: 10,676 records re-embedded — and the first repair script read only the body field while the writer had embedded title + body, which would have silently stripped titles from 95% of vectors.'],
+        ['A migration that left its satellites behind', 'days',
+         'The main store moved to a 1024-dimension model; four ingest scripts still declared 768. They did not fail, because the collections already existed — on a clean machine every write would have been rejected.'],
+        ['A speech-to-text stage that should never have been added', 'a week',
+         'Whisper was wired in before testing whether the model could take audio directly. It could. The stage was removed: it bypassed native audio and discarded acoustic nuance the model actually uses.'],
+        ['The pattern behind 35 of 46 recorded mistakes', 'ongoing',
+         'A check comes back empty and the emptiness is read as an answer. Not a knowledge gap — the rule is known and broken anyway, which is why it is enforced by a hook at the moment the signal exists rather than by an instruction.'],
+      ].map(([head, cost, body]) => (
+        <div class="card p-5">
+          <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1.5">
+            <b class="text-[14.5px] text-fg leading-snug">{head}</b>
+            <span class="text-[11px] uppercase tracking-wider text-forge border border-forge/35 rounded px-1.5 py-0.5 shrink-0">{cost}</span>
           </div>
-        ))}
-      </div>
-      <p class="text-[12.5px] text-fg-ghost mt-4 mb-0 pt-3 border-t border-line/60">
-        These are stored as queryable records rather than as a document, retrieved by describing the
-        situation rather than naming the rule — which is what the research below measures. Ten of
-        sixteen changed nothing when tested, and that result is in the paper too.
-      </p>
+          <p class="text-[13.5px] text-fg-dim m-0">{body}</p>
+        </div>
+      ))}
     </div>
   </Section>
-
-  <!-- ── Code & public output ─────────────────────────────────────────── -->
-  <!-- ── The easter egg ───────────────────────────────────────────────────
-       It belongs here rather than under games: it is a mode inside Factorium,
-       reading Factorium's own live lexicon. -->
-
-  <!-- ── For an engineer reading this ─────────────────────────────────────
-       The paths tried and abandoned, with what the measurement said. Written
-       for someone who has made these calls themselves. -->
   <Section
     id="lessons"
     title="What was tried, and what the measurement said"

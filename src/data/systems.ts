@@ -12,56 +12,68 @@
 
 export const teamBrainSystem = {
   name: 'Team Brain',
-  tagline: 'A multi-source analytics platform an SEO team used daily',
+  tagline: 'A multi-source SEO analytics platform an agency team used daily',
   status: 'built · deployed · handed over',
-  period: 'Jan 2026 idea → delivered and handed over',
+  period: 'Jan 2026 → delivered, handed over with full documentation',
   host: 'one 8 GB Debian VPS',
-  planNodes: 191,
 
-  /** What it actually did, in the order a user encountered it. */
-  what: [
-    'Ask a question in Slovak; the system decides which of six specialists answers it, loads that specialist\'s context, and reaches for the tools it needs.',
-    'Those tools query five live data sources, join across them, and return an answer with the age of every number attached.',
-    'Anything worth keeping is written back as a memory record — which the next question can then use.',
+  /** The stack, by layer. Versions are what shipped. */
+  stackLayers: [
+    ['Runtime', 'Node.js 20 · TypeScript 5.9'],
+    ['Backend', 'Express 5 · PM2 cluster · Nginx 1.26 · Let\'s Encrypt'],
+    ['Frontend', 'Next.js 16 static export · React 19 · Tailwind 4'],
+    ['Database', 'PostgreSQL 17 · ~150 MB'],
+    ['Time-series', 'TimescaleDB 2.26'],
+    ['Vector', 'pgvector 0.8 + pgvectorscale 0.9 · all-MiniLM-L6-v2, 384d'],
+    ['Graph & text', 'Apache AGE 1.5 · pg_trgm'],
+    ['AI', 'Anthropic SDK 0.71+ · Sonnet 4.6 / 4.5 · Haiku 4.5 / Opus 4.6'],
   ],
 
-  /** The data layer is the part that made it more than a chat wrapper. */
-  dataLayer: {
-    lead: 'Five sources, one query surface',
-    body: `Most "AI for SEO" tools wrap a single API. This joined five, which is
-      where the interesting questions live — a ranking drop is rarely visible in
-      one source alone.`,
-    sources: [
-      { name: 'Ahrefs', detail: '23 tools across Site Explorer, Link Analysis, Keywords Explorer and Site Audit. 500k API units a month, budget-aware, with a check_budget tool so a large query could not silently exhaust the plan.' },
-      { name: 'Google Search Console', detail: 'Direct API via a service account. Nightly snapshots of the top 1,000 queries over a 90-day window, three domains — so the common questions cost zero API calls.' },
-      { name: 'Google Analytics 4', detail: 'Grew from 3 tools to 18: landing pages, engagement, source/medium, geo, device, key events, channel attribution, period comparison, funnels, cohort retention.' },
-      { name: 'CrUX', detail: 'Chrome User Experience Report — real-user Core Web Vitals rather than lab numbers, which is the difference between a synthetic score and what visitors experienced.' },
-      { name: 'Live page rendering', detail: 'Headless rendering for JavaScript-heavy pages, made the default for technical audits after fetch-only proved unreliable on client-rendered sites.' },
-    ],
-  },
+  /** Six specialists, each with the model it actually runs on. */
+  agents: [
+    ['Auditor', 'sonnet', 'Technical SEO audit, AEO, SERP analysis, Core Web Vitals'],
+    ['Analyst', 'sonnet', 'Ahrefs + GSC + GA4 joined, competitor gap analysis'],
+    ['Writer', 'sonnet', 'Article writing, editorial, brand voice'],
+    ['Brief', 'sonnet-high', 'Content briefs, research, strategy'],
+    ['Idea', 'haiku', 'Keyword ideation, brainstorming'],
+    ['Batch', 'haiku', 'Multi-domain reports, bulk operations'],
+  ],
+  agentNote: `~45 sub-agents sit behind the six as loadable context, plus custom agents the
+    team creates from chat and stores in the database. Model choice is per specialist: Haiku
+    where the work is generative and cheap, Sonnet where it is analytic.`,
 
-  /** Decisions that are worth defending in an interview. */
-  decisions: [
-    {
-      head: 'PostgreSQL with TimescaleDB, not a separate OLAP store',
-      body: 'The database was already there for the application and for vectors. Adding hypertables and continuous aggregates bought time-series analysis without a second system to keep in sync — and no cross-store consistency problem to design around.',
-    },
-    {
-      head: 'The model writes SQL; Node runs it',
-      body: 'A single query tool against the data layer, rather than a tool per question. Snapshot juggling disappeared, and a question nobody anticipated could still be answered.',
-    },
-    {
-      head: 'A sandboxed execution tool, to stop the model doing arithmetic',
-      body: 'Aggregations, joins and percentiles over large datasets run as code in a VM. A language model computing a median across 5,000 rows is a wrong answer waiting to happen — this made that structurally impossible.',
-    },
-    {
-      head: 'Every number carries its age',
-      body: 'Freshness badges in the UI and in tool results. An analytics answer without a timestamp invites a decision based on last month\'s data, and nobody notices until it is expensive.',
-    },
-    {
-      head: 'Snapshot-first, then the API',
-      body: 'Cached snapshots answer first; the live API is the fallback. Cheaper, faster, and it keeps working when a provider rate-limits you mid-audit.',
-    },
+  /** Five signals, tried in order — not an LLM guessing which agent to be. */
+  routing: [
+    '@mention — explicit selection',
+    'Action path — 29 actions across 8 categories',
+    'Complexity — multi-domain or cross-source signals',
+    'Keyword — registry score from each agent\'s declared keywords',
+    'Base model — no specialist, plain conversation',
+  ],
+  modes: [
+    ['default', 'standard response'],
+    ['extended', 'depth and thoroughness'],
+    ['fast', 'parallel tool calls, no preamble'],
+    ['confirm', 'explicit approval before any state-changing action'],
+  ],
+
+  /** Five live sources joined behind one query surface. */
+  sources: [
+    ['Ahrefs', '23 tools · 500k API units/month, budget-aware with a check_budget tool'],
+    ['Search Console', 'JWT service account, 3 domains · nightly top-1,000 snapshots over 90 days'],
+    ['Analytics 4', '18 tools — landing pages, attribution, funnels, cohort retention'],
+    ['CrUX', 'real-user Core Web Vitals, not lab scores'],
+    ['Live rendering', 'headless Chromium, the default for technical audits'],
+  ],
+
+  /** Nine autonomous jobs on PM2 cron. */
+  nightShift: [
+    ['Daily 01:30', 'activate pending memories older than 7 days'],
+    ['Daily 06:30', 'health probe, posted to the team feed'],
+    ['Mon 05:00', 'weekly digest'],
+    ['Wed 01:30 / 02:30', 'GSC snapshot · CrUX snapshot'],
+    ['Sun 03:00', 'article scraper across 3 domains'],
+    ['Monthly', 'memory decay · knowledge re-embedding · sitemap crawl'],
   ],
 
   /** Aggregates from the production database at handover. */
@@ -78,20 +90,45 @@ export const teamBrainSystem = {
     memories: 514,
     period: 'Feb–Jun 2026',
   },
+  costNote: `49.4 M input tokens over five months of daily use by fifteen people —
+    about <b>$30 a month</b> in Claude API spend at Sonnet input pricing, roughly 14k input
+    tokens per message. The cost control is architectural: snapshots answer first and the live
+    API is the fallback, Haiku takes the generative work, and a budget tool stops a large query
+    exhausting the plan.`,
 
-  /** The agent redesign, which is the lesson worth telling. */
-  agents: {
-    written: 61,
-    live: 12,
-    specialists: 6,
-    lesson: `I first built one agent per task and it reached 61 definitions. Nobody
-      could tell which to reach for — the names were accurate and useless. Collapsing
-      them into six specialists, each absorbing the narrow agents it replaced as
-      loadable context, fixed it. A capability taxonomy is a UX decision, not an
-      architecture decision.`,
-  },
+  /** Decisions worth defending. */
+  decisions: [
+    {
+      head: 'One Postgres, not a separate OLAP store',
+      body: 'TimescaleDB hypertables and continuous aggregates in the database that was already there for the app and the vectors. No second system to keep in sync, no cross-store consistency problem.',
+    },
+    {
+      head: 'The model writes SQL; Node runs it',
+      body: 'One query tool against the data layer instead of a tool per question. A question nobody anticipated can still be answered.',
+    },
+    {
+      head: 'A sandboxed execution tool, so the model does not do arithmetic',
+      body: 'Aggregations, joins and percentiles over large result sets run as code in a VM. A language model computing a median across 5,000 rows is a wrong answer waiting to happen.',
+    },
+    {
+      head: 'Every number carries its age',
+      body: 'Freshness badges in the UI and in tool results. An analytics answer without a timestamp invites a decision made on last month\'s data.',
+    },
+    {
+      head: '61 agent definitions collapsed to 6',
+      body: 'Nobody could tell which to reach for; the names were accurate and useless. The narrow prompts became loadable context. A capability taxonomy is a UX decision, not an architecture decision.',
+    },
+    {
+      head: 'Instructions bound to a worked example',
+      body: 'Every instruction references a concrete tool call, so a stale instruction breaks loudly instead of quietly misleading.',
+    },
+  ],
 
-  stack: ['Express 5', 'TypeScript', 'PostgreSQL', 'TimescaleDB', 'pgvector', 'Next.js 16', 'React 19', 'Claude API', 'PM2', 'Nginx'],
+  handover: `Delivered with nine handover documents — system overview, admin guide, dev guide,
+    user guide in two languages, data model, workflow, and a two-tier access model. A system
+    only its author can operate is not delivered; it is lent.`,
+
+  stack: ['Express 5', 'TypeScript', 'PostgreSQL 17', 'TimescaleDB', 'pgvector', 'Apache AGE', 'Next.js 16', 'React 19', 'Anthropic SDK', 'PM2', 'Nginx'],
 };
 
 export const factoriumSystem = {
