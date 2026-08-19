@@ -153,8 +153,16 @@ export interface Output {
 export const outputs: Output[] = [
   {
     kind: 'site', name: 'aisvet.sk', url: 'https://aisvet.sk',
-    what: 'The live site — AI writing in Slovak, aimed at people who are not engineers.',
+    what: 'Practical AI writing in Slovak — hands-on guides from work actually done, in a language where the alternative is translated marketing copy.',
     note: 'Source: gitlab.com/owlstar/aisvet',
+  },
+  {
+    kind: 'video', name: 'AI Svet — YouTube', url: 'https://www.youtube.com/@aisvet-sk',
+    what: '10 videos, same material in video form.',
+  },
+  {
+    kind: 'audio', name: 'AI Svet — podcast', url: 'https://hearthis.at/aisvet/',
+    what: '11 episodes: agent engineering, autonomous runs, why company AI projects fail.',
   },
   {
     kind: 'site', name: 'aisvet 2', url: 'https://aisvet2-f57d07.gitlab.io/',

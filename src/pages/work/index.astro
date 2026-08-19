@@ -2,7 +2,7 @@
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
-import { lineageRepos, repos, games, outputs } from '../../data/public-work';
+import { lineageRepos, repos, outputs } from '../../data/public-work';
 
 /**
  * Everything public, in one place.
@@ -48,41 +48,7 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
     </div>
   </Section>
 
-  <!-- Games are a thread, not a hobby: three attempts at the same idea. -->
-  <Section title="Games that teach a value system" note="three prototypes"
-           lede="Not games you finish. Each is a test of one idea: that a scoring rule can leave you with a feeling about the thing it scored — which makes it a way to teach values, children included, rather than a skill.">
-    <div class="flex flex-col gap-3">
-      {games.map((g) => (
-        <div class="card p-5">
-          <div class="flex flex-wrap items-baseline gap-3 mb-2">
-            <b class="text-[16.5px] text-fg font-semibold">{g.name}</b>
-            {g.play && (
-              <a href={g.play} target="_blank" rel="noopener"
-                 class="text-[12px] text-forge border border-forge/40 rounded px-2 py-0.5 no-underline hover:bg-forge/10">play →</a>
-            )}
-            {g.url && (
-              <a href={g.url} target="_blank" rel="noopener"
-                 class="text-[12px] text-synapse no-underline hover:underline">source →</a>
-            )}
-          </div>
-          <p class="text-[14px] text-fg-dim m-0 mb-2">{g.what}</p>
-          <p class="text-[13.5px] text-fg-ghost m-0" set:html={g.why.replace(/\*\*(.+?)\*\*/g, '<b class="text-fg-dim">$1</b>')} />
-          {g.videos && (
-            <div class="flex flex-wrap gap-2 mt-3">
-              {g.videos.map((v) => (
-                <a href={v.url} target="_blank" rel="noopener"
-                   class="inline-flex items-center gap-2 text-[12.5px] text-forge no-underline
-                          border border-forge/30 rounded-lg px-2.5 py-1.5 hover:bg-forge/10">
-                  <svg width="10" height="12" viewBox="0 0 9 11" fill="currentColor" aria-hidden="true"><path d="M0 0.5L9 5.5L0 10.5V0.5Z" /></svg>
-                  {v.title}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  </Section>
+
 
   <Section title="Repositories" note={`${repos.length} public`}
            lede="Described from the README, the package description or the source — whichever was actually true.">

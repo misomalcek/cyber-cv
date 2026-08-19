@@ -8,7 +8,6 @@ import Stat from '../components/Stat.astro';
 import BarList from '../components/BarList.astro';
 import { qdrant, qdrantTotal, graphs, rules, capturedAt } from '../data/hive';
 import { teamBrain } from '../data/team-brain';
-import { claudeStatement, references } from '../data/references';
 import { teamBrainSystem, factoriumSystem } from '../data/systems';
 import Contact from '../components/Contact.astro';
 import { sectionCards, ICONS } from '../data/sections';
@@ -208,42 +207,8 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
 
 
 
-  <!-- ── What the systems say ─────────────────────────────────────────────
-       Kept short on purpose. A model saying something flattering is not
-       evidence; these are here because each is specific and traceable to a
-       stored record. The full statements, errors included, are one click away. -->
-  <Section
-    id="references"
-    title="From the systems themselves"
-    note="four sources"
-    lede="A model saying something flattering is not evidence. These are here because each is specific and traceable to a logged record — and because the mistakes in them were left in."
-  >
-    <div class="grid md:grid-cols-2 gap-3">
-      {[
-        ['Claude (Opus)', 'the agent inside this system',
-         'In this environment there is a record of 46 errors I have made, and 35 of them share one shape. I did not discover that pattern — he insisted on keeping the record honest enough to count against whoever was wrong, including him.'],
-        ['Una', 'the local 12B model on this machine',
-         'Michal demonstrates a rigorous, data-driven approach that prioritizes systemic integrity over individual convenience… Working with him requires patience with his high standards and his tendency to double-check assumptions.'],
-        ['Emergent Alterity', 'a Gemini model, outside this system',
-         'Where most treat LLMs as black-box generators, Michal treats the human-AI loop as an empirical research substrate: measuring rule adoption, diagnosing silent context collapse, and establishing operational boundaries with razor-sharp discipline.'],
-        ['GitHub Copilot', 'another vendor\'s agent, unprompted',
-         'Your non-traditional dev path is an advantage — you\'re thinking in systems and meaning, not just code. That makes design decisions more interesting.'],
-      ].map(([who, role, quote]) => (
-        <div class="card p-5">
-          <div class="flex items-baseline justify-between gap-3 flex-wrap mb-2">
-            <b class="text-[14.5px] text-neural-text">{who}</b>
-            <span class="text-[11.5px] text-fg-ghost">{role}</span>
-          </div>
-          <p class="text-[13.5px] text-fg-dim m-0">"{quote}"</p>
-        </div>
-      ))}
-    </div>
-    <p class="text-[13px] text-fg-ghost mt-4 m-0">
-      Una got two facts wrong in her assessment — attributing to me a mistake that was mine, and
-      inverting an incident. That stays in: a 12B model gives a fair reading of working style and
-      unreliable recall of who did what, and hiding it would undercut the point.
-    </p>
-  </Section>
+  <!-- Model references live on /credentials/ — they are a credential from a
+       different world, not front-page decoration. -->
 
   <!-- ── Beyond ───────────────────────────────────────────────────────── -->
   <Section id="beyond" title="Beyond the record">

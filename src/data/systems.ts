@@ -127,6 +127,54 @@ export const factoriumSystem = {
     },
   ],
 
+
+  /**
+   * The architecture, named. A page about a system that does not say what the
+   * system is made of is a brochure — and this one had no harness, no event bus
+   * and no watcher in it, while all three are modules in the repository.
+   */
+  architecture: {
+    lead: 'What it is actually made of',
+    layers: [
+      {
+        name: 'Store',
+        detail: 'One Postgres instance holding three shapes of data: pgvector for embeddings, Apache AGE for two graphs (knowledge, code), TimescaleDB for the activity hypertable. Qdrant alongside for seven vector collections. One connection, one backup, no cross-store consistency problem.',
+      },
+      {
+        name: 'Memory with a metabolism',
+        detail: 'Records carry importance, decay and Hebbian strengthening — reaching a record strengthens it, unused ones fade, anchors never decay. `biological-score.ts`. The store compounds meaning rather than only growing.',
+      },
+      {
+        name: 'Agent runtime',
+        detail: '23 tool modules behind one registry — memory, knowledge graph, code search, docs, git, browser, files, LIP, lexicon, vault. The local model gets a deliberately smaller surface than the HTTP registry: two hive verbs instead of a tool per source, because every extra schema is prompt tax on a 12B model.',
+      },
+      {
+        name: 'Retrieval',
+        detail: 'Six layers fanned out in parallel and fused by rank (RRF, Cormack 2009, k=60) rather than concatenated. Asymmetric embedding prefixes, diacritics folded at the single choke point both queries and documents pass through.',
+      },
+      {
+        name: 'Watchers and the bus',
+        detail: '`code-watcher.ts` ingests file changes into the code graph and re-computes spatial tiers 30s after a batch settles; a memory watcher indexes any markdown written to the store; `event-bus.ts` carries them to the UI. Nothing needs a manual re-index step.',
+      },
+      {
+        name: 'Plan as a graph',
+        detail: 'The Living Implementation Plan — every task, decision and finding is a node in the same database as everything else, vector-indexed, so a decision from May is retrievable in August by describing the situation rather than remembering its name.',
+      },
+      {
+        name: 'Model layer',
+        detail: 'llama.cpp on Metal behind a mutex that makes concurrent loads impossible — 24 GB does not fit two chat models. A liveness probe distinguishes a wedged model from a loading one, because /health returns 200 in both cases.',
+      },
+    ],
+    counts: [
+      ['186', 'TypeScript source files'],
+      ['563', 'commits'],
+      ['23', 'tool modules'],
+      ['9', 'apps in the v01 surface'],
+      ['2,911', 'modules in a passing build'],
+      ['23/23', 'smoke tests'],
+    ],
+  },
+
   /** The model choice, which is the clearest example of how decisions get made here. */
   models: {
     lead: 'Three tiers, one hard constraint',

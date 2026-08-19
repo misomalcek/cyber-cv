@@ -127,6 +127,54 @@ import { teamBrain } from '../data/team-brain';
       24&nbsp;GB and no cloud inference</b> — a ceiling that decided most of what follows.
     </p>
 
+    <!-- The architecture, named. This was missing entirely: a page about a
+         system that never says what the system is made of. -->
+
+    <!-- Where it stands. Omitted before, which left "pre-release" meaning
+         nothing — a reader cannot tell a stalled project from a finishing one. -->
+    <div class="card p-5 mb-3 border-synapse/25">
+      <div class="eyebrow mb-2">Where v01 stands</div>
+      <p class="text-[14px] text-fg-dim mt-0 mb-3">
+        <b class="text-fg">The compile gate is not the blocker.</b> The build passes at 2,911
+        modules, tsc is clean, smoke tests run 23 of 23, and the nine v01 apps are in place —
+        chat, search, project, plan, graph, file, git, browse, watch. What is left is UI tuning
+        and one untested button, not architecture.
+      </p>
+      <p class="text-[13.5px] text-fg-dim m-0 mb-3">
+        It goes <b class="text-fg">open source at release</b>. The point is not another chat
+        client: it is a local-first environment that makes a small local model genuinely useful —
+        and, in the same store, gives a cloud model a memory that survives the session.
+      </p>
+      <p class="text-[13px] text-fg-ghost m-0">
+        Recently closed by measurement rather than opinion: the bge-m3 migration including its
+        satellite ingest paths, diacritics folding across 26,375 points, an embedding guard that
+        makes the env-var trap structurally impossible, code-graph blast radius from 7 to 38, the
+        rules spine deployed to all three participants, and native audio without a separate STT
+        stage. Rejected by measurement: Whisper, automatic contradiction detection between rules,
+        rule thresholding, and hooks for 15 of the 16 rules — that last one because the measured
+        intervention count was zero.
+      </p>
+    </div>
+    <div class="card p-5 mb-3">
+      <div class="eyebrow mb-1">{factoriumSystem.architecture.lead}</div>
+      <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 my-4">
+        {factoriumSystem.architecture.counts.map(([v, l]) => (
+          <div>
+            <div class="text-[19px] font-semibold lit-forge leading-none tabular-nums">{v}</div>
+            <div class="text-[11px] text-fg-ghost mt-1 leading-snug">{l}</div>
+          </div>
+        ))}
+      </div>
+      <dl class="m-0 flex flex-col gap-3">
+        {factoriumSystem.architecture.layers.map((l) => (
+          <div class="border-l-2 border-neural/35 pl-3">
+            <dt class="text-[14px] text-fg font-semibold mb-0.5">{l.name}</dt>
+            <dd class="text-[13.5px] text-fg-dim m-0" set:html={l.detail.replace(/`(.+?)`/g, '<code class="text-synapse">$1</code>')} />
+          </div>
+        ))}
+      </dl>
+    </div>
+
     <div class="card p-5 mb-3">
       <div class="eyebrow mb-3">What it is</div>
       <ol class="list-none p-0 m-0 flex flex-col gap-2.5">
@@ -358,41 +406,45 @@ import { teamBrain } from '../data/team-brain';
   <!-- ── The easter egg ───────────────────────────────────────────────────
        It belongs here rather than under games: it is a mode inside Factorium,
        reading Factorium's own live lexicon. -->
+  <!-- ── Games ────────────────────────────────────────────────────────────
+       Under Systems because that is what they are: three prototypes of one
+       mechanism, the first of which runs inside Factorium and reads its live
+       value layer. -->
   <Section
-    id="mpc"
-    title="The arcade hidden inside it"
-    note="mpcmcp"
-    lede="Not a separate product — a mode inside the knowledge verse, and the clearest demonstration of what the value layer is for."
+    id="games"
+    title="Games that teach a value system"
+    note="three prototypes"
+    lede="One idea, three attempts: a scoring rule that teaches a value system rather than a skill. Aimed at learning — children included — which is why none of them can be finished."
   >
-    <div class="card p-5">
+    <div class="card p-5 mb-3">
+      <div class="flex flex-wrap items-baseline gap-3 mb-2">
+        <b class="text-[16.5px] text-fg font-semibold">MPC arcade</b>
+        <code class="text-[12.5px] text-synapse">mpcmcp</code>
+        <span class="text-[11.5px] text-fg-ghost">inside Factorium · not open source yet</span>
+      </div>
       <p class="text-[14px] text-fg-dim mt-0 mb-3">
-        While flying the 3D graph, typing <code class="text-synapse">mpcmcp</code> wakes a shooter.
-        The crystals drift in the same shape-language as the graph nodes, and the scoring is
+        While flying the 3D knowledge graph, typing <code class="text-synapse">mpcmcp</code> wakes a
+        shooter. The crystals use the same shape-language as the graph nodes, and the scoring is
         inverted on purpose.
       </p>
-      <div class="grid sm:grid-cols-2 gap-3 mb-4">
+      <div class="grid sm:grid-cols-2 gap-3 mb-3">
         <div class="border-l-2 border-forge/50 pl-3">
-          <b class="text-[13.5px] text-forge block mb-1">Daemons — the targets, +score</b>
+          <b class="text-[13.5px] text-forge block mb-1">Daemons — shoot them, +score</b>
           <p class="text-[13px] text-fg-dim m-0">
-            The opposites of the system's values, and its bad habits: sycophancy, skipping
-            verification, treating the model as a calculator, giving up, entropy. Shooting one
+            The opposites of the system's values and its bad habits: sycophancy, skipping
+            verification, treating the model as a calculator, giving up, entropy. Popping one
             lands as having actually got rid of a bad habit.
           </p>
         </div>
         <div class="border-l-2 border-synapse/50 pl-3">
-          <b class="text-[13.5px] text-synapse block mb-1">Angels — avoid, −score</b>
+          <b class="text-[13.5px] text-synapse block mb-1">Angels — avoid them, −score</b>
           <p class="text-[13px] text-fg-dim m-0">
-            The real values, pulled <b class="text-fg">live from the hive's own lexicon</b> so the
+            The real values, pulled <b class="text-fg">live from the hive's own lexicon</b>, so the
             game always speaks the current Codex. Hit "Primacy of Truth" or "stop-and-ask" and it
-            costs you. The supreme axiom is never spawned at all.
+            costs you. The supreme axiom never spawns at all.
           </p>
         </div>
       </div>
-      <p class="text-[13px] text-fg-ghost m-0 mb-3">
-        It is the first of three prototypes of one idea — that a scoring rule can teach a value
-        system rather than a skill. Factorium is not open source yet, so the recordings are the
-        record; the other two are on the <a href={`${base}work/`} class="text-synapse no-underline hover:underline">public output</a> page.
-      </p>
       <div class="flex flex-wrap gap-2">
         {[['MPC arcade — part 1', 'https://www.youtube.com/watch?v=1Rzro-dXMqk'],
           ['MPC arcade — part 2', 'https://www.youtube.com/watch?v=gi6WXwvcjPo']].map(([t, u]) => (
@@ -403,6 +455,33 @@ import { teamBrain } from '../data/team-brain';
             {t}
           </a>
         ))}
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="card p-5">
+        <div class="flex flex-wrap items-baseline gap-3 mb-2">
+          <b class="text-[15.5px] text-fg font-semibold">cybernetic-genesis</b>
+          <a href="https://misomalcek.github.io/cybernetic-genesis/" target="_blank" rel="noopener"
+             class="text-[12px] text-forge border border-forge/40 rounded px-2 py-0.5 no-underline">play →</a>
+          <a href="https://github.com/misomalcek/cybernetic-genesis" target="_blank" rel="noopener"
+             class="text-[12px] text-synapse no-underline hover:underline">source →</a>
+        </div>
+        <p class="text-[13.5px] text-fg-dim m-0">
+          Two canvas games, plain HTML and vanilla JS. In <i>Entropy Harvest</i> the combo grows
+          while you keep clearing — the mechanic rewards sustained order rather than one good move.
+        </p>
+      </div>
+      <div class="card p-5">
+        <div class="flex flex-wrap items-baseline gap-3 mb-2">
+          <b class="text-[15.5px] text-fg font-semibold">neon-shift</b>
+          <a href="https://github.com/misomalcek/neon-shift" target="_blank" rel="noopener"
+             class="text-[12px] text-synapse no-underline hover:underline">source →</a>
+        </div>
+        <p class="text-[13.5px] text-fg-dim m-0">
+          A playable prototype generated from a single sentence, spending an entire free tier in
+          one sitting. A test of how far one prompt goes with an agent that writes and deploys.
+        </p>
       </div>
     </div>
   </Section>
