@@ -47,18 +47,18 @@ export const repos: Repo[] = [
   {
     name: 'mini-grok',
     url: 'https://github.com/misomalcek/mini-grok',
-    what: 'A native macOS chat window written in Python against AppKit directly — no Electron, no web view, no framework. Single file.',
+    what: 'A native macOS chat window in Python against AppKit directly — no Electron, no web view, no framework. 352 lines.',
   },
   {
     name: 'aurora',
     url: 'https://github.com/misomalcek/aurora',
-    what: 'A self-contained multi-provider AI chat in one HTML file: streaming, live markdown, a collapsible reasoning panel, token stats, conversation memory and optional RAG grounding.',
+    what: 'A multi-provider AI chat in one HTML file, 1,826 lines: streaming, live markdown, a collapsible reasoning panel, token stats, conversation memory, optional RAG grounding.',
     why: 'One file, several providers, no build step — an argument that a usable chat client does not need a framework.',
   },
   {
     name: 'gkgg',
     url: 'https://github.com/misomalcek/gkgg',
-    what: 'A standalone Python wrapper around the Google Knowledge Graph Search API, with a test suite and a build spec.',
+    what: 'A Python wrapper around the Google Knowledge Graph Search API — 555 lines including its tests and a written build spec.',
     why: 'Entity grounding as one small tool that does one job and is tested.',
   },
   {
@@ -86,7 +86,7 @@ export const repos: Repo[] = [
   {
     name: 'todoapi',
     url: 'https://github.com/misomalcek/todoapi',
-    what: 'A small REST API over a real SQLite database. Express, node:test, no ORM. 16 of 16 tests passing.',
+    what: 'A REST API over a real SQLite database in 401 lines. Express, node:test, no ORM, 16 of 16 tests passing.',
   },
   {
     name: 'gsc-api',
