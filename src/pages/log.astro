@@ -86,13 +86,59 @@ const days = [
       },
     ],
   },
+  {
+    date: '19 August',
+    head: 'Two defects found by being told the result felt wrong',
+    body: `The day the site was supposed to be finished, and the two most useful findings
+      came from someone reading the output rather than from any check I ran. Both were in the
+      research and the tooling behind it, not in the page.`,
+    findings: [
+      {
+        head: 'The measured rule set was selected by a filename pattern',
+        body: `Reading the published list of sixteen rules, Michal noticed the one he uses
+          most was absent. It was: the study had been seeded from files matching rule-*.md,
+          which selects rules that happen to have a certain filename rather than rules in use.
+          The missing one has 115 memory files against 51 for the best-represented rule that
+          was included, graph degree 38 against 8, and the set even contains a rule whose
+          stored title names it as a sibling. Three more surfaced with the same key. Across
+          every rule-shaped entity, the excluded ones average degree 7.1 against 3.9 — the
+          selection was biased against the most established material. They are now listed as
+          unmeasured rather than folded into the results.`,
+      },
+      {
+        head: 'Search returns rank, not relevance',
+        body: `Every result carries 1/(60 + rank) — 0.0164, 0.0161, 0.0159 — regardless of
+          query or how relevant the hit is, because rank fusion uses position and discards the
+          semantic score by design. Correct for merging incomparable lists; the consequence is
+          that a layer returning four hits shows no difference between one real answer and
+          three tangents.`,
+      },
+      {
+        head: 'And it has no sense of time',
+        body: `Asked what this project is, the local model answered from a two-day-old plan —
+          a single-file page with no dependencies — while the current state is eleven Astro
+          pages, live. Not missing data: the store holds both versions and nothing ranks the
+          later one higher. The code comments claim the other layers carry no comparable
+          timestamp; two of them do. An agent can therefore report a superseded state
+          confidently, which is worse than returning nothing.`,
+      },
+      {
+        head: 'Nothing about this project was in the hive at all',
+        body: `Thirty commits and eleven pages, and the knowledge store held zero records
+          about any of it. Lessons, papers and a thesis had been written throughout — never
+          the state of the thing being built. It surfaced only because someone asked a
+          question I would not have asked, which is the shape of every finding on this page:
+          absence has nothing to search for.`,
+      },
+    ],
+  },
 ];
 
 const stats = [
-  { v: '18', l: 'commits' },
-  { v: '9', l: 'pages' },
-  { v: '~3', l: 'working days' },
-  { v: '275', l: 'entries in the search index' },
+  { v: '40', l: 'commits' },
+  { v: '11', l: 'pages' },
+  { v: '~5', l: 'working days' },
+  { v: '297', l: 'entries in the search index' },
 ];
 ---
 <Base
