@@ -178,126 +178,32 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
 
 
   <!-- ── Research ─────────────────────────────────────────────────────── -->
-  <Section id="research" title="Research" note="2 studies · 1 report">
-    <div class="card p-6 mb-4">
-      <h3 class="text-[19px] font-semibold m-0 mb-1">Measuring whether behavioural rules change model decisions</h3>
-      <div class="text-[12px] text-fg-ghost mb-3">12 rounds · two models · August 2026</div>
-      <p class="text-fg-dim m-0 mb-3">
-        Rules for LLM agents are usually written, stored and assumed to work. I measured whether
-        mine do, across three questions that normally get conflated: can a rule be
-        <em>retrieved</em>, does it <em>change</em> a decision, and does the model <em>know</em>
-        which of its rules help it.
-      </p>
-      <div class="grid sm:grid-cols-3 gap-3 my-4">
-        {[
-          ['1 in 5 → 10/10', 'retrieval, once rules were stored as the situations they govern rather than as their own wording'],
-          ['6 of 16', 'rules measurably changed a decision · 10 changed nothing · none made a decision worse'],
-          ['7 of 8', 'misclassified by the model when asked which of its own rules carried real information'],
-        ].map(([v, l]) => (
-          <div class="border-l-2 border-neural/40 pl-3">
-            <div class="text-[17px] font-semibold text-fg leading-tight">{v}</div>
-            <div class="text-[12px] text-fg-ghost leading-snug mt-1">{l}</div>
-          </div>
-        ))}
-      </div>
-      <p class="text-fg-dim m-0 mb-3">
-        <b>A model can follow a rule without being able to judge one.</b> Three of the rules it
-        dismissed as "just advice" had changed its own behaviour minutes earlier. Rule value has to
-        be measured behaviourally, never by asking — had I trusted the self-report, I would have
-        deleted seven working rules.
-      </p>
-      <p class="text-[13px] text-fg-ghost m-0 mb-4">
-        Seven candidate designs were rejected on evidence: prompt-resident rules, rules in the
-        existing graph (top-K collapse), score thresholding, automatic contradiction detection,
-        a background guard (254 false alarms per true positive), per-rule hooks, and a solver layer.
-      </p>
-
-      <div class="border-t border-line/60 pt-4">
-        <div class="text-[10.5px] tracking-[.14em] uppercase text-fg-ghost mb-3">
-          Deployed · read from the database, not recalled
+  <!-- ── Research ─────────────────────────────────────────────────────────
+       Headline findings only. Each paper has its own page, and the full text
+       of all sixteen rules lives there too — the home page's job is to make a
+       reader decide whether to click, not to be the paper. -->
+  <Section id="research" title="Research" note="3 papers · 1 local-model audit"
+           lede="Written from stored records rather than recollection. Every figure comes from a query or a logged measurement, including the ones that count against the conclusion I wanted.">
+    <div class="grid md:grid-cols-3 gap-3 mb-4">
+      {[
+        ['1 in 5 → 10/10', 'Rules stored as their own wording could not be found from the situation they govern. Stored as descriptions of those situations, retrieval went to ten out of ten.'],
+        ['7 of 8 misjudged', 'Asked which of its own rules carried real information, the model got seven of eight wrong — including three that had changed its behaviour minutes earlier.'],
+        ['1,512 of 3,039', 'Entities silently lost their centrality tier after one ordinary session. A null tier reads as "unimportant" when it means "not measured".'],
+      ].map(([v, l]) => (
+        <div class="card p-5">
+          <div class="text-[17px] font-semibold text-fg leading-tight mb-2">{v}</div>
+          <p class="text-[13.5px] text-fg-dim leading-snug m-0">{l}</p>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
-          {[
-            [rules.rules, 'rules'],
-            [rules.triggers, 'situational triggers'],
-            ['5', 'carry an <i>unless</i> clause'],
-            ['2', 'trigger hits so far'],
-          ].map(([v, l]) => (
-            <div>
-              <div class="text-[19px] font-semibold text-fg leading-none">{v}</div>
-              <div class="text-[11px] text-fg-ghost leading-snug mt-1" set:html={l} />
-            </div>
-          ))}
-        </div>
-        <p class="text-[12.5px] text-fg-ghost m-0">
-          Two hits is not adoption — but the counter moved off zero on its own, and both firings
-          were the class the design predicted: <i>"a health check reports green but the function does
-          not work"</i> and <i>"you are claiming a result without fresh evidence."</i>
-          <b class="text-fg-dim">The counter itself was broken for part of the study</b> and
-          reported a zero that was an unasked question rather than a measurement — the same failure
-          class the research is about, occurring inside it.
-        </p>
-      </div>
-      <a href={`${base}research/rules/`} class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
-        Read the full study →
-      </a>
+      ))}
     </div>
-
-    <div class="card p-6 mb-4">
-      <h3 class="text-[19px] font-semibold m-0 mb-1">Where a node sits should mean something</h3>
-      <div class="text-[12px] text-fg-ghost mb-3">Spatial metadata · two graphs · July–August 2026</div>
-      <p class="text-fg-dim m-0 mb-3">
-        Our knowledge graph imploded: the more connected an entity was, the further toward the
-        centre it was pulled, so the interesting part collapsed into an unreadable core. Fixing that
-        turned into a question worth asking — <b>can a node's position carry information a model can
-        read, not just a picture a human can look at?</b>
-      </p>
-      <div class="grid sm:grid-cols-3 gap-3 my-4">
-        {[
-          ['degree-scaled repulsion', 'the standard fix for hub implosion — correct the term that is wrong rather than add a force fighting the springs'],
-          ['tokens, not floats', 'a transformer matches strings, it does not compute square roots. Position becomes a discrete tier and cluster label'],
-          ['1,512 of 3,039', 'entities silently lost their tier after one session — a derived global property is a cache, and every cache needs an invalidation story'],
-        ].map(([v, l]) => (
-          <div class="border-l-2 border-synapse/40 pl-3">
-            <div class="text-[14px] font-semibold text-fg leading-tight">{v}</div>
-            <div class="text-[12px] text-fg-ghost leading-snug mt-1">{l}</div>
-          </div>
-        ))}
-      </div>
-      <p class="text-fg-dim m-0 mb-3">
-        Deployed on both graphs: every entity carries a stored tier and cluster, exposed through
-        every read path. The human flies the structure; the model filters on it. Asked directly, the
-        local model called it <i>"a global heuristic to prioritise search space and identify
-        structural anomalies without exhaustive traversal"</i> — and named the two fields it wanted
-        before they were proposed to it.
-      </p>
-      <p class="text-[13px] text-fg-ghost m-0">
-        <b class="text-fg-dim">What is not proven, and the paper says so:</b> whether the model's
-        reasoning is measurably better with the fields than without them. It says they help and it
-        uses them — but the rules study above is exactly why a model's self-report is not evidence.
-        That A/B is the experiment this work still owes.
-      </p>
-      <a href={`${base}research/spatial/`} class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
-        Read the full study →
-      </a>
-    </div>
-
-    <div class="card p-6">
-      <h3 class="text-[19px] font-semibold m-0 mb-1">AI engineering — systems, decisions, and what they cost</h3>
-      <div class="text-[12px] text-fg-ghost mb-3">Technical report, not research · two systems · stack decisions and their corrections</div>
-      <p class="text-fg-dim m-0 mb-3">
-        The architecture behind both systems and the reasoning that produced it: one database
-        instead of three, a migration of 17,109 vectors and what it bought, a 12B model chosen over
-        a stronger 26B, and no agent framework — because a framework that injects prompt content
-        you cannot see is fatal when you are measuring how a small model behaves.
-      </p>
-      <p class="text-[13px] text-fg-ghost m-0">
-        Includes a full section on the decisions that were wrong, and what each one cost.
-      </p>
-      <a href={`${base}research/engineering/`} class="chip no-underline mt-4 inline-block hover:border-neural transition-colors">
-        Read the full report →
-      </a>
-    </div>
+    <a href={`${base}research/`} class="card p-5 no-underline flex items-center gap-4 group">
+      <span class="flex-1">
+        <b class="block text-[15.5px] text-fg mb-1">Four documents, and all sixteen rules in full</b>
+        <span class="block text-[13.5px] text-fg-dim">Two studies, one technical report, and an unedited audit of all three by the
+          local model that lives in the system — including the place where it is wrong.</span>
+      </span>
+      <span class="text-fg-ghost text-[17px] transition-transform group-hover:translate-x-1">→</span>
+    </a>
   </Section>
 
 

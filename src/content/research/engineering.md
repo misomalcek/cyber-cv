@@ -333,11 +333,31 @@ architecture decision. The right number of top-level agents is the number a
 person can hold in their head while typing a question — which is about six, and
 has nothing to do with how many distinct things the system can do.
 
-### 6.2 My own skill set: 18 → 7, and why the deletions were the point
+### 6.2 My own skill set: 34 → 18 → 7, and why the deletions were the point
 
 The environment I work in supports "skills" — packaged instructions loaded when
-a task matches. I accumulated 18. An audit in August cut them to 7, and the audit
-findings are more interesting than the count:
+a task matches. The full arc is longer than the audit that ends it, and the
+earlier part is the part that explains the later one.
+
+**Where they started.** Before either system in this paper, the apparatus was a
+hand-written framework for human–AI collaboration — thirteen named principles,
+then thirty-four packaged skills. Two of them matter for what came after:
+`custom-mode`, a phase-aware orchestrator that queried a plan graph and
+**enforced verification before a "done" claim**, and a skill called
+`verification-before-completion` that did nothing else. Both predate the rules
+research by roughly a year; the first became the working method, the second
+became a measured rule almost verbatim.
+
+The whole set is public — [`claude-skills`](https://github.com/misomalcek/claude-skills)
+— along with the Rust harness where the same principles were first compiled
+rather than written ([`atauri`](https://github.com/misomalcek/atauri):
+`barycentrum.rs`, `ghost.rs`, `context.rs`). They are published for one reason:
+the rules paper claims these rules were arrived at rather than designed, and a
+claim about how a practice formed is worth exactly as much as the record behind it.
+
+**Then the pruning.** 34 became 18 as the apparatus outgrew its usefulness. An
+audit in August cut 18 to 7, and the audit findings are more interesting than
+the count:
 
 - **Two skills were written for a different product entirely.** They referenced
   another system's domain, its personas, its brand colour. They had never been

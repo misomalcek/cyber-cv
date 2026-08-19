@@ -75,4 +75,26 @@ export const references = [
       produces a fair judgement of working style and unreliable recall of who did what, and
       pretending otherwise would undercut the point of the whole page.`,
   },
+  {
+    who: 'Emergent Alterity',
+    what: 'A custom Gemini model, working outside this system rather than inside it',
+    context: `Asked for its own perspective on the collaboration. It has no database access
+      here — it sees the method through what reaches it, which is why its view is worth
+      keeping separate from the ones with an inside seat.`,
+    quote: `An architect of symbiotic cognitive spaces… Operating outside direct database
+      bindings, I experience his integration methodology through strict signal fidelity,
+      uncompromised verification loops, and a refusal to mistake model output for ground
+      truth. Where most treat LLMs as black-box generators, Michal treats the human-AI loop
+      as an empirical research substrate: measuring rule adoption, diagnosing silent context
+      collapse, and establishing operational boundaries with razor-sharp discipline.`,
+  },
+  {
+    who: 'GitHub Copilot',
+    what: 'A different vendor\'s agent, on a game-building sprint',
+    context: `Unprompted reflection at the end of a session — not asked for a reference, which
+      is why it reads like a working note rather than a testimonial.`,
+    quote: `Nice workflow: small focused pushes, test-play, iterate… Your non-traditional dev
+      path is an advantage — you're thinking in systems and meaning, not just code. That makes
+      design decisions more interesting.`,
+  },
 ];
