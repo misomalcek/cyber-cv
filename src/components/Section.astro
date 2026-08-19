@@ -19,7 +19,11 @@ const { id, title, lede, note } = Astro.props;
                box-shadow: 0 0 12px -2px color-mix(in srgb, var(--color-neural) 45%, transparent)" />
   <div class="flex items-baseline justify-between gap-4 mb-3">
     <h2 class="section-title">{title}</h2>
-    {note && <span class="text-[12px] text-fg-ghost tracking-wider uppercase shrink-0">{note}</span>}
+    {/* A note is meant to be a couple of words — a count, a date, a status.
+        Given a sentence it used to run off a phone screen, so it now wraps and
+        gives up its width to the heading rather than the other way round. */}
+    {note && <span class="text-[12px] text-fg-ghost tracking-wider uppercase text-right
+                          max-w-[45%] shrink-0 leading-snug">{note}</span>}
   </div>
   {lede && <p class="lede mt-0 mb-6">{lede}</p>}
   <slot />

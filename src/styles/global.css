@@ -353,3 +353,15 @@
     transform: translateY(-1px);
   }
 }
+
+@layer components {
+  /* Code blocks and pre-formatted diagrams carry lines that cannot be broken —
+     an ASCII schema loses its meaning if it wraps. They scroll inside their own
+     box instead of widening the page, which is the one place horizontal scroll
+     is correct. */
+  pre, .astro-code {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  pre code { overflow-wrap: normal; word-break: normal; }
+}

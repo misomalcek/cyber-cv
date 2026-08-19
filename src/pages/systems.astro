@@ -160,12 +160,17 @@ import { repos, public_output } from '../data/work';
 
       <div class="flex flex-col gap-1.5 mb-5">
         {factoriumSystem.models.tiers.map((t) => (
-          <div class="grid grid-cols-[54px_128px_88px_1fr] gap-3 items-baseline text-[12.5px]
-                      py-1.5 border-b border-line/40 last:border-b-0">
-            <b class="text-synapse">{t.id}</b>
-            <span class="text-fg-dim">{t.build}</span>
-            <span class="text-fg tabular-nums">{t.resident}</span>
-            <span class="text-fg-ghost">{t.role}</span>
+          <div class="text-[13px] py-2 border-b border-line/40 last:border-b-0
+                      sm:grid sm:grid-cols-[54px_128px_88px_1fr] sm:gap-3 sm:items-baseline">
+            {/* Phone: the tier label and its build sit on one line, the size next
+                to it, and the role wraps freely underneath. A four-column grid
+                with fixed widths cannot fit 390px and clipped the role text. */}
+            <div class="flex items-baseline gap-3 sm:contents">
+              <b class="text-synapse shrink-0">{t.id}</b>
+              <span class="text-fg-dim">{t.build}</span>
+              <span class="text-fg tabular-nums ml-auto sm:ml-0">{t.resident}</span>
+            </div>
+            <span class="text-fg-ghost block mt-1 sm:mt-0">{t.role}</span>
           </div>
         ))}
       </div>
