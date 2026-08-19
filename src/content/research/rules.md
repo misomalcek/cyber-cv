@@ -56,6 +56,40 @@ human's constraints ruled out the obvious designs. Rules must not be enforced at
 every step, must not become a dead list nobody reads, and must earn their place
 rather than accumulate.
 
+
+### 1.1 Where the rules came from — the part usually left out
+
+The sixteen rules did not arrive as a research artefact. They are the survivors
+of roughly a year of working practice, and the study measured them *after* they
+already existed. Saying so matters: a paper that presents them as a designed set
+would be claiming a tidiness that was never there, and the genesis is itself a
+finding about how such rules actually form.
+
+The lineage is documented in a public repository of the working apparatus
+(`claude-skills`, thirty-four packaged skills plus their markdown sources):
+
+| Stage | What it was | What survived into the rules |
+| --- | --- | --- |
+| **Codex Symbiosis** | A hand-written framework for human–AI collaboration — thirteen named principles including *Barycentrum* (the centre is the outcome, not the human and not the model), *Adversarial Critic*, *Context Continuum*, *Ghost Protocol* | The stance that the collaboration itself is the object of design, and the separation of critique from making |
+| **`custom-mode`** | A phase-aware orchestrator: detect the project, query a plan graph, recommend skills and quality gates, **enforce verification before "done"** | Direct ancestor of `suspect-the-measurement` and the verification gate. It also names a persistent memory layer — at the time ChromaDB, which dates the era |
+| **`verification-before-completion`** | Its own skill file | Became a rule verbatim |
+| **34 skills → 18 → 7** | Successive pruning as the apparatus outgrew its usefulness | The observation that instructions rot, and that more of them is not better |
+
+Two consequences for how the results below should be read.
+
+**First, these rules were used before they were measured.** They were written
+because something went wrong, not because a hypothesis predicted them. The study
+is therefore an *audit of existing practice*, not a controlled introduction — and
+the honest version of "6 of 16 changed a decision" is that these sixteen are what
+remained after a much larger set had already been discarded by use.
+
+**Second, the pruning is a measurement in its own right.** By the local agent's
+own audit of the earlier apparatus, roughly **60% of the initial instruction set
+was well-intentioned waste** — text that read as helpful and produced nothing.
+That number is the reason the study asks whether a rule *changes a decision*
+rather than whether it sounds sensible. The question came from having been wrong
+about it at scale first.
+
 ---
 
 ## 2. What we tested and what failed

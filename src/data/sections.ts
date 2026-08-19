@@ -18,6 +18,7 @@ export const ICONS: Record<string, string> = {
   badge: 'M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 7.7l5.4-.8z',
   search:'M11 11m-7 0a7 7 0 1014 0a7 7 0 10-14 0M20 20l-4.35-4.35',
   log:   'M4 5h16M4 10h16M4 15h10M4 20h7',
+  code:  'M8 6l-6 6 6 6M16 6l6 6-6 6',
 };
 
 export interface SectionCard {
@@ -45,6 +46,11 @@ export const sectionCards: SectionCard[] = [
     id: 'crystal', slug: 'crystal/', title: 'Knowledge crystal', icon: 'orbit',
     metric: 'The graph, rendered from live data',
     blurb: 'The knowledge graph as it actually stands — clickable entities, real relations, and importance rendered as orbital distance rather than decoration.',
+  },
+  {
+    id: 'work', slug: 'work/', title: 'Public work', icon: 'code',
+    metric: '15 repositories · 5 videos · 4 sites',
+    blurb: 'Everything open, including two repositories published as evidence of where the practice came from — the framework and the harness that preceded the current system.',
   },
   {
     id: 'credentials', slug: 'credentials/', title: 'Credentials & references', icon: 'badge',

@@ -1,0 +1,111 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import { repos, games, videos, sites } from '../../data/public-work';
+
+/**
+ * Everything that can be looked at without asking me for anything.
+ *
+ * Two of these repositories exist specifically as lineage evidence: the research
+ * claims a practice formed over time rather than being designed, and a claim
+ * like that is worth exactly as much as the record behind it.
+ */
+const lineage = repos.filter((r) => r.tag === 'lineage');
+const rest = repos.filter((r) => r.tag !== 'lineage');
+---
+<Base
+  title="Public work — Michal Malček"
+  description="Repositories, videos and live sites — including the ones published as evidence of how the practice formed."
+  back={{ href: `${base}`, label: 'Back to CV' }}
+>
+  <header class="pt-10 pb-8 border-b border-line">
+    <h1 class="text-[clamp(30px,4.4vw,44px)] font-semibold tracking-tight m-0 mb-3">Public work</h1>
+    <p class="lede m-0">
+      Fifteen public repositories, five videos and four live sites. Two of the repositories are
+      here for a specific reason: the research says the operating rules were arrived at rather
+      than designed, and that claim is only worth the record behind it.
+    </p>
+  </header>
+
+  <Section title="Where the practice came from" note="lineage"
+           lede="Published as evidence. The behavioural rules measured in the research did not start as research — these are two of the places they started.">
+    <div class="grid md:grid-cols-2 gap-3">
+      {lineage.map((r) => (
+        <a href={r.url} target="_blank" rel="noopener" class="card p-5 no-underline flex flex-col group">
+          <div class="flex items-baseline justify-between gap-2 mb-2">
+            <b class="text-[16px] text-fg font-semibold">{r.name}</b>
+            <span class="text-[11px] uppercase tracking-wider text-neural-text border border-neural/40 rounded px-1.5 py-0.5">lineage</span>
+          </div>
+          <p class="text-[14px] text-fg-dim m-0 mb-2">{r.what}</p>
+          {r.why && <p class="text-[13px] text-fg-ghost m-0 flex-1">{r.why}</p>}
+          <span class="text-[12.5px] text-synapse mt-3 transition-transform group-hover:translate-x-0.5">github.com/misomalcek/{r.name} →</span>
+        </a>
+      ))}
+    </div>
+  </Section>
+
+  <Section title="Repositories" note={`${rest.length} public`}>
+    <div class="grid md:grid-cols-2 gap-3">
+      {rest.map((r) => (
+        <a href={r.url} target="_blank" rel="noopener" class="card p-4 no-underline flex flex-col group">
+          <b class="text-[15px] text-fg font-semibold mb-1.5">{r.name}</b>
+          <p class="text-[13.5px] text-fg-dim m-0">{r.what}</p>
+          {r.why && <p class="text-[12.5px] text-fg-ghost m-0 mt-1.5 flex-1">{r.why}</p>}
+          <span class="text-[12px] text-synapse mt-2.5 transition-transform group-hover:translate-x-0.5">open →</span>
+        </a>
+      ))}
+    </div>
+  </Section>
+
+  <Section title="Emergent games" note="two"
+           lede="Games are where emergent behaviour shows itself fastest — a rule set produces something nobody wrote.">
+    <div class="grid md:grid-cols-2 gap-3">
+      {games.map((g) => (
+        <a href={g.url} target="_blank" rel="noopener" class="card p-5 no-underline flex flex-col group">
+          <b class="text-[15.5px] text-fg font-semibold mb-1.5">{g.name}</b>
+          <p class="text-[13.5px] text-fg-dim m-0">{g.what}</p>
+          {g.why && <p class="text-[12.5px] text-fg-ghost m-0 mt-1.5 flex-1">{g.why}</p>}
+          <span class="text-[12px] text-synapse mt-2.5 transition-transform group-hover:translate-x-0.5">open →</span>
+        </a>
+      ))}
+    </div>
+  </Section>
+
+  <Section title="Video" note={`${videos.length} recordings`}
+           lede="Systems running, rather than described. The last two are the only public record of work that is not open source yet.">
+    <div class="flex flex-col gap-2.5">
+      {videos.map((v) => (
+        <a href={v.url} target="_blank" rel="noopener"
+           class="card p-4 no-underline flex items-start gap-4 group">
+          <span class="shrink-0 inline-flex items-center justify-center w-[42px] h-[42px] rounded-xl
+                       text-forge border border-forge/35" style="background: color-mix(in srgb, var(--color-forge) 10%, transparent)">
+            <svg width="15" height="17" viewBox="0 0 9 11" fill="currentColor" aria-hidden="true"><path d="M0 0.5L9 5.5L0 10.5V0.5Z" /></svg>
+          </span>
+          <span class="flex-1 min-w-0">
+            <b class="block text-[15px] text-fg font-semibold mb-1">{v.title}</b>
+            <span class="block text-[13.5px] text-fg-dim">{v.what}</span>
+          </span>
+          <span class="text-[12px] text-synapse shrink-0 self-center whitespace-nowrap">watch →</span>
+        </a>
+      ))}
+    </div>
+  </Section>
+
+  <Section title="Live sites" note={`${sites.length}`}>
+    <div class="grid md:grid-cols-2 gap-3">
+      {sites.map((s) => (
+        <a href={s.url} target="_blank" rel="noopener" class="card p-4 no-underline flex flex-col group">
+          <div class="flex items-baseline justify-between gap-2 mb-1.5">
+            <b class="text-[15px] text-fg font-semibold">{s.name}</b>
+            {s.note?.startsWith('Work') &&
+              <span class="text-[10.5px] uppercase tracking-wider text-forge border border-forge/35 rounded px-1.5 py-0.5">wip</span>}
+          </div>
+          <p class="text-[13.5px] text-fg-dim m-0 flex-1">{s.what}</p>
+          {s.note && !s.note.startsWith('Work') && <span class="text-[12px] text-fg-ghost mt-1.5">{s.note}</span>}
+          <span class="text-[12px] text-synapse mt-2.5 transition-transform group-hover:translate-x-0.5">visit →</span>
+        </a>
+      ))}
+    </div>
+  </Section>
+</Base>
