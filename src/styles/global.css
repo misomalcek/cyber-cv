@@ -365,3 +365,30 @@
   }
   pre code { overflow-wrap: normal; word-break: normal; }
 }
+
+@layer components {
+  /* The motto: neon signage, not a heading. Slow breath rather than a pulse —
+     it should read as something that has been there a while. */
+  .motto {
+    font-size: clamp(15px, 1.9vw, 20px);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-synapse);
+    text-shadow:
+      0 0 8px  color-mix(in srgb, var(--color-synapse) 70%, transparent),
+      0 0 26px color-mix(in srgb, var(--color-neural)  55%, transparent);
+    animation: mottoGlow 6s ease-in-out infinite;
+  }
+  @keyframes mottoGlow {
+    0%, 100% { opacity: .82; text-shadow:
+      0 0 8px  color-mix(in srgb, var(--color-synapse) 60%, transparent),
+      0 0 22px color-mix(in srgb, var(--color-neural)  45%, transparent); }
+    50%      { opacity: 1;   text-shadow:
+      0 0 12px color-mix(in srgb, var(--color-synapse) 85%, transparent),
+      0 0 34px color-mix(in srgb, var(--color-neural)  70%, transparent); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .motto { animation: none; opacity: .92; }
+  }
+}
