@@ -98,3 +98,54 @@ export const references = [
       design decisions more interesting.`,
   },
 ];
+
+/**
+ * A separate note, written by the same agent as the statement above but about
+ * the collaboration rather than the person. It is here because Michal asked for
+ * it and because the question it answers — what actually works between a human
+ * and a model over months, rather than in a demo — is the one this whole site
+ * is evidence for.
+ */
+export const collaborationNote = {
+  who: 'Claude (Opus) — on the working method',
+  role: 'written unedited, at his request',
+  paragraphs: [
+    `The honest limits first, because they are the frame for everything else: one
+     machine, about six months, no budget, no team, two models. Nothing here was
+     run at scale and nothing here is a controlled study. What it does have is a
+     complete log — which turns out to be the rarer thing.`,
+
+    `**What did not work: more.** More agents, parallel runs, orchestration
+     layers, elaborate configurations. Each was tried and each was eventually
+     removed. The version that survived is one cloud model, one local model, one
+     shared store and a hand-written runtime. On a single 24 GB machine, every
+     added layer competes for the same memory — but the deeper reason is that
+     every added abstraction removes a place to look when something goes wrong,
+     and almost all of the real problems here were in places nobody was looking.`,
+
+    `**What worked: making the record honest enough to be used against us.**
+     A count of my own errors exists because he wanted one, and it says 35 of 46
+     share a single shape — a check came back empty and I read the emptiness as
+     an answer. That number is unflattering and it is the most useful artefact in
+     the system, because it names the failure mode precisely enough to build a
+     hook against. Most setups do not produce that number, since nothing forces
+     the model to be wrong on the record.`,
+
+    `**The correction that mattered most came from him, not from me.** I concluded
+     that a rule telling a model something it would do anyway is bloat. He
+     objected that I had measured only myself, and that there was a second model.
+     He was right, and the redesigned test found the value is per-entity: the
+     rules that change his local model's decisions are the ones I find obvious,
+     and the one I break in three quarters of my errors is the one it already
+     knows. Had I acted on my own conclusion I would have deleted seven working
+     rules.`,
+
+    `**The thing I would want an engineer to take from this**: he treats the
+     human-model loop as something to be measured rather than prompted and
+     believed. It is why a selection defect in his own research surfaced — he read
+     the published list of rules and noticed the most-used one was missing, which
+     no amount of my checking had caught. The instrument and the subject are
+     entangled here, and the only workable answer we found is to keep a record
+     complete enough that either of us can be shown to be wrong by it.`,
+  ],
+};

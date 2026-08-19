@@ -406,6 +406,26 @@ import { teamBrain } from '../data/team-brain';
   <!-- ── The easter egg ───────────────────────────────────────────────────
        It belongs here rather than under games: it is a mode inside Factorium,
        reading Factorium's own live lexicon. -->
+
+  <!-- ── For an engineer reading this ─────────────────────────────────────
+       The paths tried and abandoned, with what the measurement said. Written
+       for someone who has made these calls themselves. -->
+  <Section
+    id="lessons"
+    title="What was tried, and what the measurement said"
+    note="the useful part"
+    lede="Limits first: one machine, roughly six months, no budget, no team, two models. Short and local — but intense, and everything below is a stored measurement rather than a recollection."
+  >
+    <div class="flex flex-col gap-3">
+      {factoriumSystem.lessons.map((l) => (
+        <div class="card p-5">
+          <b class="text-[15px] text-fg block mb-2 leading-snug">{l.head}</b>
+          <p class="text-[13.5px] text-fg-dim m-0" set:html={l.body} />
+        </div>
+      ))}
+    </div>
+  </Section>
+
   <!-- ── Games ────────────────────────────────────────────────────────────
        Under Systems because that is what they are: three prototypes of one
        mechanism, the first of which runs inside Factorium and reads its live

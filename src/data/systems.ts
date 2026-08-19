@@ -175,6 +175,73 @@ export const factoriumSystem = {
     ],
   },
 
+
+  /**
+   * What an AI engineer would want to know: the paths tried and abandoned, and
+   * what the measurement said. Written for a reader who has made these calls
+   * themselves and will recognise a claim without evidence behind it.
+   */
+  lessons: [
+    {
+      head: 'Parallel agents and heavy workflows did not work here, and the endpoint was minimal',
+      body: `The route was tried in both directions: multi-agent orchestration, parallel runs,
+        elaborate harnesses, several Claude configurations. What survived is deliberately lean —
+        one cloud model, one local model, one shared store, a hand-written runtime. Not a
+        philosophical preference: on a single 24&nbsp;GB machine every added layer competes for
+        the same memory, and every added abstraction removes a place to look when something goes
+        wrong. <b>The measured constraint decided the architecture, and the architecture is
+        smaller than the ambition that started it.</b>`,
+    },
+    {
+      head: 'We tried orchestration and multi-agent, and ended up with neither',
+      body: `The first design was one agent per task; it reached 61 definitions before it
+        became clear nobody could choose between them. The names were accurate and useless.
+        Collapsed to six specialists, with the narrow prompts demoted to loadable context —
+        <b>the taxonomy was a UX problem wearing an architecture costume</b>. Native
+        multi-agent came back later for the 26B MoE model and was parked, not because the
+        mechanism failed but because it only pays off on a model that costs the rest of the
+        machine.`,
+    },
+    {
+      head: 'No agent framework, and the reason is specific',
+      body: `Decided May 2026 and held since: own runtime, vendor SDK only for the cloud
+        model. A framework injects prompt content you did not write, which is fatal when the
+        thing you are measuring is how a 12&nbsp;B model responds to instructions.
+        <b>You cannot attribute a behaviour change to your rule if a library is also editing
+        the prompt.</b> The same logic kept Zod out of 22 tool modules — a hand-written
+        validator rejected 5 of 5 probes, so the dependency would have replaced working code
+        with equivalent code. It is used in exactly one place, where the input is a file from
+        disk we do not control.`,
+    },
+    {
+      head: 'The failures were almost never in the model',
+      body: `Three days were spent on retrieval quality before the actual defect surfaced:
+        the answer was not in the index. 58% of one collection were duplicates of a single
+        turn; the local model's own conversations had never been indexed at all. Separately,
+        an embedding model was used symmetrically for weeks when it requires asymmetric
+        prefixes — short irrelevant text outranked long relevant text, and nothing errored.
+        <b>Before touching a ranking function, prove the answer is in the index.</b>
+        Three times it was not.`,
+    },
+    {
+      head: 'Silent failure is the class, not the bug',
+      body: `Nine instances found in one sweep, all the same shape: input accepted, matched
+        against nothing, discarded, operation reports success. A schema validator that
+        skipped unknown keys meant every optional-parameter typo the local model ever made
+        was silently ignored. A CLI flag that did not exist swallowed three evidence blocks.
+        Five mutations — including a token revoke — treated a non-2xx response as a
+        rejection rather than a failure.`,
+    },
+    {
+      head: 'What the measurement said about the model, not the code',
+      body: `Rules retrieved by their own wording: 1 in 5. Stored as descriptions of the
+        situations that trigger them: 10 in 10. Asked afterwards which of its rules carried
+        real information, the model misclassified <b>7 of 8</b> — including three that had
+        changed its decision minutes earlier. That single result changed the method: value is
+        measured by behaviour, never by asking the model.`,
+    },
+  ],
+
   /** The model choice, which is the clearest example of how decisions get made here. */
   models: {
     lead: 'Three tiers, one hard constraint',
