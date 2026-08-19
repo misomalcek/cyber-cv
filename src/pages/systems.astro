@@ -5,7 +5,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Disclosure from '../components/Disclosure.astro';
-import { teamBrainSystem, factoriumSystem } from '../data/systems';
+import { teamBrainSystem, factoriumSystem, shots } from '../data/systems';
 import { teamBrain } from '../data/team-brain';
 ---
 <Base
@@ -153,47 +153,43 @@ import { teamBrain } from '../data/team-brain';
       <p class="text-[13.5px] text-fg-dim m-0" set:html={teamBrainSystem.handover} />
     </div>
 
+
+    <!-- Gallery. -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-2.5 mb-4">
+      {shots.teamBrain.map(([file, caption]) => (
+        <figure class="m-0 card overflow-hidden group">
+          <img src={`${base}shots/${file}`} alt={caption} loading="lazy" width="1600" height="1000"
+               class="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.03]" />
+          <figcaption class="text-[11.5px] text-fg-ghost px-3 py-2">{caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+
     <div class="flex flex-wrap gap-2">
       {teamBrainSystem.stack.map((t) => <span class="chip">{t}</span>)}
     </div>
   </Section>
   <Section id="factorium" title="Factorium" note="running daily · pre-release">
-    <p class="text-fg-dim max-w-[720px] mt-0 mb-5">
-      {factoriumSystem.tagline}. Everything runs on <b class="text-fg">one Apple M4 with
-      24&nbsp;GB and no cloud inference</b> — a ceiling that decided most of what follows.
-    </p>
+    <p class="text-fg-dim max-w-[730px] mt-0 mb-3">{factoriumSystem.premise}</p>
 
-    <!-- The architecture, named. This was missing entirely: a page about a
-         system that never says what the system is made of. -->
-
-    <!-- Where it stands. Omitted before, which left "pre-release" meaning
-         nothing — a reader cannot tell a stalled project from a finishing one. -->
-    <div class="card p-5 mb-3 border-synapse/25">
-      <div class="eyebrow mb-2">Where v01 stands</div>
-      <p class="text-[14px] text-fg-dim mt-0 mb-3">
-        <b class="text-fg">The compile gate is not the blocker.</b> The build passes at 2,911
-        modules, tsc is clean, smoke tests run 23 of 23, and the nine v01 apps are in place —
-        chat, search, project, plan, graph, file, git, browse, watch. What is left is UI tuning
-        and one untested button, not architecture.
-      </p>
-      <p class="text-[13.5px] text-fg-dim m-0 mb-3">
-        It goes <b class="text-fg">open source at release</b>. The point is not another chat
-        client: it is a local-first environment that makes a small local model genuinely useful —
-        and, in the same store, gives a cloud model a memory that survives the session.
-      </p>
-      <p class="text-[13px] text-fg-ghost m-0">
-        Recently closed by measurement rather than opinion: the bge-m3 migration including its
-        satellite ingest paths, diacritics folding across 26,375 points, an embedding guard that
-        makes the env-var trap structurally impossible, code-graph blast radius from 7 to 38, the
-        rules spine deployed to all three participants, and native audio without a separate STT
-        stage. Rejected by measurement: Whisper, automatic contradiction detection between rules,
-        rule thresholding, and hooks for 15 of the 16 rules — that last one because the measured
-        intervention count was zero.
-      </p>
+    <div class="grid md:grid-cols-2 gap-3 mb-3">
+      <div class="card p-5 border-synapse/25">
+        <div class="eyebrow mb-2">Where v01 stands</div>
+        <p class="text-[13.5px] text-fg-dim m-0">
+          <b class="text-fg">The compile gate is not the blocker.</b> Build passes at 2,911
+          modules, tsc clean, 23 of 23 smoke tests, nine apps in place. What remains is UI
+          tuning and one untested button — not architecture.
+        </p>
+      </div>
+      <div class="card p-5">
+        <div class="eyebrow mb-2">What it is for</div>
+        <p class="text-[13.5px] text-fg-dim m-0">{factoriumSystem.ambition}</p>
+      </div>
     </div>
+
     <div class="card p-5 mb-3">
-      <div class="eyebrow mb-1">{factoriumSystem.architecture.lead}</div>
-      <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 my-4">
+      <div class="eyebrow mb-3">{factoriumSystem.architecture.lead}</div>
+      <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-4">
         {factoriumSystem.architecture.counts.map(([v, l]) => (
           <div>
             <div class="text-[19px] font-semibold lit-forge leading-none tabular-nums">{v}</div>
@@ -201,82 +197,105 @@ import { teamBrain } from '../data/team-brain';
           </div>
         ))}
       </div>
-      <dl class="m-0 flex flex-col gap-3">
-        {factoriumSystem.architecture.layers.map((l) => (
-          <div class="border-l-2 border-neural/35 pl-3">
-            <dt class="text-[14px] text-fg font-semibold mb-0.5">{l.name}</dt>
-            <dd class="text-[13.5px] text-fg-dim m-0" set:html={l.detail.replace(/`(.+?)`/g, '<code class="text-synapse">$1</code>')} />
+      <dl class="m-0 flex flex-col gap-2.5">
+        {factoriumSystem.architecture.layers.map(([name, detail]) => (
+          <div class="grid grid-cols-1 sm:grid-cols-[112px_1fr] gap-x-4 gap-y-0.5 items-baseline">
+            <dt class="text-[13px] text-synapse font-semibold">{name}</dt>
+            <dd class="text-[13px] text-fg-dim m-0">{detail}</dd>
           </div>
         ))}
       </dl>
     </div>
 
-    <!-- The model choice: the clearest worked example of how a decision is made
-         here, including the one where the evidence contradicted itself. -->
-    <div class="card p-5 mb-3">
-      <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1">
-        <div class="eyebrow">{factoriumSystem.models.lead}</div>
-        <span class="text-[11px] text-fg-ghost">measured on this machine, not from vendor claims</span>
-      </div>
-      <p class="text-[12.5px] text-fg-dim mt-2 mb-4">{factoriumSystem.models.constraint}</p>
-
-      <div class="flex flex-col gap-1.5 mb-5">
-        {factoriumSystem.models.tiers.map((t) => (
-          <div class="text-[13px] py-2 border-b border-line/40 last:border-b-0
-                      sm:grid sm:grid-cols-[54px_128px_88px_1fr] sm:gap-3 sm:items-baseline">
-            {/* Phone: the tier label and its build sit on one line, the size next
-                to it, and the role wraps freely underneath. A four-column grid
-                with fixed widths cannot fit 390px and clipped the role text. */}
-            <div class="flex items-baseline gap-3 sm:contents">
-              <b class="text-synapse shrink-0">{t.id}</b>
-              <span class="text-fg-dim">{t.build}</span>
-              <span class="text-fg tabular-nums ml-auto sm:ml-0">{t.resident}</span>
+    <div class="grid md:grid-cols-2 gap-3 mb-3">
+      <div class="card p-5">
+        <div class="eyebrow mb-3">Nine apps</div>
+        <dl class="m-0 flex flex-col gap-1.5">
+          {factoriumSystem.apps.map(([name, what]) => (
+            <div>
+              <dt class="text-[12.5px] text-forge font-semibold">{name}</dt>
+              <dd class="text-[12.5px] text-fg-dim m-0">{what}</dd>
             </div>
-            <span class="text-fg-ghost block mt-1 sm:mt-0">{t.role}</span>
-          </div>
-        ))}
+          ))}
+        </dl>
       </div>
-
-      <div class="flex flex-col gap-4">
-        {factoriumSystem.models.policy.map((d) => (
-          <div class="border-l-2 border-neural/40 pl-3.5">
-            <b class="text-[13px] text-fg block mb-1 leading-snug">{d.head}</b>
-            <p class="text-[12.5px] text-fg-dim m-0" set:html={d.body} />
-          </div>
-        ))}
+      <div class="card p-5">
+        <div class="eyebrow mb-3">What the local agent can do</div>
+        <ul class="list-none p-0 m-0 flex flex-col gap-1.5">
+          {factoriumSystem.agentCan.map((c) => (
+            <li class="flex gap-2.5 text-[12.5px] text-fg-dim">
+              <span class="text-synapse shrink-0">·</span>{c}
+            </li>
+          ))}
+        </ul>
       </div>
-
-      <p class="text-[12px] text-fg-ghost mt-4 mb-0 pt-3 border-t border-line/60">
-        <b class="text-fg-dim">The bug this exposed is the better story.</b>{' '}
-        {factoriumSystem.models.bug}
-      </p>
     </div>
 
-    <div class="flex flex-wrap gap-1.5">
+    <!-- Models: one in production, two on the bench. -->
+    <div class="card p-5 mb-3">
+      <div class="eyebrow mb-3">{factoriumSystem.models.lead}</div>
+      <div class="border-l-2 border-synapse/50 pl-3 mb-3">
+        <b class="text-[13.5px] text-fg block">In production · {factoriumSystem.models.production.id}</b>
+        <p class="text-[13px] text-fg-dim m-0 mt-0.5">{factoriumSystem.models.production.why}</p>
+      </div>
+      <div class="flex flex-col gap-1.5 mb-3">
+        {factoriumSystem.models.bench.map(([id, note]) => (
+          <div class="grid grid-cols-1 sm:grid-cols-[188px_1fr] gap-x-3 text-[12.5px] items-baseline">
+            <b class="text-fg-dim">{id}</b>
+            <span class="text-fg-ghost">{note}</span>
+          </div>
+        ))}
+      </div>
+      <p class="text-[12.5px] text-fg-ghost m-0 mb-2">{factoriumSystem.models.constraint}</p>
+      <p class="text-[12.5px] text-fg-ghost m-0" set:html={factoriumSystem.models.quantisation} />
+    </div>
+
+    <div class="card p-5 mb-3">
+      <div class="eyebrow mb-2">Open source at release</div>
+      <p class="text-[13.5px] text-fg-dim m-0">{factoriumSystem.openSource}</p>
+    </div>
+
+    <!-- Gallery. -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-2.5 mb-4">
+      {shots.factorium.map(([file, caption]) => (
+        <figure class="m-0 card overflow-hidden group">
+          <img src={`${base}shots/${file}`} alt={caption} loading="lazy" width="1600" height="1000"
+               class="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.03]" />
+          <figcaption class="text-[11.5px] text-fg-ghost px-3 py-2">{caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <div class="flex flex-wrap gap-2">
       {factoriumSystem.stack.map((t) => <span class="chip">{t}</span>)}
     </div>
   </Section>
 
-  <!-- ── The working layer ────────────────────────────────────────────── -->
-  <!-- ── What went wrong ──────────────────────────────────────────────────
-       Four defects, one line of cause each. The full accounts are in the
-       engineering paper; this page states them and moves on. -->
+  <!-- ── What was tried, and what it cost ─────────────────────────────────
+       One section, not two. Each row is a decision or a defect with the
+       measurement that settled it; the full accounts are in the papers. -->
   <Section
     id="wrong"
-    title="What went wrong"
-    note="four, with what each cost"
-    lede="Each is a stored record. All four were found the same way — by checking a thing whose answer was already known — and none came from a passing test."
+    title="What was tried, and what it cost"
+    note="the useful part"
+    lede="Limits first: one machine, roughly six months, no team, no budget. Everything below is a stored measurement, and all of it was found the same way — by checking a thing whose answer was already known."
   >
     <div class="flex flex-col gap-2.5">
       {[
-        ['Embedding model used outside its contract', 'weeks',
-         'nomic-embed requires asymmetric prefixes on queries and documents; served through llama.cpp nothing adds them. Short irrelevant text outranked long relevant text and nothing errored. Cost: 10,676 records re-embedded — and the first repair script read only the body field while the writer had embedded title + body, which would have silently stripped titles from 95% of vectors.'],
-        ['A migration that left its satellites behind', 'days',
-         'The main store moved to a 1024-dimension model; four ingest scripts still declared 768. They did not fail, because the collections already existed — on a clean machine every write would have been rejected.'],
+        ['Parallel agents and heavy orchestration', 'removed',
+         'Tried in both directions — multi-agent orchestration, parallel runs, elaborate harnesses, several configurations. What survived is one cloud model, one local model, one shared store, a hand-written runtime. On 24 GB every added layer competes for the same memory, and every added abstraction removes a place to look when something breaks.'],
+        ['No agent framework', 'held since May',
+         'Own runtime; the vendor SDK only for the cloud model. A framework injects prompt content you did not write, which is fatal when the thing being measured is how a 12B model responds to instructions. The same logic kept Zod out of 22 tool modules — a hand-written validator rejected 5 of 5 probes — and put it in the one place where the input is a file from disk we do not control.'],
+        ['An embedding model used outside its contract', 'weeks',
+         'nomic-embed requires asymmetric prefixes; served through llama.cpp nothing adds them, so short irrelevant text outranked long relevant text and nothing errored. 10,676 records re-embedded — and the first repair script read only the body field while the writer had embedded title + body, which would have silently stripped titles from 95% of vectors.'],
+        ['The failures were almost never in the model', 'three days',
+         'Spent on retrieval quality before the actual defect surfaced: the answer was not in the index. 58% of one collection were duplicates of a single turn, and the local model\'s own conversations had never been indexed at all.'],
+        ['Silent failure as a class, not a bug', 'nine found in one sweep',
+         'Input accepted, matched against nothing, discarded, operation reports success. A validator that skipped unknown keys meant every optional-parameter typo the local model made was ignored. Five mutations — including a token revoke — treated a non-2xx as a rejection rather than a failure.'],
         ['A speech-to-text stage that should never have been added', 'a week',
-         'Whisper was wired in before testing whether the model could take audio directly. It could. The stage was removed: it bypassed native audio and discarded acoustic nuance the model actually uses.'],
-        ['The pattern behind 35 of 46 recorded mistakes', 'ongoing',
-         'A check comes back empty and the emptiness is read as an answer. Not a knowledge gap — the rule is known and broken anyway, which is why it is enforced by a hook at the moment the signal exists rather than by an instruction.'],
+         'Whisper was wired in before testing whether the model could take audio directly. It could. Removing it restored acoustic nuance the model actually uses.'],
+        ['What the measurement said about the model, not the code', 'the finding',
+         'Rules retrieved by their own wording: 1 in 5. Stored as the situations that trigger them: 10 in 10. Asked afterwards which of its rules carried real information, the model misclassified 7 of 8 — including three that had changed its decision minutes earlier. Value is measured by behaviour, never by asking.'],
       ].map(([head, cost, body]) => (
         <div class="card p-5">
           <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1.5">
@@ -288,26 +307,6 @@ import { teamBrain } from '../data/team-brain';
       ))}
     </div>
   </Section>
-  <Section
-    id="lessons"
-    title="What was tried, and what the measurement said"
-    note="the useful part"
-    lede="Limits first: one machine, roughly six months, no budget, no team, two models. Short and local — but intense, and everything below is a stored measurement rather than a recollection."
-  >
-    <div class="flex flex-col gap-3">
-      {factoriumSystem.lessons.map((l) => (
-        <div class="card p-5">
-          <b class="text-[15px] text-fg block mb-2 leading-snug">{l.head}</b>
-          <p class="text-[13.5px] text-fg-dim m-0" set:html={l.body} />
-        </div>
-      ))}
-    </div>
-  </Section>
-
-  <!-- ── Games ────────────────────────────────────────────────────────────
-       Under Systems because that is what they are: three prototypes of one
-       mechanism, the first of which runs inside Factorium and reads its live
-       value layer. -->
   <Section
     id="games"
     title="Games that teach a value system"

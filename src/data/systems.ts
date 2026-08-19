@@ -133,197 +133,119 @@ export const teamBrainSystem = {
 
 export const factoriumSystem = {
   name: 'Factorium',
-  tagline: 'A local-first environment where a person and two models share one memory',
-  status: 'running daily · pre-release · open source from release',
-  period: 'in daily use',
+  tagline: 'A desktop environment where a person and two models share one memory',
+  status: 'running daily · pre-release · open source at release',
   host: 'one Apple M4 Mac mini, 24 GB, no cloud inference',
 
-  what: [
-    'One human, one cloud model and one local model working against the same stores — the same memory, the same knowledge graph, the same plan.',
-    'The local model performs long agentic runs: it writes code, drives a browser, and queries what I query. It is not a chat window with tools bolted on.',
-    'Everything a session learns is written back, so the next session starts informed rather than starting over.',
+  /** Why it exists. Grounded in the plan record, not retrofitted. */
+  premise: `It started as a harness for my own work and became the thing the work was about:
+    every session with a model began from zero, and everything learned in it was lost when the
+    window closed. Factorium is the answer to that — one store the human and both models read
+    and write, so the next session starts informed.`,
+
+  ambition: `The plan is to ship v1 as an ordinary application. Not a repo with a README and a
+    docker-compose that assumes you are an engineer — an app a knowledge worker installs. The
+    whole stack (Postgres with three extensions, a vector store, a local model server, the
+    agent runtime) is packaged behind one install, and getting that to compile was most of the
+    work. The point is that this level of human–AI symbiosis should not require a systems
+    background to reach.`,
+
+  openSource: `Open source from release, and meant as a starting point rather than a product —
+    the way editors get forked and specialised. Factorium began from a VS Code base and kept
+    roughly a fifth of it; the rest was removed or rewritten. Other variants should be able to
+    do the same to this.`,
+
+  /** Nine apps, read from the live registry — not from the docs, which are behind. */
+  apps: [
+    ['Chat · Stream', 'The local agent, as a thread with automatic chapters rather than a list of questions'],
+    ['Search · Find', 'One box across knowledge, code, docs and the plan'],
+    ['LIP · Plan', 'The plan itself — nodes, status, weights, dependencies'],
+    ['Graph · Verse', 'Knowledge, code and docs as one graph: 2D nodes or a 3D crystal you fly through'],
+    ['File · Browser', 'A file tree plus tabs the agent opens as it works'],
+    ['Git · Repos', 'Commit log and working tree across repositories'],
+    ['Watch · Ops', 'Service health, activity feed, backup state'],
+    ['Project · Run', 'Start and watch a dev server from inside the environment'],
+    ['Browse · Web', 'A real browser the agent can drive and read back'],
   ],
 
-  /** What makes it different from a RAG demo. */
-  pillars: [
-    {
-      head: 'One database holding three shapes of data',
-      body: 'pgvector and Apache AGE coexist in one Postgres instance, with TimescaleDB alongside for observability. Vectors, graph and relational in one connection, one backup, and no consistency problem between stores.',
-    },
-    {
-      head: 'Memory with a metabolism',
-      body: 'Records carry importance and decay; frequently reached records strengthen, unused ones fade, and anchors never decay. The store compounds meaning rather than only growing.',
-    },
-    {
-      head: 'The plan is a graph, not a document',
-      body: 'Every task, decision and finding is a node in the same database as everything else — which is why a mistake made in May is retrievable in August by describing the situation rather than remembering its name.',
-    },
-    {
-      head: 'A hard constraint that decided the architecture',
-      body: '24 GB total. A 12B model at 7.7 GB resident instead of the stronger 26B at 16–17, because capability that costs you the browser, the database and the editor is not capability.',
-    },
+  /** What the local agent can actually do — hands, not just retrieval. */
+  agentCan: [
+    'Run shell commands and keep services alive across a session, then verify from outside with a real request',
+    'Read, write and surgically edit files across any project, including bootstrapping a new one',
+    'Drive a browser — screenshot, console, network, rendered page — so it can check its own UI work',
+    'Search knowledge tier-aware, so a CORE result outweighs a peripheral tangent',
+    'Walk the graph several hops from an entity',
+    'Search indexed code by meaning rather than by string',
+    'Read and update the plan, and read durable memory',
   ],
 
-
-  /**
-   * The architecture, named. A page about a system that does not say what the
-   * system is made of is a brochure — and this one had no harness, no event bus
-   * and no watcher in it, while all three are modules in the repository.
-   */
   architecture: {
-    lead: 'What it is actually made of',
+    lead: 'What it is made of',
     layers: [
-      {
-        name: 'Store',
-        detail: 'One Postgres instance holding three shapes of data: pgvector for embeddings, Apache AGE for two graphs (knowledge, code), TimescaleDB for the activity hypertable. Qdrant alongside for seven vector collections. One connection, one backup, no cross-store consistency problem.',
-      },
-      {
-        name: 'Memory with a metabolism',
-        detail: 'Records carry importance, decay and Hebbian strengthening — reaching a record strengthens it, unused ones fade, anchors never decay. `biological-score.ts`. The store compounds meaning rather than only growing.',
-      },
-      {
-        name: 'Agent runtime',
-        detail: '23 tool modules behind one registry — memory, knowledge graph, code search, docs, git, browser, files, LIP, lexicon, vault. The local model gets a deliberately smaller surface than the HTTP registry: two hive verbs instead of a tool per source, because every extra schema is prompt tax on a 12B model.',
-      },
-      {
-        name: 'Retrieval',
-        detail: 'Six layers fanned out in parallel and fused by rank (RRF, Cormack 2009, k=60) rather than concatenated. Asymmetric embedding prefixes, diacritics folded at the single choke point both queries and documents pass through.',
-      },
-      {
-        name: 'Watchers and the bus',
-        detail: '`code-watcher.ts` ingests file changes into the code graph and re-computes spatial tiers 30s after a batch settles; a memory watcher indexes any markdown written to the store; `event-bus.ts` carries them to the UI. Nothing needs a manual re-index step.',
-      },
-      {
-        name: 'Plan as a graph',
-        detail: 'The Living Implementation Plan — every task, decision and finding is a node in the same database as everything else, vector-indexed, so a decision from May is retrievable in August by describing the situation rather than remembering its name.',
-      },
-      {
-        name: 'Model layer',
-        detail: 'llama.cpp on Metal behind a mutex that makes concurrent loads impossible — 24 GB does not fit two chat models. A liveness probe distinguishes a wedged model from a loading one, because /health returns 200 in both cases.',
-      },
+      ['Store', 'One Postgres instance: pgvector for embeddings, Apache AGE for the knowledge and code graphs, TimescaleDB for the activity hypertable. Qdrant alongside for seven collections. One connection, one backup, no cross-store consistency problem.'],
+      ['Memory', 'Records carry importance, decay and Hebbian strengthening — reaching a record strengthens it, unused ones fade, anchors never decay.'],
+      ['Agent runtime', '23 tool modules behind one registry. The local model gets a deliberately smaller surface than the HTTP registry: two hive verbs instead of a tool per source, because every extra schema is prompt tax on a 12B model.'],
+      ['Retrieval', 'Six layers queried in parallel and fused by rank (RRF, k=60) rather than concatenated. Asymmetric embedding prefixes and diacritics folding at the single point both queries and documents pass through.'],
+      ['Watchers', 'File changes ingest into the code graph and re-compute spatial tiers 30s after a batch settles; any markdown written to the store is indexed automatically. No manual re-index step exists.'],
+      ['Plan', 'Every task, decision and finding is a node in the same database as everything else and vector-indexed — a decision from May is retrievable in August by describing the situation rather than remembering its name.'],
+      ['Model layer', 'llama.cpp on Metal behind a mutex that makes concurrent loads impossible. A liveness probe separates a wedged model from a loading one, because /health returns 200 for both.'],
     ],
     counts: [
       ['186', 'TypeScript source files'],
       ['563', 'commits'],
       ['23', 'tool modules'],
-      ['9', 'apps in the v01 surface'],
+      ['9', 'apps'],
       ['2,911', 'modules in a passing build'],
       ['23/23', 'smoke tests'],
     ],
   },
 
-
-  /**
-   * What an AI engineer would want to know: the paths tried and abandoned, and
-   * what the measurement said. Written for a reader who has made these calls
-   * themselves and will recognise a claim without evidence behind it.
-   */
-  lessons: [
-    {
-      head: 'Parallel agents and heavy workflows did not work here, and the endpoint was minimal',
-      body: `The route was tried in both directions: multi-agent orchestration, parallel runs,
-        elaborate harnesses, several Claude configurations. What survived is deliberately lean —
-        one cloud model, one local model, one shared store, a hand-written runtime. Not a
-        philosophical preference: on a single 24&nbsp;GB machine every added layer competes for
-        the same memory, and every added abstraction removes a place to look when something goes
-        wrong. <b>The measured constraint decided the architecture, and the architecture is
-        smaller than the ambition that started it.</b>`,
-    },
-    {
-      head: 'We tried orchestration and multi-agent, and ended up with neither',
-      body: `The first design was one agent per task; it reached 61 definitions before it
-        became clear nobody could choose between them. The names were accurate and useless.
-        Collapsed to six specialists, with the narrow prompts demoted to loadable context —
-        <b>the taxonomy was a UX problem wearing an architecture costume</b>. Native
-        multi-agent came back later for the 26B MoE model and was parked, not because the
-        mechanism failed but because it only pays off on a model that costs the rest of the
-        machine.`,
-    },
-    {
-      head: 'No agent framework, and the reason is specific',
-      body: `Decided May 2026 and held since: own runtime, vendor SDK only for the cloud
-        model. A framework injects prompt content you did not write, which is fatal when the
-        thing you are measuring is how a 12&nbsp;B model responds to instructions.
-        <b>You cannot attribute a behaviour change to your rule if a library is also editing
-        the prompt.</b> The same logic kept Zod out of 22 tool modules — a hand-written
-        validator rejected 5 of 5 probes, so the dependency would have replaced working code
-        with equivalent code. It is used in exactly one place, where the input is a file from
-        disk we do not control.`,
-    },
-    {
-      head: 'The failures were almost never in the model',
-      body: `Three days were spent on retrieval quality before the actual defect surfaced:
-        the answer was not in the index. 58% of one collection were duplicates of a single
-        turn; the local model's own conversations had never been indexed at all. Separately,
-        an embedding model was used symmetrically for weeks when it requires asymmetric
-        prefixes — short irrelevant text outranked long relevant text, and nothing errored.
-        <b>Before touching a ranking function, prove the answer is in the index.</b>
-        Three times it was not.`,
-    },
-    {
-      head: 'Silent failure is the class, not the bug',
-      body: `Nine instances found in one sweep, all the same shape: input accepted, matched
-        against nothing, discarded, operation reports success. A schema validator that
-        skipped unknown keys meant every optional-parameter typo the local model ever made
-        was silently ignored. A CLI flag that did not exist swallowed three evidence blocks.
-        Five mutations — including a token revoke — treated a non-2xx response as a
-        rejection rather than a failure.`,
-    },
-    {
-      head: 'What the measurement said about the model, not the code',
-      body: `Rules retrieved by their own wording: 1 in 5. Stored as descriptions of the
-        situations that trigger them: 10 in 10. Asked afterwards which of its rules carried
-        real information, the model misclassified <b>7 of 8</b> — including three that had
-        changed its decision minutes earlier. That single result changed the method: value is
-        measured by behaviour, never by asking the model.`,
-    },
-  ],
-
-  /** The model choice, which is the clearest example of how decisions get made here. */
+  /** The model set, as it actually stands. */
   models: {
-    lead: 'Three tiers, one hard constraint',
+    lead: 'One model in production, two on the bench',
+    production: {
+      id: 'Gemma-4 12B · Q5_K_M · ~7.7 GB resident',
+      why: `The only tier used in production. Q5 for reliability where tool calling is
+        zero-tolerance, and at 7.7 GB it leaves enough of the 24 GB free to load vision and
+        audio projectors alongside it — which a larger model does not.`,
+    },
+    bench: [
+      ['26B · QAT UD-Q4_K_XL', 'experimental, on hold — mixture-of-experts, and at 16–17 GB it costs the rest of the machine'],
+      ['E2B · UD-Q4_K_XL, ~3.9 GB', 'held for Factorium Pocket, the planned mobile companion to the desktop app'],
+    ],
     constraint: 'No two chat models run concurrently on 24 GB. The switcher is strictly stop-then-start — reproduced live, not assumed.',
-    tiers: [
-      { id: 'E2B',  build: 'UD-Q4_K_XL',  resident: '~3.9 GB',   role: 'compact, and the vision tier — it ships its own projector' },
-      { id: '12B',  build: 'Q5_K_M',      resident: '~7.7 GB',   role: 'the default, and what everything else is measured against' },
-      { id: '26B',  build: 'QAT UD-Q4_K_XL', resident: '~16–17 GB', role: 'heavy reasoning only; it costs the rest of the machine' },
-    ],
-    /** Why the quantisation policy is deliberately not uniform. */
-    policy: [
-      {
-        head: '26B is mixture-of-experts, so QAT only',
-        body: `Expert routing is a discrete choice. Quantisation noise in the router
-          logits sends a token to the wrong expert — a semantic error that compounds
-          through the layers rather than a smooth loss of precision. Training-aware
-          quantisation co-adapts those routing margins; post-training methods
-          minimise per-layer reconstruction error and cannot touch them at all.`,
-      },
-      {
-        head: '12B is dense, and stayed at 5-bit — because the evidence contradicted itself',
-        body: `The routing argument does not transfer, so the bitrate tradeoff was
-          genuinely open. Two independent grounding channels disagreed: one said the
-          4-bit QAT build wins on long context and tool calling; the other, asked
-          sceptically, pointed out that claim rests on static few-shot benchmarks,
-          while on long-context and function-calling suites the 5-bit degrades less
-          and the 4-bit spikes on schema errors. Tool calling is zero-tolerance here,
-          so the disputed axis was the deciding one. <b>Not switching on contradictory
-          evidence</b> — revisit only with a local A/B on our own traces.`,
-      },
-      {
-        head: 'One build was deleted without ever being loaded',
-        body: `A 26B download sat on disk behind a valid GGUF magic header with
-          <b>28.9% of the file missing</b>. llama.cpp would have started loading and
-          then hit a truncated tensor region, on a machine that had already kernel-
-          panicked twice that day. A valid header proves nothing about the tail —
-          check the size against the remote before loading anything resumed.`,
-      },
-    ],
-    /** The bug this work exposed, which is more instructive than the decision. */
-    bug: `Adding the compact tier surfaced a single module-level constant: the vision
-      projector path was hardcoded to the 26B's. A third model would have been served
-      the wrong projector against its own weights — a silent mismatch, not a crash.
-      Now resolved per catalogue entry.`,
+    quantisation: `Quantisation policy is deliberately not uniform. On the MoE model, routing is a
+      discrete choice, so quantisation noise in the router logits sends a token to the wrong
+      expert — a semantic error rather than a smooth loss of precision, which is why only
+      training-aware builds were considered there. On the dense 12B the argument does not
+      transfer and two grounding channels contradicted each other, so it stayed at 5-bit:
+      <b>not switching on contradictory evidence</b>.`,
+    bug: `Adding a second tier surfaced a single module-level constant — the vision projector
+      path was hardcoded to one model's. A third model would have been served the wrong
+      projector against its own weights: a silent mismatch, not a crash.`,
   },
 
   stack: ['TypeScript', 'Hono', 'llama.cpp / Metal', 'Gemma-4 12B', 'Qdrant', 'Apache AGE', 'pgvector', 'bge-m3', 'TimescaleDB', 'React 19', 'three.js'],
+};
+
+/** Screenshot galleries. Filenames describe the shot. */
+export const shots = {
+  factorium: [
+    ['knowledge-crystal.jpg', 'The knowledge graph as a 3D crystal'],
+    ['orbital2.jpg', 'Orbital layout — distance from centre is importance tier'],
+    ['gravity.jpg', 'Degree-scaled repulsion: hubs push apart instead of imploding'],
+    ['force.jpg', 'Force layout, labels on'],
+    ['kg-ptolemaic.jpg', 'Knowledge graph, shell view'],
+    ['kg-amorphic.jpg', 'The same graph without shells'],
+    ['factorium-code-graph.jpg', 'The code graph — entities and import edges'],
+    ['code-lonely-cluster.jpg', 'A disconnected code cluster, visible at a glance'],
+    ['kg-lonely-cluster.jpg', 'An isolated knowledge cluster'],
+  ],
+  teamBrain: [
+    ['brain-home.jpg', 'Home — actions and agent picker'],
+    ['brain-ui-chat.jpg', 'Chat with streaming and tool results inline'],
+    ['brain-tool-calls.jpg', 'Tool calls, expanded with their results'],
+    ['brain-ui-persona.jpg', 'Specialist selection'],
+    ['brain-profile-modal.jpg', 'User profile and access tier'],
+  ],
 };
