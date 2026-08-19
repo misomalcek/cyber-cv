@@ -48,9 +48,9 @@ export const sectionCards: SectionCard[] = [
     blurb: 'The knowledge graph as it actually stands — clickable entities, real relations, and importance rendered as orbital distance rather than decoration.',
   },
   {
-    id: 'work', slug: 'work/', title: 'Public work', icon: 'code',
-    metric: '15 repositories · 5 videos · 4 sites',
-    blurb: 'Everything open, including two repositories published as evidence of where the practice came from — the framework and the harness that preceded the current system.',
+    id: 'work', slug: 'work/', title: 'Public output', icon: 'code',
+    metric: '15 repositories · 3 games · 4 sites · video',
+    blurb: 'Everything public in one place — including three games that are all prototypes of one idea, and two repositories published as evidence of where the working practice came from.',
   },
   {
     id: 'credentials', slug: 'credentials/', title: 'Credentials & references', icon: 'badge',

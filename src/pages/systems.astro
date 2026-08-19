@@ -7,7 +7,6 @@ import Section from '../components/Section.astro';
 import Disclosure from '../components/Disclosure.astro';
 import { teamBrainSystem, factoriumSystem } from '../data/systems';
 import { teamBrain } from '../data/team-brain';
-import { repos, public_output } from '../data/work';
 ---
 <Base
   title="Systems — Michal Malček"
@@ -356,122 +355,55 @@ import { repos, public_output } from '../data/work';
   </Section>
 
   <!-- ── Code & public output ─────────────────────────────────────────── -->
+  <!-- ── The easter egg ───────────────────────────────────────────────────
+       It belongs here rather than under games: it is a mode inside Factorium,
+       reading Factorium's own live lexicon. -->
   <Section
-    id="code"
-    title="Code and public output"
-    lede="What can be shown, and what cannot. The two production repositories carry the real work but are not mine to publish — one is client-owned, the other goes open source at release. What I can show now is the trail: how the work is documented and committed."
+    id="mpc"
+    title="The arcade hidden inside it"
+    note="mpcmcp"
+    lede="Not a separate product — a mode inside the knowledge verse, and the clearest demonstration of what the value layer is for."
   >
-    <div class="grid md:grid-cols-3 gap-3 mb-5">
-      {repos.map((r, i) => (
-        <div class="card p-5" style={`animation: countIn .5s ease-out ${i * 70}ms both`}>
-          <div class="flex items-baseline justify-between gap-2 mb-1">
-            <b class="text-[14px] text-synapse">{r.name}</b>
-            <span class="text-[10px] uppercase tracking-wider text-fg-ghost border border-line rounded px-1.5 py-0.5 shrink-0">
-              {r.state}
-            </span>
-          </div>
-          <div class="text-[13px] text-fg mb-2">{r.what}</div>
-          <p class="text-[12.5px] text-fg-ghost m-0 flex-1">{r.detail}</p>
-          {r.href && (
-            <a href={r.href} target="_blank" rel="noopener"
-               class="text-[12px] mt-3 inline-block no-underline hover:underline">View on GitHub →</a>
-          )}
-        </div>
-      ))}
-    </div>
-
-    <!-- Two more that are public but live elsewhere, plus the one that is a
-         running demo rather than a repository. -->
-    <div class="grid md:grid-cols-3 gap-3 mt-3">
-      <div class="card p-5 flex flex-col">
-        <div class="flex items-baseline justify-between gap-2 mb-1">
-          <b class="text-[14px] text-synapse">aisvet2 · aiworld</b>
-          <span class="text-[10px] uppercase tracking-wider text-fg-ghost border border-line rounded px-1.5 py-0.5 shrink-0">
-            gitlab · WIP
-          </span>
-        </div>
-        <div class="text-[13px] text-fg mb-2">The publishing side.</div>
-        <p class="text-[12.5px] text-fg-ghost m-0 flex-1">
-          The Slovak AI magazine and its English sibling, both public and both still moving.
-          Hosted from GitLab Pages rather than here, which is why they are named and not linked
-          as repositories.
-        </p>
-        <a href="http://aiworld.aisvet.sk/" target="_blank" rel="noopener"
-           class="text-[12px] mt-3 inline-block no-underline hover:underline">aiworld.aisvet.sk →</a>
-      </div>
-
-      <div class="card p-5 flex flex-col md:col-span-2">
-        <div class="flex items-baseline justify-between gap-2 mb-1">
-          <b class="text-[14px] text-synapse">msg-ai — a 1B model on the front end</b>
-          <span class="text-[10px] uppercase tracking-wider text-fg-ghost border border-line rounded px-1.5 py-0.5 shrink-0">
-            live demo · unfinished
-          </span>
-        </div>
-        <div class="text-[13px] text-fg mb-2">
-          A corporate site with a local model answering on it — not an API call to a provider.
-        </div>
-        <p class="text-[12.5px] text-fg-ghost m-0 flex-1">
-          An experiment, never contracted: <b class="text-fg-dim">Gemma-3 1B deployed on the page's
-          own front end</b>, running on the same 8&nbsp;GB VPS that carried Team Brain in
-          production at the time. It never shipped — my role ended first — and it still answers,
-          which makes it the honest artefact of that period: unfinished, working, and the first
-          time I put a local model where an actual visitor could talk to it. The design system
-          came out of Claude Design and Pencil.dev.
-        </p>
-        <a href="https://brain.msgweb.io/msg-ai/" target="_blank" rel="noopener"
-           class="text-[12px] mt-3 inline-block no-underline hover:underline">
-          Open the demo — the assistant is behind the red dot, bottom right →
-        </a>
-      </div>
-    </div>
-
-    <div class="card p-5 mb-5">
-      <div class="eyebrow mb-3">The trail, and why it counts</div>
-      <p class="text-[13.5px] text-fg-dim m-0 mb-3">
-        Both projects carry a long commit history against a written plan, with each finding
-        recorded as it happened rather than reconstructed afterwards. That is not housekeeping —
-        it is why the "what went wrong" section above could be written from records instead of
-        memory, and why a mistake made in May is retrievable in August by describing the
-        situation rather than remembering its name.
+    <div class="card p-5">
+      <p class="text-[14px] text-fg-dim mt-0 mb-3">
+        While flying the 3D graph, typing <code class="text-synapse">mpcmcp</code> wakes a shooter.
+        The crystals drift in the same shape-language as the graph nodes, and the scoring is
+        inverted on purpose.
       </p>
-      <p class="text-[13px] text-fg-ghost m-0">
-        Exploratory repositories — harnesses, experiments, things that were tried and abandoned —
-        can be published alongside these, with the caveat they deserve: <b class="text-fg-dim">they
-        are artefacts of learning, not production code.</b> The production work is best walked
-        through live, where the history and the reasoning can be shown together.
-      </p>
-    </div>
-
-    <div class="flex items-start gap-4 mb-4 p-5 card">
-      <img src={`${base}aisvet-logo.jpg`} alt="AI Svet channel logo" width="72" height="72"
-           class="rounded-xl shrink-0"
-           style="box-shadow: 0 0 26px -6px color-mix(in srgb, var(--color-neural) 65%, transparent)" />
-      <div>
-        <div class="eyebrow mb-1.5">Explaining it in a language that has none of it</div>
-        <p class="text-[13.5px] text-fg-dim m-0">
-          Slovak has almost no technical material on AI. Everything below is written and recorded in
-          it — agentic workflows, system design, agent harnesses, alignment at work — because the
-          alternative is that the people who most need to understand these systems read a marketing
-          summary of them instead.
-        </p>
-      </div>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-3">
-      {public_output.map((o) => (
-        <div class="card p-5 flex flex-col">
-          <div class="text-[10.5px] tracking-[.14em] uppercase text-fg-ghost mb-2">{o.what}</div>
-          <b class="text-[14px] block mb-1.5">{o.name}</b>
-          <p class="text-[12.5px] text-fg-dim m-0 flex-1" set:html={o.detail} />
-          {o.meta && (
-            <div class="text-[11.5px] text-fg-ghost mt-2 pt-2 border-t border-line/50">{o.meta}</div>
-          )}
-          {o.href && (
-            <a href={o.href} target="_blank" rel="noopener"
-               class="text-[12.5px] mt-2 inline-block no-underline hover:underline">Visit →</a>
-          )}
+      <div class="grid sm:grid-cols-2 gap-3 mb-4">
+        <div class="border-l-2 border-forge/50 pl-3">
+          <b class="text-[13.5px] text-forge block mb-1">Daemons — the targets, +score</b>
+          <p class="text-[13px] text-fg-dim m-0">
+            The opposites of the system's values, and its bad habits: sycophancy, skipping
+            verification, treating the model as a calculator, giving up, entropy. Shooting one
+            lands as having actually got rid of a bad habit.
+          </p>
         </div>
-      ))}
+        <div class="border-l-2 border-synapse/50 pl-3">
+          <b class="text-[13.5px] text-synapse block mb-1">Angels — avoid, −score</b>
+          <p class="text-[13px] text-fg-dim m-0">
+            The real values, pulled <b class="text-fg">live from the hive's own lexicon</b> so the
+            game always speaks the current Codex. Hit "Primacy of Truth" or "stop-and-ask" and it
+            costs you. The supreme axiom is never spawned at all.
+          </p>
+        </div>
+      </div>
+      <p class="text-[13px] text-fg-ghost m-0 mb-3">
+        It is the first of three prototypes of one idea — that a scoring rule can teach a value
+        system rather than a skill. Factorium is not open source yet, so the recordings are the
+        record; the other two are on the <a href={`${base}work/`} class="text-synapse no-underline hover:underline">public output</a> page.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {[['MPC arcade — part 1', 'https://www.youtube.com/watch?v=1Rzro-dXMqk'],
+          ['MPC arcade — part 2', 'https://www.youtube.com/watch?v=gi6WXwvcjPo']].map(([t, u]) => (
+          <a href={u} target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 text-[12.5px] text-forge no-underline
+                    border border-forge/30 rounded-lg px-2.5 py-1.5 hover:bg-forge/10">
+            <svg width="10" height="12" viewBox="0 0 9 11" fill="currentColor" aria-hidden="true"><path d="M0 0.5L9 5.5L0 10.5V0.5Z" /></svg>
+            {t}
+          </a>
+        ))}
+      </div>
     </div>
   </Section>
 </Base>
