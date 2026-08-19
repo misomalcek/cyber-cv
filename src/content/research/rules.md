@@ -518,3 +518,31 @@ the direction:
 The second intervention exposed a flaw in method rather than in code: the agent
 had generalised a conclusion from a single subject. Without that objection the
 system would look identical and its justification would have been false.
+
+---
+
+## Addendum (2026-08-19): a defect in the selection, found after publication
+
+The sixteen rules above were seeded from files matching `rule-*.md` — a filename
+pattern, not a question about practice. Reading the published list, Michal noticed
+that **`stop-and-ask` was absent**: the most-connected rule in the knowledge graph
+(degree 38, CORE tier, 115 memory files, first recorded 18 April 2026), and one
+that a rule *in* this study names in its own title ("sibling of stop-and-ask").
+
+Applying the same key found three more: `no-hide-and-seek`, `no-stress-no-tension`
+and `admit-the-shortcut` — the last being the direct ancestor of two rules that
+are in the set.
+
+**Aggregate: the excluded rules average graph degree 7.1 against 3.9 for the
+included ones.** The selection was not merely incomplete; it was biased against
+the most established material, because durability of practice and possession of a
+particular filename are uncorrelated.
+
+Every measurement reported above stands for the rules that were tested. What does
+not stand is the denominator's meaning: "6 of 16 changed a decision" should be
+read as *six of sixteen candidates selected by a formatting artefact*. The honest
+total is **20 known rules, 16 measured, 4 outstanding**.
+
+The four are now in the table flagged as unmeasured, with situational triggers
+and their date of addition, so the gap is visible rather than closed by
+assertion. Full account: `APPENDIX-the-rules-that-were-not-in-the-table-2026-08`.
