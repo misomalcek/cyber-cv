@@ -11,6 +11,7 @@ import { teamBrain } from '../data/team-brain';
 import { teamBrainSystem, factoriumSystem } from '../data/systems';
 import Contact from '../components/Contact.astro';
 import { sectionCards, ICONS } from '../data/sections';
+import { foundations, foundationsNote } from '../data/foundations';
 
 /** Card list for the home grid — hrefs resolved once, against the real base. */
 const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon: ICONS[c.icon] }));
@@ -212,5 +213,34 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
 
   <!-- ── Beyond ───────────────────────────────────────────────────────── -->
   <!-- Judo, languages and the rest live on /career/, where the twenty years are. -->
+
+
+  <!-- ── Foundations ──────────────────────────────────────────────────────
+       Values, with what each one actually decided. Two are marked untested
+       rather than quietly listed alongside the ones that cost something. -->
+  <Section id="foundations" title="What this is built on" note="four load-bearing, two used, two untested"
+           lede="A values list is worthless unless it can be checked. Each one below says what it is and — where one exists — the decision it produced.">
+    <div class="grid md:grid-cols-2 gap-3">
+      {foundations.map((f) => (
+        <div class="card p-5 flex flex-col">
+          <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1.5">
+            <b class="text-[15px] text-fg font-semibold">{f.name}</b>
+            <span class={`text-[10px] uppercase tracking-wider border rounded px-1.5 py-0.5 shrink-0 ${
+              f.status === 'load-bearing' ? 'text-synapse border-synapse/40'
+              : f.status === 'used' ? 'text-neural-text border-neural/40'
+              : 'text-fg-ghost border-line'}`}>{f.status}</span>
+          </div>
+          <p class="text-[13.5px] text-fg-dim m-0">{f.what}</p>
+          {f.tested && (
+            <p class="text-[13px] text-fg-ghost m-0 mt-2.5 pt-2.5 border-t border-line/50 flex-1">
+              <b class="text-[10.5px] uppercase tracking-wider text-forge mr-2">what it decided</b>
+              {f.tested}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+    <p class="text-[13px] text-fg-ghost mt-4 m-0 max-w-[72ch]">{foundationsNote}</p>
+  </Section>
 
 </Base>
