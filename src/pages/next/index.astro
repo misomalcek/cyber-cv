@@ -1,0 +1,85 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import { thesis, directions, limits } from '../../data/next';
+
+/**
+ * Where this goes next. The thesis, then the open directions, each with a
+ * falsifier — an entry without one is a mood and was cut while writing this.
+ */
+const badge: Record<string, string> = {
+  'measured':          'text-synapse border-synapse/40',
+  'partly measured':   'text-neural-text border-neural/40',
+  'designed, unrun':   'text-forge border-forge/40',
+  'open':              'text-fg-ghost border-line',
+};
+---
+<Base
+  title="What comes next — Michal Malček"
+  description="The open research directions: cultivation over correction, neuro-symbolic governance, spatial structure, and where automated search stops working."
+  back={{ href: `${base}`, label: 'Back to CV' }}
+>
+  <header class="pt-10 pb-7 border-b border-line">
+    <h1 class="text-[clamp(30px,4.4vw,44px)] font-semibold tracking-tight m-0 mb-3">What comes next</h1>
+    <p class="lede m-0">
+      Eight directions, each with what would falsify it. Three are partly measured on this
+      machine, one is fully measured, and the rest are designed or open — labelled so a reader
+      can tell which is which without checking.
+    </p>
+  </header>
+
+  <!-- The thesis the directions hang from. -->
+  <Section title={thesis.title} note="the thesis">
+    <div class="card p-6">
+      <p class="text-[15.5px] text-fg m-0 mb-4" set:html={thesis.claim} />
+      <p class="text-[14px] text-fg-dim m-0 mb-3" set:html={thesis.gap} />
+      <p class="text-[14px] text-fg-dim m-0" set:html={thesis.line} />
+    </div>
+  </Section>
+
+  <Section title="The directions" note={`${directions.length}`}
+           lede="Each states the claim, why it is plausible, and what result would kill it. Anything without a falsifier is not a hypothesis and is not here.">
+    <div class="flex flex-col gap-3">
+      {directions.map((d) => (
+        <div id={d.id} class="card p-5 scroll-mt-24">
+          <div class="flex items-baseline justify-between gap-3 flex-wrap mb-2">
+            <b class="text-[15.5px] text-fg font-semibold leading-snug">{d.title}</b>
+            <span class={`text-[10.5px] uppercase tracking-wider border rounded px-1.5 py-0.5 shrink-0 ${badge[d.status]}`}>
+              {d.status}
+            </span>
+          </div>
+          <p class="text-[14px] text-fg-dim m-0 mb-3" set:html={d.claim} />
+          <p class="text-[13.5px] text-fg-dim m-0 mb-3" set:html={d.why} />
+          <p class="text-[13px] m-0 mb-2">
+            <b class="text-[11px] uppercase tracking-wider text-forge mr-2">falsified if</b>
+            <span class="text-fg-ghost" set:html={d.falsifier} />
+          </p>
+          {d.standing && (
+            <p class="text-[13px] m-0">
+              <b class="text-[11px] uppercase tracking-wider text-synapse mr-2">standing</b>
+              <span class="text-fg-ghost" set:html={d.standing} />
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section title="Limits" note="stated first">
+    <div class="card p-5">
+      <ul class="list-none p-0 m-0 flex flex-col gap-2">
+        {limits.map((l) => (
+          <li class="flex gap-3 text-[13.5px] text-fg-dim">
+            <span class="text-fg-ghost shrink-0">·</span>{l}
+          </li>
+        ))}
+      </ul>
+      <p class="text-[13px] text-fg-ghost m-0 mt-4">
+        The last one is the point rather than a caveat. A local measurement that can be
+        reproduced is worth more than a large claim that cannot — and the defects found here were
+        found by checking a thing whose answer was already known, which does not need scale.
+      </p>
+    </div>
+  </Section>
+</Base>

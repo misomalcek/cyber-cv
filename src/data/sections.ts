@@ -19,6 +19,7 @@ export const ICONS: Record<string, string> = {
   search:'M11 11m-7 0a7 7 0 1014 0a7 7 0 10-14 0M20 20l-4.35-4.35',
   log:   'M4 5h16M4 10h16M4 15h10M4 20h7',
   code:  'M8 6l-6 6 6 6M16 6l6 6-6 6',
+  compass:'M12 12m-9 0a9 9 0 1018 0a9 9 0 10-18 0M15.5 8.5l-2 5-5 2 2-5z',
 };
 
 export interface SectionCard {
@@ -56,6 +57,11 @@ export const sectionCards: SectionCard[] = [
     id: 'credentials', slug: 'credentials/', title: 'Credentials & references', icon: 'badge',
     metric: 'Every document, in this repository',
     blurb: 'Diplomas, certificates and references — held in the repo itself and opened here, not linked to a drive that asks a stranger to log in.',
+  },
+  {
+    id: 'next', slug: 'next/', title: 'What comes next', icon: 'compass',
+    metric: '8 directions, each with a falsifier',
+    blurb: 'Where the measured work points: formation over correction, rules as queryable data rather than prompt, position as machine-readable structure, and where automated search stops paying.',
   },
   {
     id: 'log', slug: 'log/', title: 'Build log', icon: 'log',
