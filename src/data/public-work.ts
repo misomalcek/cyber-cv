@@ -155,7 +155,7 @@ export const sites: Site[] = [
   {
     name: 'aiworld',
     url: 'https://aiworld.aisvet.sk/',
-    what: 'An AI world-building experiment.',
+    what: 'An AI world-building experiment — generated worlds, rendered and navigable.',
     note: 'Work in progress',
   },
   {
