@@ -5,6 +5,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
+import { rules, rulesSummary } from '../../data/rules-full';
 
 const papers = await getCollection('research');
 
@@ -36,8 +37,17 @@ const meta: Record<string, { title: string; blurb: string; findings: string[] }>
       'A full section on the decisions that were wrong, with what each one cost.',
     ],
   },
+  'una-synthesis': {
+    title: 'The cognitive biotope — a local model\'s synthesis',
+    blurb: 'The 12B local agent was asked to audit the three papers above against the system\'s own records and say what was wrong, unfair or incomplete. Unedited output.',
+    findings: [
+      'Two of its criticisms were correct and changed the papers — including that the rules were presented without their genesis.',
+      'It surfaced a number the papers had not: roughly 60% of the earlier instruction apparatus was well-intentioned waste.',
+      'It is also wrong once, and that is left in: it declared a layout algorithm absent after a failed string search.',
+    ],
+  },
 };
-const order = ['rules', 'spatial', 'engineering'];
+const order = ['rules', 'spatial', 'engineering', 'una-synthesis'];
 const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
 ---
 <Base
@@ -80,5 +90,44 @@ const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.
         );
       })}
     </div>
+  </Section>
+
+  <!-- ── The rules themselves ──────────────────────────────────────────────
+       Published in full. A reader cannot check "these were arrived at, not
+       designed" against a summary — only against the rules, their origins and
+       their exceptions. -->
+  <Section title="All sixteen rules, in full" note={`${rulesSummary.triggers} triggers`}
+           lede="The complete set the research measures, verbatim from the table that serves them. Each shows where it came from — most trace to a specific incident — and five carry an explicit exception, which is what makes them defeasible rather than absolute.">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+      {[[rulesSummary.count, 'rules'], [rulesSummary.triggers, 'situational triggers'],
+        [rulesSummary.withUnless, 'with an explicit exception'], [rulesSummary.hits, 'triggers fired to date']].map(([v, l]) => (
+        <div class="card p-4">
+          <div class="text-[24px] font-semibold lit-forge leading-none">{v}</div>
+          <div class="text-[12px] text-fg-ghost mt-1.5">{l}</div>
+        </div>
+      ))}
+    </div>
+    <ol class="list-none p-0 m-0 flex flex-col gap-2.5">
+      {rules.map((r) => (
+        <li class="card p-4">
+          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-2">
+            <code class="text-[13px] text-synapse">{r.id}</code>
+            <span class="text-[11.5px] text-fg-ghost">{r.triggers} triggers{r.hits > 0 ? ` · fired ${r.hits}×` : ''}</span>
+          </div>
+          <p class="text-[14px] text-fg m-0">{r.statement}</p>
+          {r.unless && (
+            <p class="text-[13px] text-forge m-0 mt-2">
+              <b class="uppercase tracking-wider text-[11px] mr-1.5">unless</b>{r.unless}
+            </p>
+          )}
+          <p class="text-[12px] text-fg-ghost m-0 mt-2">{r.origin}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="text-[13px] text-fg-ghost mt-5 max-w-[70ch]">
+      Two triggers have fired in production use. That number is small, it is shown rather than
+      omitted, and it is the honest state of a system measured for weeks rather than years —
+      the rules earn their place by changing decisions in testing, not by how often they fire.
+    </p>
   </Section>
 </Base>
