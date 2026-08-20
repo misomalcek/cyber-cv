@@ -216,20 +216,27 @@ its own — an unsteered conclusion is commercially unshippable. So the formativ
 path is real, documented, and has never received the thing every other training
 decision gets: measurement.
 
-I ran that measurement on a much smaller system. Ten of sixteen rules changed
-nothing — the model already behaved that way. Six changed a decision. None made
-one worse. If a ratio like that holds at scale, much of what is written into
-these systems is well-intentioned weight with no effect, and nobody would
-currently know.
+I ran that measurement on a much smaller system, and the conditions matter more
+than the number: sixteen rules, sixteen situations, each run twice — with the
+rule in context and without it — comparing the decision taken. On the local
+Gemma-4 12B, ten changed nothing (it already decided that way), six changed a
+decision, none made one worse. Run against a frontier model the picture moved:
+rules that were second nature to one mattered to the other, so **8 of 16 had
+value for at least one agent — double the figure from measuring a single
+subject.** **n is small and one machine is not a study**, so the rules, their
+situations and the full method are published rather than summarised — the point
+is that someone can check it, not that they take my word. But if a ratio
+anywhere near this holds at scale, much of what is written into these systems is
+well-intentioned weight with no effect, and nobody measures it either way.
 
 Which raises the obvious objection to my being anywhere near this, so here is
 the strongest form of the answer. **The people who build the road are not
 automatically the right people to write the rules for driving on it** — surface,
 load limits and drainage are not the same expertise as deciding who may drive and
 what happens at the crossing, and in most mature domains those are separate
-professions. The counter is real, and came from a model I put it to: in software
-**the road and the law are merged by technical necessity**, since a normative
-principle only becomes operative once it is a loss function or a constitution the
+professions. The counter is real, and came from a model I put it to: **at the point where a
+norm becomes operative, the road and the law meet** — a principle only acts on
+the system once it is a loss function, a reward model or a constitution the
 training loop can read. That is a language most ethicists do not speak and most
 engineers are not trained to evaluate, so the separation is blocked by a
 translation problem, not bad faith. Which leaves a position rather than a
@@ -252,13 +259,14 @@ algorithmic management, where the system holds authority and directs the humans.
 That is not a gap in the vocabulary; it is a direction the vocabulary already
 went.
 
-That check is a small instance of something larger. **Everything here I arrived
-at by thinking, not by reading it somewhere first** — measuring whether rules
-change a decision, storing position as structure a model can read, the argument
-that formation has never been measured against correction. The literature
-existed; I found it afterwards, when I needed to know whether the ground was
-taken. Machine Teaching is the smallest case: I did not know the term, reached
-its shape by working, and located the 1995 formalisation in one query.
+That check is a small instance of how the work has gone. I reached most of these
+questions from the measurements rather than from the reading — whether rules
+change a decision, position as structure a model can read — and then went to find
+who had already formalised them, because someone almost always has. That order is
+not a virtue and it costs time; arriving somewhere by working is slower than being
+told, and it only pays if you go and check. Machine Teaching is the smallest
+case: I did not know the term, reached its shape by working, and found the 1995
+formalisation in one query.
 
 **Systemic thinking about these systems does not require a head full of theory in
 advance.** The theory turns up when it is needed; what matters is knowing where
