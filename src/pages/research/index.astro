@@ -5,6 +5,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
+import DocLinks from '../../components/DocLinks.astro';
 import { rules, rulesSummary } from '../../data/rules-full';
 
 const papers = await getCollection('research');
@@ -48,6 +49,9 @@ const meta: Record<string, { title: string; blurb: string; findings: string[] }>
   },
 };
 const order = ['rules', 'spatial', 'engineering', 'una-synthesis'];
+
+/** Page id → download slug. They differ where the file name is clearer. */
+const DL: Record<string, string> = { 'una-synthesis': 'una-audit' };
 const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
 ---
 <Base
@@ -68,13 +72,18 @@ const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.
       {sorted.map((p) => {
         const m = meta[p.id];
         return (
-          <a href={`${base}research/${p.id}/`} class="card p-6 no-underline block group">
+          <div class="card p-6 group">
             <div class="flex items-baseline justify-between gap-4 flex-wrap">
-              <h2 class="text-[18px] font-semibold text-fg m-0 group-hover:text-synapse transition-colors">
-                {m.title}
-              </h2>
-              <span class="text-[12px] text-fg-ghost shrink-0">
-                {p.data.timestamp.toISOString().slice(0, 10)}
+              <a href={`${base}research/${p.id}/`} class="no-underline">
+                <h2 class="text-[18px] font-semibold text-fg m-0 group-hover:text-synapse transition-colors">
+                  {m.title}
+                </h2>
+              </a>
+              <span class="flex items-center gap-3 shrink-0">
+                <span class="text-[12px] text-fg-ghost">
+                  {p.data.timestamp.toISOString().slice(0, 10)}
+                </span>
+                <DocLinks slug={DL[p.id] ?? p.id} />
               </span>
             </div>
             <p class="text-fg-dim text-[14px] mt-2 mb-4">{m.blurb}</p>
@@ -85,8 +94,9 @@ const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.
                 </li>
               ))}
             </ul>
-            <span class="chip mt-4 inline-block group-hover:border-neural transition-colors">Read →</span>
-          </a>
+            <a href={`${base}research/${p.id}/`}
+               class="chip mt-4 inline-block no-underline group-hover:border-neural transition-colors">Read →</a>
+          </div>
         );
       })}
     </div>

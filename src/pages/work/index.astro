@@ -2,7 +2,7 @@
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
-import { lineageRepos, repos, outputs } from '../../data/public-work';
+import { lineageRepos, repos, outputs, academic } from '../../data/public-work';
 
 /**
  * Everything public, in one place.
@@ -79,6 +79,35 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
         </a>
       ))}
     </div>
+  </Section>
+
+
+  <!-- ── Academic ─────────────────────────────────────────────────────────
+       Placed before the channels because it explains why there is so little of
+       it — and why that is changing. -->
+  <Section title="Academic" note="one profile, and why it is thin">
+    <div class="card p-5 mb-3">
+      <p class="text-[14px] text-fg-dim mt-0 mb-3">{academic.note}</p>
+      <p class="text-[13.5px] text-fg-ghost m-0">{academic.stance}</p>
+    </div>
+
+    <a href={academic.profile.url} target="_blank" rel="noopener"
+       class="card p-5 no-underline flex flex-col group">
+      <div class="flex items-baseline justify-between gap-3 flex-wrap mb-3">
+        <b class="text-[15.5px] text-fg font-semibold">{academic.profile.name}</b>
+        <span class="text-[11.5px] text-fg-ghost">{academic.profile.where}</span>
+      </div>
+      <div class="flex flex-wrap gap-6 mb-3">
+        {academic.profile.stats.map(([v, l]) => (
+          <div>
+            <div class="text-[20px] font-semibold lit-forge leading-none tabular-nums">{v}</div>
+            <div class="text-[11.5px] text-fg-ghost mt-1">{l}</div>
+          </div>
+        ))}
+      </div>
+      <p class="text-[13.5px] text-fg-dim m-0">{academic.profile.what}</p>
+      <span class="text-[12px] text-synapse mt-3 transition-transform group-hover:translate-x-0.5">open profile →</span>
+    </a>
   </Section>
 
   <Section title="Video and music" note={`${videos.length + audio.length}`}

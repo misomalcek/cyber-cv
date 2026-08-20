@@ -60,6 +60,16 @@ export const refs: Ref[] = [
     note: 'certificate never issued; confirmation email is the record' },
   { n: 15, title: 'AI Generalist', issuer: 'Outskill — three-day intensive', date: '2026', sort: '2026-04-01',
     files: ['outskill.pdf'], note: 'the only formal AI training' },
+  { n: 16, title: 'Google internal training programme', issuer: 'Google',
+    date: '2010–2011', sort: '2011-06-01',
+    note: 'AdWords Professional · Analytics · Product Management · Coding in Python · Personal Effectiveness · Presenting with Confidence' },
+  { n: 17, title: 'Speaker — Slovak e-commerce conference', issuer: 'Recorded session',
+    date: '2013', sort: '2013-01-01', link: 'https://www.youtube.com/watch?v=f8WMaL8jWYg' },
+  { n: 18, title: 'StepUp management programme — 10 weeks', issuer: 'Lottoland',
+    date: '2017', sort: '2017-01-01' },
+  { n: 19, title: 'Four AI workshops for a whole company branch', issuer: 'msg life Slovakia · leadership to newest hires, voluntary attendance',
+    date: '2025–2026', sort: '2026-01-01',
+    note: 'the first opened with ethics and the practical limits of formal logic — Gödel, the frame problem, Tarski — and what each means when working with a probabilistic system' },
 ];
 
 export const refsOrdered = [...refs].sort((a, b) => a.sort.localeCompare(b.sort));

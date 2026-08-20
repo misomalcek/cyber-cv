@@ -162,7 +162,7 @@ export const outputs: Output[] = [
   },
   {
     kind: 'audio', name: 'AI Svet — podcast', url: 'https://hearthis.at/aisvet/',
-    what: '11 episodes: agent engineering, autonomous runs, why company AI projects fail.',
+    what: 'The Third Space series and AI engineering episodes — building a team brain, autonomous agents, why company AI projects fail.',
   },
   {
     kind: 'site', name: 'aisvet 2', url: 'https://aisvet2-f57d07.gitlab.io/',
@@ -199,3 +199,56 @@ export const outputs: Output[] = [
     what: 'Cyberpunk neuro-DnB experiments, including this site\'s theme song.',
   },
 ];
+
+/**
+ * The academic side, and why it was thin for twenty years.
+ *
+ * His own framing, which is the honest one: the work after university was
+ * commercial and mostly under agreement, and none of it felt research-community
+ * worthy. That changed with the AI work — not because the standard dropped, but
+ * because there is finally something measured to publish.
+ */
+export const academic = {
+  note: `Most of my working life produced commercial projects under agreement — useful,
+    measured, and not mine to publish. I never felt I had something a research community
+    needed. That is different now: the AI work produces measurements, negative results
+    included, and those belong in the open.`,
+  stance: `In every team I have argued for full sharing within approved eyes. I do not need to
+    hoard what I know — I build on public knowledge myself, and anything properly researched
+    and reviewed should end up back there.`,
+  /**
+   * NotebookLM: eleven research notebooks exist and are substantive — the
+   * supervised-autonomy trap, alterity and hermeneutics, first-order logic
+   * distillation, the third space, neuro-symbolic reasoning trees. They are NOT
+   * linked here because checking them from a signed-out browser returns a Google
+   * login page (verified 2026-08-20). A reference a reader cannot open is not a
+   * reference, which is the reason the credential documents were moved into this
+   * repository in the first place. Add them if and when they are shared publicly.
+   */
+  notebooks: {
+    count: 11,
+    pending: true,
+    titles: [
+      'The Supervised Autonomy Trap: The Human Costs of Enterprise AI',
+      'Between Uneven Hermeneutics and Alterity',
+      'Abstractions of Interactive Computation and the Ghostly Machine',
+      'Reasoning in Logic: Distilling Natural Language into First-Order Logic',
+      'The Third Space: Human-AI and Platonic Reality',
+      'Neuro-Symbolic Logic Trees for Deterministic AI Reasoning',
+    ],
+  },
+  profile: {
+    name: 'Academia.edu',
+    url: 'https://ekonomka.academia.edu/MichalMalcek',
+    where: 'University of Economics, Prague · Department of Information Technologies',
+    stats: [
+      ['13,277', 'public views'],
+      ['577', 'followers'],
+      ['14', 'papers'],
+    ],
+    what: `Coursework, uploaded once around 2011 and never maintained since — and still
+      accumulating readers, most of them from the United States, India, the United Kingdom,
+      Malaysia and Germany. Verified live on 2026-08-20.`,
+  },
+};
+

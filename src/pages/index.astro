@@ -10,6 +10,7 @@ import { qdrant, qdrantTotal, graphs, rules, capturedAt } from '../data/hive';
 import { teamBrain } from '../data/team-brain';
 import { teamBrainSystem, factoriumSystem } from '../data/systems';
 import Contact from '../components/Contact.astro';
+import Downloads from '../components/Downloads.astro';
 import { sectionCards, ICONS } from '../data/sections';
 import { foundations, foundationsNote } from '../data/foundations';
 
@@ -57,6 +58,7 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
       from the systems themselves.
     </p>
 
+    <Downloads />
     <Contact />
   </header>
 

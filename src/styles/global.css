@@ -392,3 +392,40 @@
     .motto { animation: none; opacity: .92; }
   }
 }
+
+@layer components {
+  /* Download buttons. The primary one carries the neural fill because the pack
+     for a model is the one that should be taken first. */
+  .dl-card {
+    border: 1px solid var(--color-line-lit);
+    background: color-mix(in srgb, var(--color-neural) 7%, transparent);
+    color: var(--color-fg-dim);
+    transition: border-color .2s, background .2s, transform .2s, box-shadow .2s;
+  }
+  .dl-card:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--color-synapse) 55%, transparent);
+    background: color-mix(in srgb, var(--color-neural) 14%, transparent);
+    box-shadow: 0 0 24px -8px color-mix(in srgb, var(--color-synapse) 60%, transparent);
+  }
+  .dl-card b { color: var(--color-fg); }
+  .dl-primary {
+    border-color: color-mix(in srgb, var(--color-synapse) 45%, transparent);
+    background: color-mix(in srgb, var(--color-neural) 16%, transparent);
+  }
+  .dl-primary b { color: var(--color-synapse); }
+  .dl-legacy { color: var(--color-fg-ghost); }
+}
+
+@layer components {
+  .doc-dl {
+    color: var(--color-fg-ghost);
+    border: 1px solid var(--color-line);
+    transition: color .18s, border-color .18s, background .18s;
+  }
+  .doc-dl:hover {
+    color: var(--color-synapse);
+    border-color: color-mix(in srgb, var(--color-synapse) 50%, transparent);
+    background: color-mix(in srgb, var(--color-synapse) 9%, transparent);
+  }
+}
