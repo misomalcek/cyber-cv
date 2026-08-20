@@ -21,7 +21,7 @@ const badge: Record<string, string> = {
   back={{ href: `${base}`, label: 'Back to CV' }}
 >
   <header class="pt-10 pb-7 border-b border-line">
-    <h1 class="text-[clamp(30px,4.4vw,44px)] font-semibold tracking-tight m-0 mb-3">What comes next</h1>
+    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">What comes next</h1>
     <p class="lede m-0">
       Eight directions, each with what would falsify it. Three are partly measured on this
       machine, one is fully measured, and the rest are designed or open — labelled so a reader
@@ -32,9 +32,9 @@ const badge: Record<string, string> = {
   <!-- The thesis the directions hang from. -->
   <Section title={thesis.title} note="the thesis">
     <div class="card p-6">
-      <p class="text-[15.5px] text-fg m-0 mb-4" set:html={thesis.claim} />
-      <p class="text-[14px] text-fg-dim m-0 mb-3" set:html={thesis.gap} />
-      <p class="text-[14px] text-fg-dim m-0" set:html={thesis.line} />
+      <p class="text-[19px] text-fg m-0 mb-4" set:html={thesis.claim} />
+      <p class="text-[18px] text-fg-dim m-0 mb-3" set:html={thesis.gap} />
+      <p class="text-[18px] text-fg-dim m-0" set:html={thesis.line} />
     </div>
   </Section>
 
@@ -44,20 +44,20 @@ const badge: Record<string, string> = {
       {directions.map((d) => (
         <div id={d.id} class="card p-5 scroll-mt-24">
           <div class="flex items-baseline justify-between gap-3 flex-wrap mb-2">
-            <b class="text-[15.5px] text-fg font-semibold leading-snug">{d.title}</b>
-            <span class={`text-[10.5px] uppercase tracking-wider border rounded px-1.5 py-0.5 shrink-0 ${badge[d.status]}`}>
+            <b class="text-[19px] text-fg font-semibold leading-snug">{d.title}</b>
+            <span class={`text-[17px] uppercase tracking-wider border rounded px-1.5 py-0.5 shrink-0 ${badge[d.status]}`}>
               {d.status}
             </span>
           </div>
-          <p class="text-[14px] text-fg-dim m-0 mb-3" set:html={d.claim} />
-          <p class="text-[13.5px] text-fg-dim m-0 mb-3" set:html={d.why} />
-          <p class="text-[13px] m-0 mb-2">
-            <b class="text-[11px] uppercase tracking-wider text-forge mr-2">falsified if</b>
+          <p class="text-[18px] text-fg-dim m-0 mb-3" set:html={d.claim} />
+          <p class="text-[17.5px] text-fg-dim m-0 mb-3" set:html={d.why} />
+          <p class="text-[17.5px] m-0 mb-2">
+            <b class="text-[17px] uppercase tracking-wider text-forge mr-2">falsified if</b>
             <span class="text-fg-ghost" set:html={d.falsifier} />
           </p>
           {d.standing && (
-            <p class="text-[13px] m-0">
-              <b class="text-[11px] uppercase tracking-wider text-synapse mr-2">standing</b>
+            <p class="text-[17.5px] m-0">
+              <b class="text-[17px] uppercase tracking-wider text-synapse mr-2">standing</b>
               <span class="text-fg-ghost" set:html={d.standing} />
             </p>
           )}
@@ -70,12 +70,12 @@ const badge: Record<string, string> = {
     <div class="card p-5">
       <ul class="list-none p-0 m-0 flex flex-col gap-2">
         {limits.map((l) => (
-          <li class="flex gap-3 text-[13.5px] text-fg-dim">
+          <li class="flex gap-3 text-[17.5px] text-fg-dim">
             <span class="text-fg-ghost shrink-0">·</span>{l}
           </li>
         ))}
       </ul>
-      <p class="text-[13px] text-fg-ghost m-0 mt-4">
+      <p class="text-[17.5px] text-fg-ghost m-0 mt-4">
         The last one is the point rather than a caveat. A local measurement that can be
         reproduced is worth more than a large claim that cannot — and the defects found here were
         found by checking a thing whose answer was already known, which does not need scale.

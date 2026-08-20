@@ -29,26 +29,26 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
                    color-mix(in srgb, var(--color-synapse) 35%, transparent) 35%,
                    var(--color-line) 75%, transparent 100%);
                  box-shadow: 0 0 16px -2px color-mix(in srgb, var(--color-neural) 55%, transparent)" />
-    <div class="status-pill inline-flex items-center gap-2 text-[12px] tracking-[.14em] uppercase
+    <div class="status-pill inline-flex items-center gap-2 text-[17px] tracking-[.14em] uppercase
                 text-synapse border border-synapse rounded-full px-3 py-1 mb-5">
       <span class="w-[6px] h-[6px] rounded-full bg-synapse" style="animation: pulse 2.4s ease-in-out infinite" />
       Open to AI roles
     </div>
 
-    <h1 class="text-[clamp(38px,6.4vw,64px)] leading-[1.03] font-semibold tracking-tight m-0 mb-3">
+    <h1 class="text-[clamp(44px,7vw,74px)] leading-[1.03] font-semibold tracking-tight m-0 mb-3">
       <span class="glow-name">Michal Malček</span><br /><em
-        class="not-italic text-neural-text glow-violet text-[clamp(21px,3vw,32px)]">AI Engineer / Explorer / SEO</em>
+        class="not-italic text-neural-text glow-violet text-[clamp(25px,3.3vw,38px)]">AI Engineer / Explorer / SEO</em>
     </h1>
 
     <!-- One line, not a paragraph: the song is a wink, and a wink that needs
          explaining stops being one. -->
-    <p class="text-[14px] text-fg-ghost m-0 mb-7">
+    <p class="text-[18px] text-fg-ghost m-0 mb-7">
       <a href="https://suno.com/s/CgpdUedfU3jqZBCI" target="_blank" rel="noopener"
          class="text-synapse no-underline hover:underline font-semibold">neonfire on SUNO</a>
       <span class="text-fg-ghost"> · this cyber CV tastes best with my neuro-dnb experiments ;)</span>
     </p>
 
-    <p class="text-[clamp(16px,1.9vw,19px)] text-fg-dim max-w-[64ch] m-0 mb-7 leading-[1.55]">
+    <p class="text-[clamp(19px,2.1vw,23px)] text-fg-dim max-w-[64ch] m-0 mb-7 leading-[1.55]">
       Twenty years across both sides of software delivery — ERP testing at nineteen, Google
       in Prague and Dublin at twenty-four, eight years proving things with measurement in a
       market that punishes wishful thinking. In the last year that turned into AI engineering:{' '}
@@ -76,11 +76,11 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
                  stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={s.icon} /></svg>
           </span>
           <div class="flex items-baseline justify-between gap-2 mb-1.5">
-            <h3 class="text-[19px] font-semibold text-fg m-0 leading-tight">{s.title}</h3>
-            <span class="text-fg-ghost text-[16px] leading-none transition-transform group-hover:translate-x-1">→</span>
+            <h3 class="text-[23px] font-semibold text-fg m-0 leading-tight">{s.title}</h3>
+            <span class="text-fg-ghost text-[20px] leading-none transition-transform group-hover:translate-x-1">→</span>
           </div>
-          <div class="text-[13px] text-synapse mb-2.5">{s.metric}</div>
-          <p class="text-[14px] text-fg-dim m-0 leading-snug flex-1">{s.blurb}</p>
+          <div class="text-[17.5px] text-synapse mb-2.5">{s.metric}</div>
+          <p class="text-[18px] text-fg-dim m-0 leading-snug flex-1">{s.blurb}</p>
         </a>
       ))}
     </div>
@@ -92,7 +92,7 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
     note={`read ${capturedAt}`}
     lede="Factorium's stores as they stand right now — one person, one machine, no team and no budget. Read live from Postgres and Qdrant by a script rather than typed in, because a number you cannot re-derive is a claim, not a measurement."
   >
-    <div class="flex items-center gap-2 text-[11px] tracking-[.12em] uppercase text-fg-ghost -mt-2 mb-5">
+    <div class="flex items-center gap-2 text-[17px] tracking-[.12em] uppercase text-fg-ghost -mt-2 mb-5">
       <span class="relative inline-flex w-[7px] h-[7px]">
         <span class="absolute inset-0 rounded-full bg-synapse"
               style="box-shadow: 0 0 10px var(--color-synapse), 0 0 22px color-mix(in srgb, var(--color-synapse) 60%, transparent)" />
@@ -161,15 +161,15 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
           ['CEMS International Management (Master\'s, in English)', '1.7', 'Prague · Corvinus Budapest'],
         ].map(([what, grade, where]) => (
           <div class="flex items-baseline gap-3 border-b border-line/60 pb-2.5">
-            <span class="text-[22px] font-semibold text-forge tabular-nums leading-none shrink-0 w-[38px]">{grade}</span>
+            <span class="text-[27px] font-semibold text-forge tabular-nums leading-none shrink-0 w-[38px]">{grade}</span>
             <span>
-              <b class="block text-[13px] font-medium leading-snug">{what}</b>
-              <span class="text-[11.5px] text-fg-ghost">{where}</span>
+              <b class="block text-[17.5px] font-medium leading-snug">{what}</b>
+              <span class="text-[17px] text-fg-ghost">{where}</span>
             </span>
           </div>
         ))}
       </div>
-      <p class="text-[12.5px] text-fg-ghost mt-4 mb-0">
+      <p class="text-[17px] text-fg-ghost mt-4 mb-0">
         Czech grading, where 1.0 is the best possible mark. Erasmus at Corvinus Budapest: A in every
         subject. The one I did not finish: the second business-language exam (Russian) in the CEMS
         programme — all mandatory courses and skill seminars completed, that exam not passed.
@@ -193,18 +193,18 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
         ['1,512 of 3,039', 'Entities silently lost their centrality tier after one ordinary session. A null tier reads as "unimportant" when it means "not measured".'],
       ].map(([v, l]) => (
         <div class="card p-5">
-          <div class="text-[17px] font-semibold text-fg leading-tight mb-2">{v}</div>
-          <p class="text-[13.5px] text-fg-dim leading-snug m-0">{l}</p>
+          <div class="text-[21px] font-semibold text-fg leading-tight mb-2">{v}</div>
+          <p class="text-[17.5px] text-fg-dim leading-snug m-0">{l}</p>
         </div>
       ))}
     </div>
     <a href={`${base}research/`} class="card p-5 no-underline flex items-center gap-4 group">
       <span class="flex-1">
-        <b class="block text-[15.5px] text-fg mb-1">Four documents, and all sixteen rules in full</b>
-        <span class="block text-[13.5px] text-fg-dim">Two studies, one technical report, and an unedited audit of all three by the
+        <b class="block text-[19px] text-fg mb-1">Four documents, and all sixteen rules in full</b>
+        <span class="block text-[17.5px] text-fg-dim">Two studies, one technical report, and an unedited audit of all three by the
           local model that lives in the system — including the place where it is wrong.</span>
       </span>
-      <span class="text-fg-ghost text-[17px] transition-transform group-hover:translate-x-1">→</span>
+      <span class="text-fg-ghost text-[21px] transition-transform group-hover:translate-x-1">→</span>
     </a>
   </Section>
 
@@ -226,23 +226,23 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
       {foundations.map((f) => (
         <div class="card p-5 flex flex-col">
           <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1.5">
-            <b class="text-[15px] text-fg font-semibold">{f.name}</b>
-            <span class={`text-[10px] uppercase tracking-wider border rounded px-1.5 py-0.5 shrink-0 ${
+            <b class="text-[19px] text-fg font-semibold">{f.name}</b>
+            <span class={`text-[17px] uppercase tracking-wider border rounded px-1.5 py-0.5 shrink-0 ${
               f.status === 'load-bearing' ? 'text-synapse border-synapse/40'
               : f.status === 'used' ? 'text-neural-text border-neural/40'
               : 'text-fg-ghost border-line'}`}>{f.status}</span>
           </div>
-          <p class="text-[13.5px] text-fg-dim m-0">{f.what}</p>
+          <p class="text-[17.5px] text-fg-dim m-0">{f.what}</p>
           {f.tested && (
-            <p class="text-[13px] text-fg-ghost m-0 mt-2.5 pt-2.5 border-t border-line/50 flex-1">
-              <b class="text-[10.5px] uppercase tracking-wider text-forge mr-2">what it decided</b>
+            <p class="text-[17.5px] text-fg-ghost m-0 mt-2.5 pt-2.5 border-t border-line/50 flex-1">
+              <b class="text-[17px] uppercase tracking-wider text-forge mr-2">what it decided</b>
               {f.tested}
             </p>
           )}
         </div>
       ))}
     </div>
-    <p class="text-[13px] text-fg-ghost mt-4 m-0 max-w-[72ch]">{foundationsNote}</p>
+    <p class="text-[17.5px] text-fg-ghost mt-4 m-0 max-w-[72ch]">{foundationsNote}</p>
   </Section>
 
 </Base>

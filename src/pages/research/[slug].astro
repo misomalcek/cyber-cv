@@ -35,11 +35,11 @@ const readingMinutes = Math.max(1, Math.round(paper.body!.split(/\s+/).length / 
 <Base title={`${m.title} — Michal Malček`} description={m.blurb} back={{ href: `${base}#research`, label: 'Back to CV' }}>
   <header class="pt-10 pb-7 border-b border-line">
     <div class="eyebrow mb-3">Research</div>
-    <h1 class="text-[clamp(26px,3.6vw,38px)] font-semibold tracking-tight leading-tight m-0 mb-3">
+    <h1 class="text-[clamp(31px,4vw,45px)] font-semibold tracking-tight leading-tight m-0 mb-3">
       {m.title}
     </h1>
     <p class="text-fg-dim m-0 mb-4 max-w-[620px]">{m.blurb}</p>
-    <div class="flex flex-wrap gap-3 text-[12px] text-fg-ghost">
+    <div class="flex flex-wrap gap-3 text-[17px] text-fg-ghost">
       <span>{paper.data.timestamp.toISOString().slice(0, 10)}</span>
       <span>·</span>
       <span>{readingMinutes} min read</span>
@@ -54,8 +54,8 @@ const readingMinutes = Math.max(1, Math.round(paper.body!.split(/\s+/).length / 
     </article>
 
     <!-- Section index. Sticky on wide screens, hidden where there is no room. -->
-    <nav class="hidden lg:block text-[12px] sticky top-8 self-start max-h-[80vh] overflow-y-auto">
-      <div class="eyebrow mb-3 text-[10px]">Contents</div>
+    <nav class="hidden lg:block text-[17px] sticky top-8 self-start max-h-[80vh] overflow-y-auto">
+      <div class="eyebrow mb-3 text-[17px]">Contents</div>
       <ul class="list-none p-0 m-0 flex flex-col gap-1.5 border-l border-line">
         {headings.filter((h) => h.depth === 2).map((h) => (
           <li>
@@ -74,15 +74,15 @@ const readingMinutes = Math.max(1, Math.round(paper.body!.split(/\s+/).length / 
 <style is:global>
   /* Long-form typography. The papers carry tables, blockquotes and code, so each
      needs a deliberate treatment rather than inheriting whatever Tailwind resets. */
-  .prose-cv { color: var(--color-fg-dim); font-size: 14.5px; }
+  .prose-cv { color: var(--color-fg-dim); font-size: 18px; }
   .prose-cv h1 { display: none; }         /* the page header already states it */
   .prose-cv h2 {
-    color: var(--color-fg); font-size: 19px; font-weight: 600;
+    color: var(--color-fg); font-size: 24px; font-weight: 600;
     margin: 2.4em 0 .8em; padding-top: .8em; border-top: 1px solid var(--color-line);
     scroll-margin-top: 24px;
   }
   .prose-cv h3 {
-    color: var(--color-fg); font-size: 15.5px; font-weight: 600;
+    color: var(--color-fg); font-size: 20px; font-weight: 600;
     margin: 1.9em 0 .6em; scroll-margin-top: 24px;
   }
   .prose-cv p { margin: 0 0 1.1em; }
@@ -104,12 +104,12 @@ const readingMinutes = Math.max(1, Math.round(paper.body!.split(/\s+/).length / 
      viewport). A fixed layout with wrapping cells keeps everything on screen. */
   .prose-cv table {
     width: 100%; max-width: 100%; border-collapse: collapse; margin: 0 0 1.4em;
-    font-size: 13px; table-layout: fixed;
+    font-size: 17px; table-layout: fixed;
   }
   .prose-cv td, .prose-cv th { overflow-wrap: anywhere; }
   .prose-cv th {
     text-align: left; color: var(--color-fg-ghost); font-weight: 600;
-    font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    font-size: 17px; letter-spacing: .04em; text-transform: uppercase;
     padding: 8px 12px; border-bottom: 1px solid var(--color-line);
   }
   .prose-cv td {
@@ -124,7 +124,7 @@ const readingMinutes = Math.max(1, Math.round(paper.body!.split(/\s+/).length / 
     color: var(--color-fg-ghost);
   }
   .prose-cv code {
-    font-size: .9em; background: var(--color-bg-el);
+    font-size: 17px; background: var(--color-bg-el);
     border: 1px solid var(--color-line); border-radius: 4px; padding: 1px 5px;
     color: var(--color-fg);
   }
@@ -132,5 +132,5 @@ const readingMinutes = Math.max(1, Math.round(paper.body!.split(/\s+/).length / 
     background: var(--color-bg-el); border: 1px solid var(--color-line);
     border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin: 0 0 1.3em;
   }
-  .prose-cv pre code { background: none; border: 0; padding: 0; font-size: 12.5px; }
+  .prose-cv pre code { background: none; border: 0; padding: 0; font-size: 17px; }
 </style>

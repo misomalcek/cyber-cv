@@ -69,7 +69,7 @@ const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.
   back={{ href: `${base}`, label: 'Back to CV' }}
 >
   <header class="pt-10 pb-8 border-b border-line">
-    <h1 class="text-[clamp(28px,4vw,40px)] font-semibold tracking-tight m-0 mb-3">Research</h1>
+    <h1 class="text-[clamp(33px,4.4vw,47px)] font-semibold tracking-tight m-0 mb-3">Research</h1>
     <p class="text-fg-dim max-w-[660px] m-0">
       Written from stored records rather than recollection. Every figure comes from a query or a
       logged measurement, including the ones that count against the conclusion I wanted.
@@ -84,21 +84,21 @@ const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.
           <div class="card p-6 group">
             <div class="flex items-baseline justify-between gap-4 flex-wrap">
               <a href={`${base}research/${p.id}/`} class="no-underline">
-                <h2 class="text-[18px] font-semibold text-fg m-0 group-hover:text-synapse transition-colors">
+                <h2 class="text-[23px] font-semibold text-fg m-0 group-hover:text-synapse transition-colors">
                   {m.title}
                 </h2>
               </a>
               <span class="flex items-center gap-3 shrink-0">
-                <span class="text-[12px] text-fg-ghost">
+                <span class="text-[17px] text-fg-ghost">
                   {p.data.timestamp.toISOString().slice(0, 10)}
                 </span>
                 <DocLinks slug={DL[p.id] ?? p.id} />
               </span>
             </div>
-            <p class="text-fg-dim text-[14px] mt-2 mb-4">{m.blurb}</p>
+            <p class="text-fg-dim text-[18px] mt-2 mb-4">{m.blurb}</p>
             <ul class="list-none p-0 m-0 flex flex-col gap-1.5">
               {m.findings.map((f) => (
-                <li class="text-[13px] text-fg-ghost pl-4 relative">
+                <li class="text-[17.5px] text-fg-ghost pl-4 relative">
                   <span class="absolute left-0 top-[9px] w-[5px] h-[1px] bg-neural" />{f}
                 </li>
               ))}
@@ -118,19 +118,19 @@ const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.
   <Section title="All twenty rules, in full" note={`${rulesSummary.triggers} triggers`}
            lede="Verbatim from the table that serves them. Sixteen were measured; four were added afterwards, when reading this list is what exposed a defect in how the set had been chosen.">
     <div class="card p-5 mb-5 border-forge/30">
-      <b class="text-[14px] text-forge block mb-2">Four of these were never measured, and finding that out was the useful part</b>
-      <p class="text-[13.5px] text-fg-dim m-0 mb-2">
+      <b class="text-[18px] text-forge block mb-2">Four of these were never measured, and finding that out was the useful part</b>
+      <p class="text-[17.5px] text-fg-dim m-0 mb-2">
         The study's sixteen rules were seeded from files matching <code class="text-synapse">rule-*.md</code> — a
         filename pattern, not a question about practice. Rules that never acquired such a file were never
         candidates. Michal noticed by reading the published list: <b class="text-fg">stop-and-ask</b> was missing.
       </p>
-      <p class="text-[13.5px] text-fg-dim m-0 mb-2">
+      <p class="text-[17.5px] text-fg-dim m-0 mb-2">
         It is the most established rule in the system — <b class="text-fg">115 files</b> mention it against 51 for
         the best-represented rule that was included, knowledge-graph degree <b class="text-fg">38</b> against 8,
         CORE tier, first recorded 18 April 2026. The measured set even contains a rule whose own title reads
         <i>"sibling of stop-and-ask"</i>.
       </p>
-      <p class="text-[13.5px] text-fg-ghost m-0">
+      <p class="text-[17.5px] text-fg-ghost m-0">
         Across every rule-shaped entity in the graph, the excluded rules average degree <b class="text-fg-dim">7.1</b>
         against <b class="text-fg-dim">3.9</b> for the included ones — the selection was biased against the most
         established material. The four are listed here as unmeasured rather than folded into the results, because
@@ -141,8 +141,8 @@ const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.
       {[[rulesSummary.measured, 'measured in the study'], [rulesSummary.unmeasured, 'in use, never measured'],
         [rulesSummary.triggers, 'situational triggers'], [rulesSummary.withUnless, 'with an explicit exception']].map(([v, l]) => (
         <div class="card p-4">
-          <div class="text-[24px] font-semibold lit-forge leading-none">{v}</div>
-          <div class="text-[12px] text-fg-ghost mt-1.5">{l}</div>
+          <div class="text-[29px] font-semibold lit-forge leading-none">{v}</div>
+          <div class="text-[17px] text-fg-ghost mt-1.5">{l}</div>
         </div>
       ))}
     </div>
@@ -150,23 +150,23 @@ const sorted = [...papers].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.
       {rules.map((r) => (
         <li class="card p-4">
           <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-2">
-            <code class="text-[13px] text-synapse">{r.id}</code>
-            <span class="text-[11.5px] text-fg-ghost">{r.triggers} triggers{r.hits > 0 ? ` · fired ${r.hits}×` : ''}</span>
+            <code class="text-[17.5px] text-synapse">{r.id}</code>
+            <span class="text-[17px] text-fg-ghost">{r.triggers} triggers{r.hits > 0 ? ` · fired ${r.hits}×` : ''}</span>
             {r.unmeasured && (
-              <span class="text-[10.5px] uppercase tracking-wider text-forge border border-forge/40 rounded px-1.5 py-0.5">not measured</span>
+              <span class="text-[17px] uppercase tracking-wider text-forge border border-forge/40 rounded px-1.5 py-0.5">not measured</span>
             )}
           </div>
-          <p class="text-[14px] text-fg m-0">{r.statement}</p>
+          <p class="text-[18px] text-fg m-0">{r.statement}</p>
           {r.unless && (
-            <p class="text-[13px] text-forge m-0 mt-2">
-              <b class="uppercase tracking-wider text-[11px] mr-1.5">unless</b>{r.unless}
+            <p class="text-[17.5px] text-forge m-0 mt-2">
+              <b class="uppercase tracking-wider text-[17px] mr-1.5">unless</b>{r.unless}
             </p>
           )}
-          <p class="text-[12px] text-fg-ghost m-0 mt-2">{r.origin}</p>
+          <p class="text-[17px] text-fg-ghost m-0 mt-2">{r.origin}</p>
         </li>
       ))}
     </ol>
-    <p class="text-[13px] text-fg-ghost mt-5 max-w-[70ch]">
+    <p class="text-[17.5px] text-fg-ghost mt-5 max-w-[70ch]">
       Two triggers have fired in production use. That number is small, it is shown rather than
       omitted, and it is the honest state of a system measured for weeks rather than years —
       the rules earn their place by changing decisions in testing, not by how often they fire.

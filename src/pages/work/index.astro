@@ -22,7 +22,7 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
   back={{ href: `${base}`, label: 'Back to CV' }}
 >
   <header class="pt-10 pb-8 border-b border-line">
-    <h1 class="text-[clamp(30px,4.4vw,44px)] font-semibold tracking-tight m-0 mb-3">Public output</h1>
+    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">Public output</h1>
     <p class="lede m-0">
       Fifteen repositories, three games, four sites, three recordings and the music. Every
       description here was read from the repository itself rather than from its name — several
@@ -37,12 +37,12 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
       {lineageRepos.map((r) => (
         <a href={r.url} target="_blank" rel="noopener" class="card p-5 no-underline flex flex-col group">
           <div class="flex items-baseline justify-between gap-2 mb-2">
-            <b class="text-[16px] text-fg font-semibold">{r.name}</b>
-            <span class="text-[11px] uppercase tracking-wider text-neural-text border border-neural/40 rounded px-1.5 py-0.5">lineage</span>
+            <b class="text-[20px] text-fg font-semibold">{r.name}</b>
+            <span class="text-[17px] uppercase tracking-wider text-neural-text border border-neural/40 rounded px-1.5 py-0.5">lineage</span>
           </div>
-          <p class="text-[14px] text-fg-dim m-0 mb-2">{r.what}</p>
-          {r.why && <p class="text-[13px] text-fg-ghost m-0 flex-1">{r.why}</p>}
-          <span class="text-[12.5px] text-synapse mt-3 transition-transform group-hover:translate-x-0.5">github.com/misomalcek/{r.name} →</span>
+          <p class="text-[18px] text-fg-dim m-0 mb-2">{r.what}</p>
+          {r.why && <p class="text-[17.5px] text-fg-ghost m-0 flex-1">{r.why}</p>}
+          <span class="text-[17px] text-synapse mt-3 transition-transform group-hover:translate-x-0.5">github.com/misomalcek/{r.name} →</span>
         </a>
       ))}
     </div>
@@ -55,10 +55,10 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
     <div class="grid md:grid-cols-2 gap-3">
       {repos.map((r) => (
         <a href={r.url} target="_blank" rel="noopener" class="card p-4 no-underline flex flex-col group">
-          <b class="text-[15px] text-fg font-semibold mb-1.5">{r.name}</b>
-          <p class="text-[13.5px] text-fg-dim m-0">{r.what}</p>
-          {r.why && <p class="text-[12.5px] text-fg-ghost m-0 mt-1.5 flex-1">{r.why}</p>}
-          <span class="text-[12px] text-synapse mt-2.5 transition-transform group-hover:translate-x-0.5">open →</span>
+          <b class="text-[19px] text-fg font-semibold mb-1.5">{r.name}</b>
+          <p class="text-[17.5px] text-fg-dim m-0">{r.what}</p>
+          {r.why && <p class="text-[17px] text-fg-ghost m-0 mt-1.5 flex-1">{r.why}</p>}
+          <span class="text-[17px] text-synapse mt-2.5 transition-transform group-hover:translate-x-0.5">open →</span>
         </a>
       ))}
     </div>
@@ -69,13 +69,13 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
       {sites.map((s) => (
         <a href={s.url} target="_blank" rel="noopener" class="card p-4 no-underline flex flex-col group">
           <div class="flex items-baseline justify-between gap-2 mb-1.5">
-            <b class="text-[15px] text-fg font-semibold">{s.name}</b>
+            <b class="text-[19px] text-fg font-semibold">{s.name}</b>
             {s.note?.startsWith('Work') &&
-              <span class="text-[10.5px] uppercase tracking-wider text-forge border border-forge/35 rounded px-1.5 py-0.5">wip</span>}
+              <span class="text-[17px] uppercase tracking-wider text-forge border border-forge/35 rounded px-1.5 py-0.5">wip</span>}
           </div>
-          <p class="text-[13.5px] text-fg-dim m-0 flex-1">{s.what}</p>
-          {s.note && !s.note.startsWith('Work') && <span class="text-[12px] text-fg-ghost mt-1.5">{s.note}</span>}
-          <span class="text-[12px] text-synapse mt-2.5 transition-transform group-hover:translate-x-0.5">visit →</span>
+          <p class="text-[17.5px] text-fg-dim m-0 flex-1">{s.what}</p>
+          {s.note && !s.note.startsWith('Work') && <span class="text-[17px] text-fg-ghost mt-1.5">{s.note}</span>}
+          <span class="text-[17px] text-synapse mt-2.5 transition-transform group-hover:translate-x-0.5">visit →</span>
         </a>
       ))}
     </div>
@@ -87,26 +87,26 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
        it — and why that is changing. -->
   <Section title="Academic" note="one profile, and why it is thin">
     <div class="card p-5 mb-3">
-      <p class="text-[14px] text-fg-dim mt-0 mb-3">{academic.note}</p>
-      <p class="text-[13.5px] text-fg-ghost m-0">{academic.stance}</p>
+      <p class="text-[18px] text-fg-dim mt-0 mb-3">{academic.note}</p>
+      <p class="text-[17.5px] text-fg-ghost m-0">{academic.stance}</p>
     </div>
 
     <a href={academic.profile.url} target="_blank" rel="noopener"
        class="card p-5 no-underline flex flex-col group">
       <div class="flex items-baseline justify-between gap-3 flex-wrap mb-3">
-        <b class="text-[15.5px] text-fg font-semibold">{academic.profile.name}</b>
-        <span class="text-[11.5px] text-fg-ghost">{academic.profile.where}</span>
+        <b class="text-[19px] text-fg font-semibold">{academic.profile.name}</b>
+        <span class="text-[17px] text-fg-ghost">{academic.profile.where}</span>
       </div>
       <div class="flex flex-wrap gap-6 mb-3">
         {academic.profile.stats.map(([v, l]) => (
           <div>
-            <div class="text-[20px] font-semibold lit-forge leading-none tabular-nums">{v}</div>
-            <div class="text-[11.5px] text-fg-ghost mt-1">{l}</div>
+            <div class="text-[25px] font-semibold lit-forge leading-none tabular-nums">{v}</div>
+            <div class="text-[17px] text-fg-ghost mt-1">{l}</div>
           </div>
         ))}
       </div>
-      <p class="text-[13.5px] text-fg-dim m-0">{academic.profile.what}</p>
-      <span class="text-[12px] text-synapse mt-3 transition-transform group-hover:translate-x-0.5">open profile →</span>
+      <p class="text-[17.5px] text-fg-dim m-0">{academic.profile.what}</p>
+      <span class="text-[17px] text-synapse mt-3 transition-transform group-hover:translate-x-0.5">open profile →</span>
     </a>
   </Section>
 
@@ -121,10 +121,10 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
             <svg width="15" height="17" viewBox="0 0 9 11" fill="currentColor" aria-hidden="true"><path d="M0 0.5L9 5.5L0 10.5V0.5Z" /></svg>
           </span>
           <span class="flex-1 min-w-0">
-            <b class="block text-[15px] text-fg font-semibold mb-1">{v.name}</b>
-            <span class="block text-[13.5px] text-fg-dim">{v.what}</span>
+            <b class="block text-[19px] text-fg font-semibold mb-1">{v.name}</b>
+            <span class="block text-[17.5px] text-fg-dim">{v.what}</span>
           </span>
-          <span class="text-[12px] text-synapse shrink-0 self-center whitespace-nowrap">
+          <span class="text-[17px] text-synapse shrink-0 self-center whitespace-nowrap">
             {v.kind === 'audio' ? 'listen' : 'watch'} →
           </span>
         </a>

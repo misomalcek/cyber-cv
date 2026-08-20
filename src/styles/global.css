@@ -16,9 +16,14 @@
   --color-bg-el:      #171226;
   --color-bg-glass:   #1C1533;
 
-  --color-fg:         #EDE9FB;
-  --color-fg-dim:     #A9A2C8;
-  --color-fg-ghost:   #8A82AD;
+  /* Text palette. #e0dee8 is the chosen default — near-white with a faint cool
+     cast rather than pure white, which is harsh on this dark ground. The dimmer
+     two are lifted with it: at the old values they read as grey-on-violet once
+     the base colour brightened, and contrast is what makes the type legible at
+     a glance, not size alone. */
+  --color-fg:         #E0DEE8;
+  --color-fg-dim:     #C2BED4;
+  --color-fg-ghost:   #A29CBA;
 
   /* Neon accents. The -deep variants are for borders, fills and glow, where
      contrast minimums do not apply; the base tokens are safe as text. */
@@ -68,8 +73,8 @@
     /* 17px base: this is read on a screening pass, often on a phone, by someone
        with little time. Apple's own body minimum is 17 for exactly that reason —
        15 tested as "prťavé" (cramped) on the real device. */
-    font-size: 17px;
-    line-height: 1.6;
+    font-size: 18px;
+    line-height: 1.62;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }
@@ -149,7 +154,7 @@
      section look like a caption and left the reader with no landmarks to scan by.
      A screening reader skims headings first; they have to win the page. */
   .section-title {
-    font-size: clamp(21px, 2.4vw, 27px);
+    font-size: clamp(25px, 2.7vw, 33px);
     line-height: 1.2;
     letter-spacing: -0.015em;
     font-weight: 650;
@@ -160,14 +165,14 @@
   /* Lede under a heading: larger than body, dimmer than body — the standard
      Apple-ish pairing that gives a paragraph its role without a label. */
   .lede {
-    font-size: clamp(16px, 1.5vw, 18.5px);
+    font-size: clamp(19px, 1.7vw, 22px);
     line-height: 1.55;
     color: var(--color-fg-dim);
     max-width: 62ch;
   }
 
   .chip {
-    font-size: 12px;
+    font-size: 17px;
     color: var(--color-fg-dim);
     border: 1px solid var(--color-line);
     border-radius: 6px;
@@ -185,7 +190,7 @@
   /* Section labels glow faintly — enough to read as neon signage, not enough to
      smear the letterforms. */
   .eyebrow {
-    font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase;
+    font-size: 17px; letter-spacing: .14em; text-transform: uppercase;
     color: var(--color-synapse); font-weight: 600;
     text-shadow: 0 0 18px color-mix(in srgb, var(--color-synapse) 55%, transparent);
   }
@@ -370,7 +375,7 @@
   /* The motto: neon signage, not a heading. Slow breath rather than a pulse —
      it should read as something that has been there a while. */
   .motto {
-    font-size: clamp(15px, 1.9vw, 20px);
+    font-size: clamp(18px, 2.1vw, 24px);
     letter-spacing: .16em;
     text-transform: uppercase;
     font-weight: 600;

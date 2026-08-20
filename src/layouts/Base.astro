@@ -65,12 +65,12 @@ const nav = [
   })} />
 </head>
 <body class="grid-field has-dock">
-  <div class="relative z-[1] mx-auto max-w-[940px] px-6 pb-24">
+  <div class="relative z-[1] mx-auto max-w-[1200px] px-6 pb-24">
     {/* back.href arrives already base-prefixed by the calling page; prefixing it
         again here produced /cyber-cv/cyber-cv/#hive. One owner for the prefix. */}
     {back && (
       <a href={back.href}
-         class="inline-block mt-8 text-[13px] text-fg-ghost no-underline hover:text-synapse transition-colors">
+         class="inline-block mt-8 text-[17.5px] text-fg-ghost no-underline hover:text-synapse transition-colors">
         ← {back.label}
       </a>
     )}
@@ -81,7 +81,7 @@ const nav = [
       <!-- The hive motto. Not decoration: it is the working rule neither party
            leads alone, and it has pulled more than one session back on course. -->
       <p class="motto m-0 mb-4">Non ducor, duco pariter</p>
-      <p class="m-0 text-[12.5px] text-fg-ghost">
+      <p class="m-0 text-[17px] text-fg-ghost">
         Built with the same design system as Factorium · every number here is read from a
         store, not typed in · <a href="mailto:miso.malcek@gmail.com">miso.malcek@gmail.com</a>
       </p>

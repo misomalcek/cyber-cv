@@ -22,7 +22,7 @@ const { id, title, lede, note } = Astro.props;
     {/* A note is meant to be a couple of words — a count, a date, a status.
         Given a sentence it used to run off a phone screen, so it now wraps and
         gives up its width to the heading rather than the other way round. */}
-    {note && <span class="text-[12px] text-fg-ghost tracking-wider uppercase text-right
+    {note && <span class="text-[17px] text-fg-ghost tracking-wider uppercase text-right
                           max-w-[45%] shrink-0 leading-snug">{note}</span>}
   </div>
   {lede && <p class="lede mt-0 mb-6">{lede}</p>}

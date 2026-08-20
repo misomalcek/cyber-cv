@@ -21,7 +21,7 @@ const byType = [...new Set(nodes.map((n) => n.type))]
 >
   <header class="pt-10 pb-7">
     <div class="eyebrow mb-3">The hive, seen from inside</div>
-    <h1 class="text-[clamp(26px,3.6vw,38px)] font-semibold tracking-tight leading-tight m-0 mb-3">
+    <h1 class="text-[clamp(31px,4vw,45px)] font-semibold tracking-tight leading-tight m-0 mb-3">
       <span class="glow-name">The crystal</span>
     </h1>
     <p class="text-fg-dim m-0 max-w-[640px]">
@@ -36,7 +36,7 @@ const byType = [...new Set(nodes.map((n) => n.type))]
        style="background: radial-gradient(ellipse at 50% 45%, #1A1040 0%, #0A0812 70%)">
     <canvas id="crystal" class="block w-full" style="height: min(62vh, 560px)"></canvas>
 
-    <div class="absolute top-4 left-4 text-[11px] text-fg-ghost pointer-events-none select-none z-10">
+    <div class="absolute top-4 left-4 text-[17px] text-fg-ghost pointer-events-none select-none z-10">
       <div class="uppercase tracking-[.14em] mb-1.5">drag to orbit · scroll to zoom · click a node</div>
       <div id="crystal-hover" class="text-fg-dim h-4"></div>
     </div>
@@ -50,7 +50,7 @@ const byType = [...new Set(nodes.map((n) => n.type))]
         { id: 'spin',   label: 'Spin',   on: true },
       ].map((c) => (
         <button type="button" data-toggle={c.id} data-on={c.on ? '1' : '0'}
-                class="crystal-toggle text-[10.5px] uppercase tracking-wider px-2.5 py-1 rounded-full
+                class="crystal-toggle text-[17px] uppercase tracking-wider px-2.5 py-1 rounded-full
                        border transition-all">{c.label}</button>
       ))}
     </div>
@@ -60,7 +60,7 @@ const byType = [...new Set(nodes.map((n) => n.type))]
          class="hidden absolute top-4 right-4 z-20 w-[300px] max-h-[calc(100%-2rem)] overflow-y-auto
                 card p-4"></div>
 
-    <div class="absolute bottom-0 left-0 right-0 flex flex-wrap gap-3 text-[11px] px-4 py-3
+    <div class="absolute bottom-0 left-0 right-0 flex flex-wrap gap-3 text-[17px] px-4 py-3
                 pointer-events-none"
          style="background: linear-gradient(to top, #0A0812dd, transparent)">
       {byType.map((t) => (
@@ -75,7 +75,7 @@ const byType = [...new Set(nodes.map((n) => n.type))]
     <div class="grid md:grid-cols-3 gap-3 mb-4">
       <div class="card p-5">
         <div class="eyebrow mb-2">Selection</div>
-        <p class="text-[13px] text-fg-dim m-0">
+        <p class="text-[17.5px] text-fg-dim m-0">
           An entity appears here if it is CORE or MAJOR in the full graph <b class="text-fg">and</b>
           this CV mentions it. That is a deliberately narrow slice: it shows the part of the graph
           this document actually stands on, not a flattering cross-section of the whole thing.
@@ -83,7 +83,7 @@ const byType = [...new Set(nodes.map((n) => n.type))]
       </div>
       <div class="card p-5">
         <div class="eyebrow mb-2">Position</div>
-        <p class="text-[13px] text-fg-dim m-0">
+        <p class="text-[17.5px] text-fg-dim m-0">
           Radius is inverse degree — the most connected entities sit closest to the centre. That is
           the opposite of the layout's first version, which pulled hubs inward until the graph
           imploded into an unreadable core. <a href={`${base}research/spatial/`}>The paper on that</a> is
@@ -92,7 +92,7 @@ const byType = [...new Set(nodes.map((n) => n.type))]
       </div>
       <div class="card p-5">
         <div class="eyebrow mb-2">Honesty</div>
-        <p class="text-[13px] text-fg-dim m-0">
+        <p class="text-[17.5px] text-fg-dim m-0">
           <b class="text-fg">This is static.</b> The degrees, tiers and clusters were queried from
           Postgres on {crystalStats.capturedAt} and frozen into the page — a CDN has no database
           behind it. The structure is real; the liveness is not, and saying otherwise would be the
@@ -106,7 +106,7 @@ const byType = [...new Set(nodes.map((n) => n.type))]
         <div>
           <div class="eyebrow mb-3">By tier</div>
           {byTier.map((t) => (
-            <div class="flex items-baseline justify-between text-[13px] py-1 border-b border-line/40 last:border-b-0">
+            <div class="flex items-baseline justify-between text-[17.5px] py-1 border-b border-line/40 last:border-b-0">
               <span class="text-fg-dim">{t.name}</span>
               <span class="text-fg tabular-nums">{t.n}</span>
             </div>
@@ -115,14 +115,14 @@ const byType = [...new Set(nodes.map((n) => n.type))]
         <div>
           <div class="eyebrow mb-3">Most connected</div>
           {nodes.slice(0, 6).map((n) => (
-            <div class="flex items-baseline justify-between text-[13px] py-1 border-b border-line/40 last:border-b-0">
+            <div class="flex items-baseline justify-between text-[17.5px] py-1 border-b border-line/40 last:border-b-0">
               <span class="text-fg-dim truncate pr-3">{n.name}</span>
               <span class="text-fg-ghost tabular-nums shrink-0">{n.deg}</span>
             </div>
           ))}
         </div>
       </div>
-      <p class="text-[12px] text-fg-ghost mt-4 mb-0 pt-3 border-t border-line/60">
+      <p class="text-[17px] text-fg-ghost mt-4 mb-0 pt-3 border-t border-line/60">
         {crystalStats.edges} relationships connect these {crystalStats.nodes} entities. In the full
         graph they carry {nodes.reduce((s, n) => s + n.deg, 0).toLocaleString('en-US')} between them
         — most of which point at entities outside this slice.
@@ -357,24 +357,24 @@ const byType = [...new Set(nodes.map((n) => n.type))]
     popup.innerHTML = `
       <div class="flex items-start gap-2 mb-2">
         <div class="flex-1 min-w-0">
-          <span class="text-[9px] uppercase tracking-[.14em]" style="color:${hex(colourFor(d.type))}">${d.type}</span>
-          <div class="text-[14px] text-fg leading-snug break-words">${d.name}</div>
+          <span class="text-[17px] uppercase tracking-[.14em]" style="color:${hex(colourFor(d.type))}">${d.type}</span>
+          <div class="text-[18px] text-fg leading-snug break-words">${d.name}</div>
         </div>
-        <button data-close class="text-fg-ghost hover:text-fg text-[15px] leading-none shrink-0" title="close">✕</button>
+        <button data-close class="text-fg-ghost hover:text-fg text-[19px] leading-none shrink-0" title="close">✕</button>
       </div>
-      ${d.description ? `<p class="text-[12px] text-fg-dim m-0 mb-3">${d.description}</p>` : ''}
+      ${d.description ? `<p class="text-[17px] text-fg-dim m-0 mb-3">${d.description}</p>` : ''}
       <div class="grid grid-cols-3 gap-2 mb-3 text-center">
-        <div><div class="text-[15px] text-fg">${d.deg}</div><div class="text-[9.5px] text-fg-ghost uppercase tracking-wider">relations</div></div>
-        <div><div class="text-[15px] text-fg">${TIERS[d.tier]}</div><div class="text-[9.5px] text-fg-ghost uppercase tracking-wider">tier</div></div>
-        <div><div class="text-[15px] text-fg">${d.cluster}</div><div class="text-[9.5px] text-fg-ghost uppercase tracking-wider">cluster</div></div>
+        <div><div class="text-[19px] text-fg">${d.deg}</div><div class="text-[17px] text-fg-ghost uppercase tracking-wider">relations</div></div>
+        <div><div class="text-[19px] text-fg">${TIERS[d.tier]}</div><div class="text-[17px] text-fg-ghost uppercase tracking-wider">tier</div></div>
+        <div><div class="text-[19px] text-fg">${d.cluster}</div><div class="text-[17px] text-fg-ghost uppercase tracking-wider">cluster</div></div>
       </div>
       ${nb.length ? `
-        <div class="text-[9.5px] uppercase tracking-[.14em] text-fg-ghost mb-1.5">Connected here (${nb.length} of ${d.deg})</div>
+        <div class="text-[17px] uppercase tracking-[.14em] text-fg-ghost mb-1.5">Connected here (${nb.length} of ${d.deg})</div>
         <div class="flex flex-col gap-1">
-          ${nb.map((n) => `<div class="text-[11.5px] text-fg-dim flex gap-2">
+          ${nb.map((n) => `<div class="text-[17px] text-fg-dim flex gap-2">
             <span class="text-fg-ghost shrink-0">${n.rel}</span><span class="truncate">${n.name}</span></div>`).join('')}
         </div>` : ''}
-      <div class="text-[10px] text-fg-ghost mt-3 pt-2 border-t border-line/60">
+      <div class="text-[17px] text-fg-ghost mt-3 pt-2 border-t border-line/60">
         ${d.deg - nb.length} further relationships point outside this slice.
       </div>`;
     popup.classList.remove('hidden');

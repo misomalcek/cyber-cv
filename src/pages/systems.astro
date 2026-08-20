@@ -15,7 +15,7 @@ import { teamBrain } from '../data/team-brain';
 >
   <header class="pt-10 pb-8 border-b border-line">
     <div class="eyebrow mb-3">What was built</div>
-    <h1 class="text-[clamp(28px,4vw,40px)] font-semibold tracking-tight m-0 mb-3">
+    <h1 class="text-[clamp(33px,4.4vw,47px)] font-semibold tracking-tight m-0 mb-3">
       <span class="glow-name">Systems</span>
     </h1>
     <p class="text-fg-dim max-w-[680px] m-0">
@@ -40,8 +40,8 @@ import { teamBrain } from '../data/team-brain';
         [(teamBrainSystem.measured.tokensIn / 1_000_000).toFixed(1) + 'M', 'input tokens, Feb–Jun'],
         ['$30', 'Claude API per month']].map(([v, l]) => (
         <div class="card p-4">
-          <div class="text-[22px] font-semibold lit-forge leading-none tabular-nums">{v}</div>
-          <div class="text-[11.5px] text-fg-ghost mt-1.5 leading-snug">{l}</div>
+          <div class="text-[27px] font-semibold lit-forge leading-none tabular-nums">{v}</div>
+          <div class="text-[17px] text-fg-ghost mt-1.5 leading-snug">{l}</div>
         </div>
       ))}
     </div>
@@ -52,7 +52,7 @@ import { teamBrain } from '../data/team-brain';
         <div class="eyebrow mb-3">Stack, by layer</div>
         <dl class="m-0 flex flex-col gap-1.5">
           {teamBrainSystem.stackLayers.map(([layer, tech]) => (
-            <div class="grid grid-cols-[92px_1fr] gap-3 items-baseline text-[13px]">
+            <div class="grid grid-cols-[92px_1fr] gap-3 items-baseline text-[17.5px]">
               <dt class="text-synapse shrink-0">{layer}</dt>
               <dd class="text-fg-dim m-0">{tech}</dd>
             </div>
@@ -66,8 +66,8 @@ import { teamBrain } from '../data/team-brain';
         <dl class="m-0 flex flex-col gap-2">
           {teamBrainSystem.sources.map(([name, detail]) => (
             <div>
-              <dt class="text-[13px] text-forge font-semibold">{name}</dt>
-              <dd class="text-[12.5px] text-fg-dim m-0">{detail}</dd>
+              <dt class="text-[17.5px] text-forge font-semibold">{name}</dt>
+              <dd class="text-[17px] text-fg-dim m-0">{detail}</dd>
             </div>
           ))}
         </dl>
@@ -80,14 +80,14 @@ import { teamBrain } from '../data/team-brain';
       <div class="flex flex-col gap-1">
         {teamBrainSystem.agents.map(([name, model, role]) => (
           <div class="grid grid-cols-[84px_1fr] sm:grid-cols-[84px_96px_1fr] gap-x-3 gap-y-0.5
-                      py-1.5 border-b border-line/40 last:border-b-0 text-[13px] items-baseline">
+                      py-1.5 border-b border-line/40 last:border-b-0 text-[17.5px] items-baseline">
             <b class="text-fg">{name}</b>
-            <code class="text-synapse text-[12px]">{model}</code>
+            <code class="text-synapse text-[17px]">{model}</code>
             <span class="text-fg-dim col-span-2 sm:col-span-1">{role}</span>
           </div>
         ))}
       </div>
-      <p class="text-[12.5px] text-fg-ghost mt-3 mb-0" set:html={teamBrainSystem.agentNote} />
+      <p class="text-[17px] text-fg-ghost mt-3 mb-0" set:html={teamBrainSystem.agentNote} />
     </div>
 
     <div class="grid md:grid-cols-2 gap-3 mb-3">
@@ -95,12 +95,12 @@ import { teamBrain } from '../data/team-brain';
         <div class="eyebrow mb-3">Routing — five signals, in order</div>
         <ol class="list-none p-0 m-0 flex flex-col gap-1.5">
           {teamBrainSystem.routing.map((r, i) => (
-            <li class="flex gap-3 text-[13px] text-fg-dim">
-              <span class="lit-cyan text-[12px] font-semibold shrink-0 w-3">{i + 1}</span>{r}
+            <li class="flex gap-3 text-[17.5px] text-fg-dim">
+              <span class="lit-cyan text-[17px] font-semibold shrink-0 w-3">{i + 1}</span>{r}
             </li>
           ))}
         </ol>
-        <p class="text-[12px] text-fg-ghost mt-3 mb-0">
+        <p class="text-[17px] text-fg-ghost mt-3 mb-0">
           Deterministic, not a model guessing which agent to be.
         </p>
       </div>
@@ -108,7 +108,7 @@ import { teamBrain } from '../data/team-brain';
         <div class="eyebrow mb-3">Four chat modes</div>
         <dl class="m-0 flex flex-col gap-1.5">
           {teamBrainSystem.modes.map(([m, d]) => (
-            <div class="grid grid-cols-[76px_1fr] gap-3 items-baseline text-[13px]">
+            <div class="grid grid-cols-[76px_1fr] gap-3 items-baseline text-[17.5px]">
               <dt class="text-forge">{m}</dt>
               <dd class="text-fg-dim m-0">{d}</dd>
             </div>
@@ -122,7 +122,7 @@ import { teamBrain } from '../data/team-brain';
       <div class="eyebrow mb-3">Night shift — nine autonomous jobs on cron</div>
       <dl class="m-0 grid sm:grid-cols-2 gap-x-5 gap-y-1.5">
         {teamBrainSystem.nightShift.map(([when, what]) => (
-          <div class="grid grid-cols-[112px_1fr] gap-3 items-baseline text-[13px]">
+          <div class="grid grid-cols-[112px_1fr] gap-3 items-baseline text-[17.5px]">
             <dt class="text-synapse shrink-0">{when}</dt>
             <dd class="text-fg-dim m-0">{what}</dd>
           </div>
@@ -133,7 +133,7 @@ import { teamBrain } from '../data/team-brain';
     <!-- Cost, derived rather than claimed. -->
     <div class="card p-5 mb-3">
       <div class="eyebrow mb-2">What it cost to run</div>
-      <p class="text-[13.5px] text-fg-dim m-0" set:html={teamBrainSystem.costNote} />
+      <p class="text-[17.5px] text-fg-dim m-0" set:html={teamBrainSystem.costNote} />
     </div>
 
     <div class="card p-5 mb-3">
@@ -141,8 +141,8 @@ import { teamBrain } from '../data/team-brain';
       <div class="flex flex-col gap-2.5">
         {teamBrainSystem.decisions.map((d) => (
           <div class="border-l-2 border-neural/35 pl-3">
-            <b class="text-[13.5px] text-fg block">{d.head}</b>
-            <p class="text-[13px] text-fg-dim m-0 mt-0.5">{d.body}</p>
+            <b class="text-[17.5px] text-fg block">{d.head}</b>
+            <p class="text-[17.5px] text-fg-dim m-0 mt-0.5">{d.body}</p>
           </div>
         ))}
       </div>
@@ -150,7 +150,7 @@ import { teamBrain } from '../data/team-brain';
 
     <div class="card p-5 mb-4">
       <div class="eyebrow mb-2">Handover</div>
-      <p class="text-[13.5px] text-fg-dim m-0" set:html={teamBrainSystem.handover} />
+      <p class="text-[17.5px] text-fg-dim m-0" set:html={teamBrainSystem.handover} />
     </div>
 
 
@@ -160,7 +160,7 @@ import { teamBrain } from '../data/team-brain';
         <figure class="m-0 card overflow-hidden group">
           <img src={`${base}shots/${file}`} alt={caption} loading="lazy" width="1600" height="1000"
                class="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.03]" />
-          <figcaption class="text-[11.5px] text-fg-ghost px-3 py-2">{caption}</figcaption>
+          <figcaption class="text-[17px] text-fg-ghost px-3 py-2">{caption}</figcaption>
         </figure>
       ))}
     </div>
@@ -175,7 +175,7 @@ import { teamBrain } from '../data/team-brain';
     <div class="grid md:grid-cols-2 gap-3 mb-3">
       <div class="card p-5 border-synapse/25">
         <div class="eyebrow mb-2">Where v01 stands</div>
-        <p class="text-[13.5px] text-fg-dim m-0">
+        <p class="text-[17.5px] text-fg-dim m-0">
           <b class="text-fg">The compile gate is not the blocker.</b> Build passes at 2,911
           modules, tsc clean, 23 of 23 smoke tests, nine apps in place. What remains is UI
           tuning and one untested button — not architecture.
@@ -183,25 +183,25 @@ import { teamBrain } from '../data/team-brain';
       </div>
       <div class="card p-5">
         <div class="eyebrow mb-2">What it is for</div>
-        <p class="text-[13.5px] text-fg-dim m-0">{factoriumSystem.ambition}</p>
+        <p class="text-[17.5px] text-fg-dim m-0">{factoriumSystem.ambition}</p>
       </div>
     </div>
 
     <div class="card p-5 mb-3">
       <div class="eyebrow mb-3">{factoriumSystem.architecture.lead}</div>
-      <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-4">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-4">
         {factoriumSystem.architecture.counts.map(([v, l]) => (
           <div>
-            <div class="text-[19px] font-semibold lit-forge leading-none tabular-nums">{v}</div>
-            <div class="text-[11px] text-fg-ghost mt-1 leading-snug">{l}</div>
+            <div class="text-[23px] font-semibold lit-forge leading-none tabular-nums">{v}</div>
+            <div class="text-[17px] text-fg-ghost mt-1 leading-snug">{l}</div>
           </div>
         ))}
       </div>
       <dl class="m-0 flex flex-col gap-2.5">
         {factoriumSystem.architecture.layers.map(([name, detail]) => (
           <div class="grid grid-cols-1 sm:grid-cols-[112px_1fr] gap-x-4 gap-y-0.5 items-baseline">
-            <dt class="text-[13px] text-synapse font-semibold">{name}</dt>
-            <dd class="text-[13px] text-fg-dim m-0">{detail}</dd>
+            <dt class="text-[17.5px] text-synapse font-semibold">{name}</dt>
+            <dd class="text-[17.5px] text-fg-dim m-0">{detail}</dd>
           </div>
         ))}
       </dl>
@@ -213,8 +213,8 @@ import { teamBrain } from '../data/team-brain';
         <dl class="m-0 flex flex-col gap-1.5">
           {factoriumSystem.apps.map(([name, what]) => (
             <div>
-              <dt class="text-[12.5px] text-forge font-semibold">{name}</dt>
-              <dd class="text-[12.5px] text-fg-dim m-0">{what}</dd>
+              <dt class="text-[17px] text-forge font-semibold">{name}</dt>
+              <dd class="text-[17px] text-fg-dim m-0">{what}</dd>
             </div>
           ))}
         </dl>
@@ -223,7 +223,7 @@ import { teamBrain } from '../data/team-brain';
         <div class="eyebrow mb-3">What the local agent can do</div>
         <ul class="list-none p-0 m-0 flex flex-col gap-1.5">
           {factoriumSystem.agentCan.map((c) => (
-            <li class="flex gap-2.5 text-[12.5px] text-fg-dim">
+            <li class="flex gap-2.5 text-[17px] text-fg-dim">
               <span class="text-synapse shrink-0">·</span>{c}
             </li>
           ))}
@@ -235,24 +235,24 @@ import { teamBrain } from '../data/team-brain';
     <div class="card p-5 mb-3">
       <div class="eyebrow mb-3">{factoriumSystem.models.lead}</div>
       <div class="border-l-2 border-synapse/50 pl-3 mb-3">
-        <b class="text-[13.5px] text-fg block">In production · {factoriumSystem.models.production.id}</b>
-        <p class="text-[13px] text-fg-dim m-0 mt-0.5">{factoriumSystem.models.production.why}</p>
+        <b class="text-[17.5px] text-fg block">In production · {factoriumSystem.models.production.id}</b>
+        <p class="text-[17.5px] text-fg-dim m-0 mt-0.5">{factoriumSystem.models.production.why}</p>
       </div>
       <div class="flex flex-col gap-1.5 mb-3">
         {factoriumSystem.models.bench.map(([id, note]) => (
-          <div class="grid grid-cols-1 sm:grid-cols-[188px_1fr] gap-x-3 text-[12.5px] items-baseline">
+          <div class="grid grid-cols-1 sm:grid-cols-[188px_1fr] gap-x-3 text-[17px] items-baseline">
             <b class="text-fg-dim">{id}</b>
             <span class="text-fg-ghost">{note}</span>
           </div>
         ))}
       </div>
-      <p class="text-[12.5px] text-fg-ghost m-0 mb-2">{factoriumSystem.models.constraint}</p>
-      <p class="text-[12.5px] text-fg-ghost m-0" set:html={factoriumSystem.models.quantisation} />
+      <p class="text-[17px] text-fg-ghost m-0 mb-2">{factoriumSystem.models.constraint}</p>
+      <p class="text-[17px] text-fg-ghost m-0" set:html={factoriumSystem.models.quantisation} />
     </div>
 
     <div class="card p-5 mb-3">
       <div class="eyebrow mb-2">Open source at release</div>
-      <p class="text-[13.5px] text-fg-dim m-0">{factoriumSystem.openSource}</p>
+      <p class="text-[17.5px] text-fg-dim m-0">{factoriumSystem.openSource}</p>
     </div>
 
     <!-- Gallery. -->
@@ -261,7 +261,7 @@ import { teamBrain } from '../data/team-brain';
         <figure class="m-0 card overflow-hidden group">
           <img src={`${base}shots/${file}`} alt={caption} loading="lazy" width="1600" height="1000"
                class="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.03]" />
-          <figcaption class="text-[11.5px] text-fg-ghost px-3 py-2">{caption}</figcaption>
+          <figcaption class="text-[17px] text-fg-ghost px-3 py-2">{caption}</figcaption>
         </figure>
       ))}
     </div>
@@ -299,10 +299,10 @@ import { teamBrain } from '../data/team-brain';
       ].map(([head, cost, body]) => (
         <div class="card p-5">
           <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1.5">
-            <b class="text-[14.5px] text-fg leading-snug">{head}</b>
-            <span class="text-[11px] uppercase tracking-wider text-forge border border-forge/35 rounded px-1.5 py-0.5 shrink-0">{cost}</span>
+            <b class="text-[18px] text-fg leading-snug">{head}</b>
+            <span class="text-[17px] uppercase tracking-wider text-forge border border-forge/35 rounded px-1.5 py-0.5 shrink-0">{cost}</span>
           </div>
-          <p class="text-[13.5px] text-fg-dim m-0">{body}</p>
+          <p class="text-[17.5px] text-fg-dim m-0">{body}</p>
         </div>
       ))}
     </div>
@@ -315,27 +315,27 @@ import { teamBrain } from '../data/team-brain';
   >
     <div class="card p-5 mb-3">
       <div class="flex flex-wrap items-baseline gap-3 mb-2">
-        <b class="text-[16.5px] text-fg font-semibold">MPC arcade</b>
-        <code class="text-[12.5px] text-synapse">mpcmcp</code>
-        <span class="text-[11.5px] text-fg-ghost">inside Factorium · not open source yet</span>
+        <b class="text-[20px] text-fg font-semibold">MPC arcade</b>
+        <code class="text-[17px] text-synapse">mpcmcp</code>
+        <span class="text-[17px] text-fg-ghost">inside Factorium · not open source yet</span>
       </div>
-      <p class="text-[14px] text-fg-dim mt-0 mb-3">
+      <p class="text-[18px] text-fg-dim mt-0 mb-3">
         While flying the 3D knowledge graph, typing <code class="text-synapse">mpcmcp</code> wakes a
         shooter. The crystals use the same shape-language as the graph nodes, and the scoring is
         inverted on purpose.
       </p>
       <div class="grid sm:grid-cols-2 gap-3 mb-3">
         <div class="border-l-2 border-forge/50 pl-3">
-          <b class="text-[13.5px] text-forge block mb-1">Daemons — shoot them, +score</b>
-          <p class="text-[13px] text-fg-dim m-0">
+          <b class="text-[17.5px] text-forge block mb-1">Daemons — shoot them, +score</b>
+          <p class="text-[17.5px] text-fg-dim m-0">
             The opposites of the system's values and its bad habits: sycophancy, skipping
             verification, treating the model as a calculator, giving up, entropy. Popping one
             lands as having actually got rid of a bad habit.
           </p>
         </div>
         <div class="border-l-2 border-synapse/50 pl-3">
-          <b class="text-[13.5px] text-synapse block mb-1">Angels — avoid them, −score</b>
-          <p class="text-[13px] text-fg-dim m-0">
+          <b class="text-[17.5px] text-synapse block mb-1">Angels — avoid them, −score</b>
+          <p class="text-[17.5px] text-fg-dim m-0">
             The real values, pulled <b class="text-fg">live from the hive's own lexicon</b>, so the
             game always speaks the current Codex. Hit "Primacy of Truth" or "stop-and-ask" and it
             costs you. The supreme axiom never spawns at all.
@@ -346,7 +346,7 @@ import { teamBrain } from '../data/team-brain';
         {[['MPC arcade — part 1', 'https://www.youtube.com/watch?v=1Rzro-dXMqk'],
           ['MPC arcade — part 2', 'https://www.youtube.com/watch?v=gi6WXwvcjPo']].map(([t, u]) => (
           <a href={u} target="_blank" rel="noopener"
-             class="inline-flex items-center gap-2 text-[12.5px] text-forge no-underline
+             class="inline-flex items-center gap-2 text-[17px] text-forge no-underline
                     border border-forge/30 rounded-lg px-2.5 py-1.5 hover:bg-forge/10">
             <svg width="10" height="12" viewBox="0 0 9 11" fill="currentColor" aria-hidden="true"><path d="M0 0.5L9 5.5L0 10.5V0.5Z" /></svg>
             {t}
@@ -358,24 +358,24 @@ import { teamBrain } from '../data/team-brain';
     <div class="grid md:grid-cols-2 gap-3">
       <div class="card p-5">
         <div class="flex flex-wrap items-baseline gap-3 mb-2">
-          <b class="text-[15.5px] text-fg font-semibold">cybernetic-genesis</b>
+          <b class="text-[19px] text-fg font-semibold">cybernetic-genesis</b>
           <a href="https://misomalcek.github.io/cybernetic-genesis/" target="_blank" rel="noopener"
-             class="text-[12px] text-forge border border-forge/40 rounded px-2 py-0.5 no-underline">play →</a>
+             class="text-[17px] text-forge border border-forge/40 rounded px-2 py-0.5 no-underline">play →</a>
           <a href="https://github.com/misomalcek/cybernetic-genesis" target="_blank" rel="noopener"
-             class="text-[12px] text-synapse no-underline hover:underline">source →</a>
+             class="text-[17px] text-synapse no-underline hover:underline">source →</a>
         </div>
-        <p class="text-[13.5px] text-fg-dim m-0">
+        <p class="text-[17.5px] text-fg-dim m-0">
           Two canvas games, plain HTML and vanilla JS. In <i>Entropy Harvest</i> the combo grows
           while you keep clearing — the mechanic rewards sustained order rather than one good move.
         </p>
       </div>
       <div class="card p-5">
         <div class="flex flex-wrap items-baseline gap-3 mb-2">
-          <b class="text-[15.5px] text-fg font-semibold">neon-shift</b>
+          <b class="text-[19px] text-fg font-semibold">neon-shift</b>
           <a href="https://github.com/misomalcek/neon-shift" target="_blank" rel="noopener"
-             class="text-[12px] text-synapse no-underline hover:underline">source →</a>
+             class="text-[17px] text-synapse no-underline hover:underline">source →</a>
         </div>
-        <p class="text-[13.5px] text-fg-dim m-0">
+        <p class="text-[17.5px] text-fg-dim m-0">
           A playable prototype generated from a single sentence, spending an entire free tier in
           one sitting. A test of how far one prompt goes with an agent that writes and deploys.
         </p>

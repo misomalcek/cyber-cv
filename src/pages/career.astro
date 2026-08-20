@@ -157,7 +157,7 @@ const arc = [
 >
   <header class="pt-10 pb-8 border-b border-line">
     <div class="eyebrow mb-3">Twenty years, one through-line</div>
-    <h1 class="text-[clamp(28px,4vw,40px)] font-semibold tracking-tight m-0 mb-3">
+    <h1 class="text-[clamp(33px,4.4vw,47px)] font-semibold tracking-tight m-0 mb-3">
       <span class="glow-name">Career</span>
     </h1>
     <p class="text-fg-dim max-w-[680px] m-0">
@@ -171,9 +171,9 @@ const arc = [
     <div class="grid md:grid-cols-5 gap-3">
       {arc.map((a, i) => (
         <div class="card p-4 flex flex-col" style={`animation: countIn .5s ease-out ${i * 60}ms both`}>
-          <div class="lit-forge text-[19px] font-semibold leading-none mb-2">{a.year}</div>
-          <div class="text-[13px] text-fg leading-snug mb-1.5">{a.head}</div>
-          <p class="text-[12px] text-fg-ghost m-0">{a.body}</p>
+          <div class="lit-forge text-[23px] font-semibold leading-none mb-2">{a.year}</div>
+          <div class="text-[17.5px] text-fg leading-snug mb-1.5">{a.head}</div>
+          <p class="text-[17px] text-fg-ghost m-0">{a.body}</p>
         </div>
       ))}
     </div>
@@ -185,7 +185,7 @@ const arc = [
 
   <Section title="Also">
     <div class="grid md:grid-cols-2 gap-3">
-      <div class="card p-5 text-[13.5px] text-fg-dim">
+      <div class="card p-5 text-[17.5px] text-fg-dim">
         <div class="eyebrow mb-3">Outside the record</div>
         <p class="m-0 mb-3">
           Judo for ten years — 3× Slovak champion, two years in national representation. Mountains,
@@ -197,7 +197,7 @@ const arc = [
           attached, which is probably why I keep doing it.</span>
         </p>
       </div>
-      <div class="card p-5 text-[13.5px] text-fg-dim">
+      <div class="card p-5 text-[17.5px] text-fg-dim">
         <div class="eyebrow mb-3">Languages</div>
         <ul class="list-none p-0 m-0 flex flex-col gap-1.5">
           {[
@@ -208,8 +208,8 @@ const arc = [
             ['Spanish · Hungarian', 'basics — a year living in Spain while working out of Gibraltar'],
           ].map(([lang, note]) => (
             <li class="flex gap-3 items-baseline border-b border-line/40 pb-1.5 last:border-b-0">
-              <b class="text-fg text-[13px] shrink-0 w-[136px]">{lang}</b>
-              <span class="text-[12.5px]">{note}</span>
+              <b class="text-fg text-[17.5px] shrink-0 w-[136px]">{lang}</b>
+              <span class="text-[17px]">{note}</span>
             </li>
           ))}
         </ul>
