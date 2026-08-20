@@ -187,11 +187,10 @@ makes a model *more* sycophantic, because raters reward agreement with their own
 views; Gao, Schulman and Hilton showed that as optimisation pressure rises, true
 utility falls while the proxy score keeps climbing.
 
-My own data says the same thing one layer down, on a system small enough to
-instrument fully. Asked which of its rules carried real information, the model
-misclassified seven of eight, including three that had changed its behaviour
-minutes earlier. It was not lying. **It had no reliable access to the answer.**
-Any signal built from an expressed preference inherits that gap silently.
+The self-report result above says the same thing one layer down, on a system
+small enough to instrument fully: seven of eight misclassified, not from
+dishonesty but because **it had no reliable access to the answer.** Any signal
+built from an expressed preference inherits that gap silently.
 
 Constitutional AI is the closer relative, and accuracy matters more than
 sweeping here: **it already does much of what I would argue for** — a written
@@ -213,26 +212,22 @@ one worse. If a ratio like that holds at scale, much of what is written into
 these systems is well-intentioned weight with no effect, and nobody would
 currently know.
 
-## Why the outsider position might be the point
-
-**The people who build the road are not automatically the right people to write
-the rules for driving on it.** They know the surface, the load limits, the
-drainage. That is not the same expertise as deciding who may drive and what
-happens at the crossing, and in most mature domains those are separate
-professions.
-
-The objection is real, and it came from a model I put the argument to: in
-software **the road and the law are currently merged by technical necessity.** A
-normative principle only becomes operative once it is a loss function or a
-constitution the training loop can read — a language most ethicists do not speak
-and most engineers are not trained to evaluate. The separation is blocked by a
-translation problem, not bad faith.
-
-Which leaves a position rather than a complaint: **those qualified to write the
-law mostly cannot read the road, and the deadlock currently resolves in favour of
-whoever ships.** The useful person at that seam is neither the best engineer nor
-the best ethicist, but someone who can read enough of the road to test a claim
-and is not so deep in it that the question stops looking strange.
+Which raises the obvious objection to my being anywhere near this, so here is
+the strongest form of the answer. **The people who build the road are not
+automatically the right people to write the rules for driving on it** — surface,
+load limits and drainage are not the same expertise as deciding who may drive and
+what happens at the crossing, and in most mature domains those are separate
+professions. The counter is real, and came from a model I put it to: in software
+**the road and the law are merged by technical necessity**, since a normative
+principle only becomes operative once it is a loss function or a constitution the
+training loop can read. That is a language most ethicists do not speak and most
+engineers are not trained to evaluate, so the separation is blocked by a
+translation problem, not bad faith. Which leaves a position rather than a
+complaint: **those qualified to write the law mostly cannot read the road, and
+the deadlock resolves in favour of whoever ships.** The useful person at that
+seam is neither the best engineer nor the best ethicist, but someone who can read
+enough of the road to test a claim and is not so deep in it that the question
+stops looking strange.
 
 ## A note on the name
 
@@ -247,21 +242,26 @@ algorithmic management, where the system holds authority and directs the humans.
 That is not a gap in the vocabulary; it is a direction the vocabulary already
 went.
 
-That check is a small instance of something larger, and I would rather state it
-than let it be inferred. **Everything in this essay I arrived at by thinking, not
-by reading it somewhere first** — the rule system and the idea of measuring
-whether rules change a decision, storing position as structure a model can read,
-the argument that formation has never been measured against correction. In each
-case the literature existed and I found it afterwards, when I needed to know
-whether the ground was taken and what the objections were. Machine Teaching is
-the smallest example: I did not know the term, arrived at its shape by working,
-and located the 1995 formalisation in one query.
+That check is a small instance of something larger. **Everything here I arrived
+at by thinking, not by reading it somewhere first** — measuring whether rules
+change a decision, storing position as structure a model can read, the argument
+that formation has never been measured against correction. The literature
+existed; I found it afterwards, when I needed to know whether the ground was
+taken. Machine Teaching is the smallest case: I did not know the term, reached
+its shape by working, and located the 1995 formalisation in one query.
 
 **Systemic thinking about these systems does not require a head full of theory in
 advance.** The theory turns up when it is needed; what matters is knowing where
 to find it and how to read it against your own measurements. The failure mode is
 the opposite one — knowing the terms so well that the strange question never gets
 asked.
+
+The other half of that matters more, and leaving it out would make the first
+half a boast. **Thinking on its own would have produced nothing here.** An idea
+about how rules ought to behave is worth little until something turns it into a
+schema, a query, a measurement someone can disagree with — and then tells you
+that you were wrong about part of it. That is not a thinking half and a typing
+half. It is the relation doing the work.
 
 What is missing is the symmetric case — not the machine learning from us, not
 either party directing the other. I am not staking a claim on a word; in the
@@ -272,23 +272,17 @@ until you notice it is two claims. *Non ducor* is the precondition. Without it,
 "leading together" is obedience with a nicer name — which is what algorithmic
 management is.
 
-I am not proposing to rebrand a field. I am pointing at what the measurements
-keep showing: **the interesting failures are not in the model, they are in the
-relation.** The model followed rules it could not judge. The store could not tell
-me about the document nobody asked for. Both times the missing piece was on my
-side of the exchange, and no amount of studying the machine would have supplied
-it.
+Which is what the measurements keep showing: **the interesting failures are not
+in the model, they are in the relation.** The model followed rules it could not
+judge. The store could not tell me about the document nobody asked for. Both
+times the missing piece was on my side of the exchange.
 
-There is a smaller version of this I can put a number on. Yesterday the local
-model and I both worked on the same question, and both of us were partly wrong.
-Its answer was mostly right and contained one specific it could not support.
-Mine was mostly right and contained one false accusation — I had declared part
-of its answer invented after searching for *my* words rather than its, found
-nothing, and read the emptiness as proof. The same reflex as always.
-
+Yesterday the local model and I worked the same question and both came back
+partly wrong: its answer carried one specific it could not support, mine carried
+one false accusation — I had called part of its answer invented after searching
+for *my* words rather than its, found nothing, and read the emptiness as proof.
 **Neither ratio licenses belief in the author.** You cannot pick a source to
-trust; you can only verify a claim. That is the whole working relation, and it
-is symmetric in a way "learning" does not capture.
+trust; you can only verify a claim.
 
 ## On not knowing
 
