@@ -164,6 +164,40 @@ because a blind spot does not generate a signal. That is what the other party is
 for — and it is why I distrust the version of this field where one person and a
 model are assumed to be enough.
 
+## What I would want to work on, stated plainly
+
+A reader from an alignment team will want to know where this lands relative to
+the techniques the field actually uses, so I will say it directly.
+
+RLHF is not something I would like to use. **It is one of the things I would
+like to fix.**
+
+That is a strong sentence and it is not a slogan; it is what my own measurements
+keep pointing at. Preference optimisation trains on a *report* of what a human
+approved. My own data says a report is the weakest instrument in the room: asked
+which of its rules carried real information, the model misclassified seven of
+eight, including three that had changed its behaviour minutes earlier. It was not
+lying. It had no reliable access to the answer. Any method whose training signal
+is an expressed preference inherits exactly that gap, and inherits it silently —
+which is the shape of every expensive failure in my record.
+
+Constitutional AI is the closer relative, and I want to be accurate rather than
+sweeping about it: it already does much of what I would argue for. A written set
+of values, self-critique against them, revision, training on the revisions. That
+is cultivation, not correction. My disagreement is narrower and, I think, the
+useful part: **nobody has measured whether the values are doing the work.** I ran
+that measurement on a much smaller system and the result was not what I expected
+— ten of sixteen rules changed nothing, because the model already behaved that
+way. Six changed a decision. None made one worse. If that ratio holds at scale,
+then a large part of what is written into these systems is well-intentioned
+weight with no effect, and nobody would currently know.
+
+So the interest is not in applying the technique. It is in the instrument: what
+would it take to distinguish a value that is load-bearing from one that is
+decoration, before either is shipped. On the local system that question was
+answerable in a week. At frontier scale it is the whole problem, and it is the
+one I would want to work on.
+
 ## On not knowing
 
 I should be careful about how the previous section sounds.
@@ -188,7 +222,7 @@ than expertise would be.
 I owe the people who built the foundations more than I can repay by citing them.
 The transformer paper, the vector databases, the graph extensions, the quantised
 inference engines that let a twelve-billion-parameter model run on a machine
-under my desk — all of it is human work, most of it given away.
+on my desk — all of it is human work, most of it given away.
 
 That is also why my own work goes out the same way. The environment I build will
 be open source from the start, and the research is published rather than kept.
