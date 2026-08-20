@@ -38,6 +38,15 @@ const meta: Record<string, { title: string; blurb: string; findings: string[] }>
       'A full section on the decisions that were wrong, with what each one cost.',
     ],
   },
+  essay: {
+    title: 'No Human Taught Me This',
+    blurb: 'How the AI work started, what the systems taught and what they could not — including the two defects a person found that no amount of querying would have.',
+    findings: [
+      'First contact was late 2023, looking over a colleague\'s shoulder at an interface that "had memory" — then it was cancelled for cost.',
+      'One three-day course, and nothing formal since. Everything else learned by measuring the systems directly.',
+      'The limit of that method, found twice in one week: a store cannot tell you about a document it was never asked for.',
+    ],
+  },
   'una-synthesis': {
     title: 'The cognitive biotope — a local model\'s synthesis',
     blurb: 'The 12B local agent was asked to audit the three papers above against the system\'s own records and say what was wrong, unfair or incomplete. Unedited output.',
@@ -48,7 +57,7 @@ const meta: Record<string, { title: string; blurb: string; findings: string[] }>
     ],
   },
 };
-const order = ['rules', 'spatial', 'engineering', 'una-synthesis'];
+const order = ['rules', 'spatial', 'engineering', 'una-synthesis', 'essay'];
 
 /** Page id → download slug. They differ where the file name is clearer. */
 const DL: Record<string, string> = { 'una-synthesis': 'una-audit' };

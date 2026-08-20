@@ -1,3 +1,13 @@
+---
+name: ESSAY-everything-i-know-about-ai-i-learned-from-ai-2026-08
+type: essay
+timestamp: 2026-08-13T15:00:00+02:00
+spirit: 3
+importance: 1.0
+anchor: false
+source: claude-prime-session
+---
+
 # No Human Taught Me This
 
 **Michal Malček · August 2026**
