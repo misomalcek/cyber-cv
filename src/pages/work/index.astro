@@ -110,6 +110,32 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
     </a>
   </Section>
 
+  <!-- ── Research notebooks ────────────────────────────────────────────────
+       Deliberately not links: a public Gemini Notebook still puts a Google
+       login in front of the visitor, and a reference a reader cannot open is
+       not a reference. Listed with what is actually inside each one, read from
+       the notebooks rather than guessed from their titles. -->
+  <Section title="Research notebooks" note={`${academic.notebooks.items.length}`}
+           lede={academic.notebooks.lede}>
+    <div class="card p-5 mb-4 border-forge/30">
+      <p class="text-[17.5px] text-fg-dim m-0">{academic.notebooks.note}</p>
+    </div>
+    <div class="flex flex-col gap-3">
+      {academic.notebooks.items.map((n) => (
+        <div class="card p-5">
+          <div class="flex items-baseline justify-between gap-4 flex-wrap mb-2">
+            <b class="text-[19px] text-fg font-semibold">{n.title}</b>
+            <span class="text-[17px] text-fg-ghost shrink-0 tabular-nums">
+              {n.sources} {n.sources === 1 ? 'source' : 'sources'} · {n.when}
+            </span>
+          </div>
+          <p class="text-[17.5px] text-fg-dim m-0 mb-2">{n.what}</p>
+          <p class="text-[17.5px] text-synapse m-0 pl-3 border-l border-neural/40">{n.line}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
   <Section title="Video and music" note={`${videos.length + audio.length}`}
            lede="Systems running, rather than described.">
     <div class="flex flex-col gap-2.5">

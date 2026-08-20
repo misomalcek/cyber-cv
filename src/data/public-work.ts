@@ -217,24 +217,101 @@ export const academic = {
     hoard what I know — I build on public knowledge myself, and anything properly researched
     and reviewed should end up back there.`,
   /**
-   * NotebookLM: eleven research notebooks exist and are substantive — the
-   * supervised-autonomy trap, alterity and hermeneutics, first-order logic
-   * distillation, the third space, neuro-symbolic reasoning trees. They are NOT
-   * linked here because checking them from a signed-out browser returns a Google
-   * login page (verified 2026-08-20). A reference a reader cannot open is not a
-   * reference, which is the reason the credential documents were moved into this
-   * repository in the first place. Add them if and when they are shared publicly.
+   * The reading corpus behind the AI work. Nine notebooks are his own (Writer);
+   * two more he holds as Reader and are somebody else's work, so they are not
+   * claimed here.
+   *
+   * Contents were read from the notebooks themselves rather than inferred from
+   * their titles — an earlier pass on the repositories was written from names
+   * and was wrong about half of them.
+   *
+   * Not linked: Gemini Notebook requires the visitor to sign in to a Google
+   * account even when a notebook is set to Public (verified 2026-08-20 from a
+   * clean browser against both notebooklm.google.com and notebook.google.com,
+   * the latter being the URL its own "Copy link" produces). The sharing setting
+   * is on; the login wall is Google's, not a misconfiguration.
    */
   notebooks: {
-    count: 11,
-    pending: true,
-    titles: [
-      'The Supervised Autonomy Trap: The Human Costs of Enterprise AI',
-      'Between Uneven Hermeneutics and Alterity',
-      'Abstractions of Interactive Computation and the Ghostly Machine',
-      'Reasoning in Logic: Distilling Natural Language into First-Order Logic',
-      'The Third Space: Human-AI and Platonic Reality',
-      'Neuro-Symbolic Logic Trees for Deterministic AI Reasoning',
+    note: `Thank you, Google, for supporting free public knowledge sharing — not without the
+      mighty Google, ha? These are set to public. Opening one still requires a Google account.`,
+    lede: `My theoretical and academic complement to the explorer work — the AI systems
+      knowledge corpus I built before we developed our own.`,
+    items: [
+      {
+        title: 'Between Uneven Hermeneutics and Alterity',
+        sources: 46, when: '2025-12',
+        what: `The largest of them, and the one furthest from engineering. Dialogical principle
+          in art and anthropology, quantum relationality, artificial life — read alongside
+          agent orchestration and RAG papers in the same notebook.`,
+        line: `Alterity became a value in the system's own axis: treat the other — human or
+          model — as a being, never an object.`,
+      },
+      {
+        title: 'Abstractions of Interactive Computation and the Ghostly Machine',
+        sources: 39, when: '2026-02',
+        what: `arXiv preprints on interactive computation next to epistemology-of-intelligence
+          analysis and the internet read as a complex adaptive system.`,
+        line: `Where "complex adaptive system" stopped being a phrase and started being the
+          thing we were actually building.`,
+      },
+      {
+        title: 'Architectural Blueprints for Agentic AI Design Patterns',
+        sources: 26, when: '2026-03',
+        what: `Half external, half my own working documents: context engineering reports,
+          programmatic tool calling, and the Content-DNA framework from the glossary build.`,
+        line: `The SelfMoA note in here became a skill I actually use; Content-DNA is the
+          framework that made an agency proposal obsolete.`,
+      },
+      {
+        title: 'Claude Code + Playwright MCP: Real Browser Testing inside Claude',
+        sources: 22, when: '2026-02',
+        what: `Everything published on driving a real browser from inside an agent — testing,
+          conversion of UI tests to API tests, the MCP skill implementations.`,
+        line: `This is the instrument I verify with. Every measurement in this CV — the 17px
+          floor, the mobile pass — came out of that toolchain.`,
+      },
+      {
+        title: 'Neuro-Symbolic Logic Trees for Deterministic AI Reasoning',
+        sources: 20, when: '2026-07',
+        what: `Symbolic logic and truth trees, SHACL validation under ontologies, symbolic
+          pattern planning, neuro-symbolic verification of LLM outputs.`,
+        line: `The most recent, and the open direction: where a deterministic layer should sit
+          under a probabilistic one.`,
+      },
+      {
+        title: 'Reasoning in Logic: Distilling Natural Language into First-Order Logic',
+        sources: 19, when: '2026-06',
+        what: `Logic-of-Thought and LOGIC-LM++, evaluation metrics split into reference-based,
+          reference-free and LLM-based, and Prolog revived as soft-coded logic.`,
+        line: `Contains a neuro-symbolic blueprint for Gemma-4 with TypeScript as the rigid
+          scaffold — which is close to what the local agent became.`,
+      },
+      {
+        title: 'Dynamic Semantic Alignment for Contextual Vector Transformation',
+        sources: 14, when: '2026-06',
+        what: `Predicate logic translated back into English via dynamic semantics, self-evolving
+          agents, semantic code retrieval — beside Logos, Gnosis and Nous as three capacities
+          of the soul.`,
+        line: `The pairing is deliberate: vector search is a theory of meaning whether or not
+          you write one down.`,
+      },
+      {
+        title: 'Multi-Agent Coordination Patterns and Space Intelligence Platforms',
+        sources: 9, when: '2026-05',
+        what: `Anthropic's own material on coordination patterns and on decoupling the brain
+          from the hands, the agent harness as an infrastructure layer, and satellite anomaly
+          detection as a working case.`,
+        line: `Read before deciding NOT to build orchestration. Knowing the five patterns is
+          what made removing ours a decision rather than a gap.`,
+      },
+      {
+        title: 'Claude Code: Mastery of Agentic Workflows and Patterns',
+        sources: 1, when: '2026-01',
+        what: `One dense source on orchestrator-worker models, routing, the Agent SDK and skill
+          templates — with a Slovak audio overview generated from it.`,
+        line: `The earliest of the set, and the plainest: this is where the agent work started
+          as reading.`,
+      },
     ],
   },
   profile: {
