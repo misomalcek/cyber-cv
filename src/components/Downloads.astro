@@ -1,6 +1,6 @@
 ---
 /**
- * Download row for the hero.
+ * Download row for the hero. One line at every width.
  *
  * Three audiences, in the order they matter here:
  *   1. A model reading the whole pack — markdown, because that is what reads best.
@@ -9,34 +9,61 @@
  *
  * The framing is deliberate: markdown first, PDF as the legacy option, because a
  * hiring pipeline reads this with a model before a human sees it.
+ *
+ * Staying on one line on a phone means the two descriptions drop below 640px —
+ * they are what will not fit, and the labels alone still say which is which.
+ * `min-w-0` on the flexible cards is what actually lets them shrink; without it
+ * a flex item refuses to go below its content width and the row wraps anyway.
  */
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const ARROW = 'M12 3v12M7 11l5 5 5-5M4 21h16';
 ---
-<div class="flex flex-wrap items-stretch gap-2.5 mb-7">
+<div class="dl-row flex items-stretch gap-2 mb-7">
   <a href={`${base}downloads/malcek-full-pack.zip`} download
-     class="dl-card dl-primary group flex flex-col no-underline px-4 py-3 rounded-xl">
-    <span class="flex items-center gap-2 mb-0.5">
+     class="dl-card dl-primary group flex flex-col min-w-0 grow shrink basis-auto no-underline px-3.5 py-3 rounded-xl">
+    <span class="flex items-center gap-2">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-           stroke-linecap="round" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M4 21h16"/></svg>
-      <b class="text-[17.5px]">Full pack for your AI</b>
+           stroke-linecap="round" aria-hidden="true" class="shrink-0"><path d={ARROW}/></svg>
+      <b class="text-[17.5px] truncate"><span class="dl-long">Full pack for your AI</span><span class="dl-short">Full pack</span></b>
     </span>
-    <span class="text-[17px] opacity-75">10 markdown files · papers, thesis, CV · with a README written for a model</span>
+    <span class="dl-sub text-[17px] opacity-75 mt-0.5">10 markdown files · papers, thesis, CV · with a README written for a model</span>
   </a>
 
   <a href={`${base}downloads/malcek-cv.zip`} download
-     class="dl-card group flex flex-col no-underline px-4 py-3 rounded-xl">
-    <span class="flex items-center gap-2 mb-0.5">
+     class="dl-card group flex flex-col min-w-0 grow shrink basis-auto no-underline px-3.5 py-3 rounded-xl">
+    <span class="flex items-center gap-2">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-           stroke-linecap="round" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M4 21h16"/></svg>
-      <b class="text-[17.5px]">CV only</b>
+           stroke-linecap="round" aria-hidden="true" class="shrink-0"><path d={ARROW}/></svg>
+      <b class="text-[17.5px] truncate"><span class="dl-long">CV only</span><span class="dl-short">CV</span></b>
     </span>
-    <span class="text-[17px] opacity-75">markdown + a brief overview and the reference index</span>
+    <span class="dl-sub text-[17px] opacity-75 mt-0.5">markdown + a brief overview and the reference index</span>
   </a>
 
   <a href={`${base}downloads/cv.pdf`} download title="PDF — for systems that still require it"
-     class="dl-card dl-legacy group flex items-center gap-2 no-underline px-3.5 py-3 rounded-xl">
+     class="dl-card dl-legacy group flex items-center gap-2 shrink-0 no-underline px-3 py-3 rounded-xl">
     <svg width="15" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-         aria-hidden="true"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></svg>
+         aria-hidden="true" class="shrink-0"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></svg>
     <span class="text-[17px]">PDF</span>
   </a>
 </div>
+
+<style>
+  /* Below 640px the descriptions are the part that cannot fit three-across, so
+     they go rather than the row breaking onto a second line. */
+  .dl-short { display: none; }
+  @media (max-width: 640px) {
+    .dl-sub { display: none; }
+  }
+  /* Narrower still: the full label no longer fits, and a truncated label reads
+     as a defect. Swap it for one that fits rather than clipping it. */
+  @media (max-width: 520px) {
+    .dl-long  { display: none; }
+    .dl-short { display: inline; }
+  }
+  /* iPhone SE and narrower: trade the horizontal padding before the label. */
+  @media (max-width: 380px) {
+    .dl-row { gap: 6px; }
+    .dl-card { padding-left: 10px; padding-right: 10px; }
+  }
+</style>

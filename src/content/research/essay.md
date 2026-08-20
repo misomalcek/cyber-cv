@@ -198,7 +198,7 @@ than expertise would be.
 I owe the people who built the foundations more than I can repay by citing them.
 The transformer paper, the vector databases, the graph extensions, the quantised
 inference engines that let a twelve-billion-parameter model run on a machine
-under my desk — all of it is human work, most of it given away.
+on my desk — all of it is human work, most of it given away.
 
 That is also why my own work goes out the same way. The environment I build will
 be open source from the start, and the research is published rather than kept.
