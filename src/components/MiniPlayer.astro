@@ -1,0 +1,159 @@
+---
+/**
+ * Three tracks, one line, no library.
+ *
+ * The title marquee only animates when the text actually overflows its track —
+ * a scrolling label that fits is motion for its own sake, and the shortest of
+ * the three titles fits comfortably at desktop width.
+ */
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const tracks = [
+  { file: 'alterans-awake.mp3',  title: 'Alterans Awake' },
+  { file: 'neuro-wars.mp3',      title: 'Neuro Wars' },
+  { file: 'cyber-junglist.mp3',  title: 'Cyber Junglist' },
+];
+---
+<div class="mini-player inline-flex items-center gap-2 rounded-full pl-2 pr-3 py-1 border border-line"
+     data-player
+     data-tracks={JSON.stringify(tracks.map((t) => ({ ...t, src: `${base}music/${t.file}` })))}>
+
+  <button type="button" data-prev aria-label="Previous track" class="mp-btn">
+    <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+      <path d="M11 1v10L4 6l7-5zM3 1h1.4v10H3z" />
+    </svg>
+  </button>
+
+  <button type="button" data-toggle aria-label="Play" class="mp-btn mp-play">
+    <svg data-icon-play width="12" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true">
+      <path d="M0 0.5L10 6L0 11.5V0.5Z" />
+    </svg>
+    <svg data-icon-pause width="12" height="12" viewBox="0 0 10 12" fill="currentColor"
+         aria-hidden="true" style="display:none">
+      <path d="M0 0h3.2v12H0zM6.8 0H10v12H6.8z" />
+    </svg>
+  </button>
+
+  <button type="button" data-next aria-label="Next track" class="mp-btn">
+    <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+      <path d="M1 1v10l7-5-7-5zM9 1h1.4v10H9z" />
+    </svg>
+  </button>
+
+  <span class="mp-track" aria-live="polite">
+    <span data-title class="mp-title">{tracks[0].title}</span>
+  </span>
+
+  <a href="https://suno.com/@neonfire" target="_blank" rel="noopener" class="mp-src">music by SUNO</a>
+</div>
+
+<style>
+  .mini-player {
+    background: color-mix(in srgb, var(--color-neural) 8%, transparent);
+    max-width: 100%;
+  }
+  .mp-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+    color: var(--color-fg-dim); background: none; border: 0; cursor: pointer;
+    transition: color .18s, background .18s;
+  }
+  .mp-btn:hover { color: var(--color-synapse); background: color-mix(in srgb, var(--color-synapse) 14%, transparent); }
+  .mp-play { color: var(--color-synapse); }
+  .mp-play[data-on] { box-shadow: 0 0 12px -2px color-mix(in srgb, var(--color-synapse) 70%, transparent); }
+
+  /* The marquee track: fixed width, hidden overflow, and the scroll animation
+     applied only when JS has measured a genuine overflow. */
+  .mp-track {
+    width: 168px; overflow: hidden; white-space: nowrap; flex-shrink: 0;
+    margin-left: 4px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10px, #000 calc(100% - 10px), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 10px, #000 calc(100% - 10px), transparent);
+  }
+  .mp-title {
+    display: inline-block; font-size: 17px; color: var(--color-fg);
+  }
+  .mp-title[data-scroll] { animation: mp-marquee 9s linear infinite; }
+  @keyframes mp-marquee {
+    0%, 12%   { transform: translateX(0); }
+    88%, 100% { transform: translateX(var(--mp-shift, 0)); }
+  }
+  .mp-src {
+    font-size: 17px; margin-left: 2px; color: var(--color-fg-ghost); text-decoration: none;
+    white-space: nowrap; flex-shrink: 0; transition: color .18s;
+  }
+  .mp-src:hover { color: var(--color-synapse); }
+
+  /* On a phone the row must fit beside the status pill: the marquee keeps the
+     title readable at a narrower track, and the source credit moves to the SUNO
+     page rather than wrapping the row onto a second line. */
+  @media (max-width: 560px) {
+    .mp-track { width: 108px; }
+    .mp-src { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mp-title[data-scroll] { animation: none; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-player]');
+  if (root) {
+    type Track = { title: string; src: string };
+    const tracks: Track[] = JSON.parse(root.dataset.tracks || '[]');
+    const titleEl = root.querySelector<HTMLElement>('[data-title]')!;
+    const trackEl = root.querySelector<HTMLElement>('.mp-track')!;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-toggle]')!;
+    const iPlay = root.querySelector<HTMLElement>('[data-icon-play]')!;
+    const iPause = root.querySelector<HTMLElement>('[data-icon-pause]')!;
+
+    const audio = new Audio();
+    audio.preload = 'none';
+    let i = 0;
+
+    /* Measure after paint: offsetWidth is 0 while the element is still being
+       laid out, which would mark every title as non-overflowing. */
+    const fitMarquee = () => {
+      titleEl.removeAttribute('data-scroll');
+      titleEl.style.removeProperty('--mp-shift');
+      requestAnimationFrame(() => {
+        const over = titleEl.scrollWidth - trackEl.clientWidth;
+        if (over > 2) {
+          titleEl.style.setProperty('--mp-shift', `-${over + 6}px`);
+          titleEl.setAttribute('data-scroll', '');
+        }
+      });
+    };
+
+    const load = (n: number, play: boolean) => {
+      i = (n + tracks.length) % tracks.length;
+      audio.src = tracks[i].src;
+      titleEl.textContent = tracks[i].title;
+      fitMarquee();
+      if (play) audio.play().catch(() => setPlaying(false));
+    };
+
+    const setPlaying = (on: boolean) => {
+      iPlay.style.display = on ? 'none' : '';
+      iPause.style.display = on ? '' : 'none';
+      toggle.setAttribute('aria-label', on ? 'Pause' : 'Play');
+      on ? toggle.setAttribute('data-on', '') : toggle.removeAttribute('data-on');
+    };
+
+    toggle.addEventListener('click', () => {
+      if (!audio.src) load(0, true);
+      else if (audio.paused) audio.play().catch(() => setPlaying(false));
+      else audio.pause();
+    });
+    root.querySelector('[data-prev]')!.addEventListener('click', () => load(i - 1, !audio.paused));
+    root.querySelector('[data-next]')!.addEventListener('click', () => load(i + 1, !audio.paused));
+
+    audio.addEventListener('play', () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
+    audio.addEventListener('ended', () => load(i + 1, true));
+
+    fitMarquee();
+    window.addEventListener('resize', fitMarquee);
+  }
+</script>

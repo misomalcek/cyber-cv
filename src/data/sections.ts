@@ -20,6 +20,7 @@ export const ICONS: Record<string, string> = {
   log:   'M4 5h16M4 10h16M4 15h10M4 20h7',
   code:  'M8 6l-6 6 6 6M16 6l6 6-6 6',
   compass:'M12 12m-9 0a9 9 0 1018 0a9 9 0 10-18 0M15.5 8.5l-2 5-5 2 2-5z',
+  wave:  'M2 12h2.5l2-6 3 15 3-11 2.5 6H22',
 };
 
 export interface SectionCard {
@@ -62,6 +63,11 @@ export const sectionCards: SectionCard[] = [
     id: 'next', slug: 'next/', title: 'What comes next', icon: 'compass',
     metric: '8 directions, each with a falsifier',
     blurb: 'Where the measured work points: formation over correction, rules as queryable data rather than prompt, position as machine-readable structure, and where automated search stops paying.',
+  },
+  {
+    id: 'suno', slug: 'suno/', title: 'My SUNO Cyberpunk Neuro Experiments', icon: 'wave',
+    metric: 'Who will win the Neuro Wars?',
+    blurb: 'Fifteen tracks written across the same year as the systems — cyberpunk drum and bass and jungle, with lyrics that turned out to be working through the same questions the papers do.',
   },
   {
     id: 'log', slug: 'log/', title: 'Build log', icon: 'log',

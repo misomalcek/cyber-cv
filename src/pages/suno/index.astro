@@ -1,0 +1,124 @@
+---
+// Astro returns BASE_URL without a trailing slash at the root but with one
+// under a subpath; normalise so `${base}x` is never `/cyber-cvx`.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import { songs } from '../../data/songs';
+
+const withAudio = songs.filter((s) => s.local);
+---
+<Base
+  title="SUNO Cyberpunk Neuro Experiments — Michal Malček"
+  description="Fifteen cyberpunk drum and bass tracks made with SUNO across the same year as the systems."
+  back={{ href: `${base}`, label: 'Back to overview' }}
+>
+  <header class="pt-10 pb-8 border-b border-line">
+    <div class="eyebrow mb-3">Nine of nine</div>
+    <h1 class="text-[clamp(33px,4.4vw,47px)] font-semibold tracking-tight m-0 mb-3">
+      <span class="glow-name">My SUNO Cyberpunk Neuro Experiments</span>
+    </h1>
+    <p class="text-[clamp(21px,2.6vw,27px)] text-neural-text glow-violet m-0 mb-5">
+      Who will win the Neuro Wars?
+    </p>
+    <p class="text-fg-dim max-w-[70ch] m-0 mb-3">
+      Cyberpunk Neuro Drum and Bass Jungle Poetry? Philosophy? Random sparks from the random
+      universe? Our Future? or more? or other (alter)?
+    </p>
+    <p class="text-fg-ghost max-w-[70ch] m-0">
+      We leaving this here for everyone to make their own opinion or not, that's also fine.
+    </p>
+  </header>
+
+  <!-- ── Why this sits in a CV at all ─────────────────────────────────────
+       The jungle/cybernetics line predates this page; it was written for the
+       header in the theme-song commit and belongs here now that there is room
+       for it. Kept in its original wording rather than paraphrased. -->
+  <Section title="Jungle and cybernetics" note="a shared vocabulary">
+    <div class="card p-5">
+      <p class="text-[18px] text-fg-dim m-0 mb-3">
+        Jungle and cybernetics have shared a vocabulary since the early nineties — feedback,
+        breaks, systems that reorganise themselves under load — so a CV about building one may
+        as well arrive with a breakbeat.
+      </p>
+      <p class="text-[17.5px] text-fg-ghost m-0">
+        These were written across the same year as the systems, and the overlap was not
+        planned. <b class="text-fg-dim">Alterity</b> is a value in the hive's own axis and also
+        a song. <b class="text-fg-dim">Non ducor, duco</b> — I am not led, I lead — turns into{' '}
+        <i>we lead together</i> by its chorus, which is closer to how the work actually went.{' '}
+        <b class="text-fg-dim">Neuro Wars</b> asks who wins and never answers.
+      </p>
+    </div>
+  </Section>
+
+  <Section title="Playing here" note={`${withAudio.length} of ${songs.length}`}
+           lede="Three are in this repository and play in the header. The rest are on SUNO.">
+    <div class="grid sm:grid-cols-3 gap-3">
+      {withAudio.map((s) => (
+        <div class="card p-4">
+          <b class="block text-[19px] text-fg font-semibold mb-2">{s.title}</b>
+          <audio controls preload="none" class="w-full" src={`${base}music/${s.local}`}>
+            <a href={s.url} target="_blank" rel="noopener">Open on SUNO</a>
+          </audio>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ── Lyrics ────────────────────────────────────────────────────────────
+       Verbatim from his own file, in the order they were made. Collapsed by
+       default: fifteen sets of lyrics open at once is a wall, and the point of
+       the page is that a reader can pick one. -->
+  <Section title="All fifteen, in the order they were made" note={`${songs.length}`}
+           lede="Lyrics as written. Open one.">
+    <div class="flex flex-col gap-2.5">
+      {songs.map((s, i) => (
+        <details class="card song">
+          <summary class="flex items-baseline gap-3 cursor-pointer list-none p-4">
+            <span class="song-n shrink-0 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+            <b class="text-[19px] text-fg font-semibold flex-1 min-w-0">{s.title}</b>
+            {s.local && <span class="text-[17px] text-synapse shrink-0">in repo</span>}
+            <span class="text-[17px] text-fg-ghost shrink-0 song-caret">open</span>
+          </summary>
+          <div class="px-4 pb-4">
+            <a href={s.url} target="_blank" rel="noopener"
+               class="chip no-underline inline-block mb-3">listen on SUNO →</a>
+            <pre class="song-lyrics">{s.lyrics}</pre>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <Section title="Source" note="one account">
+    <a href="https://suno.com/@neonfire" target="_blank" rel="noopener"
+       class="card p-5 no-underline flex items-baseline justify-between gap-3 flex-wrap group">
+      <span>
+        <b class="text-[19px] text-fg font-semibold">neonfire on SUNO</b>
+        <span class="block text-[17.5px] text-fg-dim mt-1">
+          Made with SUNO — the model wrote the music, the words are mine.
+        </span>
+      </span>
+      <span class="text-[17px] text-synapse transition-transform group-hover:translate-x-0.5">open →</span>
+    </a>
+  </Section>
+</Base>
+
+<style>
+  .song-n {
+    font-size: 17px; color: var(--color-fg-ghost);
+    font-variant-numeric: tabular-nums;
+  }
+  .song summary::-webkit-details-marker { display: none; }
+  .song[open] .song-caret { color: var(--color-synapse); }
+  .song[open] .song-caret::after { content: ' ▾'; }
+  .song:not([open]) .song-caret::after { content: ' ▸'; }
+
+  /* Lyrics keep their line breaks but must wrap rather than scroll the page:
+     a few lines are long enough to overflow a phone otherwise. */
+  .song-lyrics {
+    font-family: inherit; font-size: 17.5px; line-height: 1.55;
+    color: var(--color-fg-dim); margin: 0;
+    white-space: pre-wrap; overflow-wrap: anywhere;
+  }
+</style>

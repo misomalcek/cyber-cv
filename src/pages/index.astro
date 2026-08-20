@@ -3,6 +3,7 @@
 // under a subpath; normalise so `${base}x` is never `/cyber-cvx`.
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../layouts/Base.astro';
+import MiniPlayer from '../components/MiniPlayer.astro';
 import Section from '../components/Section.astro';
 import Stat from '../components/Stat.astro';
 import BarList from '../components/BarList.astro';
@@ -29,24 +30,19 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
                    color-mix(in srgb, var(--color-synapse) 35%, transparent) 35%,
                    var(--color-line) 75%, transparent 100%);
                  box-shadow: 0 0 16px -2px color-mix(in srgb, var(--color-neural) 55%, transparent)" />
-    <div class="status-pill inline-flex items-center gap-2 text-[17px] tracking-[.14em] uppercase
-                text-synapse border border-synapse rounded-full px-3 py-1 mb-5">
-      <span class="w-[6px] h-[6px] rounded-full bg-synapse" style="animation: pulse 2.4s ease-in-out infinite" />
-      Open to AI roles
+    <div class="flex items-center gap-3 flex-wrap mb-5">
+      <div class="status-pill inline-flex items-center gap-2 text-[17px] tracking-[.14em] uppercase
+                  text-synapse border border-synapse rounded-full px-3 py-1">
+        <span class="w-[6px] h-[6px] rounded-full bg-synapse" style="animation: pulse 2.4s ease-in-out infinite" />
+        Open to AI roles
+      </div>
+      <MiniPlayer />
     </div>
 
     <h1 class="text-[clamp(44px,7vw,74px)] leading-[1.03] font-semibold tracking-tight m-0 mb-3">
       <span class="glow-name">Michal Malček</span><br /><em
         class="not-italic text-neural-text glow-violet text-[clamp(25px,3.3vw,38px)]">AI Engineer / Explorer / SEO</em>
     </h1>
-
-    <!-- One line, not a paragraph: the song is a wink, and a wink that needs
-         explaining stops being one. -->
-    <p class="text-[18px] text-fg-ghost m-0 mb-7">
-      <a href="https://suno.com/s/CgpdUedfU3jqZBCI" target="_blank" rel="noopener"
-         class="text-synapse no-underline hover:underline font-semibold">neonfire on SUNO</a>
-      <span class="text-fg-ghost"> · this cyber CV tastes best with my neuro-dnb experiments ;)</span>
-    </p>
 
     <p class="text-[clamp(19px,2.1vw,23px)] text-fg-dim max-w-[64ch] m-0 mb-7 leading-[1.55]">
       Twenty years across both sides of software delivery — ERP testing at nineteen, Google
