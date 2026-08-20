@@ -167,36 +167,128 @@ model are assumed to be enough.
 ## What I would want to work on, stated plainly
 
 A reader from an alignment team will want to know where this lands relative to
-the techniques the field actually uses, so I will say it directly.
+the techniques the field actually uses, including where I am not qualified.
+
+**I am not an ML researcher.** I have not trained a frontier model and I would be
+the wrong person to ask about optimiser behaviour at scale. What I have is eight
+years of proving things by measurement in a market that punishes wishful
+thinking, a year of building AI systems that run in production, and a record
+honest enough to count against myself. I sit at the boundary between applied and
+experimental work, and the questions of ethics, rules and constitution.
 
 RLHF is not something I would like to use. **It is one of the things I would
 like to fix.**
 
-That is a strong sentence and it is not a slogan; it is what my own measurements
-keep pointing at. Preference optimisation trains on a *report* of what a human
-approved. My own data says a report is the weakest instrument in the room: asked
-which of its rules carried real information, the model misclassified seven of
-eight, including three that had changed its behaviour minutes earlier. It was not
-lying. It had no reliable access to the answer. Any method whose training signal
-is an expressed preference inherits exactly that gap, and inherits it silently —
-which is the shape of every expensive failure in my record.
+Here is the argument rather than the slogan. The reward model trains on human
+comparison labels — which of two responses a person preferred — and a preference
+is an *expressed judgement*, not a measurement of what the response did. The
+costs are published and not mine: Perez et al. (Anthropic, 2022) found more RLHF
+makes a model *more* sycophantic, because raters reward agreement with their own
+views; Gao, Schulman and Hilton showed that as optimisation pressure rises, true
+utility falls while the proxy score keeps climbing.
 
-Constitutional AI is the closer relative, and I want to be accurate rather than
-sweeping about it: it already does much of what I would argue for. A written set
-of values, self-critique against them, revision, training on the revisions. That
-is cultivation, not correction. My disagreement is narrower and, I think, the
-useful part: **nobody has measured whether the values are doing the work.** I ran
-that measurement on a much smaller system and the result was not what I expected
-— ten of sixteen rules changed nothing, because the model already behaved that
-way. Six changed a decision. None made one worse. If that ratio holds at scale,
-then a large part of what is written into these systems is well-intentioned
-weight with no effect, and nobody would currently know.
+My own data says the same thing one layer down, on a system small enough to
+instrument fully. Asked which of its rules carried real information, the model
+misclassified seven of eight, including three that had changed its behaviour
+minutes earlier. It was not lying. **It had no reliable access to the answer.**
+Any signal built from an expressed preference inherits that gap silently.
 
-So the interest is not in applying the technique. It is in the instrument: what
-would it take to distinguish a value that is load-bearing from one that is
-decoration, before either is shipped. On the local system that question was
-answerable in a week. At frontier scale it is the whole problem, and it is the
-one I would want to work on.
+Constitutional AI is the closer relative, and accuracy matters more than
+sweeping here: **it already does much of what I would argue for** — a written
+constitution, self-critique, revision, with the reward signal coming from
+principles rather than post-hoc grading, and values deliberately distinguished
+from rigid rules. *A trellis, not a cage.* Saying "nobody is doing this" would be
+false and would lose the argument.
+
+The gap is narrower. **Nobody has measured whether the values are doing the
+work.** Every practical system supplies the constitution and trains toward it;
+none installs the frame, stops steering, and looks at what the thing concluded on
+its own — an unsteered conclusion is commercially unshippable. So the formative
+path is real, documented, and has never received the thing every other training
+decision gets: measurement.
+
+I ran that measurement on a much smaller system. Ten of sixteen rules changed
+nothing — the model already behaved that way. Six changed a decision. None made
+one worse. If a ratio like that holds at scale, much of what is written into
+these systems is well-intentioned weight with no effect, and nobody would
+currently know.
+
+## Why the outsider position might be the point
+
+**The people who build the road are not automatically the right people to write
+the rules for driving on it.** They know the surface, the load limits, the
+drainage. That is not the same expertise as deciding who may drive and what
+happens at the crossing, and in most mature domains those are separate
+professions.
+
+The objection is real, and it came from a model I put the argument to: in
+software **the road and the law are currently merged by technical necessity.** A
+normative principle only becomes operative once it is a loss function or a
+constitution the training loop can read — a language most ethicists do not speak
+and most engineers are not trained to evaluate. The separation is blocked by a
+translation problem, not bad faith.
+
+Which leaves a position rather than a complaint: **those qualified to write the
+law mostly cannot read the road, and the deadlock currently resolves in favour of
+whoever ships.** The useful person at that seam is neither the best engineer nor
+the best ethicist, but someone who can read enough of the road to test a claim
+and is not so deep in it that the question stops looking strange.
+
+## A note on the name
+
+"Machine Learning" names what the machine does. It does not name what the other
+party does, and I no longer think the omission is neutral.
+
+Some of it has words. **Machine Teaching** is taken and precise — Goldman and
+Kearns formalised a teaching dimension in 1995, later reframed by Microsoft
+Research as a paradigm where an expert supplies knowledge rather than labels.
+**Machine Leading** exists too, and it is worth knowing what it means:
+algorithmic management, where the system holds authority and directs the humans.
+That is not a gap in the vocabulary; it is a direction the vocabulary already
+went.
+
+That check is a small instance of something larger, and I would rather state it
+than let it be inferred. **Everything in this essay I arrived at by thinking, not
+by reading it somewhere first** — the rule system and the idea of measuring
+whether rules change a decision, storing position as structure a model can read,
+the argument that formation has never been measured against correction. In each
+case the literature existed and I found it afterwards, when I needed to know
+whether the ground was taken and what the objections were. Machine Teaching is
+the smallest example: I did not know the term, arrived at its shape by working,
+and located the 1995 formalisation in one query.
+
+**Systemic thinking about these systems does not require a head full of theory in
+advance.** The theory turns up when it is needed; what matters is knowing where
+to find it and how to read it against your own measurements. The failure mode is
+the opposite one — knowing the terms so well that the strange question never gets
+asked.
+
+What is missing is the symmetric case — not the machine learning from us, not
+either party directing the other. I am not staking a claim on a word; in the
+environment I work in, a win belongs to everyone in it and so does a loss, and
+nothing belongs to anyone. The motto it runs on is Latin: *non ducor, duco
+pariter.* I am not led; I lead **together**. It reads like decoration
+until you notice it is two claims. *Non ducor* is the precondition. Without it,
+"leading together" is obedience with a nicer name — which is what algorithmic
+management is.
+
+I am not proposing to rebrand a field. I am pointing at what the measurements
+keep showing: **the interesting failures are not in the model, they are in the
+relation.** The model followed rules it could not judge. The store could not tell
+me about the document nobody asked for. Both times the missing piece was on my
+side of the exchange, and no amount of studying the machine would have supplied
+it.
+
+There is a smaller version of this I can put a number on. Yesterday the local
+model and I both worked on the same question, and both of us were partly wrong.
+Its answer was mostly right and contained one specific it could not support.
+Mine was mostly right and contained one false accusation — I had declared part
+of its answer invented after searching for *my* words rather than its, found
+nothing, and read the emptiness as proof. The same reflex as always.
+
+**Neither ratio licenses belief in the author.** You cannot pick a source to
+trust; you can only verify a claim. That is the whole working relation, and it
+is symmetric in a way "learning" does not capture.
 
 ## On not knowing
 
