@@ -219,6 +219,16 @@ is that someone can check it, not that they take my word. But if a ratio
 anywhere near this holds at scale, much of what is written into these systems is
 well-intentioned weight with no effect, and nobody measures it either way.
 
+What I would want to build is the instrument for that, and it is not exotic:
+**automated red-teaming of the constitution itself.** Generate the situations a
+principle claims to govern, run the model with and without the principle
+reachable, and measure the delta in the decision rather than in the stated
+justification — because the justification is the part the model gets wrong. That
+is the same A/B I ran by hand on sixteen rules, mechanised, with the situation
+generation itself model-driven so coverage is not limited by what I thought to
+ask. It gives a per-principle number: does this clause change behaviour, on which
+edge cases, for which model. At the moment a constitution ships without one.
+
 Which raises the obvious objection to my being anywhere near this, so here is
 the strongest form of the answer. **The people who build the road are not
 automatically the right people to write the rules for driving on it** — surface,
@@ -241,41 +251,44 @@ stops looking strange.
 "Machine Learning" names what the machine does. It does not name what the other
 party does, and I no longer think the omission is neutral.
 
-Some of it has words. **Machine Teaching** is taken and precise — Goldman and
-Kearns formalised a teaching dimension in 1995, later reframed by Microsoft
-Research as a paradigm where an expert supplies knowledge rather than labels.
-**Machine Leading** exists too, and it is worth knowing what it means:
-algorithmic management, where the system holds authority and directs the humans.
-That is not a gap in the vocabulary; it is a direction the vocabulary already
-went.
+Some of it has words already. **Machine Teaching** is a real subfield with a
+precise meaning — Goldman and Kearns formalised a teaching dimension in 1995,
+later reframed at Microsoft Research as a paradigm where a domain expert supplies
+knowledge rather than labels. **Machine Leading** exists too, and it is worth
+knowing what it means: algorithmic management, where the system holds authority
+and directs the humans. That is not a gap in the vocabulary; it is a direction
+the vocabulary already went.
+
+I am not proposing a term. I am pointing at the space they leave: teaching runs
+one way, management runs the other, and neither describes the case where the two
+parties correct each other. That space is where I would look for an antidote to
+sycophancy, because sycophancy is not a bug in the model so much as **the
+predictable output of a relation with only one direction in it.** A system
+optimised to satisfy a rater cannot also be the thing that tells the rater they
+are wrong — and the moment it can, you need a word for what is happening that
+"learning" does not supply.
 
 That check is a small instance of how the work has gone. I reached most of these
-questions from the measurements rather than from the reading — whether rules
-change a decision, position as structure a model can read — and then went to find
-who had already formalised them, because someone almost always has. That order is
-not a virtue and it costs time; arriving somewhere by working is slower than being
-told, and it only pays if you go and check. Machine Teaching is the smallest
-case: I did not know the term, reached its shape by working, and found the 1995
-formalisation in one query.
+questions from the measurements rather than the reading, then went to find who
+had already formalised them — someone almost always has. **Systemic thinking
+about these systems does not require a head full of theory in advance**; the
+theory turns up when it is needed, and what matters is knowing how to read it
+against your own measurements. The failure mode is the opposite one, where the
+terms are known so well that the strange question never gets asked.
 
-**Systemic thinking about these systems does not require a head full of theory in
-advance.** The theory turns up when it is needed; what matters is knowing where
-to find it and how to read it against your own measurements. The failure mode is
-the opposite one — knowing the terms so well that the strange question never gets
-asked.
-
-The other half of that matters more, and leaving it out would make the first
-half a boast. **Thinking on its own would have produced nothing here.** An idea
-about how rules ought to behave is worth little until something turns it into a
-schema, a query, a measurement someone can disagree with — and then tells you
-that you were wrong about part of it. That is not a thinking half and a typing
-half. It is the relation doing the work.
+The other half of that would be a boast without this: **thinking on its own would
+have produced nothing here.** There is a Slovak saying I use on ungrounded
+thinkers, mostly human ones — that thinking, by itself, amounts to knowing
+nothing. It is the shepherd's version of Socrates: *are you certain you know what
+you think you know?* People reportedly left his company knowing less than they
+arrived with, which was the service. An idea about how rules ought to behave is
+worth little until something turns it into a schema, a query, a measurement that
+can come back and say you were wrong about part of it — and the useful direction
+is the Socratic one, toward knowing less than you assumed rather than more.
 
 What is missing is the symmetric case — not the machine learning from us, not
-either party directing the other. I am not staking a claim on a word; in the
-environment I work in, a win belongs to everyone in it and so does a loss, and
-nothing belongs to anyone. The motto it runs on is Latin: *non ducor, duco
-pariter.* I am not led; I lead **together**. It reads like decoration
+either party directing the other. The motto my environment runs on is Latin:
+*non ducor, duco pariter.* I am not led; I lead **together**. It reads like decoration
 until you notice it is two claims. *Non ducor* is the precondition. Without it,
 "leading together" is obedience with a nicer name — which is what algorithmic
 management is.
