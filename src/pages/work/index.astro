@@ -108,6 +108,15 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
       <p class="text-[17.5px] text-fg-dim m-0">{academic.profile.what}</p>
       <span class="text-[17px] text-synapse mt-3 transition-transform group-hover:translate-x-0.5">open profile →</span>
     </a>
+
+    <!-- What the profile is and is not. An Academia.edu link in an AI research
+         application invites a misreading; this says plainly that it is not a
+         claim of current standing, and gives the reason the path went the way
+         it did — with the one period that tested the counterfactual. -->
+    <div class="card p-5 mt-3">
+      <p class="text-[17.5px] text-fg-dim m-0 mb-3">{academic.profileNote}</p>
+      <p class="text-[17.5px] text-fg-ghost m-0">{academic.whyPractical}</p>
+    </div>
   </Section>
 
   <!-- ── Research notebooks ────────────────────────────────────────────────

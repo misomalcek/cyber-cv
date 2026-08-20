@@ -217,6 +217,22 @@ export const academic = {
     hoard what I know — I build on public knowledge myself, and anything properly researched
     and reviewed should end up back there.`,
   /**
+   * His own framing, and it corrects the natural misreading of an Academia.edu
+   * profile in an AI application: it is not a claim of current academic standing.
+   * The Erasmus detail is the load-bearing part — it is evidence rather than
+   * excuse, because it is the one period where the constraint was lifted.
+   */
+  profileNote: `The Academia.edu profile is not here to suggest current academic activity, and it
+    is no substitute for a Google Scholar record. It is here for two reasons: things I published
+    once still resonate today, and I would very much like to publish again now that I have
+    something worth publishing. It is also one of the sensible starting channels for that.`,
+  whyPractical: `I financed my studies myself from nineteen, from the first day of my bachelor's,
+    and finished with no student debt or loans. That sent me straight into business and practical
+    application rather than research. The exception is the evidence: on an Erasmus stipend I did
+    not have to work alongside studying, and that year I both enjoyed it and excelled at it — the
+    same thing happening now with this essay and with AI research that is, objectively, still very
+    limited.`,
+  /**
    * The reading corpus behind the AI work. Nine notebooks are his own (Writer);
    * two more he holds as Reader and are somebody else's work, so they are not
    * claimed here.
