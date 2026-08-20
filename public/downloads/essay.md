@@ -402,6 +402,34 @@ follows a rule it cannot judge is a finding about the relationship between condu
 and self-report — a psychological question with a century of method behind it,
 being asked of a new kind of subject.
 
+There is a second thread running into the same region, and it arrives from an
+unlikely direction. As the scope of what we want these systems to do widens,
+**ontology and semantics stop being a niche concern and become load-bearing** —
+a model integrated into a domain has to be told what the things in that domain
+are, what they are called when they are called something else, and what connects
+to what. That is not new work. It is what search engines have demanded for a
+decade, and it is what I spent eight years doing: entity models, synonym
+coverage, topic clusters, the discipline of making a body of content
+machine-legible rather than merely well-written.
+
+The overlap is narrower than it first looks, and worth stating precisely rather
+than as an analogy. One of my own sites carries an entity graph — thirty-one
+entities, eighty-one alternate names, a hundred and seventeen relations, a
+`sameAs` link on every node — built for crawlers, and the same artefact is what a
+retrieval layer consumes. My graph paper found the matching constraint from the
+other side: position in a knowledge graph becomes usable to a language model only
+once it is **discrete and named**, a tier and a cluster it can match on rather
+than coordinates it would have to compute over.
+
+That is a claim about **retrieval and representation, not about alignment**. A
+schema does not ground an entity in a world model and does not internalise an
+objective; the hard part of alignment lives elsewhere. What the two share is
+narrower and still useful: **a structure has to be given a matchable surface
+before a system can act on it at all** — and getting that surface right, at
+scale, under adversarial commercial pressure, is exactly the work the search
+trade has been doing for a decade. It is the part of this I did not have to
+learn.
+
 My own results sit in that region and do not yet meet its standard, which I
 should say plainly rather than let the framing imply otherwise. Sixteen rules on
 two models is an observation, not a powered study; there is no significance
