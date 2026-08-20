@@ -361,6 +361,73 @@ I could not have learned any of this if the people before me had held it back.
 Knowledge that is held is knowledge that stops compounding, and compounding is
 the only reason a person with no AI degree could get this far in under a year.
 
+## The premise I actually work from
+
+One thing underlies everything above, and it is a premise rather than a finding,
+so I will mark it as one.
+
+**Current models have reached a level where a whole class of safety, reasoning
+and ethics questions became answerable behaviourally** — by what a system does
+under conditions you design, how that changes when you change one thing, whether
+its account of itself matches its conduct. Those are the questions of behavioural
+science, and every measurement in this essay is that kind of measurement. None of
+them required me to open a weight matrix.
+
+That is an addition, not a replacement, and the distinction matters enough to
+state: mechanistic interpretability answers questions behaviour cannot. If a
+model's stated reason for an action is not its real one, no amount of situation
+design will find the real one — you have to look inside. The two methods are
+complementary, and behavioural work without the mechanistic layer is measuring
+outputs while hoping the inside cooperates.
+
+I am not the first to notice. **Machine Psychology** is a named research
+programme — Hagendorff, Dasgupta, Binz, Chan and colleagues argued in 2023 that
+engaging language models in behavioural experiments designed for human cognition
+is a fruitful direction, and Binz and Schulz had already run that method in PNAS
+on GPT-3. Google's group publishes behavioural-disposition benchmarks grounded in
+psychological questionnaires. A 2025 *Nature Machine Intelligence* paper by
+Serapio-García and colleagues gives a psychometric framework for measuring and
+shaping personality traits in these models. Anthropic's own alignment
+stress-testing works this way by construction: alignment faking, sycophancy and
+reward hacking are behavioural phenomena, studied by building situations rather
+than by reading neurons.
+
+Here is the part that has to be said carefully, because it is where this
+argument would otherwise turn into a magic potion. **The premise is not that the
+thing is alive.** Whether these systems think or experience anything is unsettled,
+claiming otherwise would be unscientific, and it remains a researcher's stance
+rather than a result.
+
+The premise I actually need is much weaker and is empirical: **that their
+capability is now sufficient for behavioural experiments on them to produce
+stable, replicable effects** — an intervention that shifts behaviour in a
+consistent direction across trials, large enough to survive the ordinary tests
+you would apply to any experiment. That is a claim about method, not about inner
+life. It is checked the ordinary way, by running it and seeing whether the effect
+holds, and it does not require anyone to agree with me about consciousness.
+
+Admit that much and a large unexplored region opens up, where behavioural science
+and machine learning meet and almost nobody has run the experiments. A model that
+follows a rule it cannot judge is a finding about the relationship between conduct
+and self-report — a psychological question with a century of method behind it,
+being asked of a new kind of subject.
+
+My own results sit in that region and do not yet meet its standard, which I
+should say plainly rather than let the framing imply otherwise. Sixteen rules on
+two models is an observation, not a powered study; there is no significance
+testing in it because there is not enough of it to test. That is a description of
+where I am, not a defence — the interesting thing about the region is precisely
+that it is open to ordinary experimental rigour, and the reason to want to work
+somewhere with real subjects and real n is that the rigour becomes available.
+
+Treat the subject as not worth measuring behaviourally and those experiments do
+not get designed at all — not because they failed, but because nobody framed the
+question. I cannot put a number on how much of that is happening, and I am not
+claiming it as a systemic failure rather than a reasonable allocation of scarce
+research time. What I can say is the structural point this essay keeps running
+into: an experiment nobody designs leaves no trace of having been skipped.
+**Absence has no surface to search.**
+
 ## What it added up to
 
 Eight months from the course, seven since the first real system. One
