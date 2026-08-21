@@ -334,10 +334,13 @@ export const academic = {
     name: 'Academia.edu',
     url: 'https://ekonomka.academia.edu/MichalMalcek',
     where: 'University of Economics, Prague · Department of Information Technologies',
+    /* Counted from the profile itself 2026-08-21, signed in. The earlier '14
+       papers' was wrong — that number is the profile's *interests* count, not
+       uploads. There are six. Followers and views re-checked at the same time. */
     stats: [
       ['13,277', 'public views'],
       ['577', 'followers'],
-      ['14', 'papers'],
+      ['6', 'papers'],
     ],
     what: `Coursework, uploaded once around 2011 and never maintained since — and still
       accumulating readers, most of them from the United States, India, the United Kingdom,

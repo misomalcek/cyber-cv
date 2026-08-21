@@ -32,9 +32,14 @@ const byType = [...new Set(nodes.map((n) => n.type))]
     </p>
   </header>
 
-  <div class="relative rounded-2xl overflow-hidden border border-line mb-4"
+  {/* Height follows width rather than sitting at a fixed 560px: at the 1200px
+      page width that flattened the view to roughly 2:1 and clipped the outer
+      orbit. aspect-ratio keeps the framing constant at every size, with a vh
+      cap so it still fits a short window. */}
+  <div id="crystal-stage"
+       class="relative rounded-2xl overflow-hidden border border-line mb-4"
        style="background: radial-gradient(ellipse at 50% 45%, #1A1040 0%, #0A0812 70%)">
-    <canvas id="crystal" class="block w-full" style="height: min(62vh, 560px)"></canvas>
+    <canvas id="crystal" class="block w-full"></canvas>
 
     <div class="absolute top-4 left-4 text-[17px] text-fg-ghost pointer-events-none select-none z-10">
       <div class="uppercase tracking-[.14em] mb-1.5">drag to orbit · scroll to zoom · click a node</div>
@@ -53,6 +58,17 @@ const byType = [...new Set(nodes.map((n) => n.type))]
                 class="crystal-toggle text-[17px] uppercase tracking-wider px-2.5 py-1 rounded-full
                        border transition-all">{c.label}</button>
       ))}
+      {/* Fullscreen matters most on a phone, where the inline stage is small
+          enough that orbiting fights the page scroll. */}
+      <button type="button" id="crystal-full"
+              class="crystal-toggle text-[17px] uppercase tracking-wider px-2.5 py-1 rounded-full
+                     border transition-all inline-flex items-center gap-1.5" data-on="0">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M8 3H5a2 2 0 00-2 2v3M16 3h3a2 2 0 012 2v3M8 21H5a2 2 0 01-2-2v-3M16 21h3a2 2 0 002-2v-3" />
+        </svg>
+        <span id="crystal-full-label">Full</span>
+      </button>
     </div>
 
     <!-- Entity detail, mirroring the popup the real graph app uses. -->
@@ -432,6 +448,39 @@ const byType = [...new Set(nodes.map((n) => n.type))]
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
       }
+    }
+
+    /* Fullscreen: the real API where it exists, and a fixed-position fallback
+       for iOS Safari, which does not implement it for ordinary elements. Both
+       paths end in the same state class, so the resize handler needs no special
+       case — it already reads clientWidth every frame. */
+    const stage = document.getElementById('crystal-stage');
+    const fullBtn = document.getElementById('crystal-full');
+    const fullLabel = document.getElementById('crystal-full-label');
+    if (stage && fullBtn && fullLabel) {
+      const setState = (on: boolean) => {
+        stage.classList.toggle('crystal-fs', on);
+        fullBtn.dataset.on = on ? '1' : '0';
+        fullLabel.textContent = on ? 'Exit' : 'Full';
+        document.body.style.overflow = on ? 'hidden' : '';
+      };
+      const nativeOn = () => !!document.fullscreenElement;
+
+      fullBtn.addEventListener('click', async () => {
+        const wantOn = fullBtn.dataset.on !== '1';
+        if (wantOn && stage.requestFullscreen) {
+          try { await stage.requestFullscreen(); return; } catch { /* fall through */ }
+        }
+        if (!wantOn && nativeOn()) { await document.exitFullscreen(); return; }
+        setState(wantOn);                    // fallback path
+      });
+
+      document.addEventListener('fullscreenchange', () => setState(nativeOn()));
+      /* Escape leaves the fallback too, matching what the native one does. */
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && fullBtn.dataset.on === '1' && !nativeOn()) setState(false);
+      });
+      document.addEventListener('astro:before-swap', () => { document.body.style.overflow = ''; }, { once: true });
     }
 
     /* The loop must die with the page. Under client-side routing the canvas is

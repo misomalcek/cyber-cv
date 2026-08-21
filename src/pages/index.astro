@@ -229,7 +229,7 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
   <!-- ── Foundations ──────────────────────────────────────────────────────
        Values, with what each one actually decided. Two are marked untested
        rather than quietly listed alongside the ones that cost something. -->
-  <Section id="foundations" title="What this is built on" note="four load-bearing, two used, two untested"
+  <Section id="foundations" title="What this is built on" note={`${foundations.filter(f => f.status === 'load-bearing').length} load-bearing · ${foundations.filter(f => f.status === 'used').length} used · ${foundations.filter(f => f.status === 'untested').length} untested`}
            lede="A values list is worthless unless it can be checked. Each one below says what it is and — where one exists — the decision it produced.">
     <div class="grid md:grid-cols-2 gap-3">
       {foundations.map((f) => (
