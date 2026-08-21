@@ -4,6 +4,11 @@
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import '../styles/global.css';
 import Dock from '../components/Dock.astro';
+import MiniPlayer from '../components/MiniPlayer.astro';
+// Client-side routing exists for exactly one reason: the header player must keep
+// playing across navigations. Everything that binds listeners therefore has to
+// rebind on astro:page-load rather than once at parse time.
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -63,16 +68,23 @@ const nav = [
       ],
     },
   })} />
+  <ClientRouter />
 </head>
 <body class="grid-field has-dock">
   <div class="relative z-[1] mx-auto max-w-[1200px] px-6 pb-24">
     {/* back.href arrives already base-prefixed by the calling page; prefixing it
         again here produced /cyber-cv/cyber-cv/#hive. One owner for the prefix. */}
     {back && (
-      <a href={back.href}
-         class="inline-block mt-8 text-[17.5px] text-fg-ghost no-underline hover:text-synapse transition-colors">
-        ← {back.label}
-      </a>
+      <div class="flex items-center justify-between gap-4 mt-8">
+        <a href={back.href}
+           class="text-[17.5px] text-fg-ghost no-underline hover:text-synapse transition-colors">
+          ← {back.label}
+        </a>
+        {/* Subpages carry the compact player on the same line as the back-link;
+            the home page renders the full one in its hero instead. Both are the
+            same persisted element, so audio never restarts. */}
+        <MiniPlayer compact />
+      </div>
     )}
 
     <slot />

@@ -264,6 +264,10 @@
      content. Same treatment as .card so the two read as one system. */
   .dock-pill {
     background: color-mix(in srgb, var(--color-bg-glass) 82%, transparent);
+    /* The pill is glass: content scrolling underneath should read through it.
+       A tinted, mostly-transparent ground does that better than the opaque
+       fallback, so use it wherever color-mix in lab is supported — which is the
+       same support line as the rest of this palette. */
     border: 1px solid var(--color-line-lit);
     -webkit-backdrop-filter: blur(18px) saturate(1.3);
     backdrop-filter: blur(18px) saturate(1.3);
@@ -275,6 +279,12 @@
     scrollbar-width: none;
   }
   .dock-pill::-webkit-scrollbar { display: none; }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .dock-pill {
+      background: color-mix(in srgb, #1c153342 82%, transparent);
+    }
+  }
 
   .dock-item:hover {
     color: var(--color-fg);

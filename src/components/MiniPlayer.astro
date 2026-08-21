@@ -1,11 +1,20 @@
 ---
 /**
- * Three tracks, one line, no library.
+ * Three tracks, one line, no library — and it keeps playing across navigations.
  *
- * The title marquee only animates when the text actually overflows its track —
- * a scrolling label that fits is motion for its own sake, and the shortest of
- * the three titles fits comfortably at desktop width.
+ * How the continuity works: the `<audio>` element is created once and parked on
+ * `window`, not in the DOM. Astro's ClientRouter swaps the document body on a
+ * soft navigation, so anything inside it would be destroyed; a JS-owned Audio
+ * object survives because nothing in the page holds it. Each page then renders
+ * its own controls and re-attaches them on `astro:page-load`, reading the
+ * current state back out rather than resetting it.
+ *
+ * `compact` drops the source credit and narrows the title track, for the
+ * subpage variant that sits on the back-link line.
  */
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 
 const tracks = [
@@ -14,7 +23,7 @@ const tracks = [
   { file: 'cyber-junglist.mp3',  title: 'Cyber Junglist' },
 ];
 ---
-<div class="mini-player inline-flex items-center gap-2 rounded-full pl-2 pr-3 py-1 border border-line"
+<div class:list={['mini-player inline-flex items-center gap-2 rounded-full pl-2 pr-3 py-1 border border-line', { compact }]}
      data-player
      data-tracks={JSON.stringify(tracks.map((t) => ({ ...t, src: `${base}music/${t.file}` })))}>
 
@@ -40,11 +49,21 @@ const tracks = [
     </svg>
   </button>
 
-  <span class="mp-track" aria-live="polite">
-    <span data-title class="mp-title">{tracks[0].title}</span>
-  </span>
+  {!compact && (
+    <span class="mp-track" aria-live="polite">
+      {/* Two copies of the label, end to end: the marquee translates by exactly
+          one copy's width and loops, so the text runs continuously instead of
+          snapping back. The second copy is hidden from assistive tech. */}
+      <span class="mp-belt" data-belt>
+        <span data-title class="mp-title"></span>
+        <span data-title-clone class="mp-title" aria-hidden="true"></span>
+      </span>
+    </span>
+  )}
 
-  <a href="https://suno.com/@neonfire" target="_blank" rel="noopener" class="mp-src">music by SUNO</a>
+  {!compact && (
+    <a href="https://suno.com/@neonfire" target="_blank" rel="noopener" class="mp-src">music by SUNO</a>
+  )}
 </div>
 
 <style>
@@ -62,76 +81,101 @@ const tracks = [
   .mp-play { color: var(--color-synapse); }
   .mp-play[data-on] { box-shadow: 0 0 12px -2px color-mix(in srgb, var(--color-synapse) 70%, transparent); }
 
-  /* The marquee track: fixed width, hidden overflow, and the scroll animation
-     applied only when JS has measured a genuine overflow. */
   .mp-track {
-    width: 168px; overflow: hidden; white-space: nowrap; flex-shrink: 0;
+    width: 210px; overflow: hidden; white-space: nowrap; flex-shrink: 0;
     margin-left: 4px;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 10px, #000 calc(100% - 10px), transparent);
     mask-image: linear-gradient(90deg, transparent, #000 10px, #000 calc(100% - 10px), transparent);
   }
+  /* The belt holds both copies; animating it (not the label) is what makes the
+     loop seamless — at -50% the second copy sits exactly where the first began. */
+  .mp-belt { display: inline-flex; will-change: transform; }
+  .mp-belt[data-run] { animation: mp-marquee var(--mp-dur, 14s) linear infinite; }
   .mp-title {
-    display: inline-block; font-size: 17px; color: var(--color-fg);
+    font-size: 17px; color: var(--color-fg); padding-right: 2.5rem;
   }
-  .mp-title[data-scroll] { animation: mp-marquee 9s linear infinite; }
   @keyframes mp-marquee {
-    0%, 12%   { transform: translateX(0); }
-    88%, 100% { transform: translateX(var(--mp-shift, 0)); }
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
+
   .mp-src {
     font-size: 17px; margin-left: 2px; color: var(--color-fg-ghost); text-decoration: none;
     white-space: nowrap; flex-shrink: 0; transition: color .18s;
   }
   .mp-src:hover { color: var(--color-synapse); }
 
-  /* On a phone the row must fit beside the status pill: the marquee keeps the
-     title readable at a narrower track, and the source credit moves to the SUNO
-     page rather than wrapping the row onto a second line. */
+  .mini-player.compact { padding-right: 0.5rem; }
+
   @media (max-width: 560px) {
-    .mp-track { width: 108px; }
+    .mp-track { width: 128px; }
     .mp-src { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .mp-title[data-scroll] { animation: none; }
+    .mp-belt[data-run] { animation: none; }
   }
 </style>
 
 <script>
-  const root = document.querySelector<HTMLElement>('[data-player]');
-  if (root) {
-    type Track = { title: string; src: string };
+  type Track = { title: string; src: string };
+
+  interface PlayerState { audio: HTMLAudioElement; i: number; tracks: Track[] }
+  declare global { interface Window { __cvPlayer?: PlayerState } }
+
+  /**
+   * One Audio object for the whole site, created lazily and kept on `window` so
+   * a soft navigation cannot collect it. Nothing in the DOM references it.
+   */
+  function getPlayer(tracks: Track[]): PlayerState {
+    if (!window.__cvPlayer) {
+      const audio = new Audio();
+      audio.preload = 'none';
+      window.__cvPlayer = { audio, i: 0, tracks };
+      audio.addEventListener('ended', () => {
+        const st = window.__cvPlayer!;
+        st.i = (st.i + 1) % st.tracks.length;
+        audio.src = st.tracks[st.i].src;
+        audio.play().catch(() => {});
+        document.dispatchEvent(new CustomEvent('cv:track'));
+      });
+    }
+    return window.__cvPlayer;
+  }
+
+  function mount() {
+    const root = document.querySelector<HTMLElement>('[data-player]');
+    if (!root) return;
+
     const tracks: Track[] = JSON.parse(root.dataset.tracks || '[]');
-    const titleEl = root.querySelector<HTMLElement>('[data-title]')!;
-    const trackEl = root.querySelector<HTMLElement>('.mp-track')!;
+    const st = getPlayer(tracks);
+    st.tracks = tracks;
+
     const toggle = root.querySelector<HTMLButtonElement>('[data-toggle]')!;
     const iPlay = root.querySelector<HTMLElement>('[data-icon-play]')!;
     const iPause = root.querySelector<HTMLElement>('[data-icon-pause]')!;
+    const titleEl = root.querySelector<HTMLElement>('[data-title]');
+    const cloneEl = root.querySelector<HTMLElement>('[data-title-clone]');
+    const belt = root.querySelector<HTMLElement>('[data-belt]');
+    const trackBox = root.querySelector<HTMLElement>('.mp-track');
 
-    const audio = new Audio();
-    audio.preload = 'none';
-    let i = 0;
+    const label = (n: number) => `${st.tracks[n].title} — neonfire`;
 
-    /* Measure after paint: offsetWidth is 0 while the element is still being
-       laid out, which would mark every title as non-overflowing. */
-    const fitMarquee = () => {
-      titleEl.removeAttribute('data-scroll');
-      titleEl.style.removeProperty('--mp-shift');
+    /* Duration scales with width so the scroll speed stays constant regardless
+       of title length; measured after paint, since a label laid out this frame
+       still reports zero. */
+    const paint = () => {
+      if (!titleEl || !cloneEl || !belt || !trackBox) return;
+      titleEl.textContent = label(st.i);
+      cloneEl.textContent = label(st.i);
+      belt.removeAttribute('data-run');
       requestAnimationFrame(() => {
-        const over = titleEl.scrollWidth - trackEl.clientWidth;
-        if (over > 2) {
-          titleEl.style.setProperty('--mp-shift', `-${over + 6}px`);
-          titleEl.setAttribute('data-scroll', '');
+        const one = titleEl.scrollWidth;
+        if (one > 0) {
+          belt.style.setProperty('--mp-dur', `${Math.max(9, one / 26)}s`);
+          belt.setAttribute('data-run', '');
         }
       });
-    };
-
-    const load = (n: number, play: boolean) => {
-      i = (n + tracks.length) % tracks.length;
-      audio.src = tracks[i].src;
-      titleEl.textContent = tracks[i].title;
-      fitMarquee();
-      if (play) audio.play().catch(() => setPlaying(false));
     };
 
     const setPlaying = (on: boolean) => {
@@ -141,19 +185,32 @@ const tracks = [
       on ? toggle.setAttribute('data-on', '') : toggle.removeAttribute('data-on');
     };
 
-    toggle.addEventListener('click', () => {
-      if (!audio.src) load(0, true);
-      else if (audio.paused) audio.play().catch(() => setPlaying(false));
-      else audio.pause();
-    });
-    root.querySelector('[data-prev]')!.addEventListener('click', () => load(i - 1, !audio.paused));
-    root.querySelector('[data-next]')!.addEventListener('click', () => load(i + 1, !audio.paused));
+    const load = (n: number, play: boolean) => {
+      st.i = (n + st.tracks.length) % st.tracks.length;
+      st.audio.src = st.tracks[st.i].src;
+      paint();
+      if (play) st.audio.play().catch(() => setPlaying(false));
+    };
 
-    audio.addEventListener('play', () => setPlaying(true));
-    audio.addEventListener('pause', () => setPlaying(false));
-    audio.addEventListener('ended', () => load(i + 1, true));
+    toggle.onclick = () => {
+      if (!st.audio.src) load(0, true);
+      else if (st.audio.paused) st.audio.play().catch(() => setPlaying(false));
+      else st.audio.pause();
+    };
+    root.querySelector<HTMLElement>('[data-prev]')!.onclick = () => load(st.i - 1, !st.audio.paused);
+    root.querySelector<HTMLElement>('[data-next]')!.onclick = () => load(st.i + 1, !st.audio.paused);
 
-    fitMarquee();
-    window.addEventListener('resize', fitMarquee);
+    /* Reflect state rather than reset it: on a fresh page the controls must show
+       what the surviving Audio object is actually doing. */
+    const sync = () => setPlaying(!st.audio.paused && !st.audio.ended);
+    st.audio.onplay = sync;
+    st.audio.onpause = sync;
+    document.addEventListener('cv:track', paint);
+
+    paint();
+    sync();
   }
+
+  mount();
+  document.addEventListener('astro:page-load', mount);
 </script>

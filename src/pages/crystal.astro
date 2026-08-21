@@ -134,308 +134,330 @@ const byType = [...new Set(nodes.map((n) => n.type))]
 <script>
   import * as THREE from 'three';
   import { nodes, edges } from '../data/crystal';
+  /* Re-runs on every navigation. The ClientRouter swaps the body, so the DOM
+     handles captured below belong to a discarded document after a soft nav. */
+  function init_crystal(): void {
 
-  const canvas = document.getElementById('crystal') as HTMLCanvasElement;
-  const hoverLabel = document.getElementById('crystal-hover')!;
-  const popup = document.getElementById('crystal-popup')!;
 
-  const TYPE_COLOUR: Record<string, number> = {
-    concept: 0xa855f7, technology: 0x22d3ee, project: 0xfbbf24,
-    person: 0xf472b6, lesson: 0x9061f9, decision: 0x34d399,
-  };
-  const colourFor = (t: string) => TYPE_COLOUR[t] ?? 0x8a82ad;
-  const hex = (c: number) => `#${c.toString(16).padStart(6, '0')}`;
+    /* This script is re-run on every navigation; on pages without the canvas
+       there is nothing to build and THREE would throw on a null element.
+       Narrowing has to survive into the nested render functions, hence the
+       second binding rather than a bare guard. */
+    const maybeCanvas = document.getElementById('crystal') as HTMLCanvasElement | null;
+    if (!maybeCanvas) return;
+    const canvas: HTMLCanvasElement = maybeCanvas;
+    const hoverLabel = document.getElementById('crystal-hover')!;
+    const popup = document.getElementById('crystal-popup')!;
 
-  document.querySelectorAll<HTMLElement>('[data-legend]').forEach((el) => {
-    const c = hex(colourFor(el.dataset.legend!));
-    el.style.background = c;
-    el.style.boxShadow = `0 0 8px ${c}`;
-  });
+    const TYPE_COLOUR: Record<string, number> = {
+      concept: 0xa855f7, technology: 0x22d3ee, project: 0xfbbf24,
+      person: 0xf472b6, lesson: 0x9061f9, decision: 0x34d399,
+    };
+    const colourFor = (t: string) => TYPE_COLOUR[t] ?? 0x8a82ad;
+    const hex = (c: number) => `#${c.toString(16).padStart(6, '0')}`;
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    document.querySelectorAll<HTMLElement>('[data-legend]').forEach((el) => {
+      const c = hex(colourFor(el.dataset.legend!));
+      el.style.background = c;
+      el.style.boxShadow = `0 0 8px ${c}`;
+    });
 
-  // Physical materials need light. Three sources: a warm key, a violet fill and
-  // a cyan rim, so the facets of the solids actually read as facets.
-  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-  const key = new THREE.PointLight(0xffffff, 180, 200); key.position.set(18, 22, 24);
-  const fill = new THREE.PointLight(0xa855f7, 120, 200); fill.position.set(-22, -8, 14);
-  const rim = new THREE.PointLight(0x22d3ee, 90, 200);  rim.position.set(4, -18, -22);
-  scene.add(key, fill, rim);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 
-  /* Orbital layout. Radius falls with degree, so the most connected entities sit
-     in the core — the inversion the spatial paper is about. sqrt compresses the
-     long tail so the outer band does not collapse into one distant shell, and a
-     per-tier vertical spread keeps shells from stacking into a flat disc. */
-  const maxDeg = Math.max(...nodes.map((n) => n.deg));
-  const golden = Math.PI * (3 - Math.sqrt(5));
+    // Physical materials need light. Three sources: a warm key, a violet fill and
+    // a cyan rim, so the facets of the solids actually read as facets.
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    const key = new THREE.PointLight(0xffffff, 180, 200); key.position.set(18, 22, 24);
+    const fill = new THREE.PointLight(0xa855f7, 120, 200); fill.position.set(-22, -8, 14);
+    const rim = new THREE.PointLight(0x22d3ee, 90, 200);  rim.position.set(4, -18, -22);
+    scene.add(key, fill, rim);
 
-  const placed = nodes.map((n, i) => {
-    const t = Math.sqrt(1 - n.deg / maxDeg);
-    const radius = 2.2 + t * 13.5;
-    const y = 1 - (i / Math.max(1, nodes.length - 1)) * 2;
-    const ring = Math.sqrt(Math.max(0, 1 - y * y));
-    const theta = golden * i;
-    const pos = new THREE.Vector3(Math.cos(theta) * ring, y * 0.75, Math.sin(theta) * ring)
-      .normalize().multiplyScalar(radius);
-    return { ...n, pos };
-  });
-  const byId = new Map(placed.map((p) => [p.id, p]));
+    /* Orbital layout. Radius falls with degree, so the most connected entities sit
+       in the core — the inversion the spatial paper is about. sqrt compresses the
+       long tail so the outer band does not collapse into one distant shell, and a
+       per-tier vertical spread keeps shells from stacking into a flat disc. */
+    const maxDeg = Math.max(...nodes.map((n) => n.deg));
+    const golden = Math.PI * (3 - Math.sqrt(5));
 
-  // Neighbour lists, so the popup can say what an entity connects to here.
-  const neighbours = new Map<number, { name: string; rel: string }[]>();
-  for (const e of edges) {
-    const a = byId.get(e.s), b = byId.get(e.t);
-    if (!a || !b) continue;
-    (neighbours.get(a.id) ?? neighbours.set(a.id, []).get(a.id)!).push({ name: b.name, rel: e.rel });
-    (neighbours.get(b.id) ?? neighbours.set(b.id, []).get(b.id)!).push({ name: a.name, rel: e.rel });
-  }
+    const placed = nodes.map((n, i) => {
+      const t = Math.sqrt(1 - n.deg / maxDeg);
+      const radius = 2.2 + t * 13.5;
+      const y = 1 - (i / Math.max(1, nodes.length - 1)) * 2;
+      const ring = Math.sqrt(Math.max(0, 1 - y * y));
+      const theta = golden * i;
+      const pos = new THREE.Vector3(Math.cos(theta) * ring, y * 0.75, Math.sin(theta) * ring)
+        .normalize().multiplyScalar(radius);
+      return { ...n, pos };
+    });
+    const byId = new Map(placed.map((p) => [p.id, p]));
 
-  const edgePts: number[] = [];
-  for (const e of edges) {
-    const a = byId.get(e.s), b = byId.get(e.t);
-    if (a && b) edgePts.push(a.pos.x, a.pos.y, a.pos.z, b.pos.x, b.pos.y, b.pos.z);
-  }
-  const edgeGeom = new THREE.BufferGeometry();
-  edgeGeom.setAttribute('position', new THREE.Float32BufferAttribute(edgePts, 3));
-  const edgeLines = new THREE.LineSegments(edgeGeom,
-    new THREE.LineBasicMaterial({ color: 0x7c3aed, transparent: true, opacity: 0.3 }));
-  scene.add(edgeLines);
+    // Neighbour lists, so the popup can say what an entity connects to here.
+    const neighbours = new Map<number, { name: string; rel: string }[]>();
+    for (const e of edges) {
+      const a = byId.get(e.s), b = byId.get(e.t);
+      if (!a || !b) continue;
+      (neighbours.get(a.id) ?? neighbours.set(a.id, []).get(a.id)!).push({ name: b.name, rel: e.rel });
+      (neighbours.get(b.id) ?? neighbours.set(b.id, []).get(b.id)!).push({ name: a.name, rel: e.rel });
+    }
 
-  /* Faces. Wherever three entities are mutually connected, fill the triangle
-     between them — that is what turns a wireframe into something that reads as
-     a crystal. Only real triangles are drawn: the facets are a property of the
-     graph, not decoration sprinkled between nearby points. */
-  const adj = new Map<number, Set<number>>();
-  for (const e of edges) {
-    if (!adj.has(e.s)) adj.set(e.s, new Set());
-    if (!adj.has(e.t)) adj.set(e.t, new Set());
-    adj.get(e.s)!.add(e.t);
-    adj.get(e.t)!.add(e.s);
-  }
-  const facePts: number[] = [];
-  const ids = placed.map((p) => p.id);
-  for (let a = 0; a < ids.length; a++) {
-    for (let b = a + 1; b < ids.length; b++) {
-      if (!adj.get(ids[a])?.has(ids[b])) continue;
-      for (let c = b + 1; c < ids.length; c++) {
-        if (!adj.get(ids[b])?.has(ids[c]) || !adj.get(ids[a])?.has(ids[c])) continue;
-        for (const id of [ids[a], ids[b], ids[c]]) {
-          const q = byId.get(id)!;
-          facePts.push(q.pos.x, q.pos.y, q.pos.z);
+    const edgePts: number[] = [];
+    for (const e of edges) {
+      const a = byId.get(e.s), b = byId.get(e.t);
+      if (a && b) edgePts.push(a.pos.x, a.pos.y, a.pos.z, b.pos.x, b.pos.y, b.pos.z);
+    }
+    const edgeGeom = new THREE.BufferGeometry();
+    edgeGeom.setAttribute('position', new THREE.Float32BufferAttribute(edgePts, 3));
+    const edgeLines = new THREE.LineSegments(edgeGeom,
+      new THREE.LineBasicMaterial({ color: 0x7c3aed, transparent: true, opacity: 0.3 }));
+    scene.add(edgeLines);
+
+    /* Faces. Wherever three entities are mutually connected, fill the triangle
+       between them — that is what turns a wireframe into something that reads as
+       a crystal. Only real triangles are drawn: the facets are a property of the
+       graph, not decoration sprinkled between nearby points. */
+    const adj = new Map<number, Set<number>>();
+    for (const e of edges) {
+      if (!adj.has(e.s)) adj.set(e.s, new Set());
+      if (!adj.has(e.t)) adj.set(e.t, new Set());
+      adj.get(e.s)!.add(e.t);
+      adj.get(e.t)!.add(e.s);
+    }
+    const facePts: number[] = [];
+    const ids = placed.map((p) => p.id);
+    for (let a = 0; a < ids.length; a++) {
+      for (let b = a + 1; b < ids.length; b++) {
+        if (!adj.get(ids[a])?.has(ids[b])) continue;
+        for (let c = b + 1; c < ids.length; c++) {
+          if (!adj.get(ids[b])?.has(ids[c]) || !adj.get(ids[a])?.has(ids[c])) continue;
+          for (const id of [ids[a], ids[b], ids[c]]) {
+            const q = byId.get(id)!;
+            facePts.push(q.pos.x, q.pos.y, q.pos.z);
+          }
         }
       }
     }
-  }
-  const faceGeom = new THREE.BufferGeometry();
-  faceGeom.setAttribute('position', new THREE.Float32BufferAttribute(facePts, 3));
-  faceGeom.computeVertexNormals();
-  const faces = new THREE.Mesh(faceGeom, new THREE.MeshBasicMaterial({
-    color: 0x7c3aed, transparent: true, opacity: 0.075,
-    side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending,
-  }));
-  scene.add(faces);
-  const faceCount = facePts.length / 9;
-
-  /* Solids, not spheres. Following the Verse: an octahedron for the CORE tier
-     and an icosahedron for everything else, with a wireframe shell over the
-     core nodes so the facets are visible against the glow. */
-  const group = new THREE.Group();
-  scene.add(group);
-  const pickable: THREE.Mesh[] = [];
-
-  for (const p of placed) {
-    const size = 0.42 + (1 - p.tier / 4) * 0.72;
-    const colour = colourFor(p.type);
-    const geom = p.tier === 0
-      ? new THREE.OctahedronGeometry(size, 0)
-      : new THREE.IcosahedronGeometry(size, 1);
-
-    const mesh = new THREE.Mesh(geom, new THREE.MeshPhysicalMaterial({
-      color: colour, emissive: colour, emissiveIntensity: 0.55 + (1 - p.tier / 4) * 0.5,
-      roughness: 0.25, metalness: 0.15, transparent: true, opacity: 0.9,
+    const faceGeom = new THREE.BufferGeometry();
+    faceGeom.setAttribute('position', new THREE.Float32BufferAttribute(facePts, 3));
+    faceGeom.computeVertexNormals();
+    const faces = new THREE.Mesh(faceGeom, new THREE.MeshBasicMaterial({
+      color: 0x7c3aed, transparent: true, opacity: 0.075,
+      side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending,
     }));
-    mesh.position.copy(p.pos);
-    mesh.userData = p;
-    group.add(mesh);
-    pickable.push(mesh);
+    scene.add(faces);
+    const faceCount = facePts.length / 9;
 
-    if (p.tier === 0) {
-      const wire = new THREE.Mesh(new THREE.OctahedronGeometry(size * 1.12, 0),
-        new THREE.MeshBasicMaterial({ color: 0xfbbf24, wireframe: true, transparent: true, opacity: 0.45 }));
-      wire.position.copy(p.pos);
-      group.add(wire);
+    /* Solids, not spheres. Following the Verse: an octahedron for the CORE tier
+       and an icosahedron for everything else, with a wireframe shell over the
+       core nodes so the facets are visible against the glow. */
+    const group = new THREE.Group();
+    scene.add(group);
+    const pickable: THREE.Mesh[] = [];
+
+    for (const p of placed) {
+      const size = 0.42 + (1 - p.tier / 4) * 0.72;
+      const colour = colourFor(p.type);
+      const geom = p.tier === 0
+        ? new THREE.OctahedronGeometry(size, 0)
+        : new THREE.IcosahedronGeometry(size, 1);
+
+      const mesh = new THREE.Mesh(geom, new THREE.MeshPhysicalMaterial({
+        color: colour, emissive: colour, emissiveIntensity: 0.55 + (1 - p.tier / 4) * 0.5,
+        roughness: 0.25, metalness: 0.15, transparent: true, opacity: 0.9,
+      }));
+      mesh.position.copy(p.pos);
+      mesh.userData = p;
+      group.add(mesh);
+      pickable.push(mesh);
+
+      if (p.tier === 0) {
+        const wire = new THREE.Mesh(new THREE.OctahedronGeometry(size * 1.12, 0),
+          new THREE.MeshBasicMaterial({ color: 0xfbbf24, wireframe: true, transparent: true, opacity: 0.45 }));
+        wire.position.copy(p.pos);
+        group.add(wire);
+      }
+
+      const halo = new THREE.Mesh(new THREE.SphereGeometry(size * 2.4, 16, 16),
+        new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.1, depthWrite: false }));
+      halo.position.copy(p.pos);
+      group.add(halo);
     }
 
-    const halo = new THREE.Mesh(new THREE.SphereGeometry(size * 2.4, 16, 16),
-      new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.1, depthWrite: false }));
-    halo.position.copy(p.pos);
-    group.add(halo);
-  }
+    /* Labels. A canvas texture per entity rather than a font loader: 23 sprites
+       cost nothing and it keeps the page free of another dependency. */
+    const labelGroup = new THREE.Group();
+    scene.add(labelGroup);
+    for (const p of placed) {
+      const c = document.createElement('canvas');
+      const ctx = c.getContext('2d')!;
+      const font = '600 28px ui-monospace, Menlo, monospace';
+      ctx.font = font;
+      const w = Math.ceil(ctx.measureText(p.name).width) + 20;
+      c.width = w; c.height = 44;
+      const g = c.getContext('2d')!;
+      g.font = font;
+      g.fillStyle = hex(colourFor(p.type));
+      g.shadowColor = '#0A0812'; g.shadowBlur = 8;
+      g.textBaseline = 'middle';
+      g.fillText(p.name, 10, 24);
 
-  /* Labels. A canvas texture per entity rather than a font loader: 23 sprites
-     cost nothing and it keeps the page free of another dependency. */
-  const labelGroup = new THREE.Group();
-  scene.add(labelGroup);
-  for (const p of placed) {
-    const c = document.createElement('canvas');
-    const ctx = c.getContext('2d')!;
-    const font = '600 28px ui-monospace, Menlo, monospace';
-    ctx.font = font;
-    const w = Math.ceil(ctx.measureText(p.name).width) + 20;
-    c.width = w; c.height = 44;
-    const g = c.getContext('2d')!;
-    g.font = font;
-    g.fillStyle = hex(colourFor(p.type));
-    g.shadowColor = '#0A0812'; g.shadowBlur = 8;
-    g.textBaseline = 'middle';
-    g.fillText(p.name, 10, 24);
+      const tex = new THREE.CanvasTexture(c);
+      tex.minFilter = THREE.LinearFilter;
+      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: tex, transparent: true, depthWrite: false, opacity: 0.92,
+      }));
+      // Scale by tier: a CORE label reads at a glance, a MINOR one only when you
+      // fly close. Without this the peripheral names shout over the hubs.
+      const scale = 0.016 + (1 - p.tier / 4) * 0.008;
+      sprite.scale.set(c.width * scale, c.height * scale, 1);
+      sprite.position.copy(p.pos).add(new THREE.Vector3(0, 0.95 + (1 - p.tier / 4) * 0.45, 0));
+      sprite.material.opacity = 0.55 + (1 - p.tier / 4) * 0.4;
+      labelGroup.add(sprite);
+    }
 
-    const tex = new THREE.CanvasTexture(c);
-    tex.minFilter = THREE.LinearFilter;
-    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
-      map: tex, transparent: true, depthWrite: false, opacity: 0.92,
-    }));
-    // Scale by tier: a CORE label reads at a glance, a MINOR one only when you
-    // fly close. Without this the peripheral names shout over the hubs.
-    const scale = 0.016 + (1 - p.tier / 4) * 0.008;
-    sprite.scale.set(c.width * scale, c.height * scale, 1);
-    sprite.position.copy(p.pos).add(new THREE.Vector3(0, 0.95 + (1 - p.tier / 4) * 0.45, 0));
-    sprite.material.opacity = 0.55 + (1 - p.tier / 4) * 0.4;
-    labelGroup.add(sprite);
-  }
+    // Selection ring, reused rather than rebuilt on every click.
+    const ring = new THREE.Mesh(new THREE.RingGeometry(0.9, 1.02, 40),
+      new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75, side: THREE.DoubleSide }));
+    ring.visible = false;
+    scene.add(ring);
 
-  // Selection ring, reused rather than rebuilt on every click.
-  const ring = new THREE.Mesh(new THREE.RingGeometry(0.9, 1.02, 40),
-    new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75, side: THREE.DoubleSide }));
-  ring.visible = false;
-  scene.add(ring);
+    let dragging = false, moved = 0, px = 0, py = 0;
+    let yaw = 0, pitch = 0.22, dist = 30, auto = true;
+    const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
-  let dragging = false, moved = 0, px = 0, py = 0;
-  let yaw = 0, pitch = 0.22, dist = 30, auto = true;
-  const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
-
-  canvas.addEventListener('pointerdown', (e) => {
-    dragging = true; moved = 0; auto = false; px = e.clientX; py = e.clientY;
-  });
-  addEventListener('pointerup', () => { dragging = false; });
-  addEventListener('pointermove', (e) => {
-    if (!dragging) return;
-    moved += Math.abs(e.clientX - px) + Math.abs(e.clientY - py);
-    yaw += (e.clientX - px) * 0.006;
-    pitch = clamp(pitch + (e.clientY - py) * 0.006, -1.2, 1.2);
-    px = e.clientX; py = e.clientY;
-  });
-  canvas.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    dist = clamp(dist + e.deltaY * 0.03, 8, 70);
-  }, { passive: false });
-
-  const ray = new THREE.Raycaster();
-  const pointer = new THREE.Vector2();
-  const pick = (e: PointerEvent | MouseEvent) => {
-    const r = canvas.getBoundingClientRect();
-    pointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
-    pointer.y = -((e.clientY - r.top) / r.height) * 2 + 1;
-    ray.setFromCamera(pointer, camera);
-    return ray.intersectObjects(pickable, false)[0]?.object as THREE.Mesh | undefined;
-  };
-
-  canvas.addEventListener('pointermove', (e) => {
-    const hit = pick(e);
-    canvas.style.cursor = hit ? 'pointer' : 'grab';
-    const d = hit?.userData as typeof placed[number] | undefined;
-    hoverLabel.textContent = d ? `${d.name} — ${d.type}, ${d.deg} relationships` : '';
-  });
-
-  const TIERS = ['CORE', 'MAJOR', 'MINOR', 'PERIPHERAL', 'ISOLATED'];
-
-  function showPopup(d: typeof placed[number]) {
-    const nb = (neighbours.get(d.id) ?? []).slice(0, 8);
-    popup.innerHTML = `
-      <div class="flex items-start gap-2 mb-2">
-        <div class="flex-1 min-w-0">
-          <span class="text-[17px] uppercase tracking-[.14em]" style="color:${hex(colourFor(d.type))}">${d.type}</span>
-          <div class="text-[18px] text-fg leading-snug break-words">${d.name}</div>
-        </div>
-        <button data-close class="text-fg-ghost hover:text-fg text-[19px] leading-none shrink-0" title="close">✕</button>
-      </div>
-      ${d.description ? `<p class="text-[17px] text-fg-dim m-0 mb-3">${d.description}</p>` : ''}
-      <div class="grid grid-cols-3 gap-2 mb-3 text-center">
-        <div><div class="text-[19px] text-fg">${d.deg}</div><div class="text-[17px] text-fg-ghost uppercase tracking-wider">relations</div></div>
-        <div><div class="text-[19px] text-fg">${TIERS[d.tier]}</div><div class="text-[17px] text-fg-ghost uppercase tracking-wider">tier</div></div>
-        <div><div class="text-[19px] text-fg">${d.cluster}</div><div class="text-[17px] text-fg-ghost uppercase tracking-wider">cluster</div></div>
-      </div>
-      ${nb.length ? `
-        <div class="text-[17px] uppercase tracking-[.14em] text-fg-ghost mb-1.5">Connected here (${nb.length} of ${d.deg})</div>
-        <div class="flex flex-col gap-1">
-          ${nb.map((n) => `<div class="text-[17px] text-fg-dim flex gap-2">
-            <span class="text-fg-ghost shrink-0">${n.rel}</span><span class="truncate">${n.name}</span></div>`).join('')}
-        </div>` : ''}
-      <div class="text-[17px] text-fg-ghost mt-3 pt-2 border-t border-line/60">
-        ${d.deg - nb.length} further relationships point outside this slice.
-      </div>`;
-    popup.classList.remove('hidden');
-    popup.querySelector('[data-close]')!.addEventListener('click', hidePopup);
-  }
-  const hidePopup = () => { popup.classList.add('hidden'); ring.visible = false; };
-
-  canvas.addEventListener('click', (e) => {
-    if (moved > 6) return;              // a drag is not a click
-    const hit = pick(e);
-    if (!hit) { hidePopup(); return; }
-    const d = hit.userData as typeof placed[number];
-    ring.position.copy(hit.position);
-    ring.scale.setScalar((0.42 + (1 - d.tier / 4) * 0.72) * 2.1);
-    ring.visible = true;
-    showPopup(d);
-  });
-
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Controls. Each toggle owns exactly one thing in the scene.
-  let spinning = !reduced;
-  const TOGGLES: Record<string, (on: boolean) => void> = {
-    labels: (on) => { labelGroup.visible = on; },
-    faces:  (on) => { faces.visible = on; },
-    edges:  (on) => { edgeLines.visible = on; },
-    spin:   (on) => { spinning = on; auto = on; },
-  };
-  document.querySelectorAll<HTMLButtonElement>('[data-toggle]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const on = btn.dataset.on !== '1';
-      btn.dataset.on = on ? '1' : '0';
-      TOGGLES[btn.dataset.toggle!](on);
+    canvas.addEventListener('pointerdown', (e) => {
+      dragging = true; moved = 0; auto = false; px = e.clientX; py = e.clientY;
     });
-  });
-  if (reduced) {
-    const spinBtn = document.querySelector<HTMLButtonElement>('[data-toggle="spin"]');
-    if (spinBtn) spinBtn.dataset.on = '0';
-  }
+    addEventListener('pointerup', () => { dragging = false; });
+    addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      moved += Math.abs(e.clientX - px) + Math.abs(e.clientY - py);
+      yaw += (e.clientX - px) * 0.006;
+      pitch = clamp(pitch + (e.clientY - py) * 0.006, -1.2, 1.2);
+      px = e.clientX; py = e.clientY;
+    });
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      dist = clamp(dist + e.deltaY * 0.03, 8, 70);
+    }, { passive: false });
 
-  function resize() {
-    const w = canvas.clientWidth, h = canvas.clientHeight;
-    if (canvas.width !== w || canvas.height !== h) {
-      renderer.setSize(w, h, false);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
+    const ray = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    const pick = (e: PointerEvent | MouseEvent) => {
+      const r = canvas.getBoundingClientRect();
+      pointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+      pointer.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+      ray.setFromCamera(pointer, camera);
+      return ray.intersectObjects(pickable, false)[0]?.object as THREE.Mesh | undefined;
+    };
+
+    canvas.addEventListener('pointermove', (e) => {
+      const hit = pick(e);
+      canvas.style.cursor = hit ? 'pointer' : 'grab';
+      const d = hit?.userData as typeof placed[number] | undefined;
+      hoverLabel.textContent = d ? `${d.name} — ${d.type}, ${d.deg} relationships` : '';
+    });
+
+    const TIERS = ['CORE', 'MAJOR', 'MINOR', 'PERIPHERAL', 'ISOLATED'];
+
+    function showPopup(d: typeof placed[number]) {
+      const nb = (neighbours.get(d.id) ?? []).slice(0, 8);
+      popup.innerHTML = `
+        <div class="flex items-start gap-2 mb-2">
+          <div class="flex-1 min-w-0">
+            <span class="text-[17px] uppercase tracking-[.14em]" style="color:${hex(colourFor(d.type))}">${d.type}</span>
+            <div class="text-[18px] text-fg leading-snug break-words">${d.name}</div>
+          </div>
+          <button data-close class="text-fg-ghost hover:text-fg text-[19px] leading-none shrink-0" title="close">✕</button>
+        </div>
+        ${d.description ? `<p class="text-[17px] text-fg-dim m-0 mb-3">${d.description}</p>` : ''}
+        <div class="grid grid-cols-3 gap-2 mb-3 text-center">
+          <div><div class="text-[19px] text-fg">${d.deg}</div><div class="text-[17px] text-fg-ghost uppercase tracking-wider">relations</div></div>
+          <div><div class="text-[19px] text-fg">${TIERS[d.tier]}</div><div class="text-[17px] text-fg-ghost uppercase tracking-wider">tier</div></div>
+          <div><div class="text-[19px] text-fg">${d.cluster}</div><div class="text-[17px] text-fg-ghost uppercase tracking-wider">cluster</div></div>
+        </div>
+        ${nb.length ? `
+          <div class="text-[17px] uppercase tracking-[.14em] text-fg-ghost mb-1.5">Connected here (${nb.length} of ${d.deg})</div>
+          <div class="flex flex-col gap-1">
+            ${nb.map((n) => `<div class="text-[17px] text-fg-dim flex gap-2">
+              <span class="text-fg-ghost shrink-0">${n.rel}</span><span class="truncate">${n.name}</span></div>`).join('')}
+          </div>` : ''}
+        <div class="text-[17px] text-fg-ghost mt-3 pt-2 border-t border-line/60">
+          ${d.deg - nb.length} further relationships point outside this slice.
+        </div>`;
+      popup.classList.remove('hidden');
+      popup.querySelector('[data-close]')!.addEventListener('click', hidePopup);
     }
-  }
+    const hidePopup = () => { popup.classList.add('hidden'); ring.visible = false; };
 
-  function frame() {
-    resize();
-    if (auto && spinning) yaw += 0.0015;
-    camera.position.set(
-      Math.sin(yaw) * Math.cos(pitch) * dist,
-      Math.sin(pitch) * dist,
-      Math.cos(yaw) * Math.cos(pitch) * dist);
-    camera.lookAt(0, 0, 0);
-    if (ring.visible) ring.lookAt(camera.position);   // always face the viewer
-    if (spinning) group.children.forEach((c, i) => { c.rotation.y += 0.0009 + (i % 5) * 0.0002; });
-    renderer.render(scene, camera);
-    requestAnimationFrame(frame);
+    canvas.addEventListener('click', (e) => {
+      if (moved > 6) return;              // a drag is not a click
+      const hit = pick(e);
+      if (!hit) { hidePopup(); return; }
+      const d = hit.userData as typeof placed[number];
+      ring.position.copy(hit.position);
+      ring.scale.setScalar((0.42 + (1 - d.tier / 4) * 0.72) * 2.1);
+      ring.visible = true;
+      showPopup(d);
+    });
+
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Controls. Each toggle owns exactly one thing in the scene.
+    let spinning = !reduced;
+    const TOGGLES: Record<string, (on: boolean) => void> = {
+      labels: (on) => { labelGroup.visible = on; },
+      faces:  (on) => { faces.visible = on; },
+      edges:  (on) => { edgeLines.visible = on; },
+      spin:   (on) => { spinning = on; auto = on; },
+    };
+    document.querySelectorAll<HTMLButtonElement>('[data-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const on = btn.dataset.on !== '1';
+        btn.dataset.on = on ? '1' : '0';
+        TOGGLES[btn.dataset.toggle!](on);
+      });
+    });
+    if (reduced) {
+      const spinBtn = document.querySelector<HTMLButtonElement>('[data-toggle="spin"]');
+      if (spinBtn) spinBtn.dataset.on = '0';
+    }
+
+    function resize() {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (canvas.width !== w || canvas.height !== h) {
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+    }
+
+    /* The loop must die with the page. Under client-side routing the canvas is
+       swapped out while rAF keeps firing, and the next frame reads clientWidth
+       off a detached node — two "Cannot read properties of null" errors per
+       navigation, measured 2026-08-21. */
+    let alive = true;
+    document.addEventListener('astro:before-swap', () => { alive = false; }, { once: true });
+
+    function frame() {
+      if (!alive || !canvas.isConnected) return;
+      resize();
+      if (auto && spinning) yaw += 0.0015;
+      camera.position.set(
+        Math.sin(yaw) * Math.cos(pitch) * dist,
+        Math.sin(pitch) * dist,
+        Math.cos(yaw) * Math.cos(pitch) * dist);
+      camera.lookAt(0, 0, 0);
+      if (ring.visible) ring.lookAt(camera.position);   // always face the viewer
+      if (spinning) group.children.forEach((c, i) => { c.rotation.y += 0.0009 + (i % 5) * 0.0002; });
+      renderer.render(scene, camera);
+      requestAnimationFrame(frame);
+    }
+    frame();
+
   }
-  frame();
+  init_crystal();
+  document.addEventListener('astro:page-load', init_crystal);
 </script>

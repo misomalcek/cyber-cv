@@ -14,6 +14,10 @@ import Contact from '../components/Contact.astro';
 import Downloads from '../components/Downloads.astro';
 import { sectionCards, ICONS } from '../data/sections';
 import { foundations, foundationsNote } from '../data/foundations';
+import { getCollection } from 'astro:content';
+
+/** Counted rather than typed: three papers, the essay and the local-model audit. */
+const papers = await getCollection('research');
 
 /** Card list for the home grid — hrefs resolved once, against the real base. */
 const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon: ICONS[c.icon] }));
@@ -70,9 +74,9 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
   <!-- ── Sections ─────────────────────────────────────────────────────────
        The article grid IS the navigation. Enlarged dock icons carry the visual
        link, so the dock itself needs no text labels — which is what made room
-       for a seventh entry. Each card gives the overview; depth lives one click
+       for the entries that followed. Each card gives the overview; depth lives one click
        away, which is the whole point of having subpages. -->
-  <Section id="map" title="What is here" note="six sections">
+  <Section id="map" title="What is here" note="nine sides of the hypercube">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
       {sections.map((s) => (
         <a href={s.href} class="card sec-card p-6 no-underline flex flex-col group">
@@ -189,7 +193,7 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
        Headline findings only. Each paper has its own page, and the full text
        of all sixteen rules lives there too — the home page's job is to make a
        reader decide whether to click, not to be the paper. -->
-  <Section id="research" title="Research" note="3 papers · 1 local-model audit"
+  <Section id="research" title="Research" note={`${papers.length} pieces`}
            lede="Written from stored records rather than recollection. Every figure comes from a query or a logged measurement, including the ones that count against the conclusion I wanted.">
     <div class="grid md:grid-cols-3 gap-3 mb-4">
       {[

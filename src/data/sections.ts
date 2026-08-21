@@ -1,10 +1,10 @@
 /**
- * The six sections of this CV, with the icons the dock draws.
+ * The nine sections of this CV, with the icons the dock draws.
  *
  * One source for both surfaces: the home grid names each section and the dock
  * repeats its icon, so the enlarged glyph on the card and the small one in the
  * pill are recognisably the same mark. That visual link is what let the dock
- * drop its text labels — which is what made room for a seventh entry.
+ * drop its text labels — which is what made room to grow past six.
  *
  * Blurbs are deliberately one sentence. The home page exists to give the shape
  * of the thing; every section has a page of its own for the detail.

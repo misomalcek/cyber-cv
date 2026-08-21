@@ -44,23 +44,31 @@ const P = ['+421', '944', '765', '559'];
 </div>
 
 <script>
-  // Reveal on click: the value is assembled here, so a scraper reading the HTML
-  // finds fragments and a person finds a working link.
-  document.querySelectorAll<HTMLButtonElement>('[data-contact]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const slot = btn.querySelector('[data-slot]')!;
-      const d = btn.dataset;
-      const value = d.contact === 'mail'
-        ? `${d.u}@${d.d1}.${d.d2}`
-        : [d.p1, d.p2, d.p3, d.p4].join(' ');
-      const href = d.contact === 'mail' ? `mailto:${value}` : `tel:${value.replace(/\s/g, '')}`;
+  /* Re-runs on every navigation. The ClientRouter swaps the body, so the DOM
+     handles captured below belong to a discarded document after a soft nav. */
+  function init_contact(): void {
 
-      const a = document.createElement('a');
-      a.href = href;
-      a.textContent = value;
-      a.className = 'no-underline hover:underline text-fg';
-      slot.replaceWith(a);
-      btn.replaceWith(...btn.childNodes);   // drop the button, keep icon + link
-    }, { once: true });
-  });
+    // Reveal on click: the value is assembled here, so a scraper reading the HTML
+    // finds fragments and a person finds a working link.
+    document.querySelectorAll<HTMLButtonElement>('[data-contact]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const slot = btn.querySelector('[data-slot]')!;
+        const d = btn.dataset;
+        const value = d.contact === 'mail'
+          ? `${d.u}@${d.d1}.${d.d2}`
+          : [d.p1, d.p2, d.p3, d.p4].join(' ');
+        const href = d.contact === 'mail' ? `mailto:${value}` : `tel:${value.replace(/\s/g, '')}`;
+
+        const a = document.createElement('a');
+        a.href = href;
+        a.textContent = value;
+        a.className = 'no-underline hover:underline text-fg';
+        slot.replaceWith(a);
+        btn.replaceWith(...btn.childNodes);   // drop the button, keep icon + link
+      }, { once: true });
+    });
+
+  }
+  init_contact();
+  document.addEventListener('astro:page-load', init_contact);
 </script>
