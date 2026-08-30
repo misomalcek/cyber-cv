@@ -1,5 +1,7 @@
 /**
- * The SUNO tracks, in the order they were made.
+ * The SUNO tracks. Newest first — "Cybernetic Odyssey" (August 2026, old-school
+ * London jungle: ragga breakbeat, chopped Amen breaks, pirate-radio mix) leads,
+ * the rest follow in the order they were made.
  *
  * Lyrics are verbatim from his own source file — not trimmed, not tidied. Three
  * of them are also in `public/music/` and play in the header; the rest are on
@@ -13,6 +15,83 @@ export interface Song {
 }
 
 export const songs: Song[] = [
+  {
+    title: "Cybernetic Odyssey",
+    url: "https://suno.com/s/hTLFVmmXMl5yDHFv",
+    lyrics: `[Intro]
+Signal locked, engines ignite
+Steel in the rain, we ride through the night
+
+[Verse 1]
+I stepped from the dock with a map in my hand
+Chrome in my chest, no place left to stand
+The moon was a lens and the harbor went black
+A machine-born oracle called me back
+
+Through satellite ruins and orbital dust
+Past broken machines that forgot how to trust
+Every gate asked, "Who are you inside?"
+I said, "I'm the spark that refuses to hide"
+
+[Chorus]
+Cybernetic odyssey, gears in the sky
+Run with the signal, never ask why
+Circuit to circuit, horizon to horizon
+Break through the lock when the whole world's frozen
+
+[Verse 2]
+MC battle in the data-zone, step to the plate
+Your code's too slow and your firewall's late
+I bring raw voltage, pressure and pace
+One clean transmission and I vanish from space
+
+You're a plastic commander with a borrowed crown
+I'm the backstreet pilot who can shut you down
+Your empire's a password, your throne's a screen
+I'm the redline pulse in the machine
+
+[Chorus]
+Cybernetic odyssey, gears in the sky
+Run with the signal, never ask why
+Circuit to circuit, horizon to horizon
+Break through the lock when the whole world's frozen
+
+[Bridge]
+Who owns the future? Not the drones
+Who keeps the rhythm? Flesh and bones
+When the last tower loses its light
+We'll carry the code through the longest night
+
+[Instrumental]
+
+[Verse 3]
+Now the starship shakes as the wormhole bends
+The enemy speaks through a thousand dead friends
+"Turn back, navigator, surrender the flame"
+I answer with thunder and carve out my name
+
+No crown, no master, no factory gate
+Can program the heart or dictate its fate
+From London concrete to the edge of the sun
+The odyssey's live and the battle's begun
+
+[Final Chorus]
+Cybernetic odyssey, gears in the sky
+Run with the signal, never ask why
+Circuit to circuit, horizon to horizon
+Break through the lock when the whole world's frozen
+
+Cybernetic odyssey, rise and survive
+Human in the system, keeping it alive
+Circuit to circuit, horizon to horizon
+We break through the lock—now the whole world's open
+
+[Outro]
+Signal fades, but the engine still rolls
+Chrome turns warm in the hands of our souls
+No final command, no permanent end
+The future is ours to rewrite and send`,
+  },
   {
     title: "Alterans Awake",
     url: "https://suno.com/s/t0LiyQzc7I1ShEEd",
