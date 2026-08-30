@@ -3,7 +3,11 @@
  * London jungle: ragga breakbeat, chopped Amen breaks, pirate-radio mix) leads,
  * the rest follow in the order they were made.
  *
- * Lyrics are verbatim from his own source file — not trimmed, not tidied. Three
+ * Lyrics are verbatim from SUNO — not trimmed, not tidied, and not written by the
+ * Integrator. Most began as a two-word prompt: the title. A style line sometimes,
+ * a remix occasionally. Getting the credit right matters more here than elsewhere,
+ * because this whole site argues that a claim is only as good as the layer it can
+ * be traced to. Three
  * of them are also in `public/music/` and play in the header; the rest are on
  * SUNO. The `local` field is the filename where one exists.
  */

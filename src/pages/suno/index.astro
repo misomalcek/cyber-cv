@@ -42,8 +42,10 @@ const withAudio = songs.filter((s) => s.local);
         as well arrive with a breakbeat.
       </p>
       <p class="text-[17.5px] text-fg-ghost m-0">
-        These were written across the same year as the systems, and the overlap was not
-        planned. <b class="text-fg-dim">Alterity</b> is a value in the hive's own axis and also
+        These came out across the same year as the systems, from prompts that were often just
+        a title, and the overlap was not planned — which is the interesting part: the themes
+        recur because the prompts came from someone thinking about them, not because anyone
+        wrote the words. <b class="text-fg-dim">Alterity</b> is a value in the hive's own axis and also
         a song. <b class="text-fg-dim">Non ducor, duco</b> — I am not led, I lead — turns into{' '}
         <i>we lead together</i> by its chorus, which is closer to how the work actually went.{' '}
         <b class="text-fg-dim">Neuro Wars</b> asks who wins and never answers.{' '}
@@ -70,11 +72,11 @@ const withAudio = songs.filter((s) => s.local);
   </Section>
 
   <!-- ── Lyrics ────────────────────────────────────────────────────────────
-       Verbatim from his own file, in the order they were made. Collapsed by
+       Verbatim from the model's output, in the order they were made. Collapsed by
        default: fifteen sets of lyrics open at once is a wall, and the point of
        the page is that a reader can pick one. -->
   <Section title="All fifteen, in the order they were made" note={`${songs.length}`}
-           lede="Lyrics as written. Open one.">
+           lede="Lyrics as the model produced them. Open one.">
     <div class="flex flex-col gap-2.5">
       {songs.map((s, i) => (
         <details class="card song">
@@ -100,7 +102,9 @@ const withAudio = songs.filter((s) => s.local);
       <span>
         <b class="text-[19px] text-fg font-semibold">neonfire on SUNO</b>
         <span class="block text-[17.5px] text-fg-dim mt-1">
-          Made with SUNO — the model wrote the music, the words are mine.
+          Made with SUNO. The model wrote both the music and the words — most of these
+          started from a two-word prompt, the title, and sometimes a style. Correcting an
+          earlier line here that credited me with the lyrics: I did not write them.
         </span>
       </span>
       <span class="text-[17px] text-synapse transition-transform group-hover:translate-x-0.5">open →</span>
