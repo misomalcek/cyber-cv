@@ -132,12 +132,90 @@ const days = [
       },
     ],
   },
+  {
+    date: '30–31 August',
+    head: 'A provenance layer, and eleven defects it found in us',
+    body: `A ninth store went in: research sources, kept apart from the memory the system
+      writes itself. The point was never retrieval — it was being able to tell a paper from a
+      summary of one, six months later, when nobody remembers which was which. Everything
+      below was measured on the real corpus, and almost all of it is a defect in our own code.`,
+    findings: [
+      {
+        head: 'Ranking cannot tell a source from a retelling',
+        body: `Asked for the minimum energy to erase one bit, the store returned four
+          model-written syntheses and not Shannon's own paper, which was sitting in the same
+          collection with 106 chunks. Both results are semantically reasonable — that is
+          exactly the problem, because nothing in the scores says one is a source. Every chunk
+          now carries a trust tier assigned at ingest from real evidence, and the search says
+          out loud when everything it returned is unverified.`,
+      },
+      {
+        head: 'Two of seven, then seven of seven',
+        body: `An inventory before any question: of the thinkers our writing leans on, only
+          Shannon, Carroll and Boltzmann were held in the original. Landauer, Maxwell, Cicero
+          and Spinoza reached us only through retellings, so every claim attributed to them
+          rested on one. The local model fetched ten open sources across two rounds — 10 of 10,
+          each report accurate, including a correction to the list I had given it. Landauer's
+          bound is now citable from the open experimental verification of it; the paywalled
+          1961 original was left alone. Primary chunks went from 318 to 1,837.`,
+      },
+      {
+        head: 'A classifier that called two peer-reviewed papers unverified',
+        body: `Constitutional AI and Machine Psychology both arrived and were tiered as
+          model-written, on one occurrence each in thirty pages: both use the phrase
+          "AI-generated" — about their subject matter. Papers about AI-generated content,
+          marked as AI-generated content. The rule this produced: a phrase a paper would
+          naturally discuss cannot be a provenance marker; a marker must be something only a
+          generator says about itself. That rule then decided two further cases correctly.`,
+      },
+      {
+        head: 'Provenance and relevance fail separately',
+        body: `Asked what the sources establish about Gödel's incompleteness theorem, the
+          search returned three chunks of Lewis Carroll's Symbolic Logic at the highest trust
+          tier — and the warning stayed silent, which reads as "here is a citable answer".
+          Carroll died in 1898; Gödel published in 1931. A weak match wearing a good tier is
+          the more dangerous case, because provenance is what makes a reader stop checking.`,
+      },
+      {
+        head: 'The check that nearly recorded a false accusation',
+        body: `Verifying a claim the local model had made about our sources, I counted zero
+          occurrences of "Gödel" in the paper it cited and was one step from writing down that
+          it had invented the reference. It had not. PDF extraction renders the name as
+          "G¨odel" — a split diacritic — across sixty-two sites in two papers, author names
+          included, so a search for the word silently fails to match the text containing it.
+          The defect surfaced only because I checked a claim I expected to be false.`,
+      },
+      {
+        head: 'A visualisation that cited telemetry it never read',
+        body: `Among concept images generated elsewhere for this research, one plots this
+          system's energy cost at 3.5× the Landauer limit. A single embedding call here costs
+          about 8.5 × 10^15 times that bound — sixteen orders of magnitude out — and the chart's
+          footer credits "Factorium Symbiosis v01 Telemetry", which does not exist; the surfaces
+          are sine waves. The finding is not the inaccuracy. It is that a citation is itself a
+          claim, and nothing in a rendered chart distinguishes a plotted measurement from a
+          plotted assumption.`,
+      },
+      {
+        head: 'Seven of the defects were ours, and none was found by introspection',
+        body: `A coverage check comparing disk against index. A URL list verified before being
+          handed over. One regular expression checked against another. The study set out to
+          compare our retrieval against a well-funded alternative and spent most of its time
+          finding faults on this side — which is the only outcome that would have made it worth
+          recording. A study of provenance that finds no fault in itself has not looked.`,
+      },
+    ],
+  },
 ];
 
+// Derived, not written down: the header said "four defects" while the page listed
+// eleven, because the prose and the data were maintained separately. A number that
+// describes the content has to come FROM the content.
+const findingCount = days.reduce((n, e) => n + e.findings.length, 0);
+
 const stats = [
-  { v: '40', l: 'commits' },
+  { v: '58', l: 'commits' },
   { v: '11', l: 'pages' },
-  { v: '~5', l: 'working days' },
+  { v: '~8', l: 'working days' },
   { v: '297', l: 'entries in the search index' },
 ];
 ---
@@ -153,8 +231,8 @@ const stats = [
     </h1>
     <p class="text-fg-dim max-w-[680px] m-0">
       A site that argues for keeping an honest record should keep one about itself. The commit
-      history says what changed; this says what happened — including the four defects found while
-      building it, which is the part a commit message has no room for.
+      history says what changed; this says what happened — including the {findingCount} defects found
+      along the way, which is the part a commit message has no room for.
     </p>
   </header>
 
@@ -183,7 +261,7 @@ const stats = [
     </Section>
   ))}
 
-  <Section title="The rule that produced all four" note="one habit">
+  <Section title="The rule that produced every one of them" note="one habit">
     <div class="card p-5">
       <p class="text-[17.5px] text-fg-dim m-0 mb-3">
         Every defect above was found the same way: <b class="text-fg">by checking a thing whose
