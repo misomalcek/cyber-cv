@@ -4,6 +4,7 @@
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { PAPERS } from '../../data/papers';
 
 export async function getStaticPaths() {
   const papers = await getCollection('research');
@@ -13,22 +14,7 @@ export async function getStaticPaths() {
 const { paper } = Astro.props;
 const { Content, headings } = await render(paper);
 
-/* Titles and blurbs live here rather than in the markdown, because the markdown
-   is a verbatim copy of the stored record and should not grow web-only fields. */
-const meta: Record<string, { title: string; blurb: string }> = {
-  rules: {
-    title: 'Measuring whether behavioural rules change model decisions',
-    blurb: 'Twelve rounds, two models, and seven designs rejected on evidence.',
-  },
-  spatial: {
-    title: 'Where a node sits should mean something',
-    blurb: 'Turning 3D graph layout from a picture into structured metadata both a human and a model can read.',
-  },
-  engineering: {
-    title: 'AI engineering — systems, decisions, and what they cost',
-    blurb: 'Two systems, the stack decisions behind them, and the ones that turned out wrong.',
-  },
-};
+const meta = PAPERS;
 const m = meta[paper.id] ?? { title: paper.data.name, blurb: '' };
 const readingMinutes = Math.max(1, Math.round(paper.body!.split(/\s+/).length / 220));
 ---
