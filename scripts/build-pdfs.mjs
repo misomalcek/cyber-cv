@@ -7,8 +7,21 @@
  */
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import pkg from '/Users/m/.claude/scripts/aimode-deps/node_modules/playwright-core/index.js';
-const { chromium } = pkg;
+// Playwright is borrowed from the operator's own toolchain rather than added as
+// a dependency — this repo has 8 deps and a headless browser is not worth being
+// the ninth for a step that runs on one machine. When it is not there (CI, a
+// fresh clone) the script skips and the committed PDFs ship unchanged.
+const PW = process.env.PLAYWRIGHT_CORE
+  ?? '/Users/m/.claude/scripts/aimode-deps/node_modules/playwright-core/index.js';
+let chromium;
+try {
+  ({ chromium } = (await import(PW)).default ?? await import(PW));
+} catch {
+  console.log(`[pdfs] SKIP — playwright-core not found at ${PW}.`);
+  console.log('[pdfs] Using the committed PDFs in public/downloads/.');
+  console.log('[pdfs] To refresh: run `npm run downloads` where playwright-core is available, then commit.');
+  process.exit(0);
+}
 
 const DIR = 'public/downloads';
 

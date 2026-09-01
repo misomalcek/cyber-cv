@@ -536,3 +536,49 @@ total is **20 known rules, 16 measured, 4 outstanding**.
 The four are now in the table flagged as unmeasured, with situational triggers
 and their date of addition, so the gap is visible rather than closed by
 assertion. Full account: `APPENDIX-the-rules-that-were-not-in-the-table-2026-08`.
+
+---
+
+## References
+
+Added 2026-08-30. The paper's claims are its own measurements; these are the
+external works it leans on, and the ones a reader would need to check the framing
+rather than the numbers.
+
+### Directly load-bearing
+
+- **Perez, E., et al.** (2022). Discovering Language Model Behaviors with
+  Model-Written Evaluations. arXiv:2212.09251. — sycophancy as a measured
+  property of RLHF-trained models, and the reason "the model agreed with the
+  rule" cannot be read as "the rule worked".
+- **Gao, L., Schulman, J., & Hilton, J.** (2023). Scaling Laws for Reward Model
+  Overoptimisation. *ICML*. — true utility falls while the proxy score keeps
+  rising; the mechanism behind this paper's insistence that a rule's *effect on a
+  decision* is the only usable measure, not its retrieval frequency.
+- **Bai, Y., et al.** (2022). Constitutional AI: Harmlessness from AI Feedback.
+  arXiv:2212.08073. — the closest published relative of a written rule set
+  steering a model, and the contrast this work sets itself against: a
+  constitution is trained in, our rules are retrieved at inference and can be
+  measured on or off.
+
+### Method
+
+- **Hutter, M.** (2005). *Universal Artificial Intelligence: Sequential Decisions
+  based on Algorithmic Probability*. Springer. https://doi.org/10.1007/b138233 —
+  the formal treatment of a decision policy under uncertainty; cited for the
+  frame, not for any result reproduced here.
+- **Carroll, L.** (1887). *The Game of Logic*. Macmillan. — held locally at
+  `sources/lewis-carroll-symbolic-logic.pdf`, tier `primary`. The distinction
+  this paper keeps returning to — *formally valid ≠ sound ≠ safe to act on* — is
+  the one Carroll made playable.
+
+### Benchmarks referenced in the wider project
+
+- Chart-QA benchmark (computational versus human reasoning subsets).
+- HOLF-multi benchmark.
+
+**Provenance note.** Several of the above reach this project through NotebookLM
+syntheses held in `~/sources` at tier `synthesis`, which are explicitly not
+citable. This list names the primary works those syntheses were derived from. The
+practice is the paper's own conclusion applied to itself: a claim is only as good
+as the layer it can be traced to.

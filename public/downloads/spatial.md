@@ -296,3 +296,88 @@ that did not support the hypothesis.
 
 Every number in §5.2 and §6 was queried from the live database while writing this
 document, not recalled.
+
+---
+
+## References
+
+Added 2026-08-30. The paper was written from measurement and grounded against
+search at the time, but carried no bibliography — a gap worth naming, because
+"grounded" without a citable trail is a claim about process rather than a check
+anyone else can run. Entries are split by what they actually did for the work.
+
+### Directly load-bearing — the field formulation of layout
+
+The layout here uses pairwise forces (degree-scaled repulsion plus per-tier
+orbital shells). A *field* formulation of the same problem is established
+practice, and it is the direction §8 should have named:
+
+- **Lu, J., et al.** (2015). ePlace: Electrostatics-Based Placement Using
+  Fast Fourier Transform and Nesterov's Method. *ACM TODAES*. — nodes as a
+  continuous charge density ρ(x); repulsion by solving Poisson's equation
+  ∇²φ = −ρ, motion along the field gradient, rather than summing pairwise forces.
+- **van Liere, R., & de Leeuw, W.** (2003). GraphSplatting: Visualizing Graphs
+  as Continuous Fields. *IEEE TVCG*, 9(2). — the density-field rendering of a
+  graph: clusters appear as basins in a continuous potential, not as visual
+  clumps a reader infers.
+- **Barnes, J., & Hut, P.** (1986). A hierarchical O(N log N) force-calculation
+  algorithm. *Nature*, 324. — the approximation our current engine's complexity
+  class rests on.
+- **Fruchterman, T. M. J., & Reingold, E. M.** (1991). Graph drawing by
+  force-directed placement. *Software: Practice and Experience*, 21(11). — the
+  baseline the orbital layout departs from.
+
+### Spectral structure — added by the 2026-08-30 measurement
+
+- **Chung, F. R. K.** (1997). *Spectral Graph Theory*. AMS. — the normalised
+  Laplacian and its eigenvalues as the graph's normal modes. Used to test whether
+  a per-node "frequency" carries information degree does not (it does:
+  corr = 0.013, and it separates decisions from records).
+
+### Information-theoretic frame
+
+These sit behind the entropy vocabulary the wider project uses, and are the
+primary sources under the notebook syntheses in `~/sources`:
+
+- **Shannon, C. E.** (1948). A Mathematical Theory of Communication.
+  *Bell System Technical Journal*, 27. — held locally as `sources/entropy.pdf`,
+  tier `primary`.
+- **Landauer, R.** (1961). Irreversibility and heat generation in the computing
+  process. *IBM Journal of Research and Development*, 5(3). — kT ln 2 per bit
+  erased; the figure that anchors every energy claim we make.
+- **Tribus, M., & McIrvine, E. C.** (1971). Energy and information.
+  *Scientific American*, 225(3), 179–188.
+- **Landsberg, P. T.** (1984). Can entropy and information be defined for
+  non-equilibrium states? *Journal of Statistical Physics*, 35(1–2), 159–169.
+- **Chakrabarti, C. G., & De, K.** (1997). Boltzmann entropy and information
+  theory. *Journal of Biological Physics*, 23(3), 169–177.
+- **Chakrabarti, C. G., & Chakrabarty, I.** (2006). Information-theoretic
+  approach to statistical mechanics. *Modern Physics Letters B*, 20(23),
+  1471–1479.
+
+### Formal reasoning and universal agents
+
+- **Carroll, L.** (1887). *The Game of Logic*. Macmillan. — held locally as
+  `sources/lewis-carroll-symbolic-logic.pdf`, tier `primary`.
+- **Hutter, M.** (2005). *Universal Artificial Intelligence: Sequential Decisions
+  based on Algorithmic Probability*. Springer. https://doi.org/10.1007/b138233
+- **Hutter, M.** (2000). A Theory of Universal Artificial Intelligence based on
+  Algorithmic Complexity. arXiv:cs/0004001.
+
+### Interpretability
+
+- **Anthropic Research Team.** Blog posts on mechanistic interpretability.
+- **Nanda, N.** Essays and notes on mechanistic interpretability.
+
+### Artifacts
+
+- **Malček, M.** (2026). Cyber-CV: interactive CV system [source code].
+  https://github.com/misomalcek/cyber-cv
+- Wikipedia contributors (2026). Landauer's principle. — a pointer, not a source;
+  the primary is Landauer (1961) above.
+
+**A note on provenance, since this project is partly about it.** The `~/sources`
+corpus holds NotebookLM syntheses derived from several of the works above, not the
+works themselves. Those syntheses are indexed at tier `synthesis` and are marked
+not citable — this list names the primary sources they were derived from, which is
+the point of keeping the distinction at all.

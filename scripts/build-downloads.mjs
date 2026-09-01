@@ -15,8 +15,23 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync } from
 import { execSync } from 'node:child_process';
 import { join } from 'node:path';
 
-const MEM = '/Users/m/memory';
+const MEM = process.env.HIVE_MEMORY ?? '/Users/m/memory';
 const OUT = 'public/downloads';
+
+// The hive memory corpus is the source of truth for these documents, and it
+// exists only on the Integrator's machine. In CI there is nothing to read from,
+// so this exits cleanly and the build uses the committed files — which are
+// regenerated and committed HERE, where the source lives.
+//
+// Skipping loudly rather than silently: a CI log that says nothing about why the
+// downloads were not rebuilt is how a stale pack ships without anyone noticing.
+if (!existsSync(MEM)) {
+  console.log(`[downloads] SKIP — hive memory not present at ${MEM}.`);
+  console.log('[downloads] Using the committed files in public/downloads/.');
+  console.log('[downloads] To refresh: run `npm run downloads` on the machine that has the corpus, then commit.');
+  process.exit(0);
+}
+
 mkdirSync(OUT, { recursive: true });
 
 /** Strip the hive's YAML frontmatter — it is internal metadata, not content. */

@@ -11,11 +11,12 @@
     "preview": "astro preview",
     "astro": "astro",
     "stats": "node scripts/pull-stats.mjs",
-    "check": "node scripts/pull-stats.mjs --check && astro check",
+    "check": "node scripts/pull-stats.mjs --check && node scripts/check-downloads-fresh.mjs && astro check",
     "sync-papers": "cp ~/memory/PAPER-measuring-whether-behavioural-rules-change-model-decisions-2026-08.md src/content/research/rules.md && cp ~/memory/PAPER-spatial-position-as-machine-readable-structure-2026-08.md src/content/research/spatial.md && cp ~/memory/PAPER-ai-engineering-track-record-2026-08.md src/content/research/engineering.md",
     "search": "node scripts/build-search.mjs",
     "crystal": "node scripts/pull-crystal.mjs",
-    "prebuild": "node scripts/build-search.mjs"
+    "prebuild": "node scripts/build-downloads.mjs && node scripts/build-pdfs.mjs && node scripts/build-search.mjs",
+    "downloads": "node scripts/build-downloads.mjs && node scripts/build-pdfs.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
