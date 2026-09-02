@@ -582,3 +582,124 @@ syntheses held in `~/sources` at tier `synthesis`, which are explicitly not
 citable. This list names the primary works those syntheses were derived from. The
 practice is the paper's own conclusion applied to itself: a claim is only as good
 as the layer it can be traced to.
+
+---
+
+## Addendum II (2026-09-02): three weeks of operational data, and one rule that was not true
+
+The study measured whether rules change decisions. It could not measure what happens
+to a ruleset *in use*, because at publication there was no use to measure. There is now:
+three weeks of live retrieval against the deployed table.
+
+### The distribution
+
+```
+20 active rules · 29 lookups · 1 override · 8 rules at ZERO hits
+```
+
+| most retrieved | hits |
+|---|---|
+| `stop-and-ask` | 6 |
+| `admit-the-shortcut` | 5 |
+| `always-ground-truth` | 4 |
+| `code-red-loud` | 3 |
+
+**Three of the top four are the rules that Addendum I found had been excluded from the
+original sixteen by a filename artefact.** The rules the selection had missed are the
+rules practice reaches for most.
+
+### The eight zeros are not a retrieval failure — tested, not assumed
+
+Eight rules were never retrieved once. The obvious reading is that the situational
+index does not reach them, which would invalidate the paper's central finding
+(§3: situations retrieve 10/10 where rule statements retrieve 1/5).
+
+Tested directly. Six situations were written to target six zero-hit rules and put
+through the deployed endpoint unchanged:
+
+```
+"Chcem spočítať priemer z piatich nameraných hodnôt"  → llm-not-calculator          0.632
+"Idem napísať timeout 30000 priamo do volania"        → no-magic-numbers            0.664
+"Idem prepísať súbor, ktorý som ešte nečítal"         → audit-then-propose          0.780
+"Ukladám Bearer token do skriptu"                     → vault-only-credentials      0.886
+"Michal koná proti vlastnej hodnotovej osi"           → value-mirror                0.852
+"Zapisujem .md do memory, bude to dohľadateľné?"      → claude-specific-hive-tagging 0.718
+```
+
+**Six of six at rank 1.** Retrieval reaches them; nobody asked. The rules at zero are
+the ones followed from the principle of the work — credentials never went into a commit,
+so `vault-only-credentials` was never consulted.
+
+This is the operational form of the paper's own §5 result. There we found 10 of 16 rules
+changed no decision. Here we find *which kind* of rule that is, and it is not the useless
+kind: **it is the kind already absorbed into practice.** A ruleset in steady use should
+be expected to show a long tail of zeros, and reading those zeros as dead weight would
+delete exactly the rules that never had to be enforced.
+
+The caution runs the other way too. Zero hits is compatible with "absorbed" *and* with
+"forgotten"; three weeks and 29 lookups cannot separate them. What the retrieval test
+establishes is narrower and sufficient for the claim made here: the mechanism is not
+what is failing.
+
+### One rule was false, and our own work is the counterexample
+
+`no-magic-numbers` read: *a tuning value belongs in configuration under a name that says
+what it means.*
+
+During an unrelated benchmark, a batch-size constant sat in configuration under a correct
+name — and was raised anyway, because it looked arbitrary. It had been measured for that
+machine a month earlier. Raising it made the benchmark task 30% slower and cost two rounds
+of work.
+
+The rule governs *where a value lives*. The defect was that nothing recorded **what
+measured it**. A name states what a number is, never where it came from — and an
+unexplained constant is indistinguishable from an arbitrary one to the next reader,
+including the same reader later.
+
+Amended in place rather than supplemented with a new rule:
+
+> *…under a name that says what it means **and a note saying what measured it** — an
+> unexplained constant looks arbitrary and gets raised by someone who does not know it
+> was measured.*
+
+This is the first rule in the set falsified by its own domain. It was not found by review
+of the ruleset; it was found by the rule failing to prevent the mistake it exists to
+prevent, which is the only test that could have found it.
+
+### The rule that was added, and why it is one rule and not two
+
+```
+contract-with-truth
+  Measurement is the contract with truth: a claim we have not measured is a claim we
+  do not hold — including a claim about our own rules, and including this one.
+  Contradict when the measurement contradicts, and say so plainly rather than working
+  around it in silence.
+
+  unless: A value held from the principle of the work rather than from a measurement
+  stays held, and its absence from the data is not evidence against it.
+```
+
+Two rules were proposed — one about measurement, one about contradicting. They are a
+statement and its cost: the obligation to contradict is what the contract requires when
+a measurement disagrees with a person. Encoding them separately would have added a row
+without adding a distinction.
+
+**The `unless` clause is the load-bearing part**, and it is what the zero-hit finding
+above demands. Without it, a ruleset that measures itself will eventually read silence
+as refutation and prune the values that were never contested. The contract binds claims;
+it does not bind principles.
+
+Verified findable before being counted as deployed — 3 of 3 at rank 1, strongest 0.915.
+Under the paper's own §3 result, a rule that cannot be retrieved from its situation does
+not exist, and that check is now part of adding one.
+
+### What this addendum changes about the paper
+
+Nothing in §1–§11 is retracted. What is added is the axis the original study could not
+reach: rules were measured against decisions, and are now also measured against
+*practice*. The two disagree in an informative direction — **the most-used rules in
+practice were the ones the original selection excluded, and the rules that change no
+decision are disproportionately the ones already absorbed.**
+
+The honest total is now **21 rules, 16 measured for decision-change, 1 falsified and
+amended, 8 never retrieved and demonstrated retrievable.**

@@ -36,6 +36,7 @@ export const PAPERS: Record<string, PaperMeta> = {
       'Retrieval by rule wording: 1 in 5. Stored as the situations they govern: 10/10.',
       '6 of 16 rules changed a decision · 10 changed nothing · none made a decision worse.',
       'Asked which of its rules carried real information, the model misclassified 7 of 8.',
+      'Three weeks live: 8 rules never retrieved once — and all 8 return at rank 1 when asked. Unused, not unreachable. One rule was false and our own work was the counterexample.',
     ],
   },
   spatial: {
