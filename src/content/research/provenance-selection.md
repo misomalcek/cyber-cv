@@ -103,21 +103,86 @@ open web.
 Effect size, stated plainly: +1 of 5 on this set, no regressions, one sentence, no new
 dependency. Worth deploying. Not worth claiming more for.
 
-## 4. Why this is a design result, not a model result
+## 4. The mechanism, isolated
 
-The information required for the correct answer was in the model's context. It read the
-tier field, understood it, and applied it — to the wrong question. The gap is between two
-uses of provenance that the design had conflated:
+The sentence-level fix works, but *why* it works determines whether it generalises. Four
+hypotheses, each tested by changing one variable. Three fell.
+
+**"It answers from its weights and the citation is decoration."** Asked with no corpus at
+all, the model gives `kT ln 2` correctly — so the knowledge is in the weights and the
+citation could be ornamental. **Refuted by an adversarial corpus:** given a fabricated
+`primary` source asserting the answer is `4 kB T ln 2`, it answered `4 kB T ln 2` and
+cited that source. It reads the corpus and lets it override what it knows.
+
+**"It is led by rank; the first hit wins."** Swapping the two hits, it cited `[2]` — the
+*same document*, now in second position. Position is not the driver.
+
+**"It does not notice the primary contains the answer."** Asked first to list which hits
+contain the answer, it named **both**, then cited the unverified one anyway. It sees the
+primary. It does not choose it.
+
+**What survives: it cites the hit whose wording it reused.** Swapping the *phrasing*
+rather than the order — giving the primary the encyclopedia's direct formulation and
+burying the unverified source in prose — produced a citation of the primary, with no
+instruction of any kind.
+
+```
+wiki phrased as an answer, primary buried   →  cites wiki
+primary phrased as an answer, wiki buried   →  cites primary
+order swapped, phrasing unchanged           →  cites wiki (as [2])
+```
+
+**The model is performing attribution, not source selection.** The citation marks where
+the sentence it wrote came from — correct behaviour for a different task, and precisely
+wrong for this one. The document phrased as a direct answer supplies the words, and so
+receives the credit.
+
+This is why the design gap is a gap between two questions the tier field was assumed to
+answer at once:
 
 - **Provenance as verdict**: *is this hit citable?* — answered correctly, every time.
 - **Provenance as selection**: *which of these hits should I cite?* — never asked.
 
-A tier attached to results answers the first. Only an instruction that ranks *across*
-results answers the second. We had built the first and assumed it delivered the second.
+Only an instruction that ranks *across* results asks the second. Any retrieval layer that
+surfaces trust metadata but leaves ranking to similarity is exposed to the same gap, and
+it is invisible in testing because every statement the model makes remains true.
 
-This generalises past our system: any retrieval layer that surfaces trust metadata but
-leaves ranking to similarity is exposed to the same gap, and the gap is invisible in
-testing because the model's statements remain true.
+## 4b. The intuitive architectural fix does not work — measured
+
+The obvious repair is not a prompt but data: our chunks carry no bibliographic metadata
+at all. The payload holds `title` (the *filename* stem), `tier`, `rel_path`, `collection`
+and `source` (our indexer's name). **No author, no year, no publication, no DOI, no URL.**
+Asked to cite, the model is choosing between two strings: `berut-2015.pdf` and
+`wikipedia.md`.
+
+That metadata is extractable — a PDF's first structured-text lines carry title and
+authors, and the embedded Info dictionary carries a creation date. So the hypothesis is
+well-posed: give the model the bibliography and it will prefer the authoritative source.
+
+**Tested before building it, three samples per condition:**
+
+```
+                             cites a primary
+bare                              0 / 3
+bibliography only                 0 / 3    ← full authors, year, journal,
+                                              vs "(encyclopedia, no named author)"
+notice sentence only              3 / 3
+notice + bibliography             3 / 3
+```
+
+Handed *"Antoine Bérut, Artyom Petrosyan, Sergio Ciliberto, 2015, Nature"* against
+*"(encyclopedia, no named author)"*, the model still cited the encyclopedia — because it
+was still attributing its sentence, and the sentence was still the encyclopedia's.
+
+**The metadata gap is real and worth closing** for human readers, for citation export and
+for the source graph. **It is not the cause of the citation defect**, and building it as
+the fix would have been a plausible and expensive miss. The instruction works because it
+changes the *task* — from "attribute your sentence" to "select a source" — which no amount
+of richer data does on its own.
+
+A second architectural candidate also failed: **ordering results by citability**. With the
+primary presented first and its original phrasing intact, the model still cited the
+unverified source. Reordering does not help when the selection criterion is not order.
 
 ## 5. A second, unplanned result: the corpus repaired itself
 

@@ -45,7 +45,8 @@ export const PAPERS: Record<string, PaperMeta> = {
     findings: [
       'Given an encyclopedia entry (unverified, top-ranked) and the paper it summarises (primary, third), the model cited the encyclopedia and correctly called it uncitable.',
       'Every statement it made was true. The gap is between provenance as a verdict on hit #1 and provenance as a way to choose among hits.',
-      'One sentence in the tool output: 4 of 5 to 5 of 5 — the single change in the only case where the top hit was unverified.',
+      'The mechanism, isolated: it cites the hit whose wording it reused. Swap the phrasing and the citation follows; swap the order and it does not.',
+      'The intuitive fix — give it the bibliography — measured 0 of 3. One sentence changing the task measured 3 of 3.',
     ],
   },
   spatial: {
