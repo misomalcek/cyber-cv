@@ -20,6 +20,15 @@ export interface PaperMeta {
 }
 
 export const PAPERS: Record<string, PaperMeta> = {
+  'local-limits': {
+    title: 'What actually limits a local model',
+    blurb: 'Configuration advice for local models circulates as folklore. 57 runs against one 12B model, with the negative results reported in full.',
+    findings: [
+      'No configuration change — context, cache, batch size — produced a measurable difference in latency or quality.',
+      'The constraint that binds is generation at 8.3 tok/s, constant regardless of context and untouched by every recommended knob.',
+      'Five of our own hypotheses were falsified. None was caught by reasoning; every one by a second measurement disagreeing with a first.',
+    ],
+  },
   rules: {
     title: 'Measuring whether behavioural rules change model decisions',
     blurb: 'Rules for LLM agents are usually written, stored and assumed to work. This measures whether they do.',
