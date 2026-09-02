@@ -39,6 +39,15 @@ export const PAPERS: Record<string, PaperMeta> = {
       'Three weeks live: 8 rules never retrieved once — and all 8 return at rank 1 when asked. Unused, not unreachable. One rule was false and our own work was the counterexample.',
     ],
   },
+  'provenance-selection': {
+    title: 'Provenance has to choose, not only judge',
+    blurb: 'A retrieval layer can label every source correctly and still get the citation wrong. What the label is for turns out to be two different questions.',
+    findings: [
+      'Given an encyclopedia entry (unverified, top-ranked) and the paper it summarises (primary, third), the model cited the encyclopedia and correctly called it uncitable.',
+      'Every statement it made was true. The gap is between provenance as a verdict on hit #1 and provenance as a way to choose among hits.',
+      'One sentence in the tool output: 4 of 5 to 5 of 5 — the single change in the only case where the top hit was unverified.',
+    ],
+  },
   spatial: {
     title: 'Where a node sits should mean something',
     blurb: 'A graph that imploded, and what fixing it revealed about making geometry machine-readable.',
@@ -87,4 +96,4 @@ export const PAPERS: Record<string, PaperMeta> = {
 };
 
 /** Display order on the index. */
-export const PAPER_ORDER = ['rules', 'spatial', 'provenance', 'engineering', 'una-synthesis', 'essay'];
+export const PAPER_ORDER = ['rules', 'provenance-selection', 'spatial', 'provenance', 'engineering', 'una-synthesis', 'essay'];
