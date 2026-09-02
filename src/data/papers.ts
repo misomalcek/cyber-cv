@@ -97,4 +97,8 @@ export const PAPERS: Record<string, PaperMeta> = {
 };
 
 /** Display order on the index. */
-export const PAPER_ORDER = ['rules', 'provenance-selection', 'spatial', 'provenance', 'engineering', 'una-synthesis', 'essay'];
+// Order the /research/ index renders in. A paper missing from this array has a page
+// and a card but appears in NO listing — which is how `local-limits` sat unreachable
+// from 2026-09-02 until it was found by diffing this array against the content dir
+// on 2026-09-03. Adding a .md is not publishing it; this line is.
+export const PAPER_ORDER = ['rules', 'local-limits', 'provenance-selection', 'spatial', 'provenance', 'engineering', 'una-synthesis', 'essay'];

@@ -561,6 +561,12 @@ three weeks of live retrieval against the deployed table.
 20 active rules · 29 lookups · 1 override · 8 rules at ZERO hits
 ```
 
+*Snapshot taken 2026-09-02 at 16:00, before that afternoon's additions. By the end of the
+same day the table held 29 rules and 110 recorded lookups — 81 of the new lookups were our
+own retrieval tests, not decisions in progress, and the count is reported here as it stood
+when the distribution below was measured. A live counter would have made this paragraph
+unnecessary and the numbers unreproducible; a dated snapshot is the trade we chose.*
+
 | most retrieved | hits |
 |---|---|
 | `stop-and-ask` | 6 |
@@ -665,5 +671,9 @@ reach: rules were measured against decisions, and are now also measured against
 practice were the ones the original selection excluded, and the rules that change no
 decision are disproportionately the ones already absorbed.**
 
-The honest total is now **21 rules, 16 measured for decision-change, 1 falsified and
-amended, 8 never retrieved and demonstrated retrievable.**
+The honest total at the time of this addendum is **21 rules, 16 measured for
+decision-change, 1 falsified and amended, 8 never retrieved and demonstrated retrievable.**
+Eight further rules were added the same afternoon — five from a security audit of our own
+published repositories, three from a conference talk's supply-chain findings — bringing the
+deployed table to 29. None of those eight has decision-change data yet; they are counted
+as deployed, not as measured.

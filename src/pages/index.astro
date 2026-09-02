@@ -199,7 +199,7 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
       {[
         ['1 in 5 → 10/10', 'Rules stored as their own wording could not be found from the situation they govern. Stored as descriptions of those situations, retrieval went to ten out of ten.'],
         ['7 of 8 misjudged', 'Asked which of its own rules carried real information, the model got seven of eight wrong — including three that had changed its behaviour minutes earlier.'],
-        ['1,512 of 3,039', 'Entities silently lost their centrality tier after one ordinary session. A null tier reads as "unimportant" when it means "not measured".'],
+        ['8 never used, 8 reachable', 'Three weeks of live use: eight rules were never retrieved once — and all eight come back ranked first when a situation is actually put to them. Unused is not unreachable.'],
       ].map(([v, l]) => (
         <div class="card p-5">
           <div class="text-[21px] font-semibold text-fg leading-tight mb-2">{v}</div>
@@ -209,9 +209,9 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
     </div>
     <a href={`${base}research/`} class="card p-5 no-underline flex items-center gap-4 group">
       <span class="flex-1">
-        <b class="block text-[19px] text-fg mb-1">Four documents, and all sixteen rules in full</b>
-        <span class="block text-[17.5px] text-fg-dim">Two studies, one technical report, and an unedited audit of all three by the
-          local model that lives in the system — including the place where it is wrong.</span>
+        <b class="block text-[19px] text-fg mb-1">Seven documents, and every rule in full</b>
+        <span class="block text-[17.5px] text-fg-dim">Studies, technical reports and an essay — plus an unedited audit of three of them
+          by the local model that lives in the system, including the place where it is wrong.</span>
       </span>
       <span class="text-fg-ghost text-[21px] transition-transform group-hover:translate-x-1">→</span>
     </a>
