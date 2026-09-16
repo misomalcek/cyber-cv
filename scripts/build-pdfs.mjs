@@ -107,7 +107,15 @@ const CSS = `
   table, blockquote, pre { page-break-inside: avoid; }
 `;
 
-const files = readdirSync(DIR).filter((f) => f.endsWith('.md'));
+/* cv.pdf is NOT generated here.
+   The CV ships as the cyber-styled document built by ~/projects/cv/build-cv-pdf.mjs —
+   same palette, cards and typeface as /career/, so the downloaded file and the live page
+   are recognisably one document. This script's print stylesheet is white-ground serif,
+   which is right for the papers and wrong for the CV; left in, it silently overwrote the
+   styled file on every build.
+   CV-README is skipped for a different reason: a two-row index needs no PDF. */
+const SKIP = new Set(['cv.md', 'CV-README.md']);
+const files = readdirSync(DIR).filter((f) => f.endsWith('.md') && !SKIP.has(f));
 const browser = await chromium.launch();
 const page = await browser.newPage();
 for (const f of files) {
