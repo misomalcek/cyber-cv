@@ -1,0 +1,40 @@
+---
+/**
+ * One role in the CV: a circular company mark on the left, the role beside it,
+ * bullets underneath.
+ *
+ * The mark is a circle because Michal asked for circles, and because a 100x100
+ * LinkedIn logo cropped to a circle reads as an avatar rather than as a pasted
+ * image — it sits with the type instead of interrupting it. object-cover keeps
+ * non-square marks from distorting; the ring and glow tie it to the card
+ * vocabulary already used across the site.
+ */
+interface Props {
+  logo?: string;
+  alt?: string;
+  role: string;
+  meta: string;
+}
+const { logo, alt, role, meta } = Astro.props;
+---
+<article class="card p-5 sm:p-6 mt-5">
+  <div class="flex items-start gap-4">
+    {logo && (
+      <img src={logo} alt={alt ?? ''} width="60" height="60" loading="lazy"
+           class="w-[60px] h-[60px] rounded-full object-cover shrink-0
+                  ring-1 ring-[var(--color-line-lit)] bg-[var(--color-bg-el)]"
+           style="box-shadow: 0 0 20px -6px color-mix(in srgb, var(--color-neural) 55%, transparent)" />
+    )}
+    <div class="min-w-0">
+      <h3 class="text-[20px] sm:text-[22px] font-semibold leading-snug text-fg glow-violet">
+        <Fragment set:html={role} />
+      </h3>
+      <p class="text-[16px] text-fg-ghost mt-1 leading-snug">
+        <Fragment set:html={meta} />
+      </p>
+    </div>
+  </div>
+  <div class="cv-body mt-4">
+    <slot />
+  </div>
+</article>

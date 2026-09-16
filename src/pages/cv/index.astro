@@ -2,29 +2,23 @@
 // Astro returns BASE_URL without a trailing slash at the root but with one
 // under a subpath; normalise so `${base}x` is never `/cyber-cvx`.
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-import Base from '../layouts/Base.astro';
-import CVRole from '../components/CVRole.astro';
+import Base from '../../layouts/Base.astro';
+import CVRole from '../../components/CVRole.astro';
 const cv = `${base}cv/`;
-
-/* Rewritten 2026-09-16 from Michal's own CV (Documents/md/cv-aktual.md), verbatim.
-   The previous version was a retelling: it invented date ranges that contradicted the
-   record (Lottoland as 2019–2023 when it was 2016–2017), renamed roles (ERP Tester for
-   Junior Consultant), and merged employers that were separate. None of that was
-   deliberate — it was written from scattered notes before the source was tidy. Now the
-   source is tidy, so this page is the source, not a paraphrase of it. */
 ---
-<Base title="Career — Michal Malček"
-      description="Twenty years across ERP sales, Google, iGaming SEO, and AI engineering."
+<Base title="Michal Malček — CV"
+      description="AI Engineer, Explorer, SEO — Poprad, Slovakia."
       back={{ href: base, label: 'Back' }}>
 
-  <header class="pt-6 pb-8">
+  <!-- Header: photo as a circle on the left, identity beside it. -->
+  <header class="pt-6 pb-10">
     <div class="flex items-start gap-5 sm:gap-7">
-      <img src={`${cv}michal.jpg`} alt="Michal Malček" width="110" height="110" fetchpriority="high"
-           class="w-[86px] h-[86px] sm:w-[110px] sm:h-[110px] rounded-full object-cover shrink-0
+      <img src={`${cv}michal.jpg`} alt="Michal Malček" width="120" height="120" fetchpriority="high"
+           class="w-[92px] h-[92px] sm:w-[120px] sm:h-[120px] rounded-full object-cover shrink-0
                   ring-1 ring-[var(--color-line-lit)]"
            style="box-shadow: 0 0 34px -8px color-mix(in srgb, var(--color-neural) 70%, transparent)" />
       <div class="min-w-0">
-        <h1 class="text-[32px] sm:text-[42px] font-bold leading-[1.08] tracking-tight glow-name">
+        <h1 class="text-[34px] sm:text-[46px] font-bold leading-[1.08] tracking-tight glow-name">
           Michal Malček
         </h1>
         <p class="eyebrow mt-2">AI Engineer, Explorer, SEO</p>
@@ -40,6 +34,7 @@ const cv = `${base}cv/`;
     </div>
   </header>
 
+  <!-- ═══ Professional Experience ═══ -->
   <section class="relative pt-2">
     <span class="cv-rule" />
     <h2 class="section-title mt-6">Professional Experience</h2>
@@ -182,6 +177,7 @@ const cv = `${base}cv/`;
     </CVRole>
   </section>
 
+  <!-- ═══ Education ═══ -->
   <section class="relative pt-10">
     <span class="cv-rule" />
     <h2 class="section-title mt-6">Education</h2>
@@ -206,6 +202,7 @@ const cv = `${base}cv/`;
     </div>
   </section>
 
+  <!-- ═══ Languages ═══ -->
   <section class="relative pt-10">
     <span class="cv-rule" />
     <h2 class="section-title mt-6">Languages</h2>
@@ -221,6 +218,7 @@ const cv = `${base}cv/`;
     </div>
   </section>
 
+  <!-- ═══ Fun facts & Interests ═══ -->
   <section class="relative pt-10">
     <span class="cv-rule" />
     <h2 class="section-title mt-6">Fun facts &amp; Interests</h2>
@@ -239,16 +237,18 @@ const cv = `${base}cv/`;
     </div>
   </section>
 
+  <!-- ═══ Credentials ═══ -->
   <section class="relative pt-10">
     <span class="cv-rule" />
     <h2 class="section-title mt-6">Credentials</h2>
     <div class="card p-5 sm:p-6 mt-5 cv-body">
       <ul>
-        <li><a href={`${base}credentials/`} class="lnk">all of my credentials, refs, certs, diplomas</a></li>
+        <li><a href="https://misomalcek.github.io/cyber-cv/credentials/" class="lnk">all of my credentials, refs, certs, diplomas</a></li>
       </ul>
     </div>
   </section>
 
+  <!-- ═══ Motto ═══ -->
   <section class="relative pt-10 pb-16">
     <span class="cv-rule" />
     <h2 class="section-title mt-6 italic glow-violet">Non Duccor, Ducco Parite</h2>

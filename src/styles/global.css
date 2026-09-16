@@ -471,3 +471,56 @@
     background: color-mix(in srgb, var(--color-synapse) 9%, transparent);
   }
 }
+
+/* ── CV page ────────────────────────────────────────────────────────────────
+   The CV is one long document, not a set of cards with three bullets each, so
+   it needs list and link rules that hold for hundreds of lines. Everything here
+   reuses the tokens above — no new palette, no new glow. */
+@layer components {
+  /* Section divider, matching Section.astro's lit filament so the standalone CV
+     reads as the same site rather than a page that borrowed the colours. */
+  .cv-rule {
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+      color-mix(in srgb, var(--color-neural) 55%, transparent) 0%,
+      color-mix(in srgb, var(--color-synapse) 28%, transparent) 30%,
+      var(--color-line) 70%,
+      transparent 100%);
+    box-shadow: 0 0 12px -2px color-mix(in srgb, var(--color-neural) 45%, transparent);
+  }
+
+  /* Body copy inside a role card. */
+  .cv-body { font-size: 17px; line-height: 1.6; color: var(--color-fg-dim); }
+
+  /* Bullets are drawn rather than left to the browser: a CV nests three levels
+     deep in places, and the default disc/circle/square sequence loses the
+     reader. A violet marker at the top level and a dimmer cyan one beneath it
+     make depth visible at a glance. */
+  .cv-body ul { list-style: none; padding-left: 0; margin: 0; }
+  .cv-body > ul > li { position: relative; padding-left: 1.15em; margin-top: .5em; }
+  .cv-body > ul > li::before {
+    content: ""; position: absolute; left: 0; top: .62em;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--color-neural);
+    box-shadow: 0 0 10px -1px color-mix(in srgb, var(--color-neural) 80%, transparent);
+  }
+  .cv-body ul ul { margin-top: .45em; padding-left: .25em; }
+  .cv-body ul ul > li { position: relative; padding-left: 1.05em; margin-top: .42em; }
+  .cv-body ul ul > li::before {
+    content: ""; position: absolute; left: 0; top: .66em;
+    width: 5px; height: 1px;
+    background: color-mix(in srgb, var(--color-synapse) 70%, transparent);
+    box-shadow: 0 0 8px -1px color-mix(in srgb, var(--color-synapse) 60%, transparent);
+  }
+  .cv-body p { margin: 0; }
+
+  /* Links: the page already sets `a { color: synapse }`, so this only adds the
+     underline-on-hover. A CV is dense with links; permanently underlining them
+     would turn whole paragraphs into rules. */
+  .lnk { text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .2s, text-shadow .2s; }
+  .lnk:hover {
+    border-bottom-color: color-mix(in srgb, var(--color-synapse) 70%, transparent);
+    text-shadow: 0 0 14px color-mix(in srgb, var(--color-synapse) 55%, transparent);
+  }
+}
