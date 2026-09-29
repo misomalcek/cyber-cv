@@ -1,8 +1,7 @@
 /** No horizontal overflow and no clipped text at 390px. */
 import pkg from '/Users/m/.claude/scripts/aimode-deps/node_modules/playwright-core/index.js';
 const { chromium } = pkg;
-const PAGES = ['', 'systems/', 'credentials/', 'work/', 'research/', 'crystal/',
-               'career/', 'log/', 'suno/', 'next/', 'research/rules/', 'research/essay/'];
+const PAGES = ['', 'systems/', 'credentials/', 'work/', 'career/'];
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 390, height: 844 } });
 let fails = 0;

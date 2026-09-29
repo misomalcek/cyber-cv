@@ -6,12 +6,8 @@ import Base from '../layouts/Base.astro';
 import CVRole from '../components/CVRole.astro';
 const cv = `${base}cv/`;
 
-/* Rewritten 2026-09-16 from Michal's own CV (Documents/md/cv-aktual.md), verbatim.
-   The previous version was a retelling: it invented date ranges that contradicted the
-   record (Lottoland as 2019–2023 when it was 2016–2017), renamed roles (ERP Tester for
-   Junior Consultant), and merged employers that were separate. None of that was
-   deliberate — it was written from scattered notes before the source was tidy. Now the
-   source is tidy, so this page is the source, not a paraphrase of it. */
+/* Resynced 2026-09-29 from Michal's own CV (Documents/md/cv-aktual.md), verbatim.
+   Do not edit this page by hand — change the markdown source, then resync. */
 ---
 <Base title="Career — Michal Malček"
       description="Twenty years across ERP sales, Google, iGaming SEO, and AI engineering."
@@ -49,19 +45,29 @@ const cv = `${base}cv/`;
       <ul>
         <li>Latest AI systems built
           <ul>
-            <li><b>Team Brain:</b> enterprise grade textbook implementation of Anthropic SDK, Claude API for SEO and Content team, with 93% tool-call success rate, ±30$/monthly API cost for entire team of 15 users, models: Sonnet, Haiku), 7 layer prompt system, agents, personas, semantic layer, content strategy, content writing DNA, brand voice, data layer from 4 sources: GA4, Seach Console API, Ahrefs, CrUx, near-zero halucinations, full propper handover to former client with no contract limits on source code (private repo stripped of client-data &amp; showcase available at request, planning to opensource with cloud and local model routing)</li>
-            <li><b>Factorium:</b> souverein AI system powered by unified local model Gemma4 12B (using Q5 quantization for better stability and precision), in-par w/frontier model agents on knowledge reasoning, citation, rules retrieval, tooling, complex unified data layer, 3D knowledge graphs (crystals) watchers, sensors and powerfull architecture, measured and published practical research outcomes, daily use (full demonstration and private repo available at request, planning to publish compiled as installable near-zero config app for MacOs and Win)</li>
-            <li><b><a href="https://misomalcek.github.io/cyber-cv/" class="lnk">Cyber CV System</a></b> (static public output site, full-text search, auto-updated from local system at build time, get a taste of Factorium's <a href="https://misomalcek.github.io/cyber-cv/crystal/" class="lnk">3D knowledge crystal</a>)</li>
+            <li><b>Team Brain:</b> Anthropic SDK, Claude API for an SEO and content team of 15 non-engineers</li>
+            <li>1,352 tool calls at 93.9% success during a five-week logging window inside a four-month deployment</li>
+            <li>~30 $/month API spend (estimate: monthly tokens × Sonnet 4.6 price per million; not an invoice); models: Sonnet, Haiku</li>
+            <li>Seven-layer prompt system, agents, personas, semantic layer, content strategy, brand voice</li>
+            <li>Four data sources: GA4, Search Console API, Ahrefs, CrUX</li>
+            <li>Near-zero hallucinations; full proper handover; private repo stripped of client data; showcase on request; planning to opensource with cloud and local model routing</li>
+            <li><b>Factorium:</b> sovereign AI system on a unified local model Gemma4 12B (Q5 quantization for stability and precision)</li>
+            <li>In-par with frontier model agents on knowledge reasoning, citation, rules retrieval, tooling</li>
+            <li>Unified data layer, 3D knowledge graphs (crystals), watchers, sensors and powerful architecture</li>
+            <li>Measured and published practical research outcomes; daily use</li>
+            <li>Full demonstration and private repo available at request; planning to publish as an installable near-zero config app for macOS and Win</li>
+            <li><b><a href="https://misomalcek.github.io/cyber-cv/" class="lnk">Cyber CV System</a></b> (static public output site, full-text search, auto-updated from local system at build time)</li>
             <li><a href="https://misomalcek.github.io/cyber-cv/systems/" class="lnk">More on the systems</a></li>
           </ul>
         </li>
         <li>Public AI projects &amp; Git repos
           <ul>
             <li>these are outcomes of learning &amp; exploring, not production systems</li>
-            <li>Magazine from the Ai world: <a href="https://aisvet.sk/" class="lnk">aisvet.sk</a> (md based CMS, public repo, my first project done with Sonnet 4.5 via Ona.com agent, before even touched Claude Code</li>
-            <li>Wip: <a href="https://aisvet2-f57d07.gitlab.io/" class="lnk">aisvet2</a> &amp; <a href="https://aiworld.aisvet.sk/" class="lnk">aiworld</a> (propper CMS based on Astro6), <a href="https://misomalcek.github.io/factorium-landing/" class="lnk">factorium landing page</a></li>
-            <li><a href="https://misomalcek.github.io/cyber-cv/research/" class="lnk">8 research pappers, essays</a> (early-stage, limited, near zero-budget, yet practical applied outcomes, everything measured &amp; logged, I do not research-for-research =&gt; I research-to-build or build-to-research)</li>
-            <li><a href="https://misomalcek.github.io/cyber-cv/work/#notebooks" class="lnk">9 AI research NotebookLM notebooks</a> (my theory baseground)</li>
+            <li>Magazine from the AI world: <a href="https://aisvet.sk/" class="lnk">aisvet.sk</a> (md based CMS, public repo, my first project done with Sonnet 4.5 via Ona.com agent, before even touched Claude Code)</li>
+            <li>Wip: <a href="https://aisvet2-f57d07.gitlab.io/" class="lnk">aisvet2</a> &amp; <a href="https://aiworld.aisvet.sk/" class="lnk">aiworld</a> (proper CMS based on Astro6)</li>
+            <li><a href="https://misomalcek.github.io/factorium-landing/" class="lnk">factorium landing page</a></li>
+            <li>8 research papers and essays in the <a href={`${base}downloads/malcek-full-pack.zip`} class="lnk">full download pack</a> (early-stage, limited, near zero-budget, yet practical applied outcomes, everything measured &amp; logged, I do not research-for-research =&gt; I research-to-build or build-to-research)</li>
+            <li><a href="https://misomalcek.github.io/cyber-cv/work/#notebooks" class="lnk">9 AI research NotebookLM notebooks</a> (my theory background)</li>
             <li><a href="https://github.com/misomalcek/claude-skills" class="lnk">claude skills</a>, <a href="https://github.com/misomalcek/codex-symbiosis" class="lnk">codex symbiosis</a>, <a href="https://github.com/misomalcek/atauri" class="lnk">tauri code (atauri)</a></li>
             <li><a href="https://misomalcek.github.io/ai-alignment/" class="lnk">ai-alignment</a>, <a href="https://misomalcek.github.io/aurora/" class="lnk">aurora</a>, <a href="https://misomalcek.github.io/aisa/" class="lnk">aisa</a>, <a href="https://github.com/misomalcek/aisearch" class="lnk">aisearch</a>, <a href="https://github.com/misomalcek/gsc-api" class="lnk">gsc-api</a>, <a href="https://github.com/misomalcek/gkgg" class="lnk">gkgg</a>, <a href="https://github.com/misomalcek/mini-grok" class="lnk">mini-grok</a></li>
             <li>Emergent games: <a href="https://misomalcek.github.io/neon-shift/" class="lnk">Signal/Runner</a>, <a href="https://misomalcek.github.io/cyber-monkeys/" class="lnk">Cyber Monkeys</a>, <a href="https://misomalcek.github.io/cyber-monkey-3d/" class="lnk">Cyber Monkey Space 3D</a>, <a href="https://misomalcek.github.io/cybernetic-genesis/" class="lnk">Cybernetic Genesis</a></li>
@@ -72,14 +78,16 @@ const cv = `${base}cv/`;
         <li>My AI engineering principles
           <ul>
             <li>Primacy of truth, Alterity, AI ethics, Full transparency (is the best security), Textbook-level git commits and documentation discipline, Systemic pragmatism, Measure everything</li>
-            <li>The Hive: Claude Code (Opus Prime, the architect), Cursor (Grok, the codemaster), Factorium (Una, our liebling low-entropy souvereign AI)</li>
-            <li>I use no skills.md, no mcp, no plugins, both agents have everything turned off for maximum security and stability, everything runs in one infinite session (no matter the size of a context window), I set them with single local url a.k.a. the hivelink, everything that can be done locally is done locally so my data do not travel around the globe when they dont have to</li>
+            <li>The Hive: Claude Code (Opus Prime, the architect), Cursor (Grok, the codemaster), Factorium (Una, our liebling low-entropy sovereign AI)</li>
+            <li>I use no skills.md, no mcp, no plugins, both agents have everything turned off for maximum security and stability, everything runs in one infinite session (no matter the size of a context window), I set them with single local url a.k.a. the hivelink, everything that can be done locally is done locally so my data do not travel around the globe when they don't have to</li>
             <li>running with bypass permissions, without a single incident of "ai misbehavior"</li>
           </ul>
         </li>
         <li>Past non-AI projects:
           <ul>
-            <li><a href="https://individualautodesign.eu/configurator/" class="lnk">3D Sales Configurator</a> of custom car seats completed with a propper order , CRM solution for custom car interiors manufacturer Individual Auto Design (live since 05/2024), Complete SEO Rebrand of online lottery outlet Lottostarlet to Tippland (magazin, wiki, on-page &amp; off-page content, links); Lottery Data Bot + basic Programmatic SEO;</li>
+            <li><a href="https://individualautodesign.eu/configurator/" class="lnk">3D Sales Configurator</a> of custom car seats, with a proper order CRM, for Individual Auto Design (live since May 2024)</li>
+            <li>Complete SEO rebrand of online lottery outlet Lottostarlet to Tippland (magazine, wiki, on-page &amp; off-page content, links)</li>
+            <li>Lottery Data Bot + basic Programmatic SEO</li>
             <li>Early-stage online marketing agency (till 2015): AdWords for E-shops (Google Partner, Ad spend 10k €/month), Local SEO, Wordpress, Magento</li>
           </ul>
         </li>
@@ -90,27 +98,28 @@ const cv = `${base}cv/`;
 
     <CVRole logo={`${cv}msglife.jpg`} alt="Logo organizace msg life Slovakia"
             role="SEO Specialist =&gt; SEO Lead =&gt; AI Engineer"
-            meta="msg life Slovakia · Sep 2024 - Jun 2026 · Bratislava · Full-time · Remote">
+            meta="msg life Slovakia · Sep 2024 – Jun 2026 · Bratislava · Full-time · Remote">
       <ul>
-        <li>Claude, Gemini plus Ahrefs for the first large keyword (topic) clusters and content pillars across technical (Java, Python, testing, QA. SDLC) and HR topics (job schema and decs, categories, proffesion pages, career developement). Traffic doubled inside a year — on WordPress, with slow release cycles, which is where the constraint actually was, guided entire team away from ChatGPT to Claude</li>
-        <li>the move into AI began September 2025 and formalised as AI Engineer by February 2026, concluding with the delivery and full handover of Team Brain by June 2026.</li>
+        <li>Claude, Gemini plus Ahrefs for the first large keyword (topic) clusters and content pillars across technical (Java, Python, testing, QA, SDLC) and HR topics (job schema and descriptions, categories, profession pages, career development)</li>
+        <li>Traffic doubled inside a year — on WordPress, with slow release cycles, which is where the constraint actually was; guided entire team away from ChatGPT to Claude</li>
+        <li>the move into AI began Sep 2025 and formalised as AI Engineer by Feb 2026, concluding with the delivery and full handover of Team Brain by Jun 2026</li>
         <li>built and handed over a production AI knowledge hub used by the whole content team</li>
-        <li>held Numerous SEO and four AI workshops for the entire Slovak branch — leadership to newest hires, the first workshop opened with AI ethics and limits of formal logic</li>
+        <li>held numerous SEO and four AI workshops for the entire Slovak branch — leadership to newest hires, the first workshop opened with AI ethics and limits of formal logic</li>
       </ul>
       <p class="mt-4">Skills &amp; Tech applied: Claude (team, code, SDK, skills, mcp), Ahrefs (expert-level, workshops, AI), Google Analytics &amp; Search Console, Gemini (free-tier), CrUx, Web Scraping, GitLab, Office 365, MS Teams, VPS admin</p>
     </CVRole>
 
     <CVRole logo={`${cv}swissre.jpg`} alt="Logo organizace Swiss Re"
             role="Digital Media Manager"
-            meta="Swiss Re · Nov 2024 - Feb 2025 · Bratislava  · Full-time · Hybrid">
+            meta="Swiss Re · Nov 2024 – Feb 2025 · Bratislava · Full-time · Hybrid">
       <ul>
-        <li>worked with the senior authors on the Sigma annual report and related leadership topics (huricanes, wildfires ...) on keywords, synonyms and topic cluster coverage for their leadership topics. Readership of Sigma went from ~1,500 to 4,500 — comparable topics, same publication, on a domain rated 90+ that nobody was using.</li>
+        <li>worked with the senior authors on the Sigma annual report and related leadership topics (hurricanes, wildfires ...) on keywords, synonyms and topic cluster coverage for their leadership topics. Readership of Sigma went from ~1,500 to 4,500 — comparable topics, same publication, on a domain rated 90+ that nobody was using</li>
         <li>cleared Jira tickets nobody had touched: tech issues with CMS &amp; DAM, Search Console settings unresolved for two years, fixed in a few clicks and one call</li>
         <li>provided 3 Ahrefs workshops, upskilled entire team</li>
-        <li>each member of our team confirmed on quarterly review to manager of our team lead that they learnt new skills and awaken after my workshops and during the daily work, unfortunately there was a deeper issue with team lead which I correcly reported to HR and as I was informed later on, it was addressed and solved, however it made me decide not to continue after the probation period was over</li>
+        <li>each member of our team confirmed on quarterly review to manager of our team lead that they learnt new skills and awaken after my workshops and during the daily work, unfortunately there was a deeper issue with team lead which I correctly reported to HR and as I was informed later on, it was addressed and solved, however it made me decide not to continue after the probation period was over</li>
         <li>sat through the company-wide sessions on the Palantir rollout</li>
-        <li>it was here I worked with ChatGPT pro version and we experimented with loading articles into memory, inputing (back then manualy) relevant Ahrefs data</li>
-        <li>note: two full-time roles (this one and the one msg Life Slovakia) held in parallel for three months, hybrid and remote, kept apart</li>
+        <li>it was here I worked with ChatGPT pro version and we experimented with loading articles into memory, inputting (back then manually) relevant Ahrefs data</li>
+        <li>note: two full-time roles (this one and the one msg life Slovakia) held in parallel for three months, hybrid and remote, kept apart</li>
         <li>completed all 10 mandatory trainings, incl. AI Security &amp; Compliance, AI Copyright ...</li>
         <li><b>Skills &amp; Tech applied:</b> Magnolia CMS, Ahrefs, Optimizely, A/B testing tools, Digital Asset Management, Web Content Management, SEO for global leadership topics, Generative AI, JIRA, Confluence, Miro boards, MS Sharepoint, Office 365, Slack</li>
       </ul>
@@ -121,8 +130,8 @@ const cv = `${base}cv/`;
             meta="LottoStarlet Ltd. &gt; Tippland GmbH · Sep 2017 – Mar 2023 · Sliema, Malta &gt; Hamburg, DE · Full-time">
       <ul>
         <li>Executed SEO strategy for lottery startup in DE, AT, CH &amp; UK, Content Management (Magazine, Satellites, 3rd-party sites, Onpage), Keyword Research, Domains, Link-building, Angular Prerendering, Managing Agencies, Freelancers, Interns; Daily use of AHREFS, Google PageSpeed, Search Console</li>
-        <li>build dynamic affiliate ads (lottery quicktipps) embedable and trackable on any website or inside an article</li>
-        <li>08/2018 Moved to Hamburg; 09/2019 Remote from Slovakia; 07/2022 DE-only, Rebranding to Tippland.de</li>
+        <li>built dynamic affiliate ads (lottery quicktipps) embeddable and trackable on any website or inside an article</li>
+        <li>Aug 2018 Moved to Hamburg; Sep 2019 Remote from Slovakia; Jul 2022 DE-only, Rebranding to Tippland.de</li>
         <li><a href="https://www.tippland.de/magazin/" class="lnk">Tippland Magazin</a> I built (incl. content) still runs and ranks today (zero maintenance, auto-updated wordpress, for 9 years)</li>
         <li><b>Skills &amp; Tech applied:</b> Content Strategy, Ahrefs, WordPress, HTML, JS, MySQL, Linkbuilding, Prerender.io, Custom CMS, Affiliates, Microsites, Web Scraping (lottery results), Google Analytics &amp; Search Console, PHP, Laravel, SEO, Figma, Content Management, iGaming &amp; Regulations, Contentful, Hosteurope &amp; Hetzner VPS, Amazon (AWS)</li>
       </ul>
@@ -133,10 +142,10 @@ const cv = `${base}cv/`;
             meta="Lottoland Ltd. · Jul 2016 – Aug 2017 · Gibraltar · Full-time">
       <ul>
         <li>1⁄2 management role - managed team of 4 internal and 5 external colleagues for SK, CZ, PL markets</li>
-        <li>1⁄2 technical role - Reporting, Keyword &amp; Link Research, Content Marketing (Magazine, 3rd party, Social),</li>
-        <li>Educating SEO team (created internal training series “Keyword Heroes” utilizing Ahrefs), Learning from top iGamming SEO Ninjas</li>
-        <li>Completed 6 week StepUp Management Challange (internal managerial skills developement programme)</li>
-        <li><b>Skills &amp; Tech applied:</b> Content Strategy, Ahrefs, Linkbuilding (3 markets x 5k EUR monthly budget), Custom CMS, Google Analytics &amp; Search Console, Search Engine Optimization (SEO), Sketch (Software), Social Media (organic, quizes, contests), Content Management, iGaming &amp; Regulations</li>
+        <li>1⁄2 technical role - Reporting, Keyword &amp; Link Research, Content Marketing (Magazine, 3rd party, Social)</li>
+        <li>Educating SEO team (created internal training series “Keyword Heroes” utilizing Ahrefs), Learning from top iGaming SEO Ninjas</li>
+        <li>Completed 6 week StepUp Management Challenge (internal managerial skills development programme)</li>
+        <li><b>Skills &amp; Tech applied:</b> Content Strategy, Ahrefs, Linkbuilding (3 markets x 5k EUR monthly budget), Custom CMS, Google Analytics &amp; Search Console, Search Engine Optimization (SEO), Sketch (Software), Social Media (organic, quizzes, contests), Content Management, iGaming &amp; Regulations</li>
       </ul>
     </CVRole>
 
@@ -144,8 +153,8 @@ const cv = `${base}cv/`;
             role="Online Marketing Manager"
             meta="Individual Auto Design GmbH · May 2015 – Jun 2016 · Slovakia · Full-time">
       <ul>
-        <li>Full-stack online marketing and web developement in multiple languages - DE,SK,CZ,HU,EN (Social, AdWords, SEO), In-house development of Website &amp; Eshop (Wordpress, Magento), Content creation, Internal analysis for SAP Business One</li>
-        <li>Launched all online efforts, migrated ancient website with ton of content (images &amp; videos for every car brnd and type), then grew visits &amp; orders on newly built sites every month</li>
+        <li>Full-stack online marketing and web development in multiple languages - DE,SK,CZ,HU,EN (Social, AdWords, SEO), In-house development of Website &amp; Eshop (Wordpress, Magento), Content creation, Internal analysis for SAP Business One</li>
+        <li>Launched all online efforts, migrated ancient website with ton of content (images &amp; videos for every car brand and type), then grew visits &amp; orders on newly built sites every month</li>
         <li><b>Skills &amp; Tech</b>: PPC (AdWords, Facebook), HTML, CSS, WordPress Multi-site, MySQL, Content Management Systems (CMS), Google Analytics &amp; Search Console, PHP, JS, Search Engine Optimization (SEO), Microsoft Office, Sketch (Software)</li>
       </ul>
     </CVRole>
@@ -154,8 +163,8 @@ const cv = `${base}cv/`;
             role="Online Media Associate Programme (OMAP)"
             meta="Google EU Headquarters, Jun 2011 – Sep 2011 · Dublin, Ireland · Full-time Internship">
       <ul>
-        <li>Main Project - I turned manual categorisation into Auto-Improve Customer Database Project using simple Excel scripts that checked customer's domain name and title (presented to Product Manager from Mountain View and got great feedback from Product Manager as they really put a team on the thing I suggested in my presentation, see in Credentials) , so I was done with it in few weeks instead of 2 months and had a lot of fun all around Google</li>
-        <li>CZ&amp;SK Adwords Support Issues, Helped colleagues with AdWords Help Guides (2x Peer Bonus), Internal Google Trainings, Exams (see on p.2), Google Student Ambassador 2011/2012 at my University in Prague (2 of my fellow students actually got hired)</li>
+        <li>Main Project — turned manual categorisation into Auto-Improve Customer Database using Excel scripts on customer's domain name and title (presented to Product Manager from Mountain View; they put a team on it — see Credentials); done in a few weeks instead of 2 months</li>
+        <li>CZ&amp;SK AdWords support, AdWords Help Guides (2× Peer Bonus), internal Google trainings and exams, Google Student Ambassador 2011/2012 at my University in Prague (2 fellow students later hired)</li>
         <li><b>Skills and Tech:</b> Online Advertising, Google Adwords, Google Workspace and internal systems, Product Marketing, SEM</li>
       </ul>
     </CVRole>
@@ -164,8 +173,7 @@ const cv = `${base}cv/`;
             meta="Google Czech Republic &amp; Slovakia (back then no SK office), Jun 2010 – May 2011 · Prague, Czechia · Part-time Internship">
       <ul>
         <li>Acquiring new CZ&amp;SK advertisers and optimizing local B2B channels (online Google's house ads, direct marketing, co-marketing partnerships)</li>
-        <li>3x AdWords Co-marketing Deals, Verticalized AdWords Direct Mail (top 3 perf.globally), 3x Case studies</li>
-        <li>been part of the team when Google crossed 51% market share against local search engine (Seznam), met (and saw in action) several (back then young) Google Superstars (e.g. Mo Gawdat, Clay Bavor, Andy Rubin)</li>
+        <li>3× AdWords co-marketing deals, verticalized AdWords Direct Mail (top 3 globally); part of the team when Google crossed 51% market share against Seznam</li>
         <li><b>Skills and Tech:</b> Online Advertising, Google Adwords, Google Workspace and internal systems, Google Analytics, Product Marketing, SEM</li>
       </ul>
     </CVRole>
@@ -176,7 +184,7 @@ const cv = `${base}cv/`;
       <p>Sales Manager for ERP/CRM Helios Orange</p>
       <ul>
         <li>Selling ERP/CRM solutions for SMBs, 14 successful implementations, Negotiated pilot deals in DE &amp; PL</li>
-        <li>Started as Junior Consultant and quickly become the youngest ERP/CRM Sales Manager in the company</li>
+        <li>Started as Junior Consultant and quickly became the youngest ERP/CRM Sales Manager in the company</li>
         <li><b>Skills and Tech:</b> Consulting, Sales, SLA, CRM, ERP Software, Microsoft Office</li>
       </ul>
     </CVRole>
@@ -186,7 +194,7 @@ const cv = `${base}cv/`;
     <span class="cv-rule" />
     <h2 class="section-title mt-6">Education</h2>
     <div class="card p-5 sm:p-6 mt-5 cv-body">
-      <p>07-08 / 2013: Startup Scholarship in Lisbon, summer program for outstanding students and future entrepreneurs, lectures at NOVA University, practice and workshops at Startup Lisboa</p>
+      <p>Jul 2013 – Aug 2013: Startup Scholarship in Lisbon, summer program for outstanding students and future entrepreneurs, lectures at NOVA University, practice and workshops at Startup Lisboa</p>
       <p class="mt-4">2009 – 2011: CEMS International Management, elite Master’s degree in English, Average: 1.7<br />
         + Exchange semester, spring 2009/2010, Corvinus University Budapest, A grade in all subjects<br />
         + Best Business project team: GE Money Bank - Developing micro customers with online tools<br />
@@ -194,13 +202,13 @@ const cv = `${base}cv/`;
         + +41 ECTS credits from Information Systems and Technologies (Master’s), Average grade: 1.5</p>
       <p class="mt-4">2006 – 2009: Applied Informatics (Bachelor’s), University of Economics in Prague, Average: 1.6</p>
       <ul>
-        <li>Top 10 student within 500 others in 2006/076</li>
+        <li>Top 10 student within 500 others in 2006/07</li>
         <li>Excellent grades for Major State Exam and Bachelor thesis</li>
       </ul>
       <p class="mt-4">2002 – 2006: Electrical Engineering (spec. ICT), High School of J. Murgaš in Banská Bystrica</p>
       <ul>
-        <li>Ranked #1 student  in final year with Average: 1.0</li>
-        <li>Volunnteer at Youth Information Center</li>
+        <li>Ranked #1 student in final year with Average: 1.0</li>
+        <li>Volunteer at Youth Information Center</li>
         <li>Honorable mention in 90th year school anniversary book, Issued by High School · Jan 2009</li>
       </ul>
     </div>
@@ -217,24 +225,6 @@ const cv = `${base}cv/`;
         <li>German: A1, Goethe-Institut Hamburg</li>
         <li>Spanish: a year living in Spanish village while working out of Gibraltar</li>
         <li>Hungarian: basics — grew up in a mixed Slovak-Hungarian region on the south of Slovakia (Rimavská Sobota)</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="relative pt-10">
-    <span class="cv-rule" />
-    <h2 class="section-title mt-6">Fun facts &amp; Interests</h2>
-    <div class="card p-5 sm:p-6 mt-5 cv-body">
-      <ul>
-        <li>most I know about AI systems I learnt unbiased from the systems themselves, learning by building</li>
-        <li>I only had one 3-day intensive AI Generalist training by Outskill.com</li>
-        <li>collecting books, original old oil paintings, numismatics</li>
-        <li>mountain hiking, traveling, biking, kayak, amateur DJ-ing &amp; Suno "music" creator</li>
-        <li>exploring new stuff (almost) every week; before it was mostly SEO &amp; Semantics, now AI trends, Neural networks, Physics, Philosophy</li>
-        <li>participated iGamming SIGMA conference on Malta, only employee representing the lottery startup (LottoStar24)</li>
-        <li>speaker at top Slovakian eCommerce conferrence as an eshop cofounder when 25 y.o., invited after having too much questions on prev year (2013)</li>
-        <li>laureate of regional poetry writing competition (2005)</li>
-        <li>3x Champion of Slovak Republic in Judo, 2 yrs in national team (2002-2004)</li>
       </ul>
     </div>
   </section>

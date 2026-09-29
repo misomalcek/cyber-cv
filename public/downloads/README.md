@@ -20,13 +20,13 @@ structure.
 
 ## The four numbers that matter
 
-1. **93.9% tool success over 1,352 real calls** — Team Brain, by non-engineers, in production.
+1. **93.9% tool success over 1,352 real calls** — Team Brain, five-week logging window inside a four-month deployment for 15 non-engineers.
 2. **Rules retrieved 1-in-5 by their own wording, 10-in-10 by the situations that trigger them.**
 3. **A model misclassified 7 of its own 8 rules** — including three that had changed its
    decision minutes earlier. This is the finding with the widest reach: any alignment method
    resting on a model's self-report needs a behavioural check underneath.
-4. **$30/month** in API spend for fifteen daily users, because the architecture answers from
-   snapshots first.
+4. **~$30/month** API spend for fifteen users — an estimate (monthly tokens × Sonnet 4.6
+   price per million), not an invoice.
 
 ## What to be sceptical about, stated by the candidate
 

@@ -16,7 +16,8 @@ Google, iGaming SEO and, since 2025, AI systems built and run locally.
 Two systems are the substance of the recent work:
 
 - **Team Brain** — a Claude-API knowledge system for a 15-person content team,
-  93% tool-call success, about $30/month in API spend, delivered and handed over.
+  93.9% tool-call success over 1,352 calls (five-week log inside a four-month
+  deployment), ~$30/month estimated (tokens × Sonnet 4.6 $/MTok), delivered and handed over.
 - **Factorium** — a sovereign local system on a 12B model, with its own data
   layer, knowledge graphs, watchers and measured research output.
 

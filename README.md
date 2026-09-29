@@ -6,11 +6,15 @@ static output, no runtime dependencies at all.
 ```
 src/
   data/hive.ts          every figure on the site — generated, never hand-edited
+  data/sections.ts      dock + home grid, one source
   components/           Stat · BarList · Timeline · Disclosure · Credential · Section
-  content/research/     the papers, copied verbatim from ~/memory
-  pages/                / · /credentials/ · /research/ · /research/[slug]/
+  pages/                / · /career/ · /systems/ · /work/ · /credentials/
 scripts/pull-stats.mjs  re-reads the numbers from Postgres + Qdrant
 ```
+
+Papers ship in the download pack, not as site pages. The values that used to sit
+on the homepage become a forthcoming standalone repo (rules-axiom); the data
+file `src/data/foundations.ts` stays here until that project ships.
 
 ## Working on it
 
@@ -50,5 +54,4 @@ that check before any deploy where it matters.
 
 ## Deploy
 
-Static output. `dist/` goes to Cloudflare Pages; the domain already runs through
-Cloudflare, so a subdomain is one CNAME record.
+Static output. GitHub Pages at `/cyber-cv`. `dist/` is the artifact.

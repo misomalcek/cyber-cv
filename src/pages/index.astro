@@ -8,16 +8,9 @@ import Section from '../components/Section.astro';
 import Stat from '../components/Stat.astro';
 import BarList from '../components/BarList.astro';
 import { qdrant, qdrantTotal, graphs, rules, capturedAt } from '../data/hive';
-import { teamBrain } from '../data/team-brain';
-import { teamBrainSystem, factoriumSystem } from '../data/systems';
 import Contact from '../components/Contact.astro';
 import Downloads from '../components/Downloads.astro';
 import { sectionCards, ICONS } from '../data/sections';
-import { foundations, foundationsNote } from '../data/foundations';
-import { getCollection } from 'astro:content';
-
-/** Counted rather than typed: three papers, the essay and the local-model audit. */
-const papers = await getCollection('research');
 
 /** Card list for the home grid — hrefs resolved once, against the real base. */
 const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon: ICONS[c.icon] }));
@@ -76,7 +69,7 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
        link, so the dock itself needs no text labels — which is what made room
        for the entries that followed. Each card gives the overview; depth lives one click
        away, which is the whole point of having subpages. -->
-  <Section id="map" title="What is here" note="nine sides of the hypercube">
+  <Section id="map" title="What is here" note="five sides">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
       {sections.map((s) => (
         <a href={s.href} class="card sec-card p-6 no-underline flex flex-col group">
@@ -152,7 +145,7 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
         { k: 'Traffic built from zero', v: '30k / 100k', s: 'monthly sessions, main site and satellites — German market, no paid links', a: 'forge' },
         { k: 'ERP implementations sold', v: '14', s: 'including EN negotiations with German and Polish pilot customers', a: 'neural' },
         { k: 'First-year turnover', v: '€50k', s: 'monthly, CEE e-commerce business I co-founded', a: 'synapse' },
-        { k: 'Tool-call success rate', v: '93.9%', s: 'over 1,352 real calls by non-engineers, four months in production', a: 'forge' },
+        { k: 'Tool-call success rate', v: '93.9%', s: '1,352 calls in a five-week log window inside a four-month deployment for 15 non-engineers', a: 'forge' },
         { k: 'Direct-mail campaign', v: 'Top 3', s: 'globally at Google by signup rate — the first targeted one for CZ/SK', a: 'neural' },
         { k: 'Judo', v: '3×', s: 'Slovak champion · two years in national representation · ten years training', a: 'synapse' },
       ].map((r, i) => (
@@ -188,70 +181,7 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
 
 
 
-  <!-- ── Research ─────────────────────────────────────────────────────── -->
-  <!-- ── Research ─────────────────────────────────────────────────────────
-       Headline findings only. Each paper has its own page, and the full text
-       of all sixteen rules lives there too — the home page's job is to make a
-       reader decide whether to click, not to be the paper. -->
-  <Section id="research" title="Research" note={`${papers.length} pieces`}
-           lede="Written from stored records rather than recollection. Every figure comes from a query or a logged measurement, including the ones that count against the conclusion I wanted.">
-    <div class="grid md:grid-cols-3 gap-3 mb-4">
-      {[
-        ['1 in 5 → 10/10', 'Rules stored as their own wording could not be found from the situation they govern. Stored as descriptions of those situations, retrieval went to ten out of ten.'],
-        ['7 of 8 misjudged', 'Asked which of its own rules carried real information, the model got seven of eight wrong — including three that had changed its behaviour minutes earlier.'],
-        ['8 never used, 8 reachable', 'Three weeks of live use: eight rules were never retrieved once — and all eight come back ranked first when a situation is actually put to them. Unused is not unreachable.'],
-      ].map(([v, l]) => (
-        <div class="card p-5">
-          <div class="text-[21px] font-semibold text-fg leading-tight mb-2">{v}</div>
-          <p class="text-[17.5px] text-fg-dim leading-snug m-0">{l}</p>
-        </div>
-      ))}
-    </div>
-    <a href={`${base}research/`} class="card p-5 no-underline flex items-center gap-4 group">
-      <span class="flex-1">
-        <b class="block text-[19px] text-fg mb-1">Seven documents, and every rule in full</b>
-        <span class="block text-[17.5px] text-fg-dim">Studies, technical reports and an essay — plus an unedited audit of three of them
-          by the local model that lives in the system, including the place where it is wrong.</span>
-      </span>
-      <span class="text-fg-ghost text-[21px] transition-transform group-hover:translate-x-1">→</span>
-    </a>
-  </Section>
-
-
-
-  <!-- Model references live on /credentials/ — they are a credential from a
-       different world, not front-page decoration. -->
-
-  <!-- ── Beyond ───────────────────────────────────────────────────────── -->
-  <!-- Judo, languages and the rest live on /career/, where the twenty years are. -->
-
-
-  <!-- ── Foundations ──────────────────────────────────────────────────────
-       Values, with what each one actually decided. Two are marked untested
-       rather than quietly listed alongside the ones that cost something. -->
-  <Section id="foundations" title="What this is built on" note={`${foundations.filter(f => f.status === 'load-bearing').length} load-bearing · ${foundations.filter(f => f.status === 'used').length} used · ${foundations.filter(f => f.status === 'untested').length} untested`}
-           lede="A values list is worthless unless it can be checked. Each one below says what it is and — where one exists — the decision it produced.">
-    <div class="grid md:grid-cols-2 gap-3">
-      {foundations.map((f) => (
-        <div class="card p-5 flex flex-col">
-          <div class="flex items-baseline justify-between gap-3 flex-wrap mb-1.5">
-            <b class="text-[19px] text-fg font-semibold">{f.name}</b>
-            <span class={`text-[17px] uppercase tracking-wider border rounded px-1.5 py-0.5 shrink-0 ${
-              f.status === 'load-bearing' ? 'text-synapse border-synapse/40'
-              : f.status === 'used' ? 'text-neural-text border-neural/40'
-              : 'text-fg-ghost border-line'}`}>{f.status}</span>
-          </div>
-          <p class="text-[17.5px] text-fg-dim m-0">{f.what}</p>
-          {f.tested && (
-            <p class="text-[17.5px] text-fg-ghost m-0 mt-2.5 pt-2.5 border-t border-line/50 flex-1">
-              <b class="text-[17px] uppercase tracking-wider text-forge mr-2">what it decided</b>
-              {f.tested}
-            </p>
-          )}
-        </div>
-      ))}
-    </div>
-    <p class="text-[17.5px] text-fg-ghost mt-4 m-0 max-w-[72ch]">{foundationsNote}</p>
-  </Section>
+  <!-- Model references live on /credentials/. The papers ship in the download
+       pack. Foundations leave this homepage for a forthcoming standalone repo. -->
 
 </Base>

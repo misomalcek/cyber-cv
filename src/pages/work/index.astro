@@ -64,6 +64,14 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
     </div>
   </Section>
 
+  <Section title="Forthcoming — its own repo"
+           lede="The values that used to sit on the homepage are not gone. They become a standalone portfolio project: a rules-axiom system with situational retrieval that a stranger can attach to their own AI. The repo is the next assignment, not this site.">
+    <div class="card p-5">
+      <b class="block text-[19px] text-fg font-semibold mb-2">rules-axiom</b>
+      <p class="text-[17.5px] text-fg-dim m-0">Situational retrieval over behavioural rules — 1 in 5 by the rule's own wording, 10 of 10 by the situations that trigger it. Not a homepage values list. Source of the eight tested/untested items remains in this repo as data until that project ships.</p>
+    </div>
+  </Section>
+
   <Section title="Sites" note={`${sites.length}`}>
     <div class="grid md:grid-cols-2 gap-3">
       {sites.map((s) => (
@@ -124,7 +132,7 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
        login in front of the visitor, and a reference a reader cannot open is
        not a reference. Listed with what is actually inside each one, read from
        the notebooks rather than guessed from their titles. -->
-  <Section title="Research notebooks" note={`${academic.notebooks.items.length}`}
+  <Section id="notebooks" title="Research notebooks" note={`${academic.notebooks.items.length}`}
            lede={academic.notebooks.lede}>
     <div class="card p-5 mb-4 border-forge/30">
       <p class="text-[17.5px] text-fg-dim m-0">{academic.notebooks.note}</p>

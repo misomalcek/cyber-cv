@@ -17,19 +17,6 @@ interface Props {
   back?: { href: string; label: string };
 }
 const { title, description, back } = Astro.props;
-
-const nav = [
-  { href: `${base}#work`,        label: 'Systems' },
-  { href: `${base}#hive`,        label: 'The hive' },
-  { href: `${base}crystal/`,     label: 'The crystal' },
-  { href: `${base}#results`,     label: 'Results' },
-  { href: `${base}#apparatus`,   label: 'The apparatus' },
-  { href: `${base}#wrong`,       label: 'What went wrong' },
-  { href: `${base}#research`,    label: 'Research' },
-  { href: `${base}#code`,        label: 'Code' },
-  { href: `${base}#track`,       label: 'Career' },
-  { href: `${base}credentials/`, label: 'Credentials' },
-];
 ---
 <!doctype html>
 <html lang="en">
