@@ -30,7 +30,15 @@ const LOG_COUNT = 12;
 const LABELS = { project_context: 'project ctx' };
 
 async function psql(sql) {
-  const { stdout } = await run('psql', ['-U', 'postgres', '-d', 'team_brain', '-tA', '-F', '|', '-c', sql]);
+  // 2026-10-21: was `-U postgres -d team_brain`. Neither exists any more —
+  // the database was renamed to `factorium` and the role is `factorium_app`.
+  // The script failed loudly (correctly) and the site has been serving figures
+  // captured 2026-08-21 ever since, which UNDERSTATES the system by ~10x.
+  // Overridable so a different host can run it without editing the file.
+  const db = process.env.PGDATABASE || 'factorium';
+  const user = process.env.PGUSER || 'factorium_app';
+  const host = process.env.PGHOST || '127.0.0.1';
+  const { stdout } = await run('psql', ['-h', host, '-U', user, '-d', db, '-tA', '-F', '|', '-c', sql]);
   return stdout.trim().split('\n').filter(Boolean).map((r) => r.split('|'));
 }
 
