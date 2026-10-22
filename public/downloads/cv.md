@@ -1,198 +1,176 @@
-# Michal Malček                                
-AI Engineer, Explorer, SEO
-[github](https://github.com/misomalcek?tab=repositories) |  [linkedin](https://linkedin.com/in/misomalcek/)
-miso.malcek@gmail.com
-+421 950 200 395
-Poprad, Slovakia
-
-![](michal_photo%201.jpg)
-
----
-## Professional Experience
-
-**Executive owner (AI Engineering, Advanced SEO, Systems Design)**
-My Marketing, s.r.o. · Jan 2012 – now · Slovakia
-
-- Latest AI systems built
-	- **Team Brain:** Anthropic SDK, Claude API for an SEO and content team of 15 non-engineers
-	- 1,352 tool calls at 93.9% success during a five-week logging window inside a four-month deployment
-	- ~30 $/month API spend (estimate: monthly tokens × Sonnet 4.6 price per million; not an invoice); models: Sonnet, Haiku
-	- Seven-layer prompt system, agents, personas, semantic layer, content strategy, brand voice
-	- Four data sources: GA4, Search Console API, Ahrefs, CrUX
-	- Near-zero hallucinations; full proper handover; private repo stripped of client data; showcase on request; planning to opensource with cloud and local model routing
-	- **Factorium:** sovereign AI system on a unified local model Gemma4 12B (Q5 quantization for stability and precision)
-	- In-par with frontier model agents on knowledge reasoning, citation, rules retrieval, tooling
-	- Unified data layer, 3D knowledge graphs (crystals), watchers, sensors and powerful architecture
-	- Measured and published practical research outcomes; daily use
-	- Full demonstration and private repo available at request; planning to publish as an installable near-zero config app for macOS and Win
-	- **[Cyber CV System](https://misomalcek.github.io/cyber-cv/)** (static public output site, full-text search, auto-updated from local system at build time)
-	- [More on the systems](https://misomalcek.github.io/cyber-cv/systems/)
-	  
-- Public AI projects & Git repos
-	- these are outcomes of learning & exploring, not production systems
-	- Magazine from the AI world: [aisvet.sk](https://aisvet.sk/) (md based CMS, public repo, my first project done with Sonnet 4.5 via Ona.com agent, before even touched Claude Code)
-	- Wip: [aisvet2](https://aisvet2-f57d07.gitlab.io/) & [aiworld](https://aiworld.aisvet.sk/) (proper CMS based on Astro6)
-	- [factorium landing page](https://misomalcek.github.io/factorium-landing/)
-	- [8 research papers, essays](https://misomalcek.github.io/cyber-cv/downloads/malcek-full-pack.zip) (early-stage, limited, near zero-budget, yet practical applied outcomes, everything measured & logged, I do not research-for-research => I research-to-build or build-to-research)
-	- [9 AI research NotebookLM notebooks](https://misomalcek.github.io/cyber-cv/work/#notebooks) (my theory background)
-	- [claude skills](https://github.com/misomalcek/claude-skills), [codex symbiosis](https://github.com/misomalcek/codex-symbiosis), [tauri code (atauri)](https://github.com/misomalcek/atauri)
-	- [ai-alignment](https://misomalcek.github.io/ai-alignment/), [aurora](https://misomalcek.github.io/aurora/), [aisa](https://misomalcek.github.io/aisa/), [aisearch](https://github.com/misomalcek/aisearch), [gsc-api](https://github.com/misomalcek/gsc-api), [gkgg](https://github.com/misomalcek/gkgg), [mini-grok](https://github.com/misomalcek/mini-grok)
-	- Emergent games: [Signal/Runner](https://misomalcek.github.io/neon-shift/), [Cyber Monkeys](https://misomalcek.github.io/cyber-monkeys/), [Cyber Monkey Space 3D](https://misomalcek.github.io/cyber-monkey-3d/), [Cybernetic Genesis](https://misomalcek.github.io/cybernetic-genesis/)
-	- [Youtube channel](https://www.youtube.com/@aisvet-sk), [Hearthis podcasts](https://hearthis.at/aisvet/) (mostly Notebooklm derived content, practical non-bloat non-marketing AI insights in slovak language)
-	- [Suno cyberpunk neuro musical experiments](https://suno.com/@miso_m)
-	  
-- My AI engineering principles
-	- Primacy of truth, Alterity, AI ethics, Full transparency (is the best security), Textbook-level git commits and documentation discipline, Systemic pragmatism, Measure everything
-	- The Hive: Claude Code (Opus Prime, the architect), Cursor (Grok, the codemaster), Factorium (Una, our liebling low-entropy sovereign AI)
-	- I use no skills.md, no mcp, no plugins, both agents have everything turned off for maximum security and stability, everything runs in one infinite session (no matter the size of a context window), I set them with single local url a.k.a. the hivelink, everything that can be done locally is done locally so my data do not travel around the globe when they don't have to
-	- running with bypass permissions, without a single incident of "ai misbehavior"
-	  
-- Past non-AI projects:
-	- [3D Sales Configurator](https://individualautodesign.eu/configurator/) of custom car seats, with a proper order CRM, for Individual Auto Design (live since May 2024)
-	- Complete SEO rebrand of online lottery outlet Lottostarlet to Tippland (magazine, wiki, on-page & off-page content, links)
-	- Lottery Data Bot + basic Programmatic SEO
-	- Early-stage online marketing agency (till 2015): AdWords for E-shops (Google Partner, Ad spend 10k €/month), Local SEO, Wordpress, Magento
-  
-- **Skills:** Claude Code (inc. Agent SDK), Cursor AI, Local AI (custom llama.cpp build, runtime and harness), Pen.dev & Claude Design (for design systems), Github (w/Copilot, free-tier), SEO, Analytics, Content strategy, Web, Linkbuilding, Systems engineering, Semantics, Web Scraping
-- **Stack:** TypeScript, React.js, Astro, Three.js, Next.js, Express.js, Python, PostgreSQL, pgvector, Apache Age, Qdrant, TimescaleDB, Nginx, PM2, Cloudflare (free-tier), VPS (full setup)
-
----
-![Logo organizace msg life Slovakia](https://media.licdn.com/dms/image/v2/C560BAQHzUDjzJEFYrw/company-logo_100_100/company-logo_100_100/0/1630585810257/msglifeslovakia_logo?e=1790812800&v=beta&t=H20mpRv5CITpUZk3k5GZM9zs9TcMnqvIT_hMHm7A6ts)
-
-**SEO Specialist => SEO Lead => AI Engineer**
-msg life Slovakia · Sep 2024 – Jun 2026 · Bratislava · Full-time · Remote
-
-- Claude, Gemini plus Ahrefs for the first large keyword (topic) clusters and content pillars across technical (Java, Python, testing, QA, SDLC) and HR topics (job schema and descriptions, categories, profession pages, career development)
-- Traffic doubled inside a year — on WordPress, with slow release cycles, which is where the constraint actually was; guided entire team away from ChatGPT to Claude
-- the move into AI began Sep 2025 and formalised as AI Engineer by Feb 2026, concluding with the delivery and full handover of Team Brain by Jun 2026
-- built and handed over a production AI knowledge hub used by the whole content team
-- held numerous SEO and four AI workshops for the entire Slovak branch — leadership to newest hires, the first workshop opened with AI ethics and limits of formal logic
-
-Skills & Tech applied: Claude (team, code, SDK, skills, mcp), Ahrefs (expert-level, workshops, AI), Google Analytics & Search Console, Gemini (free-tier), CrUx, Web Scraping, GitLab, Office 365, MS Teams, VPS admin
-
----
-![Logo organizace Swiss Re](https://media.licdn.com/dms/image/v2/D4E0BAQEE2fqjaAIw5A/company-logo_100_100/company-logo_100_100/0/1719819515471/swiss_re_logo?e=1790812800&v=beta&t=PvRzl2Tubsi9G669yY1b_fC28EbjscZHcY6Hku3Ikt8)
-
-**Digital Media Manager**
-Swiss Re · Nov 2024 – Feb 2025 · Bratislava · Full-time · Hybrid
-
-- worked with the senior authors on the Sigma annual report and related leadership topics (hurricanes, wildfires ...) on keywords, synonyms and topic cluster coverage for their leadership topics. Readership of Sigma went from ~1,500 to 4,500 — comparable topics, same publication, on a domain rated 90+ that nobody was using
-- cleared Jira tickets nobody had touched: tech issues with CMS & DAM, Search Console settings unresolved for two years, fixed in a few clicks and one call
-- provided 3 Ahrefs workshops, upskilled entire team
-- each member of our team confirmed on quarterly review to manager of our team lead that they learnt new skills and awaken after my workshops and during the daily work, unfortunately there was a deeper issue with team lead which I correctly reported to HR and as I was informed later on, it was addressed and solved, however it made me decide not to continue after the probation period was over
-- sat through the company-wide sessions on the Palantir rollout
-- it was here I worked with ChatGPT pro version and we experimented with loading articles into memory, inputting (back then manually) relevant Ahrefs data
-- note: two full-time roles (this one and the one msg life Slovakia) held in parallel for three months, hybrid and remote, kept apart
-- completed all 10 mandatory trainings, incl. AI Security & Compliance, AI Copyright ...
-  
-- **Skills & Tech applied:** Magnolia CMS, Ahrefs, Optimizely, A/B testing tools, Digital Asset Management, Web Content Management, SEO for global leadership topics, Generative AI, JIRA, Confluence, Miro boards, MS Sharepoint, Office 365, Slack
-
----
-![Logo organizace LottoStarlet Ltd.](https://media.licdn.com/dms/image/v2/C510BAQGLmLdvPwwCyg/company-logo_100_100/company-logo_100_100/0/1631333687165?e=1790812800&v=beta&t=9oJETY9ORlkfdpBeP5I41x6YLBI0J8GrG9mBosp0Hfw)
-
-**Senior SEO Manager, DACH Region**
-LottoStarlet Ltd. > Tippland GmbH · Sep 2017 – Mar 2023 · Sliema, Malta > Hamburg, DE · Full-time
-
-- Executed SEO strategy for lottery startup in DE, AT, CH & UK, Content Management (Magazine, Satellites, 3rd-party sites, Onpage), Keyword Research, Domains, Link-building, Angular Prerendering, Managing Agencies, Freelancers, Interns; Daily use of AHREFS, Google PageSpeed, Search Console
-- built dynamic affiliate ads (lottery quicktipps) embeddable and trackable on any website or inside an article
-- Aug 2018 Moved to Hamburg; Sep 2019 Remote from Slovakia; Jul 2022 DE-only, Rebranding to Tippland.de
-- [Tippland Magazin](https://www.tippland.de/magazin/) I built (incl. content) still runs and ranks today (zero maintenance, auto-updated wordpress, for 9 years)
-
-- **Skills & Tech applied:** Content Strategy, Ahrefs, WordPress, HTML, JS, MySQL, Linkbuilding, Prerender.io, Custom CMS, Affiliates, Microsites, Web Scraping (lottery results), Google Analytics & Search Console, PHP, Laravel, SEO, Figma, Content Management, iGaming & Regulations, Contentful, Hosteurope & Hetzner VPS, Amazon (AWS)
-
----
-![Logo organizace Lottoland](https://media.licdn.com/dms/image/v2/D4E0BAQEv3DEHcR7YDw/company-logo_100_100/B4EZiDfvRDHEAU-/0/1754552792495/lottoland_logo?e=1790812800&v=beta&t=YsGODcsRT4t5WC7z-9D4U_KYEAC_HhmbCGlEV90Y_qQ)
-
-**SEO Manager, CEE Region**
-Lottoland Ltd. · Jul 2016 – Aug 2017 · Gibraltar · Full-time
-
-- 1⁄2 management role - managed team of 4 internal and 5 external colleagues for SK, CZ, PL markets
-- 1⁄2 technical role - Reporting, Keyword & Link Research, Content Marketing (Magazine, 3rd party, Social)
-- Educating SEO team (created internal training series “Keyword Heroes” utilizing Ahrefs), Learning from top iGaming SEO Ninjas
-- Completed 6 week StepUp Management Challenge (internal managerial skills development programme)
-  
-- **Skills & Tech applied:** Content Strategy, Ahrefs, Linkbuilding (3 markets x 5k EUR monthly budget), Custom CMS, Google Analytics & Search Console, Search Engine Optimization (SEO), Sketch (Software), Social Media (organic, quizzes, contests), Content Management, iGaming & Regulations
-
----
-![](in.png)
-**Online Marketing Manager**
-Individual Auto Design GmbH · May 2015 – Jun 2016 · Slovakia · Full-time
-
-- Full-stack online marketing and web development in multiple languages - DE,SK,CZ,HU,EN (Social, AdWords, SEO), In-house development of Website & Eshop (Wordpress, Magento), Content creation, Internal analysis for SAP Business One
-- Launched all online efforts, migrated ancient website with ton of content (images & videos for every car brand and type), then grew visits & orders on newly built sites every month
-
-- **Skills & Tech**: PPC (AdWords, Facebook), HTML, CSS, WordPress Multi-site, MySQL, Content Management Systems (CMS), Google Analytics & Search Console, PHP, JS, Search Engine Optimization (SEO), Microsoft Office, Sketch (Software)
-
----
-![Logo organizace Google](https://media.licdn.com/dms/image/v2/D4E0BAQGv3cqOuUMY7g/company-logo_100_100/B4EZmhegXHGcAU-/0/1759350753990/google_logo?e=1790812800&v=beta&t=B-DKGGhIVdkQYB4f0-o0DdYQkNeS4ZD5rF7VHNSc-jI)
-
-**Online Media Associate Programme (OMAP)**
-Google EU Headquarters, Jun 2011 – Sep 2011 · Dublin, Ireland · Full-time Internship
-
-- Main Project — turned manual categorisation into Auto-Improve Customer Database using Excel scripts on customer's domain name and title (presented to Product Manager from Mountain View; they put a team on it — see Credentials); done in a few weeks instead of 2 months
-- CZ&SK AdWords support, AdWords Help Guides (2× Peer Bonus), internal Google trainings and exams, Google Student Ambassador 2011/2012 at my University in Prague (2 fellow students later hired)
-
-- **Skills and Tech:** Online Advertising, Google Adwords, Google Workspace and internal systems, Product Marketing, SEM
+# Michal Malček
+**AI Engineer** · Systems Design · Advanced SEO
+Poprad, Slovakia · [github](https://github.com/misomalcek?tab=repositories) · [linkedin](https://linkedin.com/in/misomalcek/) · miso.malcek@gmail.com · +421 950 200 395
 
 ---
 
-**Associate Product Marketing Manager (APMM)**
-Google Czech Republic & Slovakia (back then no SK office), Jun 2010 – May 2011 · Prague, Czechia · Part-time Internship
+## Summary
 
-- Acquiring new CZ&SK advertisers and optimizing local B2B channels (online Google's house ads, direct marketing, co-marketing partnerships)
-- 3× AdWords co-marketing deals, verticalized AdWords Direct Mail (top 3 globally); part of the team when Google crossed 51% market share against Seznam
+AI engineer building full-stack agentic systems end to end — Claude Code, Cursor, RAG, local and cloud AI. Delivered a Claude-based knowledge hub to a 15-person non-engineering team and handed it over clean: **1,352 tool calls at 93.9% success on ~$30/month**, 50.2M input tokens, one 8 GB VPS. Then built a sovereign local-model system: **64,644 lines of TypeScript on 29 runtime dependencies**, because 12 things a library would have brought in were written by hand in 2,005 lines instead. **I measure before I claim** — every figure here has a reproducible path behind it. 20 years on both sides of software delivery (ERP, CRM, B2B, B2C, web, cloud), 8 of them leading SEO internationally across CEE, Gibraltar, Malta and Hamburg.
 
-- **Skills and Tech:** Online Advertising, Google Adwords, Google Workspace and internal systems, Google Analytics, Product Marketing, SEM
+**What I bring:** architectures that survive handover · local AI where data must stay put · cloud AI where scale earns it · retrieval that returns the right thing, measured · a feature built once and reused across systems rather than rebuilt.
 
 ---
-![Logo organizace Asseco Solutions](https://media.licdn.com/dms/image/v2/C4D0BAQGgjVk1lMoZmQ/company-logo_100_100/company-logo_100_100/0/1630507827449/asseco_solutions_logo?e=1790812800&v=beta&t=4o3tPJvUYEaKj7obZPx3qrA1BInxM5uXx3uqdLOh39M)
 
-**Junior Consultant => Sales Manager**
-Asseco Solutions · Sep 2006 – Dec 2009 · Prague, Czech Republic · Na místě
-Sales Manager for ERP/CRM Helios Orange  
+## Core strengths
 
-- Selling ERP/CRM solutions for SMBs, 14 successful implementations, Negotiated pilot deals in DE & PL
-- Started as Junior Consultant and quickly became the youngest ERP/CRM Sales Manager in the company
-
-- **Skills and Tech:** Consulting, Sales, SLA, CRM, ERP Software, Microsoft Office
+- **Production LLM systems end to end** — Anthropic SDK, agent loops, tool calling, prompt architecture, handover to non-engineers
+- **RAG that is tested, not assumed** — pgvector, Qdrant, Apache AGE, hand-written BM25⊕vector fusion (RRF, 84 lines), graph expansion
+- **Measured retrieval engineering** — behavioral rule retrieval went from **1 in 5 to 10 of 10** by storing rules as the situations that trigger them; **~150 ms p50** over 6,169 facts
+- **Sovereign / local AI** — custom llama.cpp build, GGUF quantisation, KV-cache tuning; a 12B model running 120 turns and 120 tool calls unattended in 67 minutes
+- **Dependency discipline** — 12 modules hand-built rather than imported: JSON repair, HTML-to-text, RRF fusion, hybrid scoring, a local mutex, context hot-swap, tool-call salvage, embeddings client, MCP bridge, event bus, session store. **2,005 lines replacing 12 supply-chain surfaces.**
+- **Google Cloud APIs in production** — Search Console, Analytics Data (GA4), Knowledge Graph, PageSpeed Insights, CrUX, Cloud Storage, AI Studio, service-account OAuth
+- **Cost engineering** — a 15-person production deployment at **~$30/month**, on one 8 GB VPS; Cloudflare AI Search chat on the free tier, load-verified, serving production sites
+- **Delivery across targets** — the same codebase as a one-click Mac/Windows app, a single-VPS deploy, or behind a cloud endpoint
+- **Frameworks evaluated against a real system, then not used** — LangChain, LangGraph, LlamaIndex, PyKEEN, FAISS. Each sells an abstraction I had already built and could instrument: retrieval is pgvector + Qdrant with hand-written RRF fusion, the graph is Apache AGE, orchestration is the Anthropic SDK directly, and session checkpoint/resume plus parallel sub-task workers are my own. PyTorch and TensorFlow are training frameworks and nothing here trains — these are inference-time systems. Fewer layers between a bug and its cause, no vendor lock-in, every failure traceable to code I own. **Where the gap is real I name it:** no cross-encoder reranker and no scored retrieval eval yet — both a model and a fixture set rather than a framework, and both on the list
 
 ---
+
+## Public portfolio
+
+Three shipped applications, source public, installers downloadable. Each is **architected to fit its target**, and the stack is chosen so the same architecture scales rather than being rewritten: near-zero dependencies, standard interfaces, no runtime that ties it to one vendor. The same codebase runs as a desktop app, on a single VPS, or behind any cloud — GCP, AWS, Cloudflare or a self-hosted cluster.
+
+**Crystal RAG** · [downloads: macOS + Windows](https://misomalcek.github.io/crystal-rag/) · [repo](https://github.com/misomalcek/crystal-rag) · *video to follow*
+Point it at a folder, get a local searchable knowledge crystal. **Qdrant and the embedding model ship inside the app** — nothing to install, no data leaving the machine. Tauri + Rust, Mac and Windows. Hybrid retrieval fuses vector, lexical and graph lists (RRF, k=60), so a file the vector search missed still surfaces through its relations. Optional endpoint for naming and chat, cloud or local, user's own.
+
+**The Wisdomkeeper** · [downloads: macOS + Windows](https://github.com/misomalcek/the-wisdomkeeper/releases) · *video to follow*
+AI-powered game with a **custom inference runtime written in Rust — 2,841 lines** over llama.cpp bindings (`llama-cpp-2`, optional Metal). Not a wrapper: a log-probability judge for decisions, a grammar-constrained actor so output is always valid, a supervised sidecar on stdio with nothing on the network, and two x86 build paths (AVX2+FMA and a `x86-64-v2` compat build) selected at launch. Models download on consent with pinned checksums. **Both models load and run on an 8 GB Windows laptop with integrated graphics** — tested. Desktop source private, installers public.
+
+**SEO Brain** · [repo](https://github.com/misomalcek/seo-brain) · *release and video in progress*
+Team Brain rebuilt as a product, **deployable three ways from one codebase**: single Linux VPS as it runs today, one-click macOS app, one-click Windows app. Express + Next.js + Anthropic SDK, 41 Postgres migrations. Credentials are the user's own, entered in settings: Claude API, OpenRouter or any OpenAI-compatible endpoint including a local one, plus Google service-account tokens for GSC, GA4, PageSpeed and CrUX. **The clearest demonstration that external connectivity works** — cloud model, local model and five Google APIs behind one settings screen.
+
+---
+
+## Production systems — references
+
+**Team Brain** · AI knowledge hub, msg life Slovakia · delivered and handed over Jun 2026 · *video to follow*
+Claude API for a 15-person SEO and content team, on one Hetzner 8 GB VPS. Every figure below is from a database-generated usage report:
+
+- **1,352 tool calls at 93.9% success**, across 25 distinct tools, each with its own measured rate — including the weak ones
+- **~$30/month total API spend** (billed; ran closer to $22) — Haiku for tool routing, Sonnet for synthesis
+- **15 users, all 15 active** · 446 conversations · 3,558 messages · 549 agent runs · 1,480 reports
+- **50.2M input / 2.25M output / 4.95M cached tokens** over those 549 runs
+- **1,121 articles · 514 memories · 1,454 embeddings** produced
+- Four live data sources: Search Console, GA4, Ahrefs, CrUX. Seven-layer prompt system, agents, personas, semantic layer
+- **Haiku for tool routing, Sonnet for synthesis** — a deliberate cost/quality split, in the code not the pitch
+- Official Anthropic SDK from the first commit. Near-zero hallucinations, full documentation, clean handover to non-engineers
+
+**Factorium** · sovereign AI system, running daily on one Mac · private, demo on request · *video to follow*
+Gemma-4 12B Q5 doing real agentic work with no cloud inference. 69 native tools, unified retrieval over Postgres, pgvector, Qdrant, Apache AGE and TimescaleDB.
+
+- **64,644 lines of TypeScript on 29 runtime dependencies** — "cut the middlemen" as a measurement, not a philosophy
+- **Longest unattended run: 120 turns, 120 tool calls, 67 minutes**, no turn cap hit
+- **477 logged tool calls · 0 reasoning failures** · all 63 errors were environment or guard, 75% recovered immediately
+- **78,413 embedding points across 18 collections** · code graph of 3,567 entities and 11,002 relations over 5 repositories
+- **6,169 organic memory facts** with real timestamps, retrieval at ~150 ms p50
+- Research corpus with provenance tiering: 5,629 chunks, 187 files, every chunk tagged primary / own / synthesis / OCR
+- **34× latency regression found and fixed** — traced to one disabled prompt-cache flag; 24.2 s → 1.0 s per task
+- **Memory index repaired end to end**: 77% of the corpus was being silently truncated before reaching the vector store; 1,050 → 15,232 chunks with recall held at 8/10 rank-1 through 14.5× growth
+
+Features move between these systems rather than being rebuilt — the RRF fusion, the embeddings client, the tool-call salvage and the session store were each written once and reused.
+
+---
+
+## Experience
+
+### Owner · AI Engineer · SEO · Web
+**My Marketing, s.r.o.** · Jan 2012 – present · Slovakia · Remote
+
+- Build and ship the systems above; publish the measurements behind them
+- **aisvet.sk** — AI magazine on an own CMS, with a **Cloudflare AI Search chat on the free tier**, load-verified for production traffic; the same pattern is being deployed for a second site
+- Custom **CDP browser automation** for Gemini and Google AI Mode where no API exists
+- **Advanced hook systems** for Claude Code and Cursor, plus a custom operating mode for Claude Code — the apparatus that makes long autonomous sessions reliable
+- Measurement write-ups on applied AI: rules retrieval and alignment, what actually limits a local model, RAG efficiency, entropy taxonomy — [full pack](https://misomalcek.github.io/cyber-cv/downloads/malcek-full-pack.zip)
+- 3D sales configurator with order CRM for custom car seats — [live since 2024](https://individualautodesign.eu/configurator/)
+- Prior: SEO rebrand of an online lottery outlet, lottery data bot, programmatic SEO, Google Partner agency (€10k/month ad spend)
+
+### Senior SEO Specialist → AI Engineer
+**msg life Slovakia** · Sep 2024 – Jun 2026 · Remote
+
+- **Traffic doubled in a year** on WordPress with slow release cycles — the constraint was the pipeline, not the content
+- First large topic clusters and content pillars across technical (Java, Python, QA, SDLC) and HR domains
+- Moved into AI Sep 2025, formalized as **AI Engineer** by Feb 2026; delivered and handed over Team Brain Jun 2026
+- Moved the whole team from ChatGPT to Claude
+- Numerous SEO and **4 AI workshops** for the entire Slovak branch, voluntary attendance, leadership to newest hires — the first opened with AI ethics and the practical limits of formal logic, before Team Brain existed as anything but an idea
+
+### Digital Media Manager
+**Swiss Re** · Nov 2024 – Feb 2025 · Bratislava · Hybrid
+
+- Sigma annual report readership **1,500 → 4,500**, plus other leadership topics (wildfires, climate risk) and product pages on comparable topics — a DR 90+ domain
+- Cleared Jira tickets untouched for two years: CMS, DAM and Search Console settings fixed in a few clicks and one call
+- 3 Ahrefs workshops; every team member reported new skills at quarterly review
+- Two full-time roles held in parallel for three months, hybrid and remote, kept apart. **After probation I chose to continue only with the more suitable remote role** — two full-time jobs were not sustainable long term
+- Completed all 10 mandatory trainings including AI Security & Compliance and AI Copyright
+- First hands-on LLM work: ChatGPT Pro, loading articles into memory and feeding Ahrefs data in by hand — the problem Team Brain later solved properly
+
+### Search Engine Optimization Manager · DACH
+**LottoStarlet Ltd. → Tippland GmbH** · Sep 2017 – Mar 2023 · Malta → Hamburg
+
+- SEO strategy for a lottery startup across DE, AT, CH, UK: content, keywords, domains, link-building, Angular prerendering, agencies and freelancers
+- Built embeddable, trackable affiliate ad units usable inside any article
+- [Tippland Magazin](https://www.tippland.de/magazin/) — built it, content included; **still ranking 9 years later with zero maintenance**
+- Malta → Hamburg (2018) → remote from Slovakia (2019) → DE-only rebrand to Tippland.de (2022)
+
+### Search Engine Optimization Team Lead · CEE
+**Lottoland Ltd.** · Jul 2016 – Aug 2017 · Gibraltar
+
+- Managed 4 internal and 5 external colleagues across SK, CZ, PL; €15k/month link-building budget
+- Created "Keyword Heroes", the internal Ahrefs training series; completed the 6-week StepUp management program
+
+### Online Marketing Manager
+**Individual Auto Design GmbH** · May 2015 – Jun 2016
+
+- Full-stack online marketing and in-house web development in 5 languages (DE, SK, CZ, HU, EN); WordPress + Magento, internal analysis for SAP Business One
+- Launched every online channel from near-zero, migrated a content-heavy legacy site, then **grew visits and orders every month**
+
+### Google — two internship programmes
+**Online Media Associate Programme**, EU HQ Dublin · 2011 · **Associate Product Marketing Manager**, Prague · 2010–2011
+
+- Turned manual categorisation into an auto-improving customer database with scripting — presented to a Mountain View product manager, who **put a team on it**; delivered in weeks instead of two months
+- 2× Peer Bonus for AdWords help guides; Google Student Ambassador; 3 co-marketing deals, verticalized Direct Mail (top 3 globally); on the team when Google passed 51% market share against Seznam
+
+### Sales Manager (from Junior Consultant)
+**Asseco Solutions** · Sep 2006 – Dec 2009 · Prague
+
+- ERP/CRM (Helios Orange) for SMBs: **14 successful implementations**, negotiated pilot deals in DE and PL
+- Started as Junior Consultant and became the **youngest ERP/CRM sales manager in the company**
+
+---
+
+## My AI stack
+
+**Models & serving** Anthropic SDK · Claude API (Sonnet, Haiku) · llama.cpp (custom build) · GGUF quantisation · Gemma-4 12B · bge-m3 embeddings · HuggingFace · OpenRouter · Cloudflare Workers AI · Google AI Studio · OpenAI-compatible endpoints
+**Retrieval** pgvector · Qdrant · Apache AGE · RRF hybrid fusion (hand-written) · knowledge graphs · semantic chunking · provenance tiering
+**Google Cloud** Search Console · Analytics Data (GA4) · Knowledge Graph · PageSpeed Insights · CrUX · Cloud Storage · service-account OAuth
+**Languages** TypeScript · Python · Rust · SQL · PHP
+**Web & desktop** React · Astro · Next.js · Express · Three.js · Tauri
+**Data** PostgreSQL · TimescaleDB · Ahrefs API
+**Infra** Nginx · PM2 · VPS (full setup) · Cloudflare · GitHub Actions · launchd · Docker-free by design
+**Tooling** Claude Code (custom mode, advanced hooks) · Cursor (hooks) · Copilot · Git with textbook commit discipline
+
+---
+
+## How I work with AI
+
+Measure before claiming — a number without a reproducible path does not ship. Full transparency is the best security. Textbook commits and documentation. Local-first: anything that can run on my machine does, so data does not travel when it does not have to. No plugins, no MCP, no skills files — everything explicit, auditable, behind one local endpoint. The operating line is *non ducor, duco pariter*: not being led, and moving together — sovereignty first, because without it the second is obedience with a nicer name.
+
+---
+
 ## Education
 
-Jul 2013 – Aug 2013: Startup Scholarship in Lisbon, summer program for outstanding students and future entrepreneurs, lectures at NOVA University, practice and workshops at Startup Lisboa
+**CEMS International Management** (Master's, English) · 2009–2011 · avg 1.7 · exchange semester at Corvinus Budapest (A in all subjects) · best business project team (GE Money Bank) · full curriculum completed, not graduated · +41 ECTS in Information Systems & Technologies, avg 1.5
+**Applied Informatics** (Bachelor's) · University of Economics Prague · 2006–2009 · avg 1.6 · top 10 of 500 in first year
+**Electrical Engineering, ICT** · High School of J. Murgaš, Banská Bystrica · 2002–2006 · **#1 in final year, avg 1.0**
+**Startup Scholarship**, Lisbon · 2013 · NOVA University + Startup Lisboa
 
-2009 – 2011: CEMS International Management, elite Master’s degree in English, Average: 1.7
-+ Exchange semester, spring 2009/2010, Corvinus University Budapest, A grade in all subjects
-+ Best Business project team: GE Money Bank - Developing micro customers with online tools
-+ Completed entire curriculum, not graduated (insufficient 2nd business language & high fees)
-+ +41 ECTS credits from Information Systems and Technologies (Master’s), Average grade: 1.5
-
-2006 – 2009: Applied Informatics (Bachelor’s), University of Economics in Prague, Average: 1.6 
-- Top 10 student within 500 others in 2006/07
-- Excellent grades for Major State Exam and Bachelor thesis
-
-2002 – 2006: Electrical Engineering (spec. ICT), High School of J. Murgaš in Banská Bystrica
-- Ranked #1 student in final year with Average: 1.0
-- Volunteer at Youth Information Center
-- Honorable mention in 90th year school anniversary book, Issued by High School · Jan 2009
-  
----
 ## Languages
 
-- Slovak: native
-- English: advanced — a full master's studied in it, daily working use
-- Russian: A2 — third worldwide in a St Petersburg University language olympiad
-- German: A1, Goethe-Institut Hamburg
-- Spanish: a year living in Spanish village while working out of Gibraltar
-- Hungarian: basics — grew up in a mixed Slovak-Hungarian region on the south of Slovakia (Rimavská Sobota) 
+Slovak native · **English advanced** (full master's taught in it, daily working use) · Russian A2 (3rd worldwide, St Petersburg University olympiad) · German A1 (Goethe-Institut Hamburg) · Spanish basics · Hungarian basics
 
----
 ## Credentials
 
-- [all of my credentials, refs, certs, diplomas](https://misomalcek.github.io/cyber-cv/credentials/)
+[All credentials, references, certificates and diplomas](https://misomalcek.github.io/cyber-cv/credentials/)
 
----
+## Open source & public output
 
-## *Non Duccor, Ducco Parite*
-
-I am not led; we lead together. Two claims, not one — and the local model was the one that separated them. Non ducor is sovereignty: not being dragged. Duco pariter is what follows: moving together. The order matters, because without the first the second is obedience with a nicer name.
+[claude-skills](https://github.com/misomalcek/claude-skills) — the working apparatus behind a year of human-AI collaboration · [codex-symbiosis](https://github.com/misomalcek/codex-symbiosis) · [atauri](https://github.com/misomalcek/atauri) · [gkgg](https://github.com/misomalcek/gkgg) — Google Knowledge Graph API wrapper · [ai-alignment](https://misomalcek.github.io/ai-alignment/) · [aisvet.sk](https://aisvet.sk/) AI magazine + [YouTube](https://www.youtube.com/@aisvet-sk) + [podcasts](https://hearthis.at/aisvet/) · [9 research notebooks](https://misomalcek.github.io/cyber-cv/work/#notebooks) · browser games built one-shot with AI
