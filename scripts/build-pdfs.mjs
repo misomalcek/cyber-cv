@@ -109,10 +109,16 @@ const CSS = `
 
 /* cv.pdf is NOT generated here.
    The CV ships as the cyber-styled document built by ~/projects/cv/build-cv-pdf.mjs —
-   same palette, cards and typeface as /career/, so the downloaded file and the live page
+   same palette, cards and typeface as the home page, so the downloaded file and the live page
    are recognisably one document. This script's print stylesheet is white-ground serif,
    which is right for the papers and wrong for the CV; left in, it silently overwrote the
    styled file on every build.
+
+     NOTE 2026-10-22: that generator is NOT run by `npm run build`. After editing
+     ~/Documents/md/cv-aktual.md you must run it and copy the result, or cv.md
+     updates while cv.pdf stays stale (it was six weeks behind when this was found):
+       node ~/projects/cv/build-cv-pdf.mjs
+       cp ~/projects/cv/Michal-Malcek-CV.pdf public/downloads/cv.pdf
    CV-README is skipped for a different reason: a two-row index needs no PDF. */
 const SKIP = new Set(['cv.md', 'CV-README.md']);
 const files = readdirSync(DIR).filter((f) => f.endsWith('.md') && !SKIP.has(f));
