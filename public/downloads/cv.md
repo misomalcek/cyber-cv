@@ -8,7 +8,7 @@ Poprad, Slovakia · [github](https://github.com/misomalcek?tab=repositories) · 
 
 AI engineer building full-stack agentic systems end to end — Claude Code, Cursor, RAG, local and cloud AI. Delivered a Claude-based knowledge hub to a 15-person non-engineering team and handed it over clean: **1,352 tool calls at 93.9% success on ~$30/month**, 50.2M input tokens, one 8 GB VPS. Then built a sovereign local-model system: **64,644 lines of TypeScript on 29 runtime dependencies**, because 12 things a library would have brought in were written by hand in 2,005 lines instead. **I measure before I claim** — every figure here has a reproducible path behind it. 20 years on both sides of software delivery (ERP, CRM, B2B, B2C, web, cloud), 8 of them leading SEO internationally across CEE, Gibraltar, Malta and Hamburg.
 
-**What I bring:** architectures that survive handover · local AI where data must stay put · cloud AI where scale earns it · retrieval that returns the right thing, measured · a feature built once and reused across systems rather than rebuilt.
+**What I bring:** architectures that survive handover · local AI where data must stay put · cloud and edge AI where scale earns it · retrieval that returns the right thing, measured · a feature built once and reused across systems rather than rebuilt.
 
 ---
 
@@ -77,7 +77,8 @@ Features move between these systems rather than being rebuilt — the RRF fusion
 **My Marketing, s.r.o.** · Jan 2012 – present · Slovakia · Remote
 
 - Build and ship the systems above; publish the measurements behind them
-- **aisvet.sk** — AI magazine on an own CMS, with a **Cloudflare AI Search chat on the free tier**, load-verified for production traffic; the same pattern is being deployed for a second site
+- **Cloudflare edge platform, two production zones** (aisvet.sk, alteranai.com) — a **Workers** edge proxy deployed via the REST API that instruments server-side pageviews with `waitUntil()` fire-and-forget, so analytics add zero latency to the visitor; Workers KV, Workers AI, authoritative DNS with GitHub/GitLab Pages subdomains, SPF + DMARC
+- **aisvet.sk** — AI magazine on an own CMS with a **Cloudflare AI Search chat on the free tier**, load-verified for production traffic: hybrid retrieval, a query-rewrite model before search and a reranker after it, similarity caching. Same pattern going to a second site
 - Custom **CDP browser automation** for Gemini and Google AI Mode where no API exists
 - **Advanced hook systems** for Claude Code and Cursor, plus a custom operating mode for Claude Code — the apparatus that makes long autonomous sessions reliable
 - Measurement write-ups on applied AI: rules retrieval and alignment, what actually limits a local model, RAG efficiency, entropy taxonomy — [full pack](https://misomalcek.github.io/cyber-cv/downloads/malcek-full-pack.zip)
@@ -145,7 +146,7 @@ Features move between these systems rather than being rebuilt — the RRF fusion
 **Languages** TypeScript · Python · Rust · SQL · PHP
 **Web & desktop** React · Astro · Next.js · Express · Three.js · Tauri
 **Data** PostgreSQL · TimescaleDB · Ahrefs API
-**Infra** Nginx · PM2 · VPS (full setup) · Cloudflare · GitHub Actions · launchd · Docker-free by design
+**Edge & infra** Cloudflare Workers · Workers KV · Workers AI · AI Search · AI Gateway · DNS/SPF/DMARC · Nginx · PM2 · VPS (full setup) · GitHub Actions · launchd · Docker-free by design
 **Tooling** Claude Code (custom mode, advanced hooks) · Cursor (hooks) · Copilot · Git with textbook commit discipline
 
 ---
