@@ -1,0 +1,32 @@
+---
+/**
+ * GitHub Pages serves this for any unknown path, which makes it the only
+ * redirect mechanism available on a static host.
+ *
+ * It exists for one real case: /career/ was removed 2026-10-22 when home became
+ * the CV (aha-plan §3), and that URL may still be referenced from an old
+ * application, a PDF or LinkedIn. A 404 on a CV link costs a reader; a redirect
+ * costs nothing. Anything else unknown lands on home too, which is correct for
+ * a five-page site.
+ */
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Michal Malček — AI Engineer</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={base} />
+    <meta http-equiv="refresh" content={`0; url=${base}`} />
+    <style>
+      body { background:#0b0d10; color:#e8eaed; font:16px/1.6 ui-sans-serif,system-ui,sans-serif;
+             display:grid; place-items:center; min-height:100vh; margin:0; }
+      a { color:#7dd3fc; }
+    </style>
+  </head>
+  <body>
+    <p>Moved — <a href={base}>continue to the CV</a>.</p>
+    <script is:inline define:vars={{ base }}>location.replace(base);</script>
+  </body>
+</html>

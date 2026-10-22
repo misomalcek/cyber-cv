@@ -15,14 +15,15 @@ AI engineer building full-stack agentic systems end to end — Claude Code, Curs
 ## Core strengths
 
 - **Production LLM systems end to end** — Anthropic SDK, agent loops, tool calling, prompt architecture, handover to non-engineers
-- **RAG that is tested, not assumed** — pgvector, Qdrant, Apache AGE, hand-written BM25⊕vector fusion (RRF, 84 lines), graph expansion
-- **Measured retrieval engineering** — behavioral rule retrieval went from **1 in 5 to 10 of 10** by storing rules as the situations that trigger them; **~150 ms p50** over 6,169 facts
-- **Sovereign / local AI** — custom llama.cpp build, GGUF quantisation, KV-cache tuning; a 12B model running 120 turns and 120 tool calls unattended in 67 minutes
-- **Dependency discipline** — 12 modules hand-built rather than imported: JSON repair, HTML-to-text, RRF fusion, hybrid scoring, a local mutex, context hot-swap, tool-call salvage, embeddings client, MCP bridge, event bus, session store. **2,005 lines replacing 12 supply-chain surfaces.**
+- **RAG that is tested, not assumed** — pgvector, Qdrant, Apache AGE, hand-written BM25⊕vector fusion (RRF), graph expansion, provenance tiering
+- **Retrieval measured, not asserted** — behavioral rule retrieval went from **1 in 5 to 10 of 10** by storing rules as the situations that trigger them. The technique is weaker on tool selection (7/10) and I say so
+- **Sovereign / local AI** — custom llama.cpp build, GGUF quantization, KV-cache tuning, prompt-cache economics; a 12B model doing agentic work unattended on one machine
+- **Dependency discipline** — 12 modules hand-built rather than imported (JSON repair, HTML-to-text, RRF fusion, hybrid scoring, local mutex, context hot-swap, tool-call salvage, embeddings client, MCP bridge, event bus, session store) — fewer supply-chain surfaces and every failure traceable to code I own
 - **Google Cloud APIs in production** — Search Console, Analytics Data (GA4), Knowledge Graph, PageSpeed Insights, CrUX, Cloud Storage, AI Studio, service-account OAuth
-- **Cost engineering** — a 15-person production deployment at **~$30/month**, on one 8 GB VPS; Cloudflare AI Search chat on the free tier, load-verified, serving production sites
-- **Delivery across targets** — the same codebase as a one-click Mac/Windows app, a single-VPS deploy, or behind a cloud endpoint
-- **Frameworks evaluated against a real system, then not used** — LangChain, LangGraph, LlamaIndex, PyKEEN, FAISS. Each sells an abstraction I had already built and could instrument: retrieval is pgvector + Qdrant with hand-written RRF fusion, the graph is Apache AGE, orchestration is the Anthropic SDK directly, and session checkpoint/resume plus parallel sub-task workers are my own. PyTorch and TensorFlow are training frameworks and nothing here trains — these are inference-time systems. Fewer layers between a bug and its cause, no vendor lock-in, every failure traceable to code I own. **Where the gap is real I name it:** no cross-encoder reranker and no scored retrieval eval yet — both a model and a fixture set rather than a framework, and both on the list
+- **Edge computing** — Cloudflare Workers deployed by API, Workers KV, Workers AI, AI Search with query rewrite and reranking, authoritative DNS, SPF/DMARC
+- **Cost engineering** — routing cheap models for tool selection and strong ones for synthesis; free-tier edge AI load-verified for production traffic. A 15-person deployment ran on one small VPS
+- **Delivery across targets** — one codebase as a one-click Mac/Windows app, a single-VPS deploy, or behind a cloud endpoint
+- **Frameworks evaluated against a real system, then not used** — LangChain, LangGraph, LlamaIndex, PyKEEN, FAISS. Each sells an abstraction I had already built and could instrument; PyTorch and TensorFlow are training frameworks and nothing here trains. **Where a gap is real I name it:** no cross-encoder reranker and no scored retrieval eval yet, both on the list
 
 ---
 
