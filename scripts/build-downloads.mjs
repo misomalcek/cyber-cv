@@ -159,7 +159,7 @@ Two systems are the substance of the recent work:
 The full record, including what went wrong, is in the full pack:
 https://misomalcek.github.io/cyber-cv/
 
-Interactive version of this CV: https://misomalcek.github.io/cyber-cv/career/
+Interactive version of this CV: https://misomalcek.github.io/cyber-cv/
 `;
 writeFileSync(join(OUT, 'CV-README.md'), cvReadme);
 console.log('✓ CV-README.md');

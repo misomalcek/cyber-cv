@@ -24,11 +24,6 @@ export interface SectionCard {
 
 export const sectionCards: SectionCard[] = [
   {
-    id: 'career', slug: 'career/', title: 'Career', icon: 'path',
-    metric: '20 years · Asseco → Google → SEO → AI',
-    blurb: 'ERP testing at nineteen, Google Prague and Dublin at twenty-four, eight years growing traffic in a market that punishes guessing — then AI, by building rather than by title.',
-  },
-  {
     id: 'systems', slug: 'systems/', title: 'Systems', icon: 'box',
     metric: 'Two — and they are not the same thing',
     blurb: 'Team Brain: five data sources, 93.9% tool success over 1,352 real calls, delivered and handed over. Factorium: one 24 GB machine, two models, no cloud inference.',
