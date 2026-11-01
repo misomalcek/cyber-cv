@@ -23,7 +23,7 @@ AI engineer building full-stack agentic systems end to end — Claude Code, Curs
 - **Edge computing** — Cloudflare Workers deployed by API, Workers KV, Workers AI, AI Search with query rewrite and reranking, authoritative DNS, SPF/DMARC
 - **Cost engineering** — routing cheap models for tool selection and strong ones for synthesis; free-tier edge AI load-verified for production traffic. A 15-person deployment ran on one small VPS
 - **Delivery across targets** — one codebase as a one-click Mac/Windows app, a single-VPS deploy, or behind a cloud endpoint
-- **Frameworks evaluated against a real system, then not used** — LangChain, LangGraph, LlamaIndex, PyKEEN, FAISS. Each sells an abstraction I had already built and could instrument; PyTorch and TensorFlow are training frameworks and nothing here trains. **Where a gap is real I name it:** no cross-encoder reranker and no scored retrieval eval yet, both on the list
+- **Frameworks evaluated against a real system, then not used** — LangChain, LangGraph, LlamaIndex, PyKEEN, FAISS. Each sells an abstraction I had already built and could instrument; PyTorch and TensorFlow are training frameworks and nothing here trains. **Where a gap is real I name it:** a cross-encoder reranker and a scored retrieval eval (52 labelled queries, recall@k and nDCG) were added in October 2026; Slovak-language retrieval is the measured weak spot and the next fix
 
 ---
 
