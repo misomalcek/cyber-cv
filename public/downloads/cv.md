@@ -37,7 +37,7 @@ Point it at a folder, get a local searchable knowledge crystal. **Qdrant and the
 **The Wisdomkeeper** · [downloads: macOS + Windows](https://github.com/misomalcek/the-wisdomkeeper/releases) · *video to follow*
 AI-powered game with a **custom inference runtime written in Rust — 2,841 lines** over llama.cpp bindings (`llama-cpp-2`, optional Metal). Not a wrapper: a log-probability judge for decisions, a grammar-constrained actor so output is always valid, a supervised sidecar on stdio with nothing on the network, and two x86 build paths (AVX2+FMA and a `x86-64-v2` compat build) selected at launch. Models download on consent with pinned checksums. **Both models load and run on an 8 GB Windows laptop with integrated graphics** — tested. Desktop source private, installers public.
 
-**SEO Brain** · [downloads: macOS + Windows](https://github.com/misomalcek/seo-brain/releases/tag/v0.1.0) · [repo](https://github.com/misomalcek/seo-brain) · *video to follow*
+**SEO Brain** · [repo](https://github.com/misomalcek/seo-brain) · *release and video in progress*
 Team Brain rebuilt as a product, **deployable three ways from one codebase**: single Linux VPS as it runs today, one-click macOS app, one-click Windows app. Express + Next.js + Anthropic SDK, 41 Postgres migrations. Credentials are the user's own, entered in settings: Claude API, OpenRouter or any OpenAI-compatible endpoint including a local one, plus Google service-account tokens for GSC, GA4, PageSpeed and CrUX. **The clearest demonstration that external connectivity works** — cloud model, local model and five Google APIs behind one settings screen.
 
 ---
