@@ -94,6 +94,29 @@ export const repos: Repo[] = [
     what: 'Google Search Console API scripts, rebuilt from a clean copy.',
     why: 'The original tracked a client\'s exported data — including in its history. Rebuilt rather than patched, because deleting a file does not remove it from git.',
   },
+  {
+    name: 'crystal-rag',
+    url: 'https://github.com/misomalcek/crystal-rag',
+    what: 'Point a folder at it and get a local searchable crystal. Qdrant and the embedding model ship inside the app.',
+    why: 'macOS and Windows installers are public (v0.4.10). Hybrid retrieval fuses vector, lexical and graph lists.',
+  },
+  {
+    name: 'the-wisdomkeeper',
+    url: 'https://github.com/misomalcek/the-wisdomkeeper',
+    what: 'A game with a browser edition and a desktop 0.1.2 for macOS and Windows.',
+    why: 'Desktop source stays private. Models download on consent with pinned checksums.',
+  },
+  {
+    name: 'seo-brain',
+    url: 'https://github.com/misomalcek/seo-brain',
+    what: 'Team Brain as a product: one codebase for a VPS, a macOS app, or a Windows app.',
+    why: 'Source is public. There is no release yet.',
+  },
+  {
+    name: 'codex-symbiosis',
+    url: 'https://github.com/misomalcek/codex-symbiosis',
+    what: 'The written principles the later harnesses were compiled from.',
+  },
 ];
 
 /**
@@ -136,8 +159,34 @@ export const games: Game[] = [
   {
     name: 'neon-shift',
     url: 'https://github.com/misomalcek/neon-shift',
+    play: 'https://misomalcek.github.io/neon-shift/',
     what: 'A playable prototype generated from a single sentence, using an entire free tier in one sitting.',
     why: 'A test of how far one prompt goes with an agent that writes and deploys. It went further than expected — the game works.',
+  },
+  {
+    name: 'The Wisdomkeeper',
+    url: 'https://github.com/misomalcek/the-wisdomkeeper',
+    play: 'https://misomalcek.github.io/the-wisdomkeeper/',
+    what: 'The browser edition. Desktop 0.1.2 is a separate installer, tested on macOS and Windows.',
+    why: 'The model downloads only after consent. The desktop source is not in the public repo.',
+  },
+  {
+    name: 'Cyber Monkey Space 3D',
+    play: 'https://misomalcek.github.io/cyber-monkey-3d/',
+    what: 'A lost astronaut against cyber daemons, played in the browser.',
+    why: 'It runs on the page. No install.',
+  },
+  {
+    name: 'AI Alignment Odyssey',
+    play: 'https://misomalcek.github.io/ai-alignment/',
+    what: 'A short game about alignment.',
+    why: 'Played in the page, not as a lecture.',
+  },
+  {
+    name: 'Cyber Monkeys',
+    play: 'https://misomalcek.github.io/cyber-monkeys/',
+    what: 'A one-shot space game.',
+    why: 'One run, no account.',
   },
 ];
 
@@ -153,8 +202,8 @@ export interface Output {
 export const outputs: Output[] = [
   {
     kind: 'site', name: 'aisvet.sk', url: 'https://aisvet.sk',
-    what: 'Practical AI writing in Slovak — hands-on guides from work actually done, in a language where the alternative is translated marketing copy.',
-    note: 'Source: gitlab.com/owlstar/aisvet',
+    what: 'The AI magazine. Practical Slovak, Astro as the CMS, Cloudflare in front, and a Cloudflare AI Search chat on the page.',
+    note: 'Source: gitlab.com/owlstar/aisvet2',
   },
   {
     kind: 'video', name: 'AI Svet — YouTube', url: 'https://www.youtube.com/@aisvet-sk',
@@ -163,11 +212,6 @@ export const outputs: Output[] = [
   {
     kind: 'audio', name: 'AI Svet — podcast', url: 'https://hearthis.at/aisvet/',
     what: 'The Third Space series and AI engineering episodes — building a team brain, autonomous agents, why company AI projects fail.',
-  },
-  {
-    kind: 'site', name: 'aisvet 2', url: 'https://aisvet2-f57d07.gitlab.io/',
-    what: 'The rebuild in progress: Astro, generated article imagery, new structure.',
-    note: 'Work in progress',
   },
   {
     kind: 'site', name: 'aiworld', url: 'https://aiworld.aisvet.sk/',

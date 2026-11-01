@@ -2,7 +2,7 @@
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
-import { lineageRepos, repos, outputs, academic } from '../../data/public-work';
+import { lineageRepos, repos, games, outputs, academic } from '../../data/public-work';
 
 /**
  * Everything public, in one place.
@@ -15,6 +15,7 @@ import { lineageRepos, repos, outputs, academic } from '../../data/public-work';
 const sites  = outputs.filter((o) => o.kind === 'site');
 const videos = outputs.filter((o) => o.kind === 'video');
 const audio  = outputs.filter((o) => o.kind === 'audio');
+const repoCount = lineageRepos.length + repos.length;
 ---
 <Base
   title="Public output — Michal Malček"
@@ -24,7 +25,7 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
   <header class="pt-10 pb-8 border-b border-line">
     <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">Public output</h1>
     <p class="lede m-0">
-      Fifteen repositories, three games, four sites, three recordings and the music. Every
+      {repoCount} repositories, {games.length} games, {sites.length} sites, {videos.length} recordings and the music. Every
       description here was read from the repository itself rather than from its name — several
       of the earlier ones were wrong, and some of the repositories' own READMEs were wrong in
       the same way.
@@ -69,6 +70,24 @@ const audio  = outputs.filter((o) => o.kind === 'audio');
     <div class="card p-5">
       <b class="block text-[19px] text-fg font-semibold mb-2">rules-axiom</b>
       <p class="text-[17.5px] text-fg-dim m-0">Situational retrieval over behavioural rules — 1 in 5 by the rule's own wording, 10 of 10 by the situations that trigger it. Not a homepage values list. Source of the eight tested/untested items remains in this repo as data until that project ships.</p>
+    </div>
+  </Section>
+
+  <Section title="Games" note={`${games.length}`}
+           lede="What can be opened and played. Wisdomkeeper also has desktop installers on the portfolio page.">
+    <div class="grid md:grid-cols-2 gap-3">
+      {games.map((g) => (
+        <div class="card p-5 flex flex-col">
+          <b class="text-[20px] text-fg font-semibold mb-2">{g.name}</b>
+          <p class="text-[18px] text-fg-dim m-0 mb-2">{g.what}</p>
+          <p class="text-[17.5px] text-fg-ghost m-0 flex-1">{g.why.replaceAll('**', '')}</p>
+          <span class="flex flex-wrap gap-4 mt-3">
+            {g.play && <a href={g.play} class="text-[17px] text-synapse no-underline">play →</a>}
+            {g.url && <a href={g.url} class="text-[17px] text-synapse no-underline">repo →</a>}
+            {g.videos?.map((v) => <a href={v.url} class="text-[17px] text-synapse no-underline">{v.title} →</a>)}
+          </span>
+        </div>
+      ))}
     </div>
   </Section>
 

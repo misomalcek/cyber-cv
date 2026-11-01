@@ -24,14 +24,19 @@ export interface SectionCard {
 
 export const sectionCards: SectionCard[] = [
   {
+    id: 'portfolio', slug: 'portfolio/', title: 'Portfolio', icon: 'grid',
+    metric: '3 apps · 2 systems · 2 magazines',
+    blurb: 'The public work, with the installers, the repos, and the two magazines.',
+  },
+  {
     id: 'systems', slug: 'systems/', title: 'Systems', icon: 'box',
     metric: 'Two — and they are not the same thing',
     blurb: 'Team Brain: five data sources, 93.9% tool success over 1,352 real calls, delivered and handed over. Factorium: one 24 GB machine, two models, no cloud inference.',
   },
   {
     id: 'work', slug: 'work/', title: 'Public output', icon: 'code',
-    metric: '15 repositories · 3 games · 4 sites · video',
-    blurb: 'Everything public in one place — including three games that are all prototypes of one idea, and two repositories published as evidence of where the working practice came from.',
+    metric: 'Repos, games, sites, video',
+    blurb: 'Everything public in one place — the games that can be played, the magazines, and two repositories published as evidence of where the working practice came from.',
   },
   {
     id: 'credentials', slug: 'credentials/', title: 'Credentials & references', icon: 'badge',

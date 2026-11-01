@@ -67,7 +67,7 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
        link, so the dock itself needs no text labels — which is what made room
        for the entries that followed. Each card gives the overview; depth lives one click
        away, which is the whole point of having subpages. -->
-  <Section id="map" title="What is here" note="five sides">
+  <Section id="map" title="What is here" note="the map">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
       {sections.map((s) => (
         <a href={s.href} class="card sec-card p-6 no-underline flex flex-col group">

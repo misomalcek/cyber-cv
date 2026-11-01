@@ -1,0 +1,191 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+import Base from '../../layouts/Base.astro';
+
+const projects = [
+  {
+    name: 'Crystal RAG',
+    line: 'Local knowledge crystal. v0.4.10, macOS and Windows.',
+    repo: 'https://github.com/misomalcek/crystal-rag',
+    page: 'https://misomalcek.github.io/crystal-rag/',
+    downloads: [
+      { label: 'macOS', href: 'https://github.com/misomalcek/crystal-rag/releases/download/v0.4.10/crystal-rag_0.4.10_aarch64.dmg' },
+      { label: 'Windows', href: 'https://github.com/misomalcek/crystal-rag/releases/download/v0.4.10/crystal-rag_0.4.10_x64-setup.exe' },
+    ],
+  },
+  {
+    name: 'The Wisdomkeeper',
+    line: 'Desktop 0.1.2, tested on macOS and Windows. Browser edition too.',
+    repo: 'https://github.com/misomalcek/the-wisdomkeeper',
+    page: 'https://misomalcek.github.io/the-wisdomkeeper/',
+    downloads: [
+      { label: 'macOS', href: 'https://github.com/misomalcek/the-wisdomkeeper/releases/download/desktop-0.1.2/wisdomkeeper-infinite_0.1.2_aarch64.dmg' },
+      { label: 'Windows', href: 'https://github.com/misomalcek/the-wisdomkeeper/releases/download/desktop-0.1.2/wisdomkeeper-infinite_0.1.2_x64-setup.exe' },
+    ],
+  },
+  {
+    name: 'SEO Brain',
+    line: 'One codebase, three targets. Source is public. No release yet.',
+    repo: 'https://github.com/misomalcek/seo-brain',
+    page: '',
+    downloads: [],
+  },
+];
+
+const systems = [
+  {
+    id: 'team-brain',
+    name: 'Team Brain',
+    shot: `${base}shots/brain-ui-chat.jpg`,
+    video: '',
+    wins: '1,352 tool calls, 93.9% success, handed to a 15-person team.',
+    keywords: 'handover, tool calls, Claude API, one VPS',
+    stack: 'Claude API, Postgres, one 8 GB VPS',
+    repo: '',
+    page: '',
+    more: 'Delivered and handed over in June 2026. Every figure is from a database usage report, not a demo. About $30 a month. The product form of this system is SEO Brain, which is in the row above and has no installer yet.',
+  },
+  {
+    id: 'factorium',
+    name: 'Factorium',
+    shot: `${base}shots/knowledge-crystal.jpg`,
+    video: `${base}folio/factorium.mp4`,
+    wins: 'A 12B model doing the work on one 24 GB machine. Measured, not claimed.',
+    keywords: 'local model, RAG, graph, one machine',
+    stack: 'TypeScript, llama.cpp, Qdrant, Postgres, AGE',
+    repo: '',
+    page: '',
+    more: 'Sovereign local system. Context stays at 131072. Vision is on. The desktop source stays private. The video is a narrated walk of the running system.',
+  },
+];
+
+const magazines = [
+  {
+    name: 'aisvet.sk',
+    href: 'https://aisvet.sk',
+    line: 'A magazine about AI, made with AI. Practical Slovak writing, not a tool list.',
+    topics: 'Prompts, tools, work, the third space',
+    stack: 'Astro for the CMS. Cloudflare in front.',
+  },
+  {
+    name: 'alteranai.com',
+    href: 'https://misomalcek.github.io/alteranai/',
+    line: 'The engineering magazine, in English. Every figure is traced to the record it came from.',
+    topics: 'Retrieval, agents, local inference, and what intelligence is',
+    stack: 'Astro, static. Built from the hive\'s own measurements.',
+  },
+];
+
+const more = [
+  { name: 'claude-skills', href: 'https://github.com/misomalcek/claude-skills' },
+  { name: 'gkgg', href: 'https://github.com/misomalcek/gkgg' },
+  { name: 'atauri', href: 'https://github.com/misomalcek/atauri' },
+  { name: 'hive-voice-echo', href: 'https://github.com/misomalcek/hive-voice-echo' },
+];
+
+const media = [
+  { name: 'YouTube', href: 'https://www.youtube.com/@aisvet-sk' },
+  { name: 'HearThis', href: 'https://hearthis.at/aisvet/' },
+  { name: 'Suno', href: 'https://www.youtube.com/@neonfireai' },
+];
+---
+
+<Base
+  title="Portfolio — Michal Malček"
+  description="Three shipped apps, two production systems, two magazines, and the public repos around them."
+  back={{ href: base, label: 'CV' }}
+>
+  <header class="pt-10 pb-6">
+    <p class="text-[15px] tracking-[.16em] uppercase text-synapse m-0 mb-2">Portfolio</p>
+    <h1 class="text-[clamp(36px,5vw,56px)] leading-none font-semibold m-0">What is public.</h1>
+  </header>
+
+  <section class="pb-8">
+    <h2 class="text-[15px] tracking-[.14em] uppercase text-fg-ghost m-0 mb-3">Three apps</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+      {projects.map((p) => (
+        <article class="card p-5">
+          <h3 class="text-[22px] font-semibold m-0 mb-1">{p.name}</h3>
+          <p class="text-fg-dim m-0 mb-3">{p.line}</p>
+          <p class="flex flex-wrap gap-3 m-0 text-[15px]">
+            <a href={p.repo}>repo</a>
+            {p.page && <a href={p.page}>page</a>}
+            {p.downloads.map((d) => <a href={d.href}>{d.label}</a>)}
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="pb-8 flex flex-col gap-3">
+    <h2 class="text-[15px] tracking-[.14em] uppercase text-fg-ghost m-0">Two systems</h2>
+    {systems.map((s) => (
+      <article class="card grid grid-cols-1 md:grid-cols-[220px_1fr] gap-4 p-4 items-center">
+        <img src={s.shot} alt="" class="w-full h-[140px] object-cover rounded-lg" />
+        <div>
+          <h3 class="text-[22px] font-semibold m-0">{s.name}</h3>
+          <p class="text-fg m-0 mt-1">{s.wins}</p>
+          <p class="text-fg-dim m-0 mt-1">{s.keywords}</p>
+          <p class="text-fg-ghost m-0 mt-1">{s.stack}</p>
+          <p class="flex flex-wrap gap-3 m-0 mt-3">
+            {s.video && <a href={s.video}>video</a>}
+            <button type="button" class="more" data-dialog={s.id}>read more</button>
+          </p>
+        </div>
+        <dialog id={s.id} class="card p-6 max-w-lg text-fg">
+          <h3 class="text-[22px] m-0 mb-2">{s.name}</h3>
+          <p class="m-0">{s.more}</p>
+          <form method="dialog" class="mt-4"><button>close</button></form>
+        </dialog>
+      </article>
+    ))}
+  </section>
+
+  <section class="pb-8">
+    <h2 class="text-[15px] tracking-[.14em] uppercase text-fg-ghost m-0 mb-3">Two magazines</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      {magazines.map((m) => (
+        <article class="card p-5">
+          <h3 class="text-[22px] m-0"><a href={m.href}>{m.name}</a></h3>
+          <p class="m-0 mt-1">{m.line}</p>
+          <p class="text-fg-dim m-0 mt-2">{m.topics}</p>
+          <p class="text-fg-ghost m-0 mt-1">{m.stack}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="pb-8">
+    <h2 class="text-[15px] tracking-[.14em] uppercase text-fg-ghost m-0 mb-3">More open source</h2>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      {more.map((r) => (
+        <a class="card p-4 no-underline" href={r.href}>{r.name}</a>
+      ))}
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <h2 class="text-[15px] tracking-[.14em] uppercase text-fg-ghost m-0 mb-3">Media</h2>
+    <div class="grid grid-cols-3 gap-3">
+      {media.map((m) => (
+        <a class="card p-4 no-underline text-center" href={m.href}>{m.name}</a>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.more').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.dialog;
+      const dialog = id ? document.getElementById(id) : null;
+      if (dialog instanceof HTMLDialogElement) dialog.showModal();
+    });
+  });
+</script>
+
+<style>
+  a { color: var(--color-synapse); }
+  button { color: var(--color-synapse); background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+  dialog::backdrop { background: rgba(0, 0, 0, 0.55); }
+</style>
