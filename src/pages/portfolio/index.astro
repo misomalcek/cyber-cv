@@ -25,10 +25,13 @@ const projects = [
   },
   {
     name: 'SEO Brain',
-    line: 'One codebase, three targets. Source is public. No release yet.',
+    line: 'One codebase, three targets. v0.1.0, macOS and Windows. Node stays on the machine, and so do the keys.',
     repo: 'https://github.com/misomalcek/seo-brain',
-    page: '',
-    downloads: [],
+    page: 'https://github.com/misomalcek/seo-brain',
+    downloads: [
+      { label: 'macOS', href: 'https://github.com/misomalcek/seo-brain/releases/download/v0.1.0/seo-brain_0.1.0_aarch64.dmg' },
+      { label: 'Windows', href: 'https://github.com/misomalcek/seo-brain/releases/download/v0.1.0/seo-brain_0.1.0_x64-setup.exe' },
+    ],
   },
 ];
 
@@ -43,7 +46,7 @@ const systems = [
     stack: 'Claude API, Postgres, one 8 GB VPS',
     repo: '',
     page: '',
-    more: 'Delivered and handed over in June 2026. Every figure is from a database usage report, not a demo. About $30 a month. The product form of this system is SEO Brain, which is in the row above and has no installer yet.',
+    more: 'Delivered and handed over in June 2026. Every figure is from a database usage report, not a demo. About $30 a month. The product form of this system is SEO Brain, in the row above.',
   },
   {
     id: 'factorium',
