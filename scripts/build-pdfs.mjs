@@ -12,7 +12,7 @@ import { join } from 'node:path';
 // the ninth for a step that runs on one machine. When it is not there (CI, a
 // fresh clone) the script skips and the committed PDFs ship unchanged.
 const PW = process.env.PLAYWRIGHT_CORE
-  ?? '/Users/m/.claude/scripts/aimode-deps/node_modules/playwright-core/index.js';
+  ?? '/Users/m/.factorium/scripts/research/node_modules/playwright-core/index.js';
 let chromium;
 try {
   ({ chromium } = (await import(PW)).default ?? await import(PW));
