@@ -12,8 +12,9 @@ if (!fs.existsSync(CV_MD)) {
   process.exit(0);
 }
 const md = fs.readFileSync(CV_MD, 'utf8');
-const section = md.split('## Public portfolio')[1]?.split('\n## ')[0] ?? '';
-const names = [...section.matchAll(/^\*\*([^*]+)\*\*/gm)].map((m) => m[1].trim());
+// v5 (2026-11-01): the section is `## Portfolio`, one bullet per entry, `- **Name**: …`.
+const section = md.split('\n## Portfolio')[1]?.split('\n## ')[0] ?? '';
+const names = [...section.matchAll(/^- \*\*([^*]+)\*\*/gm)].map((m) => m[1].trim());
 const htmlPath = 'dist/portfolio/index.html';
 if (!fs.existsSync(htmlPath)) {
   console.error('missing', htmlPath);
