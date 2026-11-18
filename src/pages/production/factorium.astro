@@ -4,12 +4,76 @@ import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 ---
 <Base
-  title="factorium — Michal Malček"
-  description="factorium"
-  back={{ href: `${base}production/`, label: 'production' }}
+  title="Factorium — Michal Malček"
+  description="Factorium: a sovereign AI system running daily on a Mac."
+  back={{ href: `${base}production/`, label: 'Production' }}
 >
   <header class="pt-10 pb-8 border-b border-line">
-    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">factorium</h1>
-    <p class="lede m-0">Details coming soon.</p>
+    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">Factorium</h1>
+    <p class="lede m-0">Sovereign AI system, running daily on a Mac. Private; demo on request.</p>
   </header>
+
+  <Section id="intro" title="Intro" note="features">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>Gemma-4 12B IT (Q5_K_M) and Gemma-4 26B (Q3) do the agentic work with no cloud inference, over 69 native tools and unified retrieval across Postgres, pgvector, Qdrant, Apache AGE and TimescaleDB.</li>
+      <li>The system comprises 65,782 lines of TypeScript on 29 runtime dependencies; 12 modules written by hand in 2,004 lines instead of imported.</li>
+      <li>Improved rule retrieval from 1 in 5 to 10 of 10 by storing rules as the situations that trigger them.</li>
+      <li>Fused BM25 and vector search with reciprocal rank fusion (RRF), so the lexical and semantic ranks do not have to share one score.</li>
+      <li>Organic memory (Phyto) returns the fact itself, about 30 tokens at p50 159 ms, roughly 70% less context than pointer-based RAG. 6,169 facts carry real timestamps.</li>
+      <li>The knowledge graph holds 3,567 entities and 11,002 relations. The research corpus has 5,629 chunks in 187 files, each tagged primary, own, synthesis or OCR.</li>
+      <li>Qdrant stores 78,413 embedding points in 18 collections, and the code graph covers 5 repositories.</li>
+      <li>The longest unattended run was 120 turns, 120 tool calls and 67 minutes, without hitting a turn cap.</li>
+      <li>Logged 477 tool calls with 0 reasoning failures. All 63 errors were environment or guard errors, and 75% recovered immediately.</li>
+      <li>Fixed a 34× latency regression caused by one disabled prompt-cache flag, from 24.2 s to 1.0 s per task.</li>
+      <li>Repaired the memory index after 77% of the corpus was silently truncated, from 1,050 to 15,232 chunks, and held 8/10 rank-1 recall through 14.5× growth.</li>
+      <li>A reflex layer turns those 69 tools and 5 stores into one loop for the 12B model without prompt bloat. 41 tests cover it, and a dispatch that used to fail now succeeds in 1.5 s.</li>
+      <li>Factorium is the local control plane for Claude Code, Cursor, GitHub Copilot and OpenCode: 69 tools, 6,169 memory facts, 78,413 vectors in 18 Qdrant collections, and a graph of 3,567 entities and 11,002 relations.</li>
+      <li>Symferium is the local multi-model runtime this system uses: <a href={`${base}portfolio/symferium/`}>/portfolio/symferium/</a>.</li>
+    </ul>
+  </Section>
+
+  <Section id="hero" title="Screenshot" note="hero">
+    <div class="card overflow-hidden">
+      <img src={`${base}shots/factorium/hero.jpg`} alt="Factorium" loading="lazy" class="w-full h-auto block"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/factorium/hero.jpg</div>
+    </div>
+  </Section>
+
+  <Section id="links" title="Download and links" note="links">
+    <div class="flex flex-wrap gap-x-4 gap-y-2 text-[17px]">
+      <span class="text-fg-ghost">Private system — demo on request.</span>
+      <a href={`${base}portfolio/symferium/`}>Symferium (local runtime)</a>
+    </div>
+  </Section>
+
+  <Section id="results" title="Results" note="measured">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>Sovereign AI System & Cognitive Biotope: engineered a production-grade local AI system using Gemma-4 12B (Q5) and Gemma-4 26B (Q3), with unified retrieval over Qdrant, PostgreSQL, Apache AGE (Knowledge Graph) and TimescaleDB.</li>
+      <li>Hybrid RRF Retrieval Pipeline: fused BM25 (lexical) and Vector (semantic) search using Reciprocal Rank Fusion (RRF) to eliminate score-incompatibility issues between different retrieval layers.</li>
+      <li>Organic Memory Architecture: developed a "Phyto" memory system where retrieval returns atomic facts (~30 tokens, p50 159ms) directly, bypassing the latency of document-pointer-based RAG.</li>
+      <li>Knowledge Graph Engineering: managed a complex knowledge graph of 3,567 entities and 11,002 relations, with a research corpus of 5,629 chunks featuring multi-tier provenance (Primary/Own/Synthesis).</li>
+      <li>Observability & Scale: integrated TimescaleDB for high-frequency event streaming and "metabolic" pulse tracking, supporting a corpus that grew 14.5× in volume while maintaining 8/10 recall@1 through rigorous gate testing.</li>
+      <li>Plinko Reflex Loop: a tool-middleware layer that turns 69 tools and 5 data stores into one self-routing loop for a 12B local agent without prompt bloat. 41 tests (pure formatters, no DB), typecheck clean. Measured: a dispatch with the target app not frontmost went from fail to success in 1.5 s.</li>
+      <li>Phyto vs. Crystal Retrieval: demonstrated a "situational retrieval" model where the Phyto organism returns the statement itself (p50 159ms) vs. Crystal's pointer-based RAG, reducing context-window overhead by about 70%.</li>
+      <li>Factorium Stats: 6,169 organic memory facts; 78,413 embedding points across 18 collections.</li>
+      <li>34× Latency Reduction: identified and fixed a prompt-cache regression, reducing task latency from 24.2 s to 1.0 s.</li>
+      <li>Zero Reasoning Failures: achieved a 100% success rate on 477 logged tool calls in production-simulated runs.</li>
+    </ul>
+  </Section>
+
+  <Section id="more-shots" title="More screenshots" note="slots">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="card overflow-hidden">
+        <img src={`${base}shots/knowledge-crystal.jpg`} alt="Factorium crystal" loading="lazy" class="w-full h-auto block"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+        <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/factorium/extra-01.png</div>
+      </div>
+      <div class="card overflow-hidden">
+        <img src={`${base}shots/factorium-code-graph.jpg`} alt="Factorium code graph" loading="lazy" class="w-full h-auto block"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+        <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/factorium/extra-02.png</div>
+      </div>
+    </div>
+  </Section>
 </Base>

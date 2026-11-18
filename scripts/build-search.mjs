@@ -23,7 +23,14 @@ const root = join(here, '..');
 const PAGES = [
   { file: 'src/pages/index.astro',              url: '',                    page: 'My CV' },
   { file: 'src/pages/portfolio/index.astro',    url: 'portfolio/',          page: 'Portfolio' },
+  { file: 'src/pages/portfolio/crystal-rag.astro', url: 'portfolio/crystal-rag/', page: 'Crystal RAG' },
+  { file: 'src/pages/portfolio/seo-brain.astro', url: 'portfolio/seo-brain/', page: 'SEO Brain' },
+  { file: 'src/pages/portfolio/symferium.astro', url: 'portfolio/symferium/', page: 'Symferium' },
+  { file: 'src/pages/portfolio/wisdomkeeper.astro', url: 'portfolio/wisdomkeeper/', page: 'The Wisdomkeeper' },
   { file: 'src/pages/production/index.astro',   url: 'production/',         page: 'Production' },
+  { file: 'src/pages/production/team-brain.astro', url: 'production/team-brain/', page: 'Team Brain' },
+  { file: 'src/pages/production/factorium.astro', url: 'production/factorium/', page: 'Factorium' },
+  { file: 'src/pages/production/cloudflare.astro', url: 'production/cloudflare/', page: 'Cloudflare' },
   { file: 'src/pages/public/index.astro',       url: 'public/',             page: 'Publication' },
   { file: 'src/pages/credentials/index.astro',  url: 'credentials/',        page: 'Credentials' },
 ];

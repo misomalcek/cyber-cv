@@ -4,12 +4,61 @@ import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 ---
 <Base
-  title="cloudflare — Michal Malček"
-  description="cloudflare"
-  back={{ href: `${base}production/`, label: 'production' }}
+  title="Cloudflare — Michal Malček"
+  description="Cloudflare edge AI chat for aisvet.sk and alteranai.com."
+  back={{ href: `${base}production/`, label: 'Production' }}
 >
   <header class="pt-10 pb-8 border-b border-line">
-    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">cloudflare</h1>
-    <p class="lede m-0">Details coming soon.</p>
+    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">Cloudflare</h1>
+    <p class="lede m-0">The two magazines' edge AI chat, on Cloudflare.</p>
   </header>
+
+  <Section id="intro" title="Intro" note="features">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>Built two production RAG chats on Cloudflare AI Search for alteranai.com and aisvet.sk: hybrid vector and BM25 retrieval, Llama 4 Scout query rewriting, reranking, and 1024-dim Qwen3 embeddings across 392 pages and 396 vectors. Replies go through AI Gateway to OpenRouter, in a chat bubble grounded on the live site content.</li>
+      <li>Ran the same two zones on Cloudflare's edge: R2 object storage and CDN, Workers, AI Gateway, managed DNS, SPF and DMARC, and an NLWeb worker (/ask, /mcp), on free-tier resources at zero inference cost.</li>
+      <li>Cloudflare AI Search (RAG) — 2 production deployments: aisvet.sk (live since Jun 2026, 220 pages indexed) and alteranai.com (50+ articles, 172 pages indexed) — 392 total pages, 396 vectors at 1024 dimensions.</li>
+      <li>Configured hybrid retrieval combining dense vector search (Qwen3-0.6B embeddings) with keyword/BM25 search, fusion scoring (max), and LLM-powered reranking for result quality.</li>
+      <li>Enabled LLM query rewriting with Llama 4 Scout (17B) to reformulate user queries before retrieval, improving recall on paraphrased searches.</li>
+      <li>Chunked content at 5120 chars with 5-char overlap; enabled OCR for image-based content extraction during crawl.</li>
+      <li>Used browser rendering for JavaScript-rendered pages and sitemap-based + link-discovery crawling strategies depending on site structure.</li>
+      <li>Routed answer generation through AI Gateway → OpenRouter (Liquid LFM 3-1.7B free-tier model), enabling zero-cost LLM inference with request logging and caching (6-day TTL).</li>
+      <li>Deployed public endpoints with rate limiting (70 req/hr), CORS-authorized host lists, and embedded chat-bubble UI components directly into both websites.</li>
+      <li>Deployed NLWeb Worker (Workers.dev) providing /ask and /mcp API endpoints for programmatic search access.</li>
+      <li>Cloudflare R2 Object Storage & CDN: single R2 bucket serving 2 custom domains (media.aisvet.sk, media.alteranai.com) with Cloudflare CDN caching; CORS policy with ExposeHeaders for Content-Range / Accept-Ranges for audio seeking and PDF.js range requests; serving podcasts (MP3), infographics (WebP/PNG) and slide decks (PDF) with zero egress fees.</li>
+      <li>Cloudflare Workers & Edge: deployed a Cloudflare Worker with route pattern (*aisvet.sk/*) for bot analytics and edge request interception, via API with fetch handler architecture.</li>
+      <li>Cloudflare DNS & Security: 2 active production zones (aisvet.sk, alteranai.com) with managed DNS; email security SPF, DMARC, MX records; GitHub Pages deployment with Cloudflare DNS proxying.</li>
+      <li>Key technologies: Cloudflare AI Search, AI Gateway, R2, Workers, Vectorize, Workers AI, OpenRouter, Qwen3 Embeddings, Llama 4 Scout, Liquid LFM 3, BM25, Hybrid Search, RAG, Reranking, Query Rewriting, OCR, Browser Rendering, NLWeb, CORS, CDN Caching, Edge Computing.</li>
+    </ul>
+  </Section>
+
+  <Section id="hero" title="Screenshot" note="hero">
+    <div class="card overflow-hidden">
+      <img src={`${base}shots/cloudflare/hero.png`} alt="Cloudflare" loading="lazy" class="w-full h-auto block"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/cloudflare/hero.png</div>
+    </div>
+  </Section>
+
+  <Section id="links" title="Download and links" note="links">
+    <div class="flex flex-wrap gap-x-4 gap-y-2 text-[17px]">
+      <a href="https://aisvet.sk/" target="_blank" rel="noopener">aisvet.sk</a>
+      <a href="https://alteranai.com/" target="_blank" rel="noopener">alteranai.com</a>
+    </div>
+  </Section>
+
+  <Section id="results" title="Results" note="measured">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>Cloudflare AI Engineering — 2 production RAG search systems on Cloudflare's edge platform: deployed AI Search with hybrid vector+BM25 retrieval, LLM query rewriting (Llama 4 Scout), cross-domain reranking, and 1024-dim Qwen3 embeddings across 392 indexed pages / 396 vectors; routed chat inference through AI Gateway to OpenRouter LLM, served via public endpoints with embedded chat-bubble UI on both sites.</li>
+      <li>Cloudflare infrastructure & storage: R2 object storage with multi-domain CDN delivery (CORS, custom domains) for podcasts/images/PDFs across 2 zones, Cloudflare Workers with route-based edge logic, AI Gateway with request logging, managed DNS with SPF/DMARC email security, and NLWeb Worker deployment — all on free-tier resources at zero inference cost.</li>
+      <li>All numbers are real — 392 pages indexed, 396 vectors, 867 R2 objects, 2 AI Search instances, 2 AI Gateways, 1 Worker, 2 zones.</li>
+    </ul>
+  </Section>
+
+  <Section id="more-shots" title="More screenshots" note="slots">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="card p-6 text-fg-ghost">Screenshot slot: public/shots/cloudflare/extra-01.png</div>
+      <div class="card p-6 text-fg-ghost">Screenshot slot: public/shots/cloudflare/extra-02.png</div>
+    </div>
+  </Section>
 </Base>

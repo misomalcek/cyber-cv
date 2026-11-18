@@ -4,12 +4,64 @@ import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 ---
 <Base
-  title="team-brain — Michal Malček"
-  description="team-brain"
-  back={{ href: `${base}production/`, label: 'production' }}
+  title="Team Brain — Michal Malček"
+  description="Team Brain: an AI knowledge hub for msg life Slovakia."
+  back={{ href: `${base}production/`, label: 'Production' }}
 >
   <header class="pt-10 pb-8 border-b border-line">
-    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">team-brain</h1>
-    <p class="lede m-0">Details coming soon.</p>
+    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">Team Brain</h1>
+    <p class="lede m-0">AI knowledge hub, msg life Slovakia. Delivered and handed over Jun 2026.</p>
   </header>
+
+  <Section id="intro" title="Intro" note="features">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>Built and handed over a production agentic AI system, Team Brain (brain.msgweb.io, still in production), on the Anthropic SDK for autonomous web analytics, SEO optimization and content production.</li>
+      <li>Ran the Claude API for a 15-person SEO and content team on one Hetzner 8 GB VPS. Every figure below is from a database-generated usage report.</li>
+      <li>Role formalised as AI Engineer in Jan 2026; 4 AI and 5 SEO workshops for the entire Slovak branch.</li>
+      <li>Consolidated topic clusters: 2 on msg-life.sk/clanky, 4 on msgprogramator.sk, 4 on msgtester.sk (AI/ML, Cloud, Java, Programming, Testing, IT Career), plus the content of 8 IT profession pages.</li>
+      <li>With Claude.ai, Gemini, Microsoft Copilot and NotebookLM, created 2 clustered glossary frameworks (AI terms, HR terms), 8 custom skills (SEO Brief, Analyst, Writer and others), SEO strategies for 2025 and 2026, a Content DNA, a Brand Voice Guide, about 80 optimized articles and 40 SEO briefs for copywriters, all published on the msg sites.</li>
+      <li>Doubled site traffic in a year despite slow release cycles on an agency-managed WordPress site.</li>
+    </ul>
+  </Section>
+
+  <Section id="hero" title="Screenshot" note="hero">
+    <div class="card overflow-hidden">
+      <img src={`${base}shots/team-brain/hero.jpg`} alt="Team Brain" loading="lazy" class="w-full h-auto block"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/team-brain/hero.jpg</div>
+    </div>
+  </Section>
+
+  <Section id="links" title="Download and links" note="links">
+    <div class="flex flex-wrap gap-x-4 gap-y-2 text-[17px]">
+      <a href="https://brain.msgweb.io/" target="_blank" rel="noopener">Team Brain (production)</a>
+    </div>
+  </Section>
+
+  <Section id="results" title="Results" note="measured">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>Recorded 1,352 tool calls at 93.9% success across 25 tools, each with its own measured rate, including the weak ones.</li>
+      <li>Spent about $30 a month on the API (billed; closer to $22). Haiku routes tools and Sonnet writes the synthesis, a cost split that lives in the code.</li>
+      <li>Served 15 users, all 15 active, across 446 conversations, 3,558 messages, 549 agent runs and 1,480 reports.</li>
+      <li>Processed 50.2M input, 2.25M output and 4.95M cached tokens over those 549 runs.</li>
+      <li>Produced 1,121 articles, 514 memories and 1,454 embeddings.</li>
+      <li>Connected four live sources — Search Console, GA4, Ahrefs and CrUX — through a seven-layer prompt system with agents, personas and a semantic layer.</li>
+      <li>Shipped on the official Anthropic SDK from the first commit, with near-zero hallucinations, full documentation and a clean handover to non-engineers.</li>
+    </ul>
+  </Section>
+
+  <Section id="more-shots" title="More screenshots" note="slots">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="card overflow-hidden">
+        <img src={`${base}shots/brain-ui-chat.jpg`} alt="Team Brain chat" loading="lazy" class="w-full h-auto block"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+        <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/team-brain/extra-01.png</div>
+      </div>
+      <div class="card overflow-hidden">
+        <img src={`${base}shots/brain-tool-calls.jpg`} alt="Team Brain tool calls" loading="lazy" class="w-full h-auto block"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+        <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/team-brain/extra-02.png</div>
+      </div>
+    </div>
+  </Section>
 </Base>

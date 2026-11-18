@@ -4,12 +4,59 @@ import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 ---
 <Base
-  title="crystal-rag — Michal Malček"
-  description="crystal-rag"
-  back={{ href: `${base}portfolio/`, label: 'portfolio' }}
+  title="Crystal RAG — Michal Malček"
+  description="Crystal RAG: a desktop RAG app with Qdrant and the embedding model shipped inside."
+  back={{ href: `${base}portfolio/`, label: 'Portfolio' }}
 >
   <header class="pt-10 pb-8 border-b border-line">
-    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">crystal-rag</h1>
-    <p class="lede m-0">Details coming soon.</p>
+    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">Crystal RAG</h1>
+    <p class="lede m-0">A desktop RAG app (Tauri, Rust, Three.js) with Qdrant and the embedding model shipped inside.</p>
   </header>
+
+  <Section id="intro" title="Intro" note="features">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>Crystal RAG is a desktop RAG app (Tauri, Rust, Three.js) with Qdrant and the embedding model shipped inside.</li>
+      <li>Hybrid retrieval fuses vector, lexical and graph search with RRF (reciprocal rank fusion). Search runs locally, or through a local or cloud endpoint added in the app.</li>
+      <li>It is local-first: embeddings and the vector store run on the machine, as a low-latency alternative to cloud-only RAG.</li>
+      <li>Files, imports and names are nodes. The same spelling in two files is one node. Click it for the passages, the neighbours and a bridge score next to how many links it has.</li>
+      <li>Retrieve fuses three lists by rank, reciprocal rank fusion, k = 60: the embedding, a word search (BM25), and a walk along names that share a passage. Fusion reads rank; it does not mix in the cosine or the edge weight.</li>
+      <li>Hop and Blast are buttons on the crystal: one step from the node you clicked, or two.</li>
+      <li>Ask sends those retrieved passages to your endpoint in one call. The model does not receive tools. An OpenAI-compatible URL works, cloud or local, including a gateway in front of it. A rate limit comes back as one sentence. Without an endpoint, the crystal and retrieve still run. A key, if the server wants one, stays in the app settings; it is not in the download.</li>
+      <li>Stack: Tauri 2, Rust, Vite, three.js. nomic-embed-text v1.5, 768 dimensions, served by llama.cpp. Qdrant holds the vectors. Ports are chosen when the app starts.</li>
+      <li>The third list is the Zep / Graphiti idea: the graph produces a ranking, then RRF. This build stops at that fusion; it does not add their later MMR or node-distance stages.</li>
+      <li>Limits: 400 chunks for the folder, 80 for one file, about 1,800 characters each; 400 file nodes drawn, 10,000 files walked; one PDF up to 32 MB, text layer only. Skipped: node_modules, target, dist, .git, hidden directories, names ending in _files. Images are nodes, no OCR; Office files are counted, not parsed. Read as text: md txt html htm, rs ts tsx js jsx mjs cjs py go java c h cpp cc hpp, pdf.</li>
+      <li>MIT. Not notarized. macOS, first launch: right-click the app, then Open. Windows: More info, then Run anyway. The installed app is about 188 MB. No Docker, Node or Python.</li>
+    </ul>
+  </Section>
+
+  <Section id="hero" title="Screenshot" note="hero">
+    <div class="card overflow-hidden">
+      <img src={`${base}shots/crystal-rag/hero.jpg`} alt="Crystal RAG" loading="lazy" class="w-full h-auto block"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/crystal-rag/hero.jpg</div>
+    </div>
+  </Section>
+
+  <Section id="links" title="Download and links" note="links">
+    <div class="flex flex-wrap gap-x-4 gap-y-2 text-[17px]">
+      <a href="https://github.com/misomalcek/crystal-rag">Repository</a>
+      <a href="https://misomalcek.github.io/crystal-rag/">Project page</a>
+      <a href="https://github.com/misomalcek/crystal-rag/releases/download/v0.4.10/crystal-rag_0.4.10_aarch64.dmg">Download macOS</a>
+      <a href="https://github.com/misomalcek/crystal-rag/releases/download/v0.4.10/crystal-rag_0.4.10_x64-setup.exe">Download Windows</a>
+    </div>
+  </Section>
+
+  <Section id="results" title="Results" note="measured">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>Hybrid Retrieval Engine: built a desktop RAG application (Tauri, Rust, Three.js) featuring a fused retrieval stack combining vector, lexical and graph-based search with RRF for high-precision context injection.</li>
+      <li>Local-First Architecture: designed to run with local embeddings and vector storage, providing a low-latency alternative to cloud-dependent RAG systems.</li>
+    </ul>
+  </Section>
+
+  <Section id="more-shots" title="More screenshots" note="slots">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="card p-6 text-fg-ghost">Screenshot slot: public/shots/crystal-rag/extra-01.png</div>
+      <div class="card p-6 text-fg-ghost">Screenshot slot: public/shots/crystal-rag/extra-02.png</div>
+    </div>
+  </Section>
 </Base>

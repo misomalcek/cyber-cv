@@ -4,12 +4,58 @@ import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 ---
 <Base
-  title="wisdomkeeper — Michal Malček"
-  description="wisdomkeeper"
-  back={{ href: `${base}portfolio/`, label: 'portfolio' }}
+  title="The Wisdomkeeper — Michal Malček"
+  description="The Wisdomkeeper: a 3D open-world AI game."
+  back={{ href: `${base}portfolio/`, label: 'Portfolio' }}
 >
   <header class="pt-10 pb-8 border-b border-line">
-    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">wisdomkeeper</h1>
-    <p class="lede m-0">Details coming soon.</p>
+    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">The Wisdomkeeper</h1>
+    <p class="lede m-0">A 3D open-world AI game: a third-person cyber-phyto-mycelial action RPG that runs entirely in the browser (Three.js, TypeScript, Vite).</p>
   </header>
+
+  <Section id="intro" title="Intro" note="features">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>The Wisdomkeeper is a 3D open-world AI game with a custom Rust inference runtime (2,841 lines) over llama.cpp, running LFM2.5-1.2B-Instruct and Qwen3.5-0.8B.</li>
+      <li>A log-probability judge and grammar-constrained decoding keep the procedural text coherent, including on a static GitHub page with no install and no model.</li>
+      <li>Play in the browser: https://misomalcek.github.io/the-wisdomkeeper/ (deployed from main). The browser edition downloads nothing: the hero, enemies, world, music and sound effects are generated in code (about 190 KB gzipped).</li>
+      <li>Desktop edition (Infinite Evolutions): the same game, installed, adds a local mind — two small models that can play the Warden and the forest. If a model is unsure, the game's own rules take the turn. The models download only after you agree (about 1.3 GB, checksums pinned). No account, no telemetry. The desktop source stays private.</li>
+      <li>Storycards are one format in both editions (wisdomkeeper.storycard). A card from the browser loads on the desktop, and the other way. Samples of later regions are in storycards/.</li>
+      <li>Gameplay: an over-the-shoulder hero, melee + ranged + abilities, free flight, gear and skill trees, big explorable regions with enemy camps, Pylons and a map. You are the Wisdomkeeper — a bioluminescent seed-spirit rooted in the soil of code.</li>
+      <li>Progression: XP and levels (skill points), a 15-node skill tree in three branches, and 6 gear slots with five rarities and rolled stats. Choices matter: Embrace the Null vs Purify the Remembrance after each of 7 Remembrances; three paths per act (Root, Echo, Flow) with a three-tier perk ladder; armor variants.</li>
+      <li>Systems: echo trees, a procedurally grown mycelium network, Null corruption, a Mycelial Mind (a tiny seeded neural net, 5→8→4) that turns play-style into a latent world code, and fractal scaling.</li>
+      <li>Tech: Three.js + Vite + TypeScript (strict). No physics or ML library: ground/air/flight/levitation physics, slope limits and circle colliders are about 300 lines; the "AI" is about 100. Rendering: terrain shader, instanced flora / fractal trees / projectiles, one additive point system, UnrealBloom, dithered screen-space occlusion fade. Audio is WebAudio only. UI is DOM/CSS over the canvas.</li>
+      <li>Deploy: GitHub Pages via .github/workflows/deploy.yml on every push to main; Vite uses base: './', so it works from any sub-path.</li>
+    </ul>
+  </Section>
+
+  <Section id="hero" title="Screenshot" note="hero">
+    <div class="card overflow-hidden">
+      <img src={`${base}shots/wisdomkeeper/hero.png`} alt="The Wisdomkeeper" loading="lazy" class="w-full h-auto block"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/wisdomkeeper/hero.png</div>
+    </div>
+  </Section>
+
+  <Section id="links" title="Download and links" note="links">
+    <div class="flex flex-wrap gap-x-4 gap-y-2 text-[17px]">
+      <a href="https://github.com/misomalcek/the-wisdomkeeper/">Repository</a>
+      <a href="https://misomalcek.github.io/the-wisdomkeeper/">Play online</a>
+      <a href="https://github.com/misomalcek/the-wisdomkeeper/releases/download/desktop-0.1.2/wisdomkeeper-infinite_0.1.2_aarch64.dmg">Download macOS</a>
+      <a href="https://github.com/misomalcek/the-wisdomkeeper/releases/download/desktop-0.1.2/wisdomkeeper-infinite_0.1.2_x64-setup.exe">Download Windows</a>
+    </div>
+  </Section>
+
+  <Section id="results" title="Results" note="measured">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>Custom Inference Engine: built a 3D open-world AI game featuring a custom Rust-based inference runtime (2,841 lines) over llama.cpp bindings running LFM2.5-1.2B-Instruct and Qwen3.5-0.8B models.</li>
+      <li>Advanced Generation Control: implemented a log-probability judge and grammar-constrained output to ensure coherent, procedurally generated narrative content in a real-time environment.</li>
+    </ul>
+  </Section>
+
+  <Section id="more-shots" title="More screenshots" note="slots">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="card p-6 text-fg-ghost">Screenshot slot: public/shots/wisdomkeeper/extra-01.png</div>
+      <div class="card p-6 text-fg-ghost">Screenshot slot: public/shots/wisdomkeeper/extra-02.png</div>
+    </div>
+  </Section>
 </Base>

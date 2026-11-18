@@ -4,12 +4,56 @@ import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 ---
 <Base
-  title="seo-brain — Michal Malček"
-  description="seo-brain"
-  back={{ href: `${base}portfolio/`, label: 'portfolio' }}
+  title="SEO Brain — Michal Malček"
+  description="SEO Brain: a multi-agent SEO and content platform."
+  back={{ href: `${base}portfolio/`, label: 'Portfolio' }}
 >
   <header class="pt-10 pb-8 border-b border-line">
-    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">seo-brain</h1>
-    <p class="lede m-0">Details coming soon.</p>
+    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">SEO Brain</h1>
+    <p class="lede m-0">A workspace for search work: you talk to it, it reads your notes and the files you give it, and — when you add the keys — it can ask Ahrefs, Search Console and Analytics.</p>
   </header>
+
+  <Section id="intro" title="Intro" note="features">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>SEO Brain is a multi-agent SEO and content platform (TypeScript, Python, Anthropic SDK, PostgreSQL, Apache AGE).</li>
+      <li>One codebase deploys to a VPS, a cloud instance, or a macOS or Windows app, and runs on the Claude API, OpenRouter or a local model, plus five Google APIs.</li>
+      <li>Apache AGE holds the topic clusters and content pillars the agents write from.</li>
+      <li>Two ways to run it. One codebase. The desktop app is for a person who does not run servers: Node and Postgres travel inside the app; there is nothing else to install. The window opens at once and shows a start screen while the local database and API come up. The server edition deploys on a Linux machine, with Postgres.</li>
+      <li>Version 0.1.1. Apple Silicon and Windows 10/11, 64-bit. No account with us; a model key is yours; nothing in this repository is a credential.</li>
+      <li>What works without a key: the app opens and says what a key unlocks. Chat needs an Anthropic key, or another OpenAI-compatible endpoint. Search Console, Analytics and Ahrefs each turn on their own tools. A missing key is a quiet switch, not a crash.</li>
+      <li>Embeddings stay on the machine (nomic-embed-text v1, 768 dimensions). They download after you agree. They are not inside the installer, and they are not sent to the chat endpoint.</li>
+      <li>The desktop database is Postgres, in-process, with pgvector — the same SQL the server runs. Three things stay on the server: Timescale (the log tables exist, they are not chunked), the trigram index (search still works, that index is only a speedup), and the knowledge-graph tool (it belongs to a server install; the desktop does not register it). vectorscale is not installed anywhere; nothing used it.</li>
+      <li>Server deploy: scripts/brain-deploy.sh is the deploy. It is meant to be run as brain-admin, and the brain-dev user must not be able to edit it. The server still needs Postgres, with vector and pg_trgm. Timescale is optional and only adds chunking. The graph migration (038_hive_graph_seed.sql) is server-only. A desktop build skips it by setting SEO_BRAIN_SKIP_MIGRATIONS to that file name.</li>
+    </ul>
+  </Section>
+
+  <Section id="hero" title="Screenshot" note="hero">
+    <div class="card overflow-hidden">
+      <img src={`${base}shots/seo-brain/hero.png`} alt="SEO Brain" loading="lazy" class="w-full h-auto block"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/seo-brain/hero.png</div>
+    </div>
+  </Section>
+
+  <Section id="links" title="Download and links" note="links">
+    <div class="flex flex-wrap gap-x-4 gap-y-2 text-[17px]">
+      <a href="https://github.com/misomalcek/seo-brain">Repository</a>
+      <a href="https://github.com/misomalcek/seo-brain/releases/download/v0.1.1/seo-brain_0.1.1_aarch64.dmg">Download macOS</a>
+      <a href="https://github.com/misomalcek/seo-brain/releases/download/v0.1.1/seo-brain_0.1.1_x64-setup.exe">Download Windows</a>
+    </div>
+  </Section>
+
+  <Section id="results" title="Results" note="measured">
+    <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+      <li>Multi-Agent SEO Platform: architected an agentic system using the Anthropic SDK to automate web analytics, SEO optimization and content production across multiple platforms.</li>
+      <li>Hybrid Data Layer: utilized PostgreSQL and Apache AGE to manage complex topic clusters and content pillars, enabling autonomous content generation with high-fidelity context.</li>
+    </ul>
+  </Section>
+
+  <Section id="more-shots" title="More screenshots" note="slots">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="card p-6 text-fg-ghost">Screenshot slot: public/shots/seo-brain/extra-01.png</div>
+      <div class="card p-6 text-fg-ghost">Screenshot slot: public/shots/seo-brain/extra-02.png</div>
+    </div>
+  </Section>
 </Base>
