@@ -4,7 +4,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../layouts/Base.astro';
 import fs from 'node:fs';
 
-const CV_PATH = '/Users/m/Desktop/Malcek-CV.md';
+const CV_PATH = 'public/downloads/Malcek-CV.md';
 const cvMd = fs.readFileSync(CV_PATH, 'utf8');
 
 // Split: everything from "## 02 Experience" onward is rendered verbatim as HTML.
