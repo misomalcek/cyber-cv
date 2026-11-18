@@ -1,25 +1,79 @@
 ---
-// Astro returns BASE_URL without a trailing slash at the root but with one
-// under a subpath; normalise so `${base}x` is never `/cyber-cvx`.
+// @ts-nocheck
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../layouts/Base.astro';
-import Section from '../components/Section.astro';
-import Stat from '../components/Stat.astro';
-import BarList from '../components/BarList.astro';
-import { qdrant, qdrantTotal, graphs, rules, capturedAt } from '../data/hive';
-import Contact from '../components/Contact.astro';
-import Downloads from '../components/Downloads.astro';
-import { sectionCards, ICONS } from '../data/sections';
+import fs from 'node:fs';
 
-/** Card list for the home grid — hrefs resolved once, against the real base. */
-const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon: ICONS[c.icon] }));
+const CV_PATH = '/Users/m/Desktop/Malcek-CV.md';
+const cvMd = fs.readFileSync(CV_PATH, 'utf8');
 
+// Split: everything from "## 02 Experience" onward is rendered verbatim as HTML.
+const splitMarker = '## 02 Experience';
+const splitIndex = cvMd.indexOf(splitMarker);
+const restMd = splitIndex >= 0 ? cvMd.slice(splitIndex) : '';
+
+function md2html(md) {
+  // Join wrapped paragraph lines (same logic as build-pdfs.mjs).
+  md = md.split('\n').reduce((acc, line) => {
+    const isBreak = (l) => l === '' || /^(#{1,4}\s|[-*]\s|\d+\.\s|\||>|```|---)/.test(l);
+    const isCont = (l) => l !== '' && !isBreak(l);
+    const prev = acc[acc.length - 1];
+    const prevOpens = prev !== undefined && (isCont(prev) || /^([-*]\s|\d+\.\s)/.test(prev));
+    if (prevOpens && isCont(line)) {
+      acc[acc.length - 1] = prev + ' ' + line.trim();
+    } else acc.push(line);
+    return acc;
+  }, []).join('\n');
+
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[\s(])\*([^*\n]+)\*/g, '$1<em>$2</em>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+
+  const out = [];
+  let inTable = false, inList = false, inCode = false;
+  for (const raw of md.split('\n')) {
+    const line = raw.trimEnd();
+    if (line.startsWith('```')) {
+      out.push(inCode ? '</pre>' : '<pre>'); inCode = !inCode; continue;
+    }
+    if (inCode) { out.push(esc(raw)); continue; }
+    if (line.startsWith('|')) {
+      const cells = line.split('|').slice(1, -1).map((c) => c.trim());
+      if (/^[-: |]+$/.test(line)) continue;
+      if (!inTable) { out.push('<table>'); inTable = true; }
+      const tag = out[out.length - 1] === '<table>' ? 'th' : 'td';
+      out.push('<tr>' + cells.map((c) => `<${tag}>${inline(c)}</${tag}>`).join('') + '</tr>');
+      continue;
+    }
+    if (inTable) { out.push('</table>'); inTable = false; }
+    const li = line.match(/^[-*]\s+(.*)/) || line.match(/^\d+\.\s+(.*)/);
+    if (li) {
+      if (!inList) { out.push('<ul>'); inList = true; }
+      out.push(`<li>${inline(li[1])}</li>`); continue;
+    }
+    if (inList) { out.push('</ul>'); inList = false; }
+    const h = line.match(/^(#{1,4})\s+(.*)/);
+    if (h) { out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`); continue; }
+    if (line.startsWith('> ')) { out.push(`<blockquote>${inline(line.slice(2))}</blockquote>`); continue; }
+    if (line === '---') { out.push('<hr>'); continue; }
+    out.push(line ? `<p>${inline(line)}</p>` : '');
+  }
+  if (inTable) out.push('</table>');
+  if (inList) out.push('</ul>');
+  return out.join('\n');
+}
+
+const restHtml = md2html(restMd);
 ---
+
 <Base
-  title="Michal Malček — AI Engineer, Integrator, Explorer"
-  description="AI engineer. One production system delivered and handed over, one running daily — built and measured on a single local machine."
+  title="Michal Malček — AI Engineer — LLM Systems, RAG, Agentic AI"
+  description="AI Engineer who builds agentic large language model (LLM) systems end-to-end."
 >
-  <header class="relative pt-16 pb-9">
+  <header class="relative pt-10 pb-9">
     <span class="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
           style="background: linear-gradient(90deg,
                    color-mix(in srgb, var(--color-neural) 65%, transparent) 0%,
@@ -27,159 +81,73 @@ const sections = sectionCards.map((c) => ({ ...c, href: `${base}${c.slug}`, icon
                    var(--color-line) 75%, transparent 100%);
                  box-shadow: 0 0 16px -2px color-mix(in srgb, var(--color-neural) 55%, transparent)" />
     <div class="flex items-center gap-3 flex-wrap mb-5">
-      <div class="status-pill inline-flex items-center gap-2 text-[17px] tracking-[.14em] uppercase
-                  text-synapse border border-synapse rounded-full px-3 py-1">
-        <span class="w-[6px] h-[6px] rounded-full bg-synapse" style="animation: pulse 2.4s ease-in-out infinite" />
-        Open to AI roles
+      <div class="status-pill inline-flex items-center gap-2 text-[15px] tracking-[.08em]
+                  text-synapse border border-synapse rounded-full px-3 py-1 max-w-[64ch] leading-snug">
+        <span class="w-[6px] h-[6px] rounded-full bg-synapse shrink-0" style="animation: pulse 2.4s ease-in-out infinite" />
+        Available for remote or hybrid hire (15 minutes to the airport, a 2-hour flight to London). Invoice or employment contract.
       </div>
     </div>
 
     <h1 class="text-[clamp(44px,7vw,74px)] leading-[1.03] font-semibold tracking-tight m-0 mb-3">
       <span class="glow-name">Michal Malček</span><br /><em
-        class="not-italic text-neural-text glow-violet text-[clamp(25px,3.3vw,38px)]">AI Engineer / Explorer / SEO</em>
+        class="not-italic text-neural-text glow-violet text-[clamp(22px,3vw,36px)]">AI Engineer — LLM Systems, RAG, Agentic AI</em>
     </h1>
 
-    <!-- aha-plan §3: home IS the CV now, so there is no separate career page to
-         defer to. This paragraph says what was built and how it was learned. -->
-    <p class="text-[clamp(19px,2.1vw,23px)] text-fg-dim max-w-[64ch] m-0 mb-7 leading-[1.55]">
-      Twenty years across both sides of software delivery, eight of them proving things with
-      measurement. In the last year that turned into AI engineering:{' '}
-      <b class="text-fg">one production system delivered and handed over, one running daily on
-      the machine on my desk.</b>{' '}One three-day course — everything after that learned from
-      the systems themselves.
+    <p class="text-[clamp(18px,2vw,22px)] text-fg-dim max-w-[68ch] m-0 mb-4 leading-[1.55]">
+      AI Engineer who builds agentic large language model (LLM) systems end-to-end: architecture, tool calling, retrieval-augmented generation (RAG), local and cloud AI, custom inference, API, Model Context Protocol (MCP), text-to-speech and speech-to-text (TTS/STT), vision, vector embeddings, graphs, evaluation, deployment, onboarding and documentation.
+    </p>
+    <p class="text-[17.5px] text-fg-ghost max-w-[68ch] m-0 mb-7 leading-[1.5]">
+      12 years in software delivery and digital growth (web development, PPC, CMS, CRM, ERP), then 8 years leading international SEO teams. Senior experience with cloud and VPS instances (AWS, Google Cloud, Hetzner, Host Europe, Cloudflare).
     </p>
 
-    <!-- The names, plainly. A recruiter scans for these before reading a
-         sentence, and they are the fastest evidence that the twenty years above
-         were spent somewhere rather than described. -->
-    <p class="text-[17.5px] text-fg-ghost m-0 mb-7">
-      Built for <b class="text-fg-dim">Asseco</b> · <b class="text-fg-dim">Google</b> ·{' '}
-      <b class="text-fg-dim">Lottoland</b> · <b class="text-fg-dim">msg life</b>{' '}
-      <span class="text-fg-ghost">(part of msg Group)</span> · <b class="text-fg-dim">Swiss Re</b>
-    </p>
+    <div class="flex items-center gap-2 flex-wrap mb-7">
+      <a href="mailto:miso.malcek@gmail.com" class="pill">miso.malcek@gmail.com</a>
+      <a href="tel:+421950200395" class="pill">+421 950 200 395</a>
+      <span class="pill">Poprad, Slovakia</span>
+    </div>
 
-    <Downloads />
-    <Contact />
+    <section id="summary" class="mb-6">
+      <h2 class="text-[clamp(24px,3vw,32px)] font-semibold m-0 mb-3">01 Summary</h2>
+      <p class="text-[17.5px] text-fg-dim max-w-[68ch] m-0 mb-3 leading-[1.55]">
+        AI Engineer who builds agentic large language model (LLM) systems end-to-end: architecture, tool calling, retrieval-augmented generation (RAG), local and cloud AI, custom inference, API, Model Context Protocol (MCP), text-to-speech and speech-to-text (TTS/STT), vision, vector embeddings, graphs, evaluation, deployment, onboarding and documentation.
+      </p>
+      <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug max-w-[68ch]">
+        <li>3 AI portfolio apps: <a href="https://misomalcek.github.io/cyber-cv/portfolio/crystal-rag">Crystal RAG</a>, <a href="https://misomalcek.github.io/cyber-cv/portfolio/seo-brain">SEO Brain</a>, <a href="https://misomalcek.github.io/cyber-cv/portfolio/wisdomkeeper">Wisdomkeeper</a>; 2 AI-managed magazines with a Cloudflare-deployed AI chat: <a href="https://alteranai.com/">alteranai.com</a>, <a href="https://aisvet.sk/">aisvet.sk</a>.</li>
+        <li>2 production AI systems: <a href="https://misomalcek.github.io/cyber-cv/production/team-brain">Team Brain</a> and <a href="https://misomalcek.github.io/cyber-cv/production/factorium">Factorium</a> (details and results below), and 1 multimodal local AI runtime for Apple Silicon: <a href="https://misomalcek.github.io/cyber-cv/portfolio/symferium">Symferium</a>.</li>
+        <li>12 years in software delivery and digital growth (web development, PPC, CMS, CRM, ERP), then 8 years leading international SEO teams.</li>
+        <li>Senior experience with cloud and VPS instances (AWS, Google Cloud, Hetzner, Host Europe, Cloudflare).</li>
+      </ul>
+    </section>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-2">
+      <a href="https://misomalcek.github.io/cyber-cv/portfolio/" class="card p-4 no-underline flex flex-col">
+        <span class="text-[17px] text-fg-ghost mb-1">Portfolio</span>
+        <span class="text-[19px] text-fg font-semibold">Portfolio</span>
+        <span class="text-[16px] text-synapse mt-1">https://misomalcek.github.io/cyber-cv/portfolio/</span>
+      </a>
+      <a href="https://github.com/misomalcek" class="card p-4 no-underline flex flex-col">
+        <span class="text-[17px] text-fg-ghost mb-1">GitHub</span>
+        <span class="text-[19px] text-fg font-semibold">GitHub</span>
+        <span class="text-[16px] text-synapse mt-1">https://github.com/misomalcek</span>
+      </a>
+      <a href="https://www.linkedin.com/in/misomalcek/" class="card p-4 no-underline flex flex-col">
+        <span class="text-[17px] text-fg-ghost mb-1">LinkedIn</span>
+        <span class="text-[19px] text-fg font-semibold">LinkedIn</span>
+        <span class="text-[16px] text-synapse mt-1">https://www.linkedin.com/in/misomalcek/</span>
+      </a>
+    </div>
   </header>
 
-  <!-- ── Sections ─────────────────────────────────────────────────────────
-       The article grid IS the navigation. Enlarged dock icons carry the visual
-       link, so the dock itself needs no text labels — which is what made room
-       for the entries that followed. Each card gives the overview; depth lives one click
-       away, which is the whole point of having subpages. -->
-  <Section id="map" title="What is here" note="the map">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      {sections.map((s) => (
-        <a href={s.href} class="card sec-card p-6 no-underline flex flex-col group">
-          <span class="sec-icon mb-4" aria-hidden="true">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={s.icon} /></svg>
-          </span>
-          <div class="flex items-baseline justify-between gap-2 mb-1.5">
-            <h3 class="text-[23px] font-semibold text-fg m-0 leading-tight">{s.title}</h3>
-            <span class="text-fg-ghost text-[20px] leading-none transition-transform group-hover:translate-x-1">→</span>
-          </div>
-          <div class="text-[17.5px] text-synapse mb-2.5">{s.metric}</div>
-          <p class="text-[18px] text-fg-dim m-0 leading-snug flex-1">{s.blurb}</p>
-        </a>
-      ))}
-    </div>
-  </Section>
-  <!-- ── The hive ─────────────────────────────────────────────────────── -->
-  <Section
-    id="hive"
-    title="The hive, in numbers"
-    note={`read ${capturedAt}`}
-    lede="Factorium's stores as they stand right now — one person, one machine, no team and no budget. Read live from Postgres and Qdrant by a script rather than typed in, because a number you cannot re-derive is a claim, not a measurement."
-  >
-    <div class="flex items-center gap-2 text-[17px] tracking-[.12em] uppercase text-fg-ghost -mt-2 mb-5">
-      <span class="relative inline-flex w-[7px] h-[7px]">
-        <span class="absolute inset-0 rounded-full bg-synapse"
-              style="box-shadow: 0 0 10px var(--color-synapse), 0 0 22px color-mix(in srgb, var(--color-synapse) 60%, transparent)" />
-        <span class="absolute inset-0 rounded-full bg-synapse"
-              style="animation: ripple 2.6s ease-out infinite" />
-      </span>
-      running while you read this
-    </div>
-    <div class="grid grid-cols-2 md:grid-cols-6 gap-3">
-      <Stat label="Embedded points" value={qdrantTotal.toLocaleString('en-US')} accent="forge" span={3} delay={0}
-            sub="Across seven Qdrant collections at 1024 dimensions.">
-        <div class="mt-4"><BarList rows={qdrant} /></div>
-      </Stat>
-
-      <Stat label="Knowledge graph" value={graphs.knowledge.entities.toLocaleString('en-US')} accent="neural" span={3} delay={80}
-            sub={`entities · <b>${graphs.knowledge.relationships.toLocaleString('en-US')}</b> relationships<br><span class="text-fg-ghost">106 decisions · 283 lessons · 608 concepts</span>`}>
-        <div class="relative h-[74px] mt-3 opacity-85">
-          {[[8,56,0],[26,22,.9],[41,68,1.9],[58,34,.5],[73,60,2.6],[89,28,1.4]].map(([l,t,d]) => (
-            <span class="absolute w-[5px] h-[5px] rounded-full bg-synapse"
-                  style={`left:${l}%; top:${t}%;
-                          box-shadow: 0 0 8px var(--color-synapse),
-                                      0 0 20px color-mix(in srgb, var(--color-synapse) 70%, transparent),
-                                      0 0 40px color-mix(in srgb, var(--color-synapse) 35%, transparent);
-                          animation: drift 7s ease-in-out ${d}s infinite`} />
-          ))}
-        </div>
-      </Stat>
-
-      <Stat label="Code graph" value={graphs.code.entities.toLocaleString('en-US')} accent="synapse" span={2} delay={160}
-            sub={`entities · <b>${graphs.code.relationships.toLocaleString('en-US')}</b> relationships<br><span class="text-fg-ghost">import edges resolved through NodeNext, so blast radius is transitive — 36 files at depth 1, 52 at depth 2, in 34&nbsp;ms</span>`} />
-
-      <Stat label="Living plan" value={graphs.plan.nodes.toLocaleString('en-US')} span={2} delay={240}
-            sub={`plan nodes · ${graphs.plan.edges} edges across ${graphs.plan.projects} projects — the plan is a graph in the same database, not a document.`} />
-
-      <Stat label="Behavioural rules" value={rules.rules} span={2} delay={320}
-            sub={`rules · ${rules.triggers} situational triggers · defeasible, with overrides logged as data rather than treated as violations.`} />
-    </div>
-  </Section>
-
-  <!-- ── Results ──────────────────────────────────────────────────────── -->
-  <Section
-    id="results"
-    title="Results"
-    lede="Numbers I can point at, across twenty years. Where something is unverifiable or ended badly, it says so."
-  >
-    <div class="grid md:grid-cols-3 gap-3 mb-6">
-      {[
-        { k: 'Traffic built from zero', v: '30k / 100k', s: 'monthly sessions, main site and satellites — German market, no paid links', a: 'forge' },
-        { k: 'ERP implementations sold', v: '14', s: 'including EN negotiations with German and Polish pilot customers', a: 'neural' },
-        { k: 'First-year turnover', v: '€50k', s: 'monthly, CEE e-commerce business I co-founded', a: 'synapse' },
-        { k: 'Tool-call success rate', v: '93.9%', s: '1,352 calls in a five-week log window inside a four-month deployment for 15 non-engineers', a: 'forge' },
-        { k: 'Direct-mail campaign', v: 'Top 3', s: 'globally at Google by signup rate — the first targeted one for CZ/SK', a: 'neural' },
-        { k: 'Judo', v: '3×', s: 'Slovak champion · two years in national representation · ten years training', a: 'synapse' },
-      ].map((r, i) => (
-        <Stat label={r.k} value={r.v} sub={r.s} accent={r.a as any} delay={i * 60} />
-      ))}
-    </div>
-
-    <div class="card p-5">
-      <div class="eyebrow mb-4">Academic record</div>
-      <div class="grid sm:grid-cols-2 gap-x-8 gap-y-3">
-        {[
-          ['Electrical Engineering & ICT — final year', '1.0', 'High School of Jozef Murgaš, Banská Bystrica'],
-          ['Information Systems & Technologies (Master\'s, 41 ECTS)', '1.5', 'University of Economics Prague'],
-          ['Applied Informatics (Bachelor\'s)', '1.6', 'University of Economics Prague — top 10 of ~500'],
-          ['CEMS International Management (Master\'s, in English)', '1.7', 'Prague · Corvinus Budapest'],
-        ].map(([what, grade, where]) => (
-          <div class="flex items-baseline gap-3 border-b border-line/60 pb-2.5">
-            <span class="text-[27px] font-semibold text-forge tabular-nums leading-none shrink-0 w-[38px]">{grade}</span>
-            <span>
-              <b class="block text-[17.5px] font-medium leading-snug">{what}</b>
-              <span class="text-[17px] text-fg-ghost">{where}</span>
-            </span>
-          </div>
-        ))}
-      </div>
-      <p class="text-[17px] text-fg-ghost mt-4 mb-0">
-        Czech grading, where 1.0 is the best possible mark. Erasmus at Corvinus Budapest: A in every
-        subject. The one I did not finish: the second business-language exam (Russian) in the CEMS
-        programme — all mandatory courses and skill seminars completed, that exam not passed.
-      </p>
-    </div>
-  </Section>
-
-
-
-  <!-- Model references live on /credentials/. The papers ship in the download
-       pack. Foundations leave this homepage for a forthcoming standalone repo. -->
-
+  <div class="cv-body mt-8" set:html={restHtml} />
 </Base>
+
+<style>
+  .pill {
+    display: inline-flex; align-items: center;
+    padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--color-line);
+    color: var(--color-fg-dim); font-size: 16px; text-decoration: none;
+  }
+  .pill:hover { color: var(--color-synapse); border-color: var(--color-synapse); }
+  .cv-body h2 { margin-top: 2rem; }
+</style>

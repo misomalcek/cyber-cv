@@ -1,0 +1,32 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+import { sitePages } from '../data/nav';
+
+const segments = Astro.url.pathname.split('/').filter(Boolean);
+const pageSegments = segments[0] === 'cyber-cv' ? segments.slice(1) : segments;
+const current = pageSegments.join('/');
+
+function isActive(slug: string) {
+  const s = slug.replace(/\/$/, '');
+  if (s === '') return current === '';
+  return current === s || current.startsWith(s + '/');
+}
+---
+<header class="site-nav" aria-label="Site">
+  <div class="site-nav-inner">
+    <nav class="site-nav-pages" aria-label="Pages">
+      {sitePages.map((p) => (
+        <a
+          href={p.slug ? `${base}${p.slug}` : base}
+          class:list={['site-nav-link', { 'site-nav-link--active': isActive(p.slug) }]}
+        >
+          {p.label}
+        </a>
+      ))}
+    </nav>
+    <div class="site-nav-downloads flex items-center gap-3">
+      <a href={`${base}downloads/Malcek-CV.pdf`} class="site-nav-link">↓ PDF</a>
+      <a href={`${base}downloads/Malcek-CV.md`} class="site-nav-link">↓ Markdown</a>
+    </div>
+  </div>
+</header>

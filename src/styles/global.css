@@ -105,6 +105,60 @@
 }
 
 @layer components {
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 35;
+    margin: 0 -1.5rem;
+    padding: 0.65rem 1.5rem 0.55rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-line) 85%, transparent);
+    background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    backdrop-filter: blur(12px) saturate(1.2);
+  }
+  .site-nav-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem 1.25rem;
+  }
+  .site-nav-brand {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--color-fg);
+    letter-spacing: -0.02em;
+  }
+  .site-nav-brand:hover { color: var(--color-synapse); }
+  .site-nav-pages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+  }
+  .site-nav-link {
+    font-size: 16px;
+    color: var(--color-fg-ghost);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .site-nav-link:hover { color: var(--color-fg-dim); }
+  .site-nav-link--active { color: var(--color-synapse); }
+  .site-nav-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.85rem;
+    margin-top: 0.55rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-line) 60%, transparent);
+  }
+  .site-nav-anchor {
+    font-size: 15px;
+    color: var(--color-fg-ghost);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .site-nav-anchor:hover { color: var(--color-neural-text); }
+
   /* Grid field over the gradient — structure, not decoration. Two layers: a fine
      mesh and a brighter every-fourth line, both fading out down the page. */
   .grid-field::before {

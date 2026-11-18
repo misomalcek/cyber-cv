@@ -9,14 +9,14 @@
  */
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 
-import { sectionCards, ICONS } from '../data/sections';
+import { ICONS } from '../data/sections';
 
-/* The dock mirrors the home grid exactly — same order, same icons, one source.
-   Labels are screen-reader + hover only: seven entries with text do not fit, and
-   the home grid already names every section. */
 const items = [
-  { href: base, label: 'Overview', id: 'overview', icon: 'grid' },
-  ...sectionCards.map((c) => ({ href: `${base}${c.slug}`, label: c.title, id: c.id, icon: c.icon })),
+  { href: base, label: 'My CV', id: 'cv', icon: 'grid' },
+  { href: `${base}portfolio/`, label: 'Portfolio', id: 'portfolio', icon: 'box' },
+  { href: `${base}production/`, label: 'Production', id: 'production', icon: 'path' },
+  { href: `${base}public/`, label: 'Publication', id: 'publication', icon: 'code' },
+  { href: `${base}credentials/`, label: 'Credentials', id: 'credentials', icon: 'badge' },
 ];
 ---
 <nav id="dock" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-auto max-w-[94vw]

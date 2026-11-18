@@ -1,0 +1,82 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+---
+<Base
+  title="Production — Michal Malček"
+  description="Team Brain, Factorium, and Cloudflare edge AI chat."
+  back={{ href: base, label: 'Back to CV' }}
+>
+  <header class="pt-10 pb-8 border-b border-line">
+    <h1 class="text-[clamp(35px,4.8vw,52px)] font-semibold tracking-tight m-0 mb-3">Production</h1>
+    <p class="lede m-0">Production AI systems, with results.</p>
+  </header>
+
+  <Section id="team-brain" title="Team Brain" note="msg life Slovakia">
+    <article class="card p-6">
+      <p class="text-[17.5px] text-fg-dim m-0 mb-3">
+        AI knowledge hub, msg life Slovakia. Delivered and handed over Jun 2026.
+      </p>
+      <p class="text-[17.5px] text-fg-dim m-0 mb-4">
+        Ran the Claude API for a 15-person SEO and content team on one Hetzner 8 GB VPS. Every figure below is from a database-generated usage report.
+      </p>
+      <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+        <li>Recorded 1,352 tool calls at 93.9% success across 25 tools, each with its own measured rate, including the weak ones.</li>
+        <li>Spent about $30 a month on the API (billed; closer to $22). Haiku routes tools and Sonnet writes the synthesis, a cost split that lives in the code.</li>
+        <li>Served 15 users, all 15 active, across 446 conversations, 3,558 messages, 549 agent runs and 1,480 reports.</li>
+        <li>Processed 50.2M input, 2.25M output and 4.95M cached tokens over those 549 runs.</li>
+        <li>Produced 1,121 articles, 514 memories and 1,454 embeddings.</li>
+        <li>Connected four live sources — Search Console, GA4, Ahrefs and CrUX — through a seven-layer prompt system with agents, personas and a semantic layer.</li>
+        <li>Shipped on the official Anthropic SDK from the first commit, with near-zero hallucinations, full documentation and a clean handover to non-engineers.</li>
+      </ul>
+      <p class="m-0 mt-4 text-[17px]">
+        <a href={`${base}production/team-brain/`}>Details and screenshots →</a>
+      </p>
+    </article>
+  </Section>
+
+  <Section id="factorium" title="Factorium" note="sovereign AI system">
+    <article class="card p-6">
+      <p class="text-[17.5px] text-fg-dim m-0 mb-3">
+        Sovereign AI system, running daily on a Mac. Private; demo on request.
+      </p>
+      <p class="text-[17.5px] text-fg-dim m-0 mb-4">
+        Gemma-4 12B IT (Q5_K_M) and Gemma-4 26B (Q3) do the agentic work with no cloud inference, over 69 native tools and unified retrieval across Postgres, pgvector, Qdrant, Apache AGE and TimescaleDB.
+      </p>
+      <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug list-disc">
+        <li>The system comprises 65,782 lines of TypeScript on 29 runtime dependencies; 12 modules written by hand in 2,004 lines instead of imported.</li>
+        <li>Improved rule retrieval from 1 in 5 to 10 of 10 by storing rules as the situations that trigger them.</li>
+        <li>Fused BM25 and vector search with reciprocal rank fusion (RRF), so the lexical and semantic ranks do not have to share one score.</li>
+        <li>Organic memory (Phyto) returns the fact itself, about 30 tokens at p50 159 ms, roughly 70% less context than pointer-based RAG. 6,169 facts carry real timestamps.</li>
+        <li>The knowledge graph holds 3,567 entities and 11,002 relations. The research corpus has 5,629 chunks in 187 files, each tagged primary, own, synthesis or OCR.</li>
+        <li>Qdrant stores 78,413 embedding points in 18 collections, and the code graph covers 5 repositories.</li>
+        <li>The longest unattended run was 120 turns, 120 tool calls and 67 minutes, without hitting a turn cap.</li>
+        <li>Logged 477 tool calls with 0 reasoning failures. All 63 errors were environment or guard errors, and 75% recovered immediately.</li>
+        <li>Fixed a 34× latency regression caused by one disabled prompt-cache flag, from 24.2 s to 1.0 s per task.</li>
+        <li>Repaired the memory index after 77% of the corpus was silently truncated, from 1,050 to 15,232 chunks, and held 8/10 rank-1 recall through 14.5× growth.</li>
+        <li>A reflex layer turns those 69 tools and 5 stores into one loop for the 12B model without prompt bloat. 41 tests cover it, and a dispatch that used to fail now succeeds in 1.5 s.</li>
+      </ul>
+      <p class="text-[17.5px] text-fg-dim m-0 mt-4">
+        Symferium is the local multi-model runtime this system uses: <a href={`${base}portfolio/symferium/`}>/portfolio/symferium/</a>.
+      </p>
+      <p class="m-0 mt-3 text-[17px]">
+        <a href={`${base}production/factorium/`}>Details and screenshots →</a>
+      </p>
+    </article>
+  </Section>
+
+  <Section id="cloudflare" title="Cloudflare" note="aisvet.sk + alteranai.com">
+    <article class="card p-6">
+      <p class="text-[17.5px] text-fg-dim m-0 mb-4">
+        Two production RAG chats on Cloudflare AI Search for alteranai.com and aisvet.sk: hybrid vector and BM25 retrieval, Llama 4 Scout query rewriting, reranking, and 1024-dim Qwen3 embeddings across 392 pages and 396 vectors. Replies go through AI Gateway to OpenRouter, in a chat bubble grounded on the live site content.
+      </p>
+      <p class="text-[17.5px] text-fg-dim m-0 mb-4">
+        The same two zones run on Cloudflare's edge: R2 object storage and CDN, Workers, AI Gateway, managed DNS, SPF and DMARC, and an NLWeb worker (/ask, /mcp), on free-tier resources at zero inference cost.
+      </p>
+      <p class="m-0 mt-3 text-[17px]">
+        <a href={`${base}production/cloudflare/`}>Details →</a>
+      </p>
+    </article>
+  </Section>
+</Base>

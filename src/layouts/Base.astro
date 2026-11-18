@@ -4,6 +4,7 @@
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import '../styles/global.css';
 import Dock from '../components/Dock.astro';
+import SiteNav from '../components/SiteNav.astro';
 // Client-side routing exists for exactly one reason: the header player must keep
 // playing across navigations. Everything that binds listeners therefore has to
 // rebind on astro:page-load rather than once at parse time.
@@ -42,7 +43,7 @@ const { title, description, back } = Astro.props;
       name: 'Michal Malček',
       email: 'miso.malcek@gmail.com',
       jobTitle: 'AI Engineer',
-      description: 'AI engineer. One production system delivered and handed over, one running daily — built and measured on a single local machine.',
+      description: 'AI Engineer — LLM Systems, RAG, Agentic AI. Production systems handed over and running daily on one machine.',
       knowsLanguage: ['sk', 'cs', 'en', 'de'],
       alumniOf: [
         { '@type': 'CollegeOrUniversity', name: 'University of Economics, Prague' },
@@ -58,6 +59,7 @@ const { title, description, back } = Astro.props;
 </head>
 <body class="grid-field has-dock">
   <div class="relative z-[1] mx-auto max-w-[1200px] px-6 pb-24">
+    <SiteNav />
     {/* back.href arrives already base-prefixed by the calling page; prefixing it
         again here produced /cyber-cv/cyber-cv/#hive. One owner for the prefix. */}
     {back && (
@@ -75,25 +77,7 @@ const { title, description, back } = Astro.props;
     <slot />
 
     <footer class="pt-12 pb-6 mt-4 border-t border-line">
-      <!-- The hive motto, with what it actually does. The two-part reading is
-           the local model's, not mine: asked to research the phrase, it split
-           precondition from practice where I had read one statement about a
-           relationship. Recorded in memory the same day. -->
-      <p class="motto m-0 mb-3">Non ducor, duco pariter</p>
-      <p class="m-0 mb-4 text-[17.5px] text-fg-dim max-w-[76ch]">
-        <i>I am not led; we lead together.</i> Two claims, not one — and the local model was
-        the one that separated them. <b class="text-fg">Non ducor</b> is sovereignty: not being
-        dragged. <b class="text-fg">Duco pariter</b> is what follows: moving together. The order
-        matters, because without the first the second is obedience with a nicer name.{' '}
-        <span class="text-fg-ghost">In practice it is a brake on the two ways a working session
-        fails — the model taking the wheel and producing work nobody asked for, or the human
-        letting the model lead and accepting output that merely sounds right. It has pulled more
-        than one session back on course, including the ones behind this site.</span>
-      </p>
-      <p class="m-0 text-[17px] text-fg-ghost">
-        Built with the same design system as Factorium · every number here is read from a
-        store, not typed in · <a href="mailto:miso.malcek@gmail.com">miso.malcek@gmail.com</a>
-      </p>
+      <p class="m-0 text-[17px] text-fg-ghost">Last update: 15.11.2026</p>
     </footer>
   </div>
 

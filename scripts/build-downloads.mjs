@@ -65,7 +65,7 @@ console.log(`✓ ${written} documents`);
    CV does not say, and a summary paragraph nobody wrote. A CV is a record an HR
    reader compares against LinkedIn line by line, so every invented sentence is a
    discrepancy they have to explain. Read the source instead. */
-const CV_SOURCE = '/Users/m/Documents/md/cv-aktual.md';
+const CV_SOURCE = '/Users/m/Desktop/Malcek-CV.md';
 const cv = readFileSync(CV_SOURCE, 'utf8');
 writeFileSync(join(OUT, 'cv.md'), cv);
 console.log('✓ cv.md');

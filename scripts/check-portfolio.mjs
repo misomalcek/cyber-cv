@@ -4,7 +4,7 @@
  */
 import fs from 'node:fs';
 
-const CV_MD = '/Users/m/Documents/md/cv-aktual.md';
+const CV_MD = '/Users/m/Desktop/Malcek-CV.md';
 // The CV markdown lives on the hive machine only. CI has no copy, so the check
 // runs locally and is skipped there rather than failing every deploy.
 if (!fs.existsSync(CV_MD)) {
@@ -12,9 +12,9 @@ if (!fs.existsSync(CV_MD)) {
   process.exit(0);
 }
 const md = fs.readFileSync(CV_MD, 'utf8');
-// v5 (2026-11-01): the section is `## Portfolio`, one bullet per entry, `- **Name**: …`.
-const section = md.split('\n## Portfolio')[1]?.split('\n## ')[0] ?? '';
-const names = [...section.matchAll(/^- \*\*([^*]+)\*\*/gm)].map((m) => m[1].trim());
+const portfolioHeading = '\n## 04 AI Portfolio';
+const section = md.split(portfolioHeading)[1]?.split('\n## ')[0] ?? '';
+const names = [...section.matchAll(/^###\s+(.+)$/gm)].map((m) => m[1].trim());
 const htmlPath = 'dist/portfolio/index.html';
 if (!fs.existsSync(htmlPath)) {
   console.error('missing', htmlPath);

@@ -1,5 +1,5 @@
 /**
- * The five sections of this CV, with the icons the dock draws.
+ * The subpages of this CV (plus overview on the dock), with the icons the dock draws.
  *
  * One source for both surfaces: the home grid names each section and the dock
  * repeats its icon, so the enlarged glyph on the card and the small one in the
@@ -25,13 +25,8 @@ export interface SectionCard {
 export const sectionCards: SectionCard[] = [
   {
     id: 'portfolio', slug: 'portfolio/', title: 'Portfolio', icon: 'grid',
-    metric: '3 apps · 2 systems · 2 magazines',
-    blurb: 'The public work, with the installers, the repos, and the two magazines.',
-  },
-  {
-    id: 'systems', slug: 'systems/', title: 'Systems', icon: 'box',
-    metric: 'Two — and they are not the same thing',
-    blurb: 'Team Brain: five data sources, 93.9% tool success over 1,352 real calls, delivered and handed over. Factorium: one 24 GB machine, two models, no cloud inference.',
+    metric: '4 apps · 2 systems · 2 magazines',
+    blurb: 'Crystal RAG, SEO Brain, Wisdomkeeper, plus Symferium — installers, repos, and alteranai.com / aisvet.sk.',
   },
   {
     id: 'work', slug: 'work/', title: 'Public output', icon: 'code',

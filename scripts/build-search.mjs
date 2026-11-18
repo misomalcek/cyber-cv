@@ -21,10 +21,10 @@ const root = join(here, '..');
 
 /** Section → the page and anchor it lives at. */
 const PAGES = [
-  { file: 'src/pages/index.astro',              url: '',                    page: 'Overview' },
-  { file: 'src/pages/systems.astro',            url: 'systems/',            page: 'Systems' },
-  { file: 'src/pages/career.astro',             url: 'career/',             page: 'Career' },
-  { file: 'src/pages/work/index.astro',         url: 'work/',               page: 'Public output' },
+  { file: 'src/pages/index.astro',              url: '',                    page: 'My CV' },
+  { file: 'src/pages/portfolio/index.astro',    url: 'portfolio/',          page: 'Portfolio' },
+  { file: 'src/pages/production/index.astro',   url: 'production/',         page: 'Production' },
+  { file: 'src/pages/public/index.astro',       url: 'public/',             page: 'Publication' },
   { file: 'src/pages/credentials/index.astro',  url: 'credentials/',        page: 'Credentials' },
 ];
 

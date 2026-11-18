@@ -8,7 +8,7 @@ src/
   data/hive.ts          every figure on the site — generated, never hand-edited
   data/sections.ts      dock + home grid, one source
   components/           Stat · BarList · Timeline · Disclosure · Credential · Section
-  pages/                / · /career/ · /systems/ · /work/ · /credentials/
+  pages/                / · /portfolio/ · /work/ · /credentials/
 scripts/pull-stats.mjs  re-reads the numbers from Postgres + Qdrant
 ```
 
