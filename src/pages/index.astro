@@ -4,7 +4,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../layouts/Base.astro';
 import fs from 'node:fs';
 
-const CV_PATH = 'public/downloads/Malcek-CV.md';
+const CV_PATH = 'public/downloads/Malcek-CV-19112026.md';
 const cvMd = fs.readFileSync(CV_PATH, 'utf8');
 
 // Hero is the name, role and contact. The body is the markdown from section 01,
