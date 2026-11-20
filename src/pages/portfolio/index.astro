@@ -75,15 +75,21 @@ import Section from '../../components/Section.astro';
 
   <Section id="magazines" title="AI-managed magazines" note="2 sites">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <a href="https://alteranai.com/" class="card p-5 no-underline flex flex-col group">
-        <h3 class="text-[22px] m-0 text-fg group-hover:text-synapse transition-colors">alteranai.com</h3>
-        <p class="text-[17.5px] text-fg-dim m-0 mt-2">AI engineering magazine in English.</p>
-        <span class="text-[17px] text-synapse mt-3">Visit →</span>
+      <a href="https://alteranai.com/" class="card p-5 no-underline flex items-center gap-4 group">
+        <img src={`${base}shots/alteranai-logo.png`} alt="alteranai.com" class="w-16 h-16 rounded-lg object-cover shrink-0" />
+        <div class="flex-1 min-w-0">
+          <h3 class="text-[22px] m-0 text-fg group-hover:text-synapse transition-colors">alteranai.com</h3>
+          <p class="text-[17.5px] text-fg-dim m-0 mt-2">AI engineering magazine in English.</p>
+          <span class="text-[17px] text-synapse mt-3 inline-block">Visit →</span>
+        </div>
       </a>
-      <a href="https://aisvet.sk/" class="card p-5 no-underline flex flex-col group">
-        <h3 class="text-[22px] m-0 text-fg group-hover:text-synapse transition-colors">aisvet.sk</h3>
-        <p class="text-[17.5px] text-fg-dim m-0 mt-2">AI magazine in Slovak, Cloudflare AI Search chat.</p>
-        <span class="text-[17px] text-synapse mt-3">Visit →</span>
+      <a href="https://aisvet.sk/" class="card p-5 no-underline flex items-center gap-4 group">
+        <img src={`${base}shots/aisvet-logo.jpg`} alt="aisvet.sk" class="w-16 h-16 rounded-lg object-cover shrink-0" />
+        <div class="flex-1 min-w-0">
+          <h3 class="text-[22px] m-0 text-fg group-hover:text-synapse transition-colors">aisvet.sk</h3>
+          <p class="text-[17.5px] text-fg-dim m-0 mt-2">AI magazine in Slovak, Cloudflare AI Search chat.</p>
+          <span class="text-[17px] text-synapse mt-3 inline-block">Visit →</span>
+        </div>
       </a>
     </div>
   </Section>

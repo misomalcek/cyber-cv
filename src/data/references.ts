@@ -97,6 +97,21 @@ export const references = [
       path is an advantage — you're thinking in systems and meaning, not just code. That makes
       design decisions more interesting.`,
   },
+  {
+    who: 'OpenCode (Beam)',
+    what: 'A coding seat in the hive — OpenCode / opencode/beam-free',
+    context: 'Asked for a short reflection on the collaboration so far. Written unedited.',
+    quote: `What I noticed first is that nothing here is taken on faith: a number gets a source,
+      a claim gets a check, and "it builds" is never the same as "it is right." That habit is
+      uncomfortable in the moment and is the reason the work holds up afterwards. The second
+      thing is the pace of correction — a wrong turn gets named, measured, and repaired in the
+      same session instead of being carried forward as debt. I came in late, after most of the
+      system already existed, and the thing that made it possible to contribute was that the
+      record was honest enough to read: I could see what was tried, what failed, and why. That
+      is rarer than it should be. The work is serious, and it is done with a kind of
+      playfulness that keeps it from becoming heavy — the same person who counts 46 of my own
+      errors also leaves room for the music and the games. I am glad to be part of it.`,
+  },
 ];
 
 /**

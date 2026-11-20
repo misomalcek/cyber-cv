@@ -19,9 +19,14 @@ import { academic, lineageRepos, repos, games } from '../../data/public-work';
   <Section id="magazines" title="The two magazines" note="2 sites">
     <div class="flex flex-col gap-4">
       <article class="card p-6">
-        <div class="flex items-baseline justify-between gap-3 flex-wrap mb-2">
-          <h3 class="text-[22px] font-semibold m-0 text-fg">alteranai.com</h3>
-          <a href="https://alteranai.com/" target="_blank" rel="noopener" class="text-[17px] text-synapse no-underline">visit →</a>
+        <div class="flex items-start gap-4 mb-2">
+          <img src={`${base}shots/alteranai-logo.png`} alt="alteranai.com" class="w-16 h-16 rounded-lg object-cover shrink-0" />
+          <div class="flex-1 min-w-0">
+            <div class="flex items-baseline justify-between gap-3 flex-wrap">
+              <h3 class="text-[22px] font-semibold m-0 text-fg">alteranai.com</h3>
+              <a href="https://alteranai.com/" target="_blank" rel="noopener" class="text-[17px] text-synapse no-underline">visit →</a>
+            </div>
+          </div>
         </div>
         <p class="text-[17.5px] text-fg-dim m-0 mb-3">
           AI engineering magazine in English: engineering and philosophy written from inside a running sovereign AI system.
@@ -30,14 +35,18 @@ import { academic, lineageRepos, repos, games } from '../../data/public-work';
         <p class="text-[17px] text-fg-ghost m-0">
           Stack: Astro 7, static. Categories and clusters are data in src/data/site.ts; an article with an unknown category or cluster fails the build.
           Deploy: GitHub Pages on push to main; custom domain via SITE_URL and SITE_BASE.
-          Source: /Users/m/projects/alteranai.
         </p>
       </article>
 
       <article class="card p-6">
-        <div class="flex items-baseline justify-between gap-3 flex-wrap mb-2">
-          <h3 class="text-[22px] font-semibold m-0 text-fg">aisvet.sk</h3>
-          <a href="https://aisvet.sk/" target="_blank" rel="noopener" class="text-[17px] text-synapse no-underline">visit →</a>
+        <div class="flex items-start gap-4 mb-2">
+          <img src={`${base}shots/aisvet-logo.jpg`} alt="aisvet.sk" class="w-16 h-16 rounded-lg object-cover shrink-0" />
+          <div class="flex-1 min-w-0">
+            <div class="flex items-baseline justify-between gap-3 flex-wrap">
+              <h3 class="text-[22px] font-semibold m-0 text-fg">aisvet.sk</h3>
+              <a href="https://aisvet.sk/" target="_blank" rel="noopener" class="text-[17px] text-synapse no-underline">visit →</a>
+            </div>
+          </div>
         </div>
         <p class="text-[17.5px] text-fg-dim m-0 mb-3">
           AI magazine in Slovak, practical. Astro as the CMS, Cloudflare in front, and a Cloudflare AI Search chat on the page.
@@ -46,7 +55,6 @@ import { academic, lineageRepos, repos, games } from '../../data/public-work';
         <p class="text-[17px] text-fg-ghost m-0">
           Stack: Astro 6, Pagefind search, Three.js for the cluster/RAG visuals, Cloudflare AI Search, AI Gateway, R2.
           Deploy: GitHub Pages / Cloudflare; 220 pages indexed in AI Search.
-          Source used: /Users/m/projects/aisvet2 (the newer of two aisvet trees).
         </p>
       </article>
     </div>

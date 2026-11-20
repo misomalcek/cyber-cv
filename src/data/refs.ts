@@ -33,10 +33,9 @@ export const refs: Ref[] = [
     date: '2009', sort: '2009-06-01',
     files: ['bc-diploma.jpg', 'bc-suplement_1.jpg', 'bc-suplement_2.jpg', 'bc-suplement_3.jpg', 'bc-suplement_4.jpg'],
     note: 'average 1.6 · diploma and four-page supplement' },
-  { n: 4, title: 'Academic transcript', issuer: 'University of Economics, Prague',
-    date: '2009', sort: '2009-06-02', files: ['transcript_p1.jpg'] },
   { n: 5, title: 'Erasmus exchange — A in every subject', issuer: 'Corvinus University, Budapest',
-    date: '2010', sort: '2010-06-01', link: 'http://www.uni-corvinus.hu/index.php?id=44542' },
+    date: '2010', sort: '2010-06-01', files: ['transcript_p1.jpg'],
+    note: 'A in every subject' },
   { n: 6, title: 'Information Systems & Technologies — Master\'s, 41 ECTS', issuer: 'University of Economics, Prague',
     date: '2009–2011', sort: '2011-01-01', files: ['ITS-DetailedOverview.pdf'],
     note: 'average 1.5 · left for practice rather than finishing' },
@@ -60,16 +59,6 @@ export const refs: Ref[] = [
     note: 'certificate never issued; confirmation email is the record' },
   { n: 15, title: 'AI Generalist', issuer: 'Outskill — three-day intensive', date: '2026', sort: '2026-04-01',
     files: ['outskill.pdf'], note: 'the only formal AI training' },
-  { n: 16, title: 'Google internal training programme', issuer: 'Google',
-    date: '2010–2011', sort: '2011-06-01',
-    note: 'AdWords Professional · Analytics · Product Management · Coding in Python · Personal Effectiveness · Presenting with Confidence' },
-  { n: 17, title: 'Speaker — Slovak e-commerce conference', issuer: 'Recorded session',
-    date: '2013', sort: '2013-01-01', link: 'https://www.youtube.com/watch?v=f8WMaL8jWYg' },
-  { n: 18, title: 'StepUp management programme — 10 weeks', issuer: 'Lottoland',
-    date: '2017', sort: '2017-01-01' },
-  { n: 19, title: 'Four AI workshops for a whole company branch', issuer: 'msg life Slovakia · leadership to newest hires, voluntary attendance',
-    date: '2025–2026', sort: '2026-01-01',
-    note: 'the first opened with ethics and the practical limits of formal logic — Gödel, the frame problem, Tarski — and what each means when working with a probabilistic system' },
 ];
 
-export const refsOrdered = [...refs].sort((a, b) => a.sort.localeCompare(b.sort));
+export const refsOrdered = [...refs].sort((a, b) => b.sort.localeCompare(a.sort));
