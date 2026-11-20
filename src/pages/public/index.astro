@@ -2,7 +2,7 @@
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
-import { academic } from '../../data/public-work';
+import { academic, lineageRepos, repos, games } from '../../data/public-work';
 ---
 <Base
   title="Publication — Michal Malček"
@@ -88,10 +88,37 @@ import { academic } from '../../data/public-work';
     </div>
   </Section>
 
-  <Section id="notebooks" title="Research notebooks" note={`${academic.notebooks.items.length}`}>
-    <div class="card p-5 mb-4 border-forge/30">
-      <p class="text-[17.5px] text-fg-dim m-0">{academic.notebooks.note}</p>
+  <Section id="repos" title="Repositories" note={`${lineageRepos.length + repos.length} public`}>
+    <div class="grid md:grid-cols-2 gap-3">
+      {[...lineageRepos, ...repos].map((r) => (
+        <a href={r.url} target="_blank" rel="noopener" class="card p-4 no-underline flex flex-col group">
+          <b class="text-[19px] text-fg font-semibold mb-1.5">{r.name}</b>
+          <p class="text-[17.5px] text-fg-dim m-0 flex-1">{r.what}</p>
+          {r.why && <p class="text-[17px] text-fg-ghost m-0 mt-1.5">{r.why}</p>}
+          <span class="text-[17px] text-synapse mt-2.5 transition-transform group-hover:translate-x-0.5">open →</span>
+        </a>
+      ))}
     </div>
+  </Section>
+
+  <Section id="games" title="Games" note={`${games.length}`}>
+    <div class="grid md:grid-cols-2 gap-3">
+      {games.map((g) => (
+        <div class="card p-5 flex flex-col">
+          <b class="text-[20px] text-fg font-semibold mb-2">{g.name}</b>
+          <p class="text-[18px] text-fg-dim m-0 mb-2">{g.what}</p>
+          <p class="text-[17.5px] text-fg-ghost m-0 flex-1">{g.why.replaceAll('**', '')}</p>
+          <span class="flex flex-wrap gap-4 mt-3">
+            {g.play && <a href={g.play} class="text-[17px] text-synapse no-underline">play →</a>}
+            {g.url && <a href={g.url} class="text-[17px] text-synapse no-underline">repo →</a>}
+            {g.videos?.map((v) => <a href={v.url} class="text-[17px] text-synapse no-underline">{v.title} →</a>)}
+          </span>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="notebooks" title="Research notebooks" note={`${academic.notebooks.items.length}`}>
     <div class="flex flex-col gap-3">
       {academic.notebooks.items.map((n) => (
         <div class="card p-5">
