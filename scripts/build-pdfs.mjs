@@ -120,7 +120,7 @@ const CSS = `
        node ~/projects/cv/build-cv-pdf.mjs
        cp ~/projects/cv/Michal-Malcek-CV.pdf public/downloads/cv.pdf
    CV-README is skipped for a different reason: a two-row index needs no PDF. */
-const SKIP = new Set(['cv.md', 'CV-README.md']);
+const SKIP = new Set(['cv.md', 'CV-README.md', 'Malcek-CV.md', 'Malcek-CV-19112026.md']);
 const files = readdirSync(DIR).filter((f) => f.endsWith('.md') && !SKIP.has(f));
 const browser = await chromium.launch();
 const page = await browser.newPage();
