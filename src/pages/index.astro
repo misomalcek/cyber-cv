@@ -7,10 +7,13 @@ import fs from 'node:fs';
 const CV_PATH = 'public/downloads/Malcek-CV.md';
 const cvMd = fs.readFileSync(CV_PATH, 'utf8');
 
-// Split: everything from "## 02 Experience" onward is rendered verbatim as HTML.
-const splitMarker = '## 02 Experience';
+// Hero is the name, role and contact. The body is the markdown from section 01,
+// once. The "Last update" line is the footer, not a second block of prose.
+const splitMarker = '## 01 Summary';
 const splitIndex = cvMd.indexOf(splitMarker);
-const restMd = splitIndex >= 0 ? cvMd.slice(splitIndex) : '';
+let restMd = splitIndex >= 0 ? cvMd.slice(splitIndex) : '';
+const updated = cvMd.match(/Last update:\s*(.+)/)?.[1]?.trim() ?? '';
+restMd = restMd.replace(/\n*Last update:.*$/s, '').trim();
 
 function md2html(md) {
   // Join wrapped paragraph lines (same logic as build-pdfs.mjs).
@@ -30,7 +33,8 @@ function md2html(md) {
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/(^|[\s(])\*([^*\n]+)\*/g, '$1<em>$2</em>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, '$1<a href="$2">$2</a>');
 
   const out = [];
   let inTable = false, inList = false, inCode = false;
@@ -66,60 +70,56 @@ function md2html(md) {
   return out.join('\n');
 }
 
-const restHtml = md2html(restMd);
+function styleBlock(block: string) {
+  const m = block.match(/^(<h2>[\s\S]*?<\/h2>)([\s\S]*)$/);
+  if (!m) return block;
+  let body = m[2].trim();
+  if (body.includes('<h3>')) {
+    body = body.replace(/(<h3>[\s\S]*?)(?=<h3>|$)/g, (chunk) =>
+      chunk.trim() ? `<article class="card cv-role p-5 sm:p-6">${chunk.trim()}</article>` : '');
+  } else if (body) {
+    body = `<article class="card cv-role p-5 sm:p-6">${body}</article>`;
+  }
+  const h2 = m[1].replace('<h2>', '<h2 class="section-title">');
+  return `<section class="cv-section">${h2}${body}</section>`;
+}
+
+const restHtml = md2html(restMd)
+  .split(/(?=<h2>)/)
+  .map(styleBlock)
+  .join('\n');
 ---
 
 <Base
   title="Michal Malček — AI Engineer — LLM Systems, RAG, Agentic AI"
   description="AI Engineer who builds agentic large language model (LLM) systems end-to-end."
+  updated={updated}
 >
-  <header class="relative pt-10 pb-9">
-    <span class="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
-          style="background: linear-gradient(90deg,
-                   color-mix(in srgb, var(--color-neural) 65%, transparent) 0%,
-                   color-mix(in srgb, var(--color-synapse) 35%, transparent) 35%,
-                   var(--color-line) 75%, transparent 100%);
-                 box-shadow: 0 0 16px -2px color-mix(in srgb, var(--color-neural) 55%, transparent)" />
-    <div class="flex items-center gap-3 flex-wrap mb-5">
-      <div class="status-pill inline-flex items-center gap-2 text-[15px] tracking-[.08em]
-                  text-synapse border border-synapse rounded-full px-3 py-1 max-w-[64ch] leading-snug">
-        <span class="w-[6px] h-[6px] rounded-full bg-synapse shrink-0" style="animation: pulse 2.4s ease-in-out infinite" />
-        Available for remote or hybrid hire (15 minutes to the airport, a 2-hour flight to London). Invoice or employment contract.
-      </div>
-    </div>
-
-    <h1 class="text-[clamp(44px,7vw,74px)] leading-[1.03] font-semibold tracking-tight m-0 mb-3">
-      <span class="glow-name">Michal Malček</span><br /><em
-        class="not-italic text-neural-text glow-violet text-[clamp(22px,3vw,36px)]">AI Engineer — LLM Systems, RAG, Agentic AI</em>
+  <header class="relative pt-8 pb-6">
+    <h1 class="text-[clamp(44px,7vw,74px)] leading-[1.02] font-semibold tracking-tight m-0 mb-2">
+      <span class="glow-name">Michal Malček</span>
     </h1>
-
-    <p class="text-[clamp(18px,2vw,22px)] text-fg-dim max-w-[68ch] m-0 mb-4 leading-[1.55]">
-      AI Engineer who builds agentic large language model (LLM) systems end-to-end: architecture, tool calling, retrieval-augmented generation (RAG), local and cloud AI, custom inference, API, Model Context Protocol (MCP), text-to-speech and speech-to-text (TTS/STT), vision, vector embeddings, graphs, evaluation, deployment, onboarding and documentation.
-    </p>
-    <p class="text-[17.5px] text-fg-ghost max-w-[68ch] m-0 mb-7 leading-[1.5]">
-      12 years in software delivery and digital growth (web development, PPC, CMS, CRM, ERP), then 8 years leading international SEO teams. Senior experience with cloud and VPS instances (AWS, Google Cloud, Hetzner, Host Europe, Cloudflare).
+    <p class="not-italic text-neural-text glow-violet text-[clamp(22px,3vw,34px)] font-semibold leading-tight m-0 mb-5">
+      AI Engineer — LLM Systems, RAG, Agentic AI
     </p>
 
-    <div class="flex items-center gap-2 flex-wrap mb-7">
-      <a href="mailto:miso.malcek@gmail.com" class="pill">miso.malcek@gmail.com</a>
-      <a href="tel:+421950200395" class="pill">+421 950 200 395</a>
-      <span class="pill">Poprad, Slovakia</span>
+    <div class="flex items-center gap-2 flex-wrap">
+      <a href="mailto:miso.malcek@gmail.com" class="pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16v12H4zM4 7l8 6 8-6"/></svg>
+        miso.malcek@gmail.com
+      </a>
+      <a href="tel:+421950200395" class="pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 3h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A16 16 0 015 5a2 2 0 012-2z"/></svg>
+        +421 950 200 395
+      </a>
+      <span class="pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>
+        Poprad, Slovakia · 2 h flight to London
+      </span>
     </div>
+  </header>
 
-    <section id="summary" class="mb-6">
-      <h2 class="text-[clamp(24px,3vw,32px)] font-semibold m-0 mb-3">01 Summary</h2>
-      <p class="text-[17.5px] text-fg-dim max-w-[68ch] m-0 mb-3 leading-[1.55]">
-        AI Engineer who builds agentic large language model (LLM) systems end-to-end: architecture, tool calling, retrieval-augmented generation (RAG), local and cloud AI, custom inference, API, Model Context Protocol (MCP), text-to-speech and speech-to-text (TTS/STT), vision, vector embeddings, graphs, evaluation, deployment, onboarding and documentation.
-      </p>
-      <ul class="m-0 pl-5 flex flex-col gap-2 text-[17.5px] text-fg-dim leading-snug max-w-[68ch]">
-        <li>3 AI portfolio apps: <a href="https://misomalcek.github.io/cyber-cv/portfolio/crystal-rag">Crystal RAG</a>, <a href="https://misomalcek.github.io/cyber-cv/portfolio/seo-brain">SEO Brain</a>, <a href="https://misomalcek.github.io/cyber-cv/portfolio/wisdomkeeper">Wisdomkeeper</a>; 2 AI-managed magazines with a Cloudflare-deployed AI chat: <a href="https://alteranai.com/">alteranai.com</a>, <a href="https://aisvet.sk/">aisvet.sk</a>.</li>
-        <li>2 production AI systems: <a href="https://misomalcek.github.io/cyber-cv/production/team-brain">Team Brain</a> and <a href="https://misomalcek.github.io/cyber-cv/production/factorium">Factorium</a> (details and results below), and 1 multimodal local AI runtime for Apple Silicon: <a href="https://misomalcek.github.io/cyber-cv/portfolio/symferium">Symferium</a>.</li>
-        <li>12 years in software delivery and digital growth (web development, PPC, CMS, CRM, ERP), then 8 years leading international SEO teams.</li>
-        <li>Senior experience with cloud and VPS instances (AWS, Google Cloud, Hetzner, Host Europe, Cloudflare).</li>
-      </ul>
-    </section>
-
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-2">
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-2">
       <a href="https://misomalcek.github.io/cyber-cv/portfolio/" class="card p-4 no-underline flex flex-col">
         <span class="text-[17px] text-fg-ghost mb-1">Portfolio</span>
         <span class="text-[19px] text-fg font-semibold">Portfolio</span>
@@ -136,18 +136,33 @@ const restHtml = md2html(restMd);
         <span class="text-[16px] text-synapse mt-1">https://www.linkedin.com/in/misomalcek/</span>
       </a>
     </div>
-  </header>
-
-  <div class="cv-body mt-8" set:html={restHtml} />
+  <div class="cv-body" set:html={restHtml} />
 </Base>
 
 <style>
   .pill {
-    display: inline-flex; align-items: center;
-    padding: 6px 12px; border-radius: 999px;
-    border: 1px solid var(--color-line);
-    color: var(--color-fg-dim); font-size: 16px; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 14px; border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-synapse) 70%, transparent);
+    color: var(--color-fg); font-size: 16px; text-decoration: none;
+    background: color-mix(in srgb, var(--color-bg) 40%, transparent);
   }
-  .pill:hover { color: var(--color-synapse); border-color: var(--color-synapse); }
-  .cv-body h2 { margin-top: 2rem; }
+  .pill:hover { color: var(--color-synapse); }
+  .cv-section { padding-top: 1.75rem; }
+  .cv-section > .section-title { margin-bottom: 0.85rem; }
+  .cv-role { margin-top: 0.75rem; }
+  .cv-role h3 {
+    margin: 0 0 0.2rem;
+    font-size: 1.2rem;
+    color: var(--color-fg);
+  }
+  .cv-role > p { margin: 0.15rem 0 0; color: var(--color-fg-ghost); }
+  .cv-role ul {
+    margin: 0.85rem 0 0;
+    padding-left: 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .cv-role li { color: var(--color-fg-dim); }
 </style>

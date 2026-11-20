@@ -4,9 +4,6 @@
 
 miso.malcek@gmail.com · +421 950 200 395 · Poprad, Slovakia  
 [misomalcek.github.io/cyber-cv/portfolio](https://misomalcek.github.io/cyber-cv/portfolio/) · [github.com/misomalcek](https://github.com/misomalcek) · [linkedin.com/in/misomalcek](https://www.linkedin.com/in/misomalcek/)
-
-Available for remote or hybrid hire (15 minutes to the airport, a 2-hour flight to London). Invoice or employment contract.
-
 ## 01 Summary
 
 AI Engineer who builds agentic large language model (LLM) systems end-to-end: architecture, tool calling, retrieval-augmented generation (RAG), local and cloud AI, custom inference, API, Model Context Protocol (MCP), text-to-speech and speech-to-text (TTS/STT), vision, vector embeddings, graphs, evaluation, deployment, onboarding and documentation.
@@ -19,7 +16,7 @@ AI Engineer who builds agentic large language model (LLM) systems end-to-end: ar
 ## 02 Experience
 
 ### AI Engineer, Senior SEO Specialist — msg life Slovakia
-Sep 2024 – Jun 2026 · Bratislava (Slovakia) · Remote
+Sep 2024 - Jun 2026 · Bratislava (Slovakia) · Remote
 
 - Built and handed over a production agentic AI system, [Team Brain](https://misomalcek.github.io/cyber-cv/production/team-brain) (brain.msgweb.io, still in production), on the Anthropic SDK for autonomous web analytics, SEO optimization and content production.
 - Team Brain’s usage report: 1,352 tool calls at 93.9% success across 25 tools, 15 of 15 users active, 549 agent runs, 1,121 articles and about $30 a month in API spend, with Haiku routing tools and Sonnet writing the synthesis.
@@ -29,9 +26,9 @@ Sep 2024 – Jun 2026 · Bratislava (Slovakia) · Remote
 - Doubled site traffic in a year despite slow release cycles on an agency-managed WordPress site.
 
 ### AI Engineer, Sole Owner — My Marketing, s.r.o.
-Jan 2012 – present · Poprad (Slovakia) · Freelancer
+Jan 2012 - Present · Poprad (Slovakia) · Freelancer
 
-- Design, build and ship AI systems and apps end-to-end, with full autonomy and accountability.
+- Designed, built, and shipped end-to-end 8 AI systems and applications, with full autonomy and accountability (ref.: [portfolio](https://misomalcek.github.io/cyber-cv/portfolio/), [production](https://misomalcek.github.io/cyber-cv/production/), [repositories](https://github.com/misomalcek?tab=repositories)).
 - Built two production RAG chats on Cloudflare AI Search for alteranai.com and aisvet.sk: hybrid vector and BM25 retrieval, Llama 4 Scout query rewriting, reranking, and 1024-dim Qwen3 embeddings across 392 pages and 396 vectors. Replies go through AI Gateway to OpenRouter, in a chat bubble grounded on the live site content.
 - Ran the same two zones on Cloudflare’s edge: R2 object storage and CDN, Workers, AI Gateway, managed DNS, SPF and DMARC, and an NLWeb worker (/ask, /mcp), on free-tier resources at zero inference cost.
 - Evaluated 10+ LLM models, finetunes and quantizations on Hugging Face, including Qwen, Granite, Liquid.ai and Ornith, before choosing the Gemma-4 family ([Models collection on HuggingFace](https://huggingface.co/collections/AlteranAI/models)).
@@ -43,52 +40,52 @@ Jan 2012 – present · Poprad (Slovakia) · Freelancer
 - Before AI: built a 3D sales configurator with a custom CRM — [live since 2017](https://individualautodesign.eu/configurator/) (individualautodesign.eu/configurator), 20+ websites and e-shops, a lottery-results auto-scrape system, and a Google Partner agency (managed a €10k/month local PPC budget).
 
 ### Digital Media Manager — Swiss Re
-Nov 2024 – Feb 2025 · Bratislava (Slovakia) · Hybrid
+Nov 2024 - Feb 2025 · Bratislava (Slovakia) · Hybrid
 
 - Grew Sigma annual report readers from 1.5k to 4.5k, plus 10+ leadership articles and 4 product pages, on a DR 90+ domain.
-- First hands-on LLM work: ChatGPT Pro, loading articles into memory and feeding Ahrefs data manually.
+- First hands-on LLM work: ChatGPT Pro, loading ±20 articles into memory and feeding Ahrefs SEO data exports for each article manually.
 - Ran 3 Ahrefs workshops with individual follow-ups; each of the 5 team members reported new skills at the quarterly review.
 - Cleared 20+ Magnolia CMS and DAM tickets in Jira during agile sprints with agency developers, and internal Search Console issues that had been open for almost two years.
 - Completed all 10 mandatory internal trainings, including security, compliance, and enterprise AI safety and copyright.
-- After probation, continued with the more suitable remote role at msg life Slovakia, which I held in parallel.
+- After probation, continued with the more suitable (also from AI perspective) remote role “AI Engineer, Senior SEO Specialist” at msg life Slovakia (ref: first role in this list), which I held in parallel for 3 months.
 
 ### SEO Lead DACH — Tippland GmbH
-Sep 2017 – Mar 2023 · Malta, relocated to Hamburg (Germany) · On-site until Jan 2020, then remote
+Sep 2017 - Mar 2023 · Malta, relocated to Hamburg (Germany) · On-site until Jan 2020, then remote
 
-- Executed the SEO strategy for a lottery startup across DE, AT, CH and the UK: content, keywords, domains, AWS server admin, link-building, Angular pre-rendering, satellite sites, programmatic SEO, affiliates and freelancers.
+- Executed and grew the SEO strategy for a lottery startup across DE, AT, CH and the UK from 0 to more than 100k in total organic monthly traffic (all sites and satellites combined): content, keywords, domains, AWS server admin, link-building, Angular pre-rendering, satellite sites, programmatic SEO, affiliates and freelancers.
 - Built [Tippland Magazin](https://www.tippland.de/magazin/) (www.tippland.de/magazin, including content); it ranks and runs 9 years later with near-zero maintenance.
 
 ### SEO Team Lead CEE — Lottoland Ltd.
-Jul 2016 – Aug 2017 · Gibraltar (residing in Spain) · On-site
+Jul 2016 - Aug 2017 · Gibraltar (residing in Spain) · On-site
 
 - Managed 4 internal and 5 external colleagues across SK, CZ and PL, with a €15k/month link-building budget.
-- Created “Keyword Heroes”, the internal Ahrefs training series; completed the 6-week StepUp management challenge.
+- Created “Keyword Heroes”, the internal Ahrefs training series, delivering 5 training sessions for up to 10 colleagues; completed the 6-week StepUp management challenge.
 
 ### Online Marketing Manager — Individual Auto Design GmbH
-May 2015 – Jun 2016 · Rimavská Sobota (Slovakia) · On-site
+May 2015 - Jun 2016 · Rimavská Sobota (Slovakia) · On-site
 
 - Full-stack online marketing and in-house web development in 5 languages (DE, SK, CZ, HU, EN), WordPress and Magento, plus internal analysis for the SAP Business One implementation.
 - Ran every online channel, migrated a content-heavy legacy site, and grew visits and orders every month.
 
 ### Startup Scholarship — NOVA University & Startup Lisboa
-Jul 2013 – Aug 2013 · Lisbon (Portugal)
+Jul 2013 - Aug 2013 · Lisbon (Portugal)
 
 - Summer program for outstanding students and future entrepreneurs, with lectures, workshops and business practice at a leading European startup hub.
 
 ### Online Media Associate Programme — Google
-Jun 2011 – Aug 2011 · Dublin (Ireland) · On-site
+Jun 2011 - Aug 2011 · Dublin (Ireland) · On-site
 
 - Used scripting to turn manual customer categorisation into an auto-improving customer database, and delivered it to a product manager in Mountain View, who put a team on it ([reference](https://misomalcek.github.io/cyber-cv/refs/andrew-google.png)). Reference: misomalcek.github.io/cyber-cv/refs/andrew-google.png.
 - 2× Peer Bonus for AdWords help guides, Ads Pro Exams (search, display) and internal trainings (coding in Python, presenting with confidence, managing personal energy, compliance).
 
 ### Associate Product Marketing Manager — Google
-May 2010 – May 2011 · Prague (Czech Republic) · On-site
+May 2010 - May 2011 · Prague (Czech Republic) · On-site
 
 - Signed 3 co-marketing deals and ran a verticalized B2B direct-mail campaign (top 3 globally).
 - Contributed 2 AdWords features to the country product-request project, and worked with the team that crossed 51% CZ search market share.
 
 ### Sales Manager — Asseco Solutions
-Sep 2006 – Dec 2009 · Prague (Czech Republic) · On-site
+Sep 2006 - Dec 2009 · Prague (Czech Republic) · On-site
 
 - Delivered 14 successful ERP/CRM implementations and negotiated pilot deals in DE and PL.
 - Started as a Junior Consultant and within 1 year became the youngest IT Sales Manager in the country, 7th among 20+ colleagues by yearly sales turnover.
@@ -96,18 +93,18 @@ Sep 2006 – Dec 2009 · Prague (Czech Republic) · On-site
 ## 03 Education
 
 ### CEMS International Management — Master’s programme, English
-Sep 2009 – May 2011 · Corvinus University (Budapest) & University of Economics (Prague) · Average: 1.7
+Sep 2009 - May 2011 · Corvinus University (Budapest) & University of Economics (Prague) · Average: 1.7
 
 - Elite Master’s degree, curriculum completed; exchange semester with an A grade in all subjects.
 - Completed an additional 41 ECTS credits in Information Systems and Technologies at the master’s level, studied in parallel. Average: 1.5.
 
 ### Applied Informatics — BSc
-Sep 2006 – Sep 2009 · University of Economics (Prague) · Average: 1.6
+Sep 2006 - Sep 2009 · University of Economics (Prague) · Average: 1.6
 
 - Ranked among the top 10 students in a cohort of 500 in 2006/07. Grades for the Major State Exam and the bachelor thesis: 1 — Excellent.
 
 ### Electrical Engineering, ICT — GCE Examination, A Levels
-Sep 2002 – Jun 2006 · Secondary School of Jozef Murgaš, Slovakia · Average (final year): 1.0
+Sep 2002 - Jun 2006 · Secondary School of Jozef Murgaš, Slovakia · Average (final year): 1.0
 
 ## 04 AI Portfolio
 
@@ -172,7 +169,7 @@ Delivered and handed over Jun 2026
 - Processed 50.2M input, 2.25M output and 4.95M cached tokens over those 549 runs.
 - Produced 1,121 articles, 514 memories and 1,454 embeddings.
 - Connected four live sources, Search Console, GA4, Ahrefs and CrUX, through a seven-layer prompt system with agents, personas and a semantic layer.
-- Shipped on the official Anthropic SDK from the first commit, with near-zero hallucinations, full documentation and a clean handover to non-engineers.
+- Shipped on the official Anthropic SDK from the first commit, full documentation and a clean handover to non-engineers.
 
 Details and screenshots: https://misomalcek.github.io/cyber-cv/production/team-brain
 
@@ -221,4 +218,4 @@ Details and screenshots: https://misomalcek.github.io/cyber-cv/production/factor
 - Credentials and references: [misomalcek.github.io/cyber-cv/credentials](https://misomalcek.github.io/cyber-cv/credentials/).
 - This CV online: [misomalcek.github.io/cyber-cv](https://misomalcek.github.io/cyber-cv/).
 
-Last update: 15.11.2026
+Last update: 19.11.2026

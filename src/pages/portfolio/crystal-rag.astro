@@ -1,6 +1,7 @@
 ---
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 import Base from '../../layouts/Base.astro';
+import ProjectShots from '../../components/ProjectShots.astro';
 import Section from '../../components/Section.astro';
 ---
 <Base
@@ -29,13 +30,7 @@ import Section from '../../components/Section.astro';
     </ul>
   </Section>
 
-  <Section id="hero" title="Screenshot" note="hero">
-    <div class="card overflow-hidden">
-      <img src={`${base}shots/crystal-rag/hero.jpg`} alt="Crystal RAG" loading="lazy" class="w-full h-auto block"
-           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-      <div class="p-6 text-fg-ghost" style="display:none;">Screenshot slot: public/shots/crystal-rag/hero.jpg</div>
-    </div>
-  </Section>
+  <ProjectShots slug="crystal-rag" alt="Crystal RAG" part="hero" />
 
   <Section id="links" title="Download and links" note="links">
     <div class="flex flex-wrap gap-x-4 gap-y-2 text-[17px]">
@@ -53,10 +48,5 @@ import Section from '../../components/Section.astro';
     </ul>
   </Section>
 
-  <Section id="more-shots" title="More screenshots" note="slots">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      <div class="card p-6 text-fg-ghost">Screenshot slot: public/shots/crystal-rag/extra-01.png</div>
-      <div class="card p-6 text-fg-ghost">Screenshot slot: public/shots/crystal-rag/extra-02.png</div>
-    </div>
-  </Section>
+  <ProjectShots slug="crystal-rag" alt="Crystal RAG" part="gallery" />
 </Base>

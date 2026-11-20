@@ -15,8 +15,10 @@ interface Props {
   description: string;
   /** Shown as a back-link on subpages; omitted on the index. */
   back?: { href: string; label: string };
+  /** One-line footer. Comes from the CV's "Last update" line. */
+  updated?: string;
 }
-const { title, description, back } = Astro.props;
+const { title, description, back, updated = '19.11.2026' } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -77,7 +79,7 @@ const { title, description, back } = Astro.props;
     <slot />
 
     <footer class="pt-12 pb-6 mt-4 border-t border-line">
-      <p class="m-0 text-[17px] text-fg-ghost">Last update: 15.11.2026</p>
+      <p class="m-0 text-[17px] text-fg-ghost">Last update: {updated}</p>
     </footer>
   </div>
 
